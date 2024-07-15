@@ -115,7 +115,6 @@ export class ProjectScene extends MXP.Entity {
 
 		this.camera = new MXP.Entity( { name: "camera" } );
 		this.camera.position.set( 0, 0, 5 );
-		this.camera.noExport = true;
 		this.cameraComponent = this.camera.addComponent( new MainCamera() );
 		const orbitControls = this.camera.getComponent( OrbitControls );
 
@@ -128,12 +127,12 @@ export class ProjectScene extends MXP.Entity {
 		// renderer
 
 		this.renderer = new Renderer( gl );
-		this.renderer.noExport = true;
 
 		// root
 
 		this.root = new MXP.Entity();
 		this.add( this.root );
+		this.root.initiator = "god";
 		this.root.name = "root";
 
 	}

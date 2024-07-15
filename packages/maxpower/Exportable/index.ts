@@ -8,14 +8,18 @@ export type ExportablePropsOpt = {
 	slideScale?: number,
 }
 
+type ExportableInitiator = 'user' | 'script' | "god";
 export type ExportableProps = {[key: string]: { value: any, opt?: ExportablePropsOpt, } | ExportableProps}
 export type ExportablePropsSerialized = {[key: string]: any }
 
 export class Exportable extends Resource {
 
+	public initiator?: ExportableInitiator;
+
 	constructor() {
 
 		super();
+		this.initiator = 'script';
 
 	}
 

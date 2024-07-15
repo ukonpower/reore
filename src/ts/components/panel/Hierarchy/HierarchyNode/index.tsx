@@ -19,6 +19,7 @@ export const HierarchyNode = ( props: HierarchyNodeProps ) => {
 	const childs = props.entity.children;
 	const hasChild = childs.length > 0;
 	const offsetPx = depth * 20;
+	const noExport = props.entity.initiator == "script";
 
 	// click fold controls
 
@@ -41,7 +42,7 @@ export const HierarchyNode = ( props: HierarchyNodeProps ) => {
 
 	}, [ glEditor, props.entity ] );
 
-	return <div className={style.node} >
+	return <div className={style.node} data-no_export={noExport}>
 		<div className={style.self} style={{ paddingLeft: offsetPx }} onClick={onClickNode} data-selected={selected && selected.uuid == props.entity.uuid}>
 			<div className={style.fold} data-hnode_open={open}>
 				{hasChild && <button className={style.fold_button} onClick={onClickFoldControls} ><ArrowIcon open={open}/></button> }

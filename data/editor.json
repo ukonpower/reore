@@ -22,8 +22,7 @@
 						},
 						{
 							"key": "music",
-							"name": "Music",
-							"props": {}
+							"name": "Music"
 						}
 					]
 				},
@@ -32,23 +31,11 @@
 					"components": [
 						{
 							"key": "material",
-							"name": "OREngineCube",
-							"props": {
-								"name": "",
-								"deferred": true,
-								"forward": false,
-								"shadowMap": true,
-								"ui": false,
-								"useLight": true,
-								"depthTest": true,
-								"cullFace": true,
-								"drawType": "TRIANGLES"
-							}
+							"name": "OREngineCube"
 						},
 						{
 							"key": "turntable",
-							"name": "TurnTable",
-							"props": {}
+							"name": "TurnTable"
 						}
 					]
 				},
@@ -57,18 +44,7 @@
 					"components": [
 						{
 							"key": "material",
-							"name": "OREngineLogo",
-							"props": {
-								"name": "",
-								"deferred": true,
-								"forward": false,
-								"shadowMap": true,
-								"ui": false,
-								"useLight": true,
-								"depthTest": true,
-								"cullFace": true,
-								"drawType": "TRIANGLES"
-							}
+							"name": "OREngineLogo"
 						}
 					]
 				},
@@ -76,60 +52,20 @@
 					"path": "/root/blidgeRoot/SkyBox",
 					"components": [
 						{
-							"key": "geometry",
-							"name": "SphereGeometry",
-							"props": {
-								"vertCount": 272
-							}
-						},
-						{
-							"key": "material",
-							"name": "Material",
-							"props": {
-								"name": "",
-								"deferred": true,
-								"forward": false,
-								"shadowMap": false,
-								"ui": false,
-								"useLight": true,
-								"depthTest": true,
-								"cullFace": false,
-								"drawType": "TRIANGLES"
-							}
-						},
-						{
 							"key": "skybox",
-							"name": "SkyBox",
-							"props": {}
+							"name": "SkyBox"
 						}
 					]
 				}
 			],
 			"scene": {
-				"name": "root",
-				"pos": [
-					0,
-					0,
-					0
-				],
-				"rot": [
-					0,
-					0,
-					0,
-					0
-				],
-				"scale": [
-					1,
-					1,
-					1
-				],
-				"childs": []
+				"name": "root"
 			}
 		}
 	],
 	"settings": {
 		"currentProjectName": "OREngine",
-		"resolutionScale": 0.5,
+		"resolutionScale": 0.125,
 		"viewType": "render"
 	}
 }

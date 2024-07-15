@@ -10,6 +10,7 @@
 	background-color: $bgCol2;
 	border: none;
 	cursor: ew-resize;
+	color: $fontCol2;
 
 	&:disabled {
 		opacity: 0.5;

@@ -196,7 +196,6 @@ export class BLidgeClient extends MXP.Component {
 		if ( newBLidgeRoot ) {
 
 			newBLidgeRoot.name = "blidgeRoot";
-			newBLidgeRoot.noExport = true;
 
 			if ( this.blidgeRoot && this.entity ) {
 

@@ -61,8 +61,6 @@ export class Entity extends Exportable {
 
 	public userData: any;
 
-	public noExport: boolean;
-
 	constructor( params?: EntityParams ) {
 
 		super();
@@ -88,8 +86,6 @@ export class Entity extends Exportable {
 		this.visible = true;
 
 		this.userData = {};
-
-		this.noExport = false;
 
 	}
 
