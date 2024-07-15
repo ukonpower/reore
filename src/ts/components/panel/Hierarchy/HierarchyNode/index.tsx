@@ -49,7 +49,6 @@ export const HierarchyNode = ( props: HierarchyNodeProps ) => {
 	// right click node
 
 	const { pushContent, closeAll } = useContext( MouseMenuContext );
-	const nameInputWindowRef = useRef<HTMLDivElement | null>( null );
 
 	const onRightClickNode = useCallback( ( e: MouseEvent ) => {
 
@@ -64,9 +63,8 @@ export const HierarchyNode = ( props: HierarchyNodeProps ) => {
 				label: "New Entity",
 				onClick: () => {
 
-
 					pushContent(
-						<InputGroup ref={nameInputWindowRef} initialValues={{ name: '' }} onSubmit={( e ) => {
+						<InputGroup initialValues={{ name: '' }} onSubmit={( e ) => {
 
 							const newEntity = glEditor.createEntity( props.entity, e.name as string );
 
@@ -77,16 +75,6 @@ export const HierarchyNode = ( props: HierarchyNodeProps ) => {
 						}}>
 						</InputGroup>
 					);
-
-					setTimeout( () => {
-
-						if ( nameInputWindowRef.current ) {
-
-							nameInputWindowRef.current.querySelector( 'input' )?.focus();
-
-						}
-
-					}, 0 );
 
 				},
 			},

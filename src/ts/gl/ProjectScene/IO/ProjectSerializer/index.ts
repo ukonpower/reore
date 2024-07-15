@@ -86,8 +86,8 @@ export class ProjectSerializer extends GLP.EventEmitter {
 
 			const pos = node.pos || [ 0, 0, 0 ];
 			entity.position.x = pos[ 0 ];
-			entity.position.x = pos[ 1 ];
-			entity.position.x = pos[ 2 ];
+			entity.position.y = pos[ 1 ];
+			entity.position.z = pos[ 2 ];
 
 			const rot = node.rot || [ 0, 0, 0 ];
 			entity.euler.x = rot[ 0 ];

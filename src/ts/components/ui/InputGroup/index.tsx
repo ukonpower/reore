@@ -1,4 +1,4 @@
-import { forwardRef, Ref, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Button } from "../Button";
 import { PropertyBlock } from "../Property/PropertyBlock";
@@ -12,7 +12,7 @@ export type InputGroupProps = {
 	onSubmit?: ( values: {[key: string]:ValueType} ) => void
 }
 
-const InputGroup_ = ( props: InputGroupProps, ref: Ref<HTMLDivElement> ) => {
+export const InputGroup = ( props: InputGroupProps ) => {
 
 	const initialValuees = props.initialValues;
 	const propElms: JSX.Element[] = [];
@@ -42,7 +42,24 @@ const InputGroup_ = ( props: InputGroupProps, ref: Ref<HTMLDivElement> ) => {
 
 	}
 
-	return <div className={style.group} ref={ref}>
+
+	const wrapperElmRef = useRef<HTMLDivElement | null>( null );
+
+	useEffect( () => {
+
+		setTimeout( () => {
+
+			if ( wrapperElmRef.current ) {
+
+				wrapperElmRef.current.querySelector( 'input' )?.focus();
+
+			}
+
+		}, 0 );
+
+	}, [] );
+
+	return <div className={style.group} ref={wrapperElmRef}>
 		<form onSubmit={( e )=>{
 
 			e.preventDefault();
@@ -62,5 +79,3 @@ const InputGroup_ = ( props: InputGroupProps, ref: Ref<HTMLDivElement> ) => {
 	</div>;
 
 };
-
-export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>( InputGroup_ );
