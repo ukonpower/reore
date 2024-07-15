@@ -21,6 +21,7 @@ export type ValueProps = {
 	value: ValueType,
 	onChange?: ( value: ValueType, label: string ) => void
 	vertical?: boolean
+	disabled?: boolean
 } & ValueOpt
 
 export const Value = ( { value, label, onChange, ...props }: ValueProps ) => {
@@ -31,13 +32,15 @@ export const Value = ( { value, label, onChange, ...props }: ValueProps ) => {
 
 	const onChangeValue = useCallback( ( e: ValueType ) => {
 
+		if ( props.disabled ) return;
+
 		if ( onChange ) {
 
 			onChange( e, label || '' );
 
 		}
 
-	}, [ label, onChange ] );
+	}, [ label, onChange, props.disabled ] );
 
 	/*-------------------------------
 		Elm
@@ -51,7 +54,7 @@ export const Value = ( { value, label, onChange, ...props }: ValueProps ) => {
 
 		if ( selctList ) {
 
-			inputElm = <InputSelect {...props} value={value} onChange={onChangeValue} selectList={selctList}/>;
+			inputElm = <InputSelect {...props} value={value} onChange={onChangeValue} selectList={selctList} />;
 
 		} else {
 
@@ -69,7 +72,7 @@ export const Value = ( { value, label, onChange, ...props }: ValueProps ) => {
 
 	if ( typeof value == "boolean" ) {
 
-		inputElm = <InputBoolean {...props} checked={value} onChange={onChangeValue}/>;
+		inputElm = <InputBoolean {...props} checked={value} onChange={onChangeValue} />;
 
 	}
 

@@ -13,14 +13,16 @@
 
 	&:disabled {
 		opacity: 0.5;
-		pointer-events: none;
 	}
 
 	&:read-only {
 		color: $fontCol2;
-		background-color: transparent;
-		border: none;
-		outline: none;
 		cursor: default;
+		outline: none;
+
+		&[data-lo="true"] {
+			background-color: transparent;
+		}
+
 	}
 }
