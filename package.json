@@ -1,0 +1,43 @@
+{
+  "name": "orengine",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --config vite-player.config.ts && node compeko.js ./dist/index.js ./dist/out.html",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "workspaces": [],
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "webgl-memory": "^1.0.15"
+  },
+  "devDependencies": {
+    "@rollup/pluginutils": "^5.1.0",
+    "@types/node": "^20.14.10",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@typescript-eslint/eslint-plugin": "^7.12.0",
+    "@typescript-eslint/parser": "^7.12.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "body-parser": "^1.20.2",
+    "eslint": "^8.57.0",
+    "eslint-config-mdcs": "^5.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "eslint-plugin-unused-imports": "^3.2.0",
+    "node-zopfli": "^2.1.4",
+    "rollup-plugin-visualizer": "^5.12.0",
+    "sass": "^1.77.4",
+    "terser": "^5.31.1",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.13"
+  },
+  "volta": {
+    "node": "18.20.0"
+  }
+}
