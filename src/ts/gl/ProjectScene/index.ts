@@ -209,7 +209,7 @@ export class ProjectScene extends MXP.Entity {
 
 		const renderStack = this.root.finalize( event );
 
-		this.renderer.render( renderStack );
+		// this.renderer.render( renderStack );
 
 		return this.time.delta;
 

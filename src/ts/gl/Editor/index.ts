@@ -350,6 +350,8 @@ export class GLEditor extends MXP.Exportable {
 
 	}
 
+	// controls
+
 	public selectEntity( entity: MXP.Entity | null ) {
 
 		this.selectedEntity = entity;
@@ -357,6 +359,35 @@ export class GLEditor extends MXP.Exportable {
 		this.emit( "action/select", [ entity ] );
 
 	}
+
+	public createEntity( parentEntity: MXP.Entity, name: string ) {
+
+		const newEntity = new MXP.Entity();
+
+		newEntity.name = name;
+		newEntity.initiator = "user";
+
+		parentEntity.add( newEntity );
+
+		return newEntity;
+
+	}
+
+	public deleteEntity( entity: MXP.Entity ) {
+
+		entity.disposeRecursive();
+
+		const parent = entity.parent;
+
+		if ( parent ) {
+
+			parent.remove( entity );
+
+		}
+
+	}
+
+	// project
 
 	public projectOpen( name: string ) {
 
@@ -402,6 +433,8 @@ export class GLEditor extends MXP.Exportable {
 		this.unsaved = false;
 
 	}
+
+	// export
 
 	public exportCurrentScene() {
 

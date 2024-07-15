@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { forwardRef, Ref, useEffect, useState } from "react";
 
 import { Button } from "../Button";
 import { PropertyBlock } from "../Property/PropertyBlock";
@@ -12,7 +12,7 @@ export type InputGroupProps = {
 	onSubmit?: ( values: {[key: string]:ValueType} ) => void
 }
 
-export const InputGroup = ( props: InputGroupProps ) => {
+const InputGroup_ = ( props: InputGroupProps, ref: Ref<HTMLDivElement> ) => {
 
 	const initialValuees = props.initialValues;
 	const propElms: JSX.Element[] = [];
@@ -42,17 +42,25 @@ export const InputGroup = ( props: InputGroupProps ) => {
 
 	}
 
-	return <div className={style.group}>
-		<PropertyBlock label={props.title} noMargin >
-			{propElms}
-		</PropertyBlock>
-		<div className={style.submit}>
-			<Button onClick={() => {
+	return <div className={style.group} ref={ref}>
+		<form onSubmit={( e )=>{
 
-				props.onSubmit && props.onSubmit( values );
+			e.preventDefault();
 
-			}} >OK</Button>
-		</div>
+		}}>
+			<PropertyBlock label={props.title} noMargin >
+				{propElms}
+			</PropertyBlock>
+			<div className={style.submit}>
+				<Button type="submit" onClick={() => {
+
+					props.onSubmit && props.onSubmit( values );
+
+				}} >OK</Button>
+			</div>
+		</form>
 	</div>;
 
 };
+
+export const InputGroup = forwardRef<HTMLDivElement, InputGroupProps>( InputGroup_ );

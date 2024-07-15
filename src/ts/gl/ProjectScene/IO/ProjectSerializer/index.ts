@@ -81,6 +81,7 @@ export class ProjectSerializer extends GLP.EventEmitter {
 		const _ = ( node: SceneNode ): MXP.Entity => {
 
 			const entity = new MXP.Entity();
+			entity.initiator = "user";
 			entity.name = node.name;
 
 			const pos = node.pos || [ 0, 0, 0 ];
