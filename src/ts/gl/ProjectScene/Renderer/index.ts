@@ -1,8 +1,6 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import { getDrawType } from '../utils/globalFunc';
-
 import { DeferredRenderer } from './DeferredPostProcess';
 import { PMREMRender } from './PMREMRender';
 import { ProgramManager } from "./ProgramManager";
@@ -72,7 +70,7 @@ export let TextureUnitCounter = 0;
 
 export class Renderer extends MXP.Entity {
 
-	private gl: WebGL2RenderingContext;
+	public gl: WebGL2RenderingContext;
 	private canvasSize: GLP.Vector;
 
 	// program
@@ -960,7 +958,7 @@ export class Renderer extends MXP.Entity {
 
 				}
 
-				const drawType = getDrawType( material.drawType );
+				const drawType = this.gl[ material.drawType ];
 
 				if ( vao.instanceCount > 0 ) {
 

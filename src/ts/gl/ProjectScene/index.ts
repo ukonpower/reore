@@ -1,13 +1,12 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import { canvas, gl, globalUniforms } from '../GLGlobals';
+import { canvas, globalUniforms, renderer } from '../GLGlobals';
 import { MainCamera } from '../Resources/Components/MainCamera';
 import { OrbitControls } from '../Resources/Components/OrbitControls';
 import { initResouces } from '../Resources/init';
 
 import { OREngineProjectData, ProjectSerializer, OREngineProjectFrame } from './IO/ProjectSerializer';
-import { Renderer } from './Renderer';
 
 export interface SceneTime {
 	current: number;
@@ -44,7 +43,6 @@ export class ProjectScene extends MXP.Entity {
 	// renderer
 
 	public canvas: HTMLCanvasElement;
-	public renderer: Renderer;
 
 	// camera
 
@@ -124,16 +122,12 @@ export class ProjectScene extends MXP.Entity {
 
 		}
 
-		// renderer
-
-		this.renderer = new Renderer( gl );
-
 		// root
 
 		this.root = new MXP.Entity();
-		this.add( this.root );
 		this.root.initiator = "god";
 		this.root.name = "root";
+		this.add( this.root );
 
 	}
 
@@ -141,7 +135,7 @@ export class ProjectScene extends MXP.Entity {
 
 		const currentRoot = this.root;
 		currentRoot.remove( this.camera );
-		currentRoot.remove( this.renderer );
+		currentRoot.remove( renderer );
 		currentRoot.disposeRecursive();
 
 		currentRoot.position.set( 0, 0, 0 );
@@ -168,7 +162,7 @@ export class ProjectScene extends MXP.Entity {
 		}
 
 		this.root.add( this.camera );
-		this.root.add( this.renderer );
+		this.root.add( renderer );
 
 		this.emit( "update/graph" );
 		this.emit( "loaded" );
@@ -209,7 +203,7 @@ export class ProjectScene extends MXP.Entity {
 
 		const renderStack = this.root.finalize( event );
 
-		this.renderer.render( renderStack );
+		renderer.render( renderStack );
 
 		return this.time.delta;
 
@@ -220,7 +214,7 @@ export class ProjectScene extends MXP.Entity {
 		globalUniforms.resolution.uResolution.value.copy( resolution );
 		globalUniforms.resolution.uAspectRatio.value = resolution.x / resolution.y;
 
-		this.renderer.resize( resolution );
+		renderer.resize( resolution );
 		this.cameraComponent.resize( resolution );
 
 	}
