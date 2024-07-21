@@ -96,8 +96,7 @@ export class FrameDebugger extends GLP.EventEmitter {
 
 		this.outPostProcess = new MXP.PostProcess( {
 			input: this.outFrameBuffer.textures,
-			passes: [ new MXP.PostProcessPass( {
-				gl,
+			passes: [ new MXP.PostProcessPass( gl, {
 				uniforms: this.uniforms,
 				renderTarget: null,
 				frag: frameDebuggerFrag

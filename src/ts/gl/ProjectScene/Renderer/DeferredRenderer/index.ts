@@ -30,7 +30,6 @@ const ssaoKernel = ( kernelSize: number ) => {
 };
 
 type DeferredRendererParams = {
-	gl: WebGL2RenderingContext,
 	envMap: GLP.GLPowerTexture;
 	envMapCube?: GLP.GLPowerTextureCube
 }
@@ -59,9 +58,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 
 	private shading: MXP.PostProcessPass;
 
-	constructor( params: DeferredRendererParams ) {
-
-		const gl = params.gl;
+	constructor( gl: WebGL2RenderingContext, params: DeferredRendererParams ) {
 
 		// uniforms
 
@@ -82,8 +79,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 			new GLP.GLPowerTexture( gl ).setting( { magFilter: gl.LINEAR, minFilter: gl.LINEAR } ),
 		] );
 
-		const lightShaft = new MXP.PostProcessPass( {
-			gl,
+		const lightShaft = new MXP.PostProcessPass( gl, {
 			name: 'lightShaft',
 			frag: lightShaftFrag,
 			renderTarget: rtLightShaft1,
@@ -111,8 +107,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 			new GLP.GLPowerTexture( gl ).setting( { magFilter: gl.LINEAR, minFilter: gl.LINEAR } ),
 		] );
 
-		const ssao = new MXP.PostProcessPass( {
-			gl,
+		const ssao = new MXP.PostProcessPass( gl, {
 			name: 'ssao',
 			frag: ssaoFrag,
 			renderTarget: MXP.hotGet( "ssao", rtSSAO1 ),
@@ -165,8 +160,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 			},
 		} );
 
-		const ssaoBlurH = new MXP.PostProcessPass( {
-			gl,
+		const ssaoBlurH = new MXP.PostProcessPass( gl, {
 			name: 'ssaoBlur/h',
 			frag: MXP.hotGet( "ssaoBlur", ssaoBlurFrag ),
 			uniforms: ssaoBlurUni,
@@ -174,8 +168,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 			passThrough: true,
 		} );
 
-		const ssaoBlurV = new MXP.PostProcessPass( {
-			gl,
+		const ssaoBlurV = new MXP.PostProcessPass( gl, {
 			name: 'ssaoBlur/v',
 			frag: MXP.hotGet( "ssaoBlur", ssaoBlurFrag ),
 			uniforms: GLP.UniformsUtils.merge( ssaoBlurUni, {
@@ -210,8 +203,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 
 		// shading
 
-		const shading = new MXP.PostProcessPass( {
-			gl,
+		const shading = new MXP.PostProcessPass( gl, {
 			name: "deferredShading",
 			frag: MXP.hotGet( "deferredShading", deferredShadingFrag ),
 			uniforms: GLP.UniformsUtils.merge( {

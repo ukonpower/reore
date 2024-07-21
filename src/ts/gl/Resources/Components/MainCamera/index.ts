@@ -99,8 +99,7 @@ export class MainCamera extends MXP.Component {
 
 		// fxaa
 
-		this.fxaa = new MXP.PostProcessPass( {
-			gl,
+		this.fxaa = new MXP.PostProcessPass( gl, {
 			name: 'fxaa',
 			frag: fxaaFrag,
 			uniforms: this.commonUniforms,
@@ -127,8 +126,7 @@ export class MainCamera extends MXP.Component {
 
 		let bloomScale = 2.0;
 
-		this.bloomBright = new MXP.PostProcessPass( {
-			gl,
+		this.bloomBright = new MXP.PostProcessPass( gl, {
 			name: 'bloom/bright/',
 			frag: bloomBrightFrag,
 			uniforms: {
@@ -157,8 +155,7 @@ export class MainCamera extends MXP.Component {
 
 			const guassSamples = 8.0;
 
-			this.bloomBlur.push( new MXP.PostProcessPass( {
-				gl,
+			this.bloomBlur.push( new MXP.PostProcessPass( gl, {
 				name: 'bloom/blur/' + i + '/v',
 				renderTarget: rtVertical,
 				frag: bloomBlurFrag,
@@ -183,8 +180,7 @@ export class MainCamera extends MXP.Component {
 				resolutionRatio: 1.0 / bloomScale
 			} ) );
 
-			this.bloomBlur.push( new MXP.PostProcessPass( {
-				gl,
+			this.bloomBlur.push( new MXP.PostProcessPass( gl, {
 				name: 'bloom/blur/' + i + '/w',
 				renderTarget: rtHorizonal,
 				frag: bloomBlurFrag,
@@ -221,8 +217,7 @@ export class MainCamera extends MXP.Component {
 
 		// composite
 
-		this.composite = new MXP.PostProcessPass( {
-			gl,
+		this.composite = new MXP.PostProcessPass( gl, {
 			name: 'composite',
 			frag: MXP.hotUpdate( "composite", compositeFrag ),
 			uniforms: GLP.UniformsUtils.merge( this.commonUniforms, {

@@ -29,7 +29,7 @@ export class TexProcedural extends GLP.GLPowerTexture {
 		renderer.resize( resolution );
 
 		this.frameBuffer = new GLP.GLPowerFrameBuffer( gl ).setTexture( [ this ] ).setSize( 1024, 1024 );
-		renderer.renderPostProcess( new MXP.PostProcess( { passes: [ new MXP.PostProcessPass( { ...param, renderTarget: this.frameBuffer } ) ] } ) );
+		renderer.renderPostProcess( new MXP.PostProcess( { passes: [ new MXP.PostProcessPass( gl, { ...param, renderTarget: this.frameBuffer } ) ] } ) );
 
 	}
 
