@@ -1,7 +1,7 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import { canvas, resource, power } from '../GLGlobals';
+import { canvas, resource, power, renderer } from '../GLGlobals';
 import { ProjectScene } from '../ProjectScene';
 import { FrameDebugger } from '../ProjectScene/utils/FrameDebugger';
 import { Keyboard, PressedKeys } from '../ProjectScene/utils/Keyboard';
@@ -152,7 +152,7 @@ export class GLEditor extends MXP.Exportable {
 
 		this.frameDebugger = new FrameDebugger( power, this.canvas );
 
-		this.scene.renderer.on( 'drawPass', ( rt?: GLP.GLPowerFrameBuffer, label?: string ) => {
+		renderer.on( 'drawPass', ( rt?: GLP.GLPowerFrameBuffer, label?: string ) => {
 
 			if ( this.frameDebugger && this.frameDebugger.enable && rt ) {
 

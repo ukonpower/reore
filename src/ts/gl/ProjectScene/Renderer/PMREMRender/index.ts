@@ -3,7 +3,6 @@ import * as MXP from 'maxpower';
 
 import pmremFrag from './shaders/pmrem.fs';
 
-import { gl, globalUniforms } from '~/ts/gl/GLGlobals';
 
 type SwapBuffer = {rt1: GLP.GLPowerFrameBuffer, rt2: GLP.GLPowerFrameBuffer};
 
@@ -13,8 +12,9 @@ export class PMREMRender extends MXP.PostProcess {
 	private pmremPasses: MXP.PostProcessPass[];
 	private swapBuffers: SwapBuffer[];
 
-	constructor( param: Omit<MXP.PostProcessParam, "passes" | "input"> & {input: GLP.GLPowerTextureCube[], resolution: GLP.Vector} ) {
+	constructor( param: Omit<MXP.PostProcessParam, "passes" | "input"> & {input: GLP.GLPowerTextureCube[], resolution: GLP.Vector, gl: WebGL2RenderingContext} ) {
 
+		const gl = param.gl;
 		const resolution = param.resolution;
 
 		const renderTarget = new GLP.GLPowerFrameBuffer( gl ).setTexture( [
@@ -56,6 +56,7 @@ export class PMREMRender extends MXP.PostProcess {
 			roughness = roughness;
 
 			const pmremPass = new MXP.PostProcessPass( {
+				gl,
 				renderTarget: swapBuffers[ i ].rt1,
 				frag: pmremFrag,
 				uniforms: {
@@ -75,7 +76,10 @@ export class PMREMRender extends MXP.PostProcess {
 						value: 1,
 						type: "1f"
 					},
-					uTimeEF: globalUniforms.time.uTimeEF,
+					uTimeEF: {
+						value: 0,
+						type: '1f'
+					},
 				},
 				defines: {
 					NUM_SAMPLES: Math.floor( Math.pow( 2, i + 1 ) )
@@ -85,6 +89,7 @@ export class PMREMRender extends MXP.PostProcess {
 			pmremPass.resize( new GLP.Vector( width, height ) );
 
 			const blitPass = new MXP.PostProcessPass( {
+				gl,
 				renderTarget: renderTarget,
 				viewPort,
 				passThrough: true,

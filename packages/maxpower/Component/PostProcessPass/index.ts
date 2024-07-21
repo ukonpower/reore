@@ -4,6 +4,7 @@ import { Material, MaterialParam } from '../Material';
 
 export interface PostProcessPassParam extends MaterialParam{
 	// input?: ( GLPowerTexture | null )[],
+	gl: WebGL2RenderingContext;
 	renderTarget?: GLP.GLPowerFrameBuffer | null,
 	clearColor?: GLP.Vector;
 	clearDepth?: number;
@@ -14,8 +15,6 @@ export interface PostProcessPassParam extends MaterialParam{
 
 import passFrag from './shaders/pass.fs';
 import quadVert from './shaders/quad.vs';
-
-import { gl } from '~/ts/gl/GLGlobals';
 
 export class PostProcessPass extends Material {
 
@@ -34,6 +33,8 @@ export class PostProcessPass extends Material {
 	constructor( param: PostProcessPassParam ) {
 
 		super( { ...param, frag: param.frag || passFrag, vert: param.vert || quadVert } );
+
+		const gl = param.gl;
 
 		this.resolution = new GLP.Vector();
 		this.resolutionInv = new GLP.Vector();

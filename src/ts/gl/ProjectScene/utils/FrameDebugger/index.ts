@@ -5,6 +5,8 @@ import { Renderer } from '../../Renderer';
 
 import frameDebuggerFrag from './shaders/frameDebugger.fs';
 
+import { gl } from '~/ts/gl/GLGlobals';
+
 type Frame = {
 	frameBuffer: GLP.GLPowerFrameBuffer,
 	texture: GLP.GLPowerTexture,
@@ -95,6 +97,7 @@ export class FrameDebugger extends GLP.EventEmitter {
 		this.outPostProcess = new MXP.PostProcess( {
 			input: this.outFrameBuffer.textures,
 			passes: [ new MXP.PostProcessPass( {
+				gl,
 				uniforms: this.uniforms,
 				renderTarget: null,
 				frag: frameDebuggerFrag

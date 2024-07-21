@@ -11,9 +11,15 @@ import motionBlurTileFrag from './shaders/motionBlurTile.fs';
 import ssCompositeFrag from './shaders/ssComposite.fs';
 import ssrFrag from './shaders/ssr.fs';
 
-import { gl, globalUniforms } from '~/ts/gl/GLGlobals/';
+type PipelinePostProcessParam = {
+	gl: WebGL2RenderingContext;
+}
 
 export class PipelinePostProcess extends MXP.PostProcess {
+
+	// uniforms
+
+	private timeUniforms: GLP.Uniforms;
 
 	// ssr
 
@@ -42,11 +48,21 @@ export class PipelinePostProcess extends MXP.PostProcess {
 
 	private renderCamera: MXP.RenderCamera | null;
 
-	constructor( ) {
+	constructor( params: PipelinePostProcessParam ) {
 
-		// color collection
+		const gl = params.gl;
+
+		// uniforms
+
+		const timeUniforms: GLP.Uniforms = {
+			uTimeEF: {
+				value: 0,
+				type: "1f"
+			}
+		};
 
 		const colorCollection = new MXP.PostProcessPass( {
+			gl,
 			name: 'collection',
 			frag: colorCollectionFrag,
 		} );
@@ -62,10 +78,11 @@ export class PipelinePostProcess extends MXP.PostProcess {
 		] );
 
 		const ssr = new MXP.PostProcessPass( {
+			gl,
 			name: 'ssr',
 			frag: MXP.hotGet( "ssr", ssrFrag ),
 			renderTarget: rtSSR1,
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, {
+			uniforms: GLP.UniformsUtils.merge( timeUniforms, {
 				uGbufferPos: {
 					value: null,
 					type: '1i'
@@ -106,6 +123,7 @@ export class PipelinePostProcess extends MXP.PostProcess {
 		// ss-composite
 
 		const ssComposite = new MXP.PostProcessPass( {
+			gl,
 			name: 'ssComposite',
 			frag: MXP.hotGet( "ssComposite", ssCompositeFrag ),
 			uniforms: GLP.UniformsUtils.merge( {
@@ -145,9 +163,10 @@ export class PipelinePostProcess extends MXP.PostProcess {
 		const dofParams = new GLP.Vector( 10, 0.05, 20, 0.05 );
 
 		const dofCoc = new MXP.PostProcessPass( {
+			gl,
 			name: 'dof/coc',
 			frag: dofCocFrag,
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, {
+			uniforms: GLP.UniformsUtils.merge( timeUniforms, {
 				uGbufferPos: {
 					value: null,
 					type: "1i"
@@ -165,9 +184,10 @@ export class PipelinePostProcess extends MXP.PostProcess {
 		} );
 
 		const dofBokeh = new MXP.PostProcessPass( {
+			gl,
 			name: 'dof/bokeh',
 			frag: dofBokehFrag,
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, {
+			uniforms: GLP.UniformsUtils.merge( timeUniforms, {
 				uCocTex: {
 					value: dofCoc.renderTarget!.textures[ 0 ],
 					type: '1i'
@@ -185,6 +205,7 @@ export class PipelinePostProcess extends MXP.PostProcess {
 		} );
 
 		const dofComposite = new MXP.PostProcessPass( {
+			gl,
 			name: 'dof/composite',
 			frag: dofCompositeFrag,
 			uniforms: GLP.UniformsUtils.merge( {
@@ -203,6 +224,7 @@ export class PipelinePostProcess extends MXP.PostProcess {
 		const motionBlurTileNum = 16;
 
 		const motionBlurTile = new MXP.PostProcessPass( {
+			gl,
 			name: 'motionBlurTile',
 			frag: motionBlurTileFrag,
 			uniforms: GLP.UniformsUtils.merge( {
@@ -222,6 +244,7 @@ export class PipelinePostProcess extends MXP.PostProcess {
 		} );
 
 		const motionBlurNeighbor = new MXP.PostProcessPass( {
+			gl,
 			name: 'motionBlurNeighbor',
 			frag: motionBlurNeighborFrag,
 			uniforms: GLP.UniformsUtils.merge( {
@@ -241,6 +264,7 @@ export class PipelinePostProcess extends MXP.PostProcess {
 		} );
 
 		const motionBlur = new MXP.PostProcessPass( {
+			gl,
 			name: 'motionBlur',
 			frag: motionBlurFrag,
 			uniforms: GLP.UniformsUtils.merge( {
@@ -277,6 +301,8 @@ export class PipelinePostProcess extends MXP.PostProcess {
 			]
 		} );
 
+		this.timeUniforms = timeUniforms;
+
 		this.ssr = ssr;
 		this.ssComposite = ssComposite;
 		this.dofCoc = dofCoc;
@@ -310,6 +336,10 @@ export class PipelinePostProcess extends MXP.PostProcess {
 	protected updateImpl( event: MXP.ComponentUpdateEvent ): void {
 
 		if ( ! this.renderCamera ) return;
+
+		// uniforms
+
+		this.timeUniforms.uTimeEF.value = ( this.timeUniforms.uTimeEF.value + event.timeDelta ) % 1;
 
 		// dof params
 
