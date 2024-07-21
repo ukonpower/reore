@@ -48,14 +48,21 @@ export class MainCamera extends MXP.Component {
 	private resolutionInv: GLP.Vector;
 	private resolutionBloom: GLP.Vector[];
 
-
 	// components
 
 	private lookAt: LookAt;
 	private orbitControls: MXP.Component;
 	private shakeViewer: MXP.Component;
-
 	private postProcess: MXP.PostProcess;
+
+	// dofTarget
+
+	private dofTarget: MXP.Entity | null;
+
+	// tmps
+
+	private tmpVector1: GLP.Vector;
+	private tmpVector2: GLP.Vector;
 
 	constructor() {
 
@@ -90,7 +97,6 @@ export class MainCamera extends MXP.Component {
 				value: this.resolutionInv
 			}
 		} );
-
 
 		// fxaa
 
@@ -261,6 +267,15 @@ export class MainCamera extends MXP.Component {
 			]
 		} );
 
+		// dof
+
+		this.dofTarget = null;
+
+		// tmps
+
+		this.tmpVector1 = new GLP.Vector();
+		this.tmpVector2 = new GLP.Vector();
+
 	}
 
 	public static get key() {
@@ -295,7 +310,7 @@ export class MainCamera extends MXP.Component {
 
 			}
 
-			// this.dofTarget = root.getEntityByName( 'CameraTargetDof' ) || null;
+			this.dofTarget = root.getEntityByName( 'CameraTargetDof' ) || null;
 			this.baseFov = this.cameraComponent.fov;
 			this.updateCameraParams( this.resolution );
 
@@ -347,6 +362,18 @@ export class MainCamera extends MXP.Component {
 	protected updateImpl( event: MXP.ComponentUpdateEvent ): void {
 
 		this.updateCameraParams( this.resolution );
+
+		// dof params
+
+		event.entity.matrixWorld.decompose( this.tmpVector1 );
+
+		if ( this.dofTarget ) {
+
+			this.dofTarget.matrixWorld.decompose( this.tmpVector2 );
+
+		}
+
+		this.cameraComponent.dof.focusDistance = this.tmpVector1.sub( this.tmpVector2 ).length();
 
 	}
 

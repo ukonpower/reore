@@ -1,6 +1,5 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
-import { RenderCameraTarget } from 'packages/maxpower/Component/Camera/RenderCamera';
 
 import colorCollectionFrag from './shaders/colorCollection.fs';
 import dofBokehFrag from './shaders/dofBokeh.fs';
@@ -16,10 +15,6 @@ import { gl, globalUniforms } from '~/ts/gl/GLGlobals/';
 
 export class PipelinePostProcess extends MXP.PostProcess {
 
-	// colorCollection
-
-	private colorCollection: MXP.PostProcessPass;
-
 	// ssr
 
 	private ssr: MXP.PostProcessPass;
@@ -33,7 +28,6 @@ export class PipelinePostProcess extends MXP.PostProcess {
 	// dof
 
 	private dofParams: GLP.Vector;
-	private dofTarget: MXP.Entity | null;
 
 	public dofCoc: MXP.PostProcessPass;
 	public dofBokeh: MXP.PostProcessPass;
@@ -43,11 +37,6 @@ export class PipelinePostProcess extends MXP.PostProcess {
 
 	private motionBlur: MXP.PostProcessPass;
 	private motionBlurTile: MXP.PostProcessPass;
-
-	// tmps
-
-	private tmpVector1: GLP.Vector;
-	private tmpVector2: GLP.Vector;
 
 	// renderCamera
 
@@ -153,7 +142,6 @@ export class PipelinePostProcess extends MXP.PostProcess {
 
 		// dof
 
-		const dofTarget = null;
 		const dofParams = new GLP.Vector( 10, 0.05, 20, 0.05 );
 
 		const dofCoc = new MXP.PostProcessPass( {
@@ -243,7 +231,7 @@ export class PipelinePostProcess extends MXP.PostProcess {
 				}
 			} ),
 			defines: {
-				"TILE": motionBlurTile,
+				"TILE": motionBlurTileNum,
 			},
 			renderTarget: new GLP.GLPowerFrameBuffer( gl ).setTexture( [
 				new GLP.GLPowerTexture( gl ).setting( { type: gl.FLOAT, internalFormat: gl.RGBA32F, format: gl.RGBA } ),
@@ -270,7 +258,7 @@ export class PipelinePostProcess extends MXP.PostProcess {
 				},
 			} ),
 			defines: {
-				"TILE": motionBlurTile,
+				"TILE": motionBlurTileNum,
 			},
 		} );
 
@@ -289,8 +277,6 @@ export class PipelinePostProcess extends MXP.PostProcess {
 			]
 		} );
 
-
-		this.colorCollection = colorCollection;
 		this.ssr = ssr;
 		this.ssComposite = ssComposite;
 		this.dofCoc = dofCoc;
@@ -301,18 +287,12 @@ export class PipelinePostProcess extends MXP.PostProcess {
 
 		// dof
 
-		this.dofTarget = dofTarget;
 		this.dofParams = dofParams;
 
 		// rt
 
 		this.rtSSR1 = rtSSR1;
 		this.rtSSR2 = rtSSR2;
-
-		// tmps
-
-		this.tmpVector1 = new GLP.Vector();
-		this.tmpVector2 = new GLP.Vector();
 
 		// rendercamera
 
@@ -333,17 +313,9 @@ export class PipelinePostProcess extends MXP.PostProcess {
 
 		// dof params
 
-		event.entity.matrixWorld.decompose( this.tmpVector1 );
-
-		if ( this.dofTarget ) {
-
-			this.dofTarget.matrixWorld.decompose( this.tmpVector2 );
-
-		}
-
 		const fov = this.renderCamera.fov;
-		const focusDistance = this.tmpVector1.sub( this.tmpVector2 ).length();
-		const kFilmHeight = 0.002;
+		const focusDistance = this.renderCamera.dof.focusDistance;
+		const kFilmHeight = this.renderCamera.dof.kFilmHeight;
 		const flocalLength = kFilmHeight / Math.tan( 0.5 * ( fov / 180 * Math.PI ) );
 
 		const maxCoc = ( 1 / this.dofBokeh.renderTarget!.size.y ) * ( 5 );
@@ -369,6 +341,8 @@ export class PipelinePostProcess extends MXP.PostProcess {
 		this.renderCamera = renderCamera;
 
 		const renderTarget = renderCamera.renderTarget;
+
+		this.input = renderTarget.shadingBuffer.textures;
 
 		// ssr
 

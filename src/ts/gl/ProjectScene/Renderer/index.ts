@@ -1006,6 +1006,7 @@ export class Renderer extends MXP.Entity {
 		this.canvasSize.copy( resolution );
 
 		this.deferredPostProcess.resize( resolution );
+		this.pipelinePostProcess.resize( resolution );
 
 	}
 
