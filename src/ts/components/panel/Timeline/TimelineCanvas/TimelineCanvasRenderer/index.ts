@@ -31,6 +31,8 @@ export class TimelineCanvasRenderer extends GLP.EventEmitter {
 
 	private resizeObserver: ResizeObserver;
 
+	private canvasSize: GLP.Vector;
+
 	constructor() {
 
 		super();
@@ -44,6 +46,8 @@ export class TimelineCanvasRenderer extends GLP.EventEmitter {
 
 		this.glCanvas = document.createElement( 'canvas' );
 		this.gl = this.glCanvas.getContext( 'webgl2' )!;
+
+		this.canvasSize = new GLP.Vector( this.glCanvas.width, this.glCanvas.height );
 
 		// viewport
 
@@ -89,7 +93,6 @@ export class TimelineCanvasRenderer extends GLP.EventEmitter {
 			]
 		} );
 
-
 	}
 
 	private onResize() {
@@ -101,7 +104,8 @@ export class TimelineCanvasRenderer extends GLP.EventEmitter {
 			this.glCanvas.width = this.canvas.width = resolution.x;
 			this.glCanvas.height = this.canvas.height = resolution.y;
 
-			this.glRenderer.resize( resolution );
+			this.canvasSize.set( this.glCanvas.width, this.glCanvas.height );
+
 			this.postProcess.resize( resolution );
 
 		}
@@ -222,12 +226,11 @@ export class TimelineCanvasRenderer extends GLP.EventEmitter {
 
 		}
 
-
 		this.canvasTexture.attach( this.canvas );
 
 		this.postProcess.passes[ 0 ].uniforms.uCanvasTex.value = this.canvasTexture;
 
-		this.glRenderer.renderPostProcess( this.postProcess );
+		this.glRenderer.renderPostProcess( this.postProcess, this.canvasSize );
 
 	}
 

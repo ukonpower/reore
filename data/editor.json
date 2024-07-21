@@ -65,7 +65,7 @@
 	],
 	"settings": {
 		"currentProjectName": "OREngine",
-		"resolutionScale": 0.125,
+		"resolutionScale": 0.25,
 		"viewType": "render"
 	}
 }

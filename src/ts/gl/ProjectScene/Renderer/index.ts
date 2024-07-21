@@ -72,7 +72,7 @@ export let TextureUnitCounter = 0;
 export class Renderer extends MXP.Entity {
 
 	public gl: WebGL2RenderingContext;
-	private canvasSize: GLP.Vector;
+	private renderCanvasSize: GLP.Vector;
 
 	// program
 
@@ -107,10 +107,6 @@ export class Renderer extends MXP.Entity {
 	private queryList: WebGLQuery[];
 	private queryListQueued: {name: string, query: WebGLQuery}[];
 
-	// uniforms
-
-	private commonUniforms: GLP.Uniforms;
-
 	// tmp
 
 	private tmpNormalMatrix: GLP.Matrix;
@@ -126,7 +122,7 @@ export class Renderer extends MXP.Entity {
 		this.gl = gl;
 
 		this.programManager = new ProgramManager( this.gl );
-		this.canvasSize = new GLP.Vector();
+		this.renderCanvasSize = new GLP.Vector();
 
 		// lights
 
@@ -313,7 +309,7 @@ export class Renderer extends MXP.Entity {
 
 			const gpu = stack.gpuCompute[ i ].getComponent( MXP.GPUCompute )!;
 
-			this.renderPostProcess( gpu );
+			this.renderPostProcess( gpu, this.renderCanvasSize );
 
 		}
 
@@ -326,7 +322,7 @@ export class Renderer extends MXP.Entity {
 
 			if ( lightComponent.renderTarget ) {
 
-				this.renderCamera( "shadowMap", lightEntity, stack.shadowMap, lightComponent.renderTarget );
+				this.renderCamera( "shadowMap", lightEntity, stack.shadowMap, lightComponent.renderTarget, this.renderCanvasSize );
 
 			}
 
@@ -340,12 +336,12 @@ export class Renderer extends MXP.Entity {
 
 			this.envMapRenderTarget.face( i );
 
-			this.renderCamera( "envMap", cameraEntity, stack.envMap, this.envMapRenderTarget );
+			this.renderCamera( "envMap", cameraEntity, stack.envMap, this.envMapRenderTarget, this.renderCanvasSize );
 
 
 		}
 
-		this.renderPostProcess( this.pmremRender );
+		this.renderPostProcess( this.pmremRender, this.renderCanvasSize );
 
 		this.pmremRender.swap();
 
@@ -358,11 +354,11 @@ export class Renderer extends MXP.Entity {
 
 			this.gl.disable( this.gl.BLEND );
 
-			this.renderCamera( "deferred", cameraEntity, stack.deferred, cameraComponent.renderTarget.gBuffer );
+			this.renderCamera( "deferred", cameraEntity, stack.deferred, cameraComponent.renderTarget.gBuffer, this.renderCanvasSize );
 
 			this.deferredPostProcess.setRenderCamera( cameraComponent );
 
-			this.renderPostProcess( this.deferredPostProcess, { cameraOverride: {
+			this.renderPostProcess( this.deferredPostProcess, this.renderCanvasSize, { cameraOverride: {
 				viewMatrix: cameraComponent.viewMatrix,
 				viewMatrixPrev: cameraComponent.viewMatrixPrev,
 				projectionMatrix: cameraComponent.projectionMatrix,
@@ -374,7 +370,7 @@ export class Renderer extends MXP.Entity {
 
 			this.gl.enable( this.gl.BLEND );
 
-			this.renderCamera( "forward", cameraEntity, stack.forward, cameraComponent.renderTarget.forwardBuffer, {
+			this.renderCamera( "forward", cameraEntity, stack.forward, cameraComponent.renderTarget.forwardBuffer, this.renderCanvasSize, {
 				cameraOverride: { uniforms: {
 					uDeferredTexture: {
 						value: cameraComponent.renderTarget.shadingBuffer.textures[ 1 ],
@@ -394,7 +390,7 @@ export class Renderer extends MXP.Entity {
 
 			this.pipelinePostProcess.setRenderCamera( cameraComponent );
 
-			this.renderPostProcess( this.pipelinePostProcess, { cameraOverride: {
+			this.renderPostProcess( this.pipelinePostProcess, this.renderCanvasSize, { cameraOverride: {
 				viewMatrix: cameraComponent.viewMatrix,
 				projectionMatrix: cameraComponent.projectionMatrix,
 				cameraMatrixWorld: cameraEntity.matrixWorld,
@@ -420,7 +416,7 @@ export class Renderer extends MXP.Entity {
 
 			this.gl.enable( this.gl.BLEND );
 
-			this.renderCamera( "forward", cameraEntity, stack.ui, cameraComponent.renderTarget.uiBuffer, {
+			this.renderCamera( "forward", cameraEntity, stack.ui, cameraComponent.renderTarget.uiBuffer, this.renderCanvasSize, {
 				cameraOverride: {
 					uniforms: { uDeferredTexture: { value: cameraComponent.renderTarget.shadingBuffer.textures[ 1 ], type: '1i' } }
 				},
@@ -435,7 +431,7 @@ export class Renderer extends MXP.Entity {
 
 			if ( postProcess && postProcess.enabled ) {
 
-				this.renderPostProcess( postProcess, { cameraOverride: {
+				this.renderPostProcess( postProcess, this.renderCanvasSize, { cameraOverride: {
 					viewMatrix: cameraComponent.viewMatrix,
 					projectionMatrix: cameraComponent.projectionMatrix,
 					cameraMatrixWorld: cameraEntity.matrixWorld,
@@ -453,8 +449,8 @@ export class Renderer extends MXP.Entity {
 				this.gl.bindFramebuffer( this.gl.DRAW_FRAMEBUFFER, null );
 
 				this.gl.blitFramebuffer(
-					0, 0, this.canvasSize.x, this.canvasSize.y,
-					0, 0, this.canvasSize.x, this.canvasSize.y,
+					0, 0, this.renderCanvasSize.x, this.renderCanvasSize.y,
+					0, 0, this.renderCanvasSize.x, this.renderCanvasSize.y,
 					this.gl.COLOR_BUFFER_BIT, this.gl.NEAREST );
 
 
@@ -464,7 +460,7 @@ export class Renderer extends MXP.Entity {
 
 	}
 
-	public renderCamera( renderType: MXP.MaterialRenderType, cameraEntity: MXP.Entity, entities: MXP.Entity[], renderTarget: GLP.GLPowerFrameBuffer | null, renderOption?: RenderOption ) {
+	public renderCamera( renderType: MXP.MaterialRenderType, cameraEntity: MXP.Entity, entities: MXP.Entity[], renderTarget: GLP.GLPowerFrameBuffer | null, canvasSize: GLP.Vector, renderOption?: RenderOption ) {
 
 		const camera = cameraEntity.getComponent( MXP.Camera ) || cameraEntity.getComponent( MXP.Light )!;
 
@@ -495,7 +491,7 @@ export class Renderer extends MXP.Entity {
 
 			} else {
 
-				this.gl.viewport( 0, 0, this.canvasSize.x, this.canvasSize.y );
+				this.gl.viewport( 0, 0, canvasSize.x, canvasSize.y );
 
 			}
 
@@ -579,7 +575,7 @@ export class Renderer extends MXP.Entity {
 
 	}
 
-	public renderPostProcess( postprocess: MXP.PostProcess, renderOption?: RenderOption ) {
+	public renderPostProcess( postprocess: MXP.PostProcess, canvasSize: GLP.Vector, renderOption?: RenderOption ) {
 
 		// render
 
@@ -607,7 +603,7 @@ export class Renderer extends MXP.Entity {
 
 				} else {
 
-					this.gl.viewport( 0, 0, this.canvasSize.x, this.canvasSize.y );
+					this.gl.viewport( 0, 0, canvasSize.x, canvasSize.y );
 
 				}
 
@@ -1008,7 +1004,7 @@ export class Renderer extends MXP.Entity {
 
 	public resize( resolution: GLP.Vector ) {
 
-		this.canvasSize.copy( resolution );
+		this.renderCanvasSize.copy( resolution );
 
 		this.deferredPostProcess.resize( resolution );
 		this.pipelinePostProcess.resize( resolution );

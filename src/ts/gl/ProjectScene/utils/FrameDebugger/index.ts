@@ -5,7 +5,7 @@ import { Renderer } from '../../Renderer';
 
 import frameDebuggerFrag from './shaders/frameDebugger.fs';
 
-import { gl } from '~/ts/gl/GLGlobals';
+import { gl, renderer } from '~/ts/gl/GLGlobals';
 
 type Frame = {
 	frameBuffer: GLP.GLPowerFrameBuffer,
@@ -17,7 +17,6 @@ type Frame = {
 export class FrameDebugger extends GLP.EventEmitter {
 
 	private gl: WebGL2RenderingContext;
-	private renderer: Renderer;
 
 	// buffers
 
@@ -52,15 +51,12 @@ export class FrameDebugger extends GLP.EventEmitter {
 	private cctx: CanvasRenderingContext2D;
 	private canvasTexture: GLP.GLPowerTexture;
 
-
 	constructor( power: GLP.Power, elm: HTMLCanvasElement ) {
 
 		super();
 
 		this.gl = power.gl;
 		this.elm = elm;
-
-		this.renderer = new Renderer( power.gl );
 
 		this.srcFrameBuffer = new GLP.GLPowerFrameBuffer( this.gl, { disableDepthBuffer: true } );
 		this.outFrameBuffer = new GLP.GLPowerFrameBuffer( this.gl, { disableDepthBuffer: true } ).setTexture( [
@@ -229,7 +225,7 @@ export class FrameDebugger extends GLP.EventEmitter {
 
 		// out
 
-		this.renderer.renderPostProcess( this.outPostProcess );
+		renderer.renderPostProcess( this.outPostProcess, this.resolution );
 
 		this.clear();
 
@@ -260,8 +256,6 @@ export class FrameDebugger extends GLP.EventEmitter {
 	public resize( resolution: GLP.Vector ) {
 
 		this.resolution.copy( resolution );
-
-		this.renderer.resize( resolution );
 
 		this.outFrameBuffer.setSize( resolution );
 
