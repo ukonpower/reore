@@ -1,7 +1,8 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import { DeferredRenderer } from './DeferredPostProcess';
+import { DeferredRenderer } from './DeferredRenderer';
+import { PipelinePostProcess } from './PipelinePostProcess';
 import { PMREMRender } from './PMREMRender';
 import { ProgramManager } from "./ProgramManager";
 import { shaderParse } from "./ShaderParser";
@@ -88,9 +89,10 @@ export class Renderer extends MXP.Entity {
 	private envMapRenderTarget: GLP.GLPowerFrameBufferCube;
 	private pmremRender: PMREMRender;
 
-	// deferred
+	// postprocess
 
 	private deferredPostProcess: DeferredRenderer;
+	private pipelinePostProcess: PipelinePostProcess;
 
 	// quad
 
@@ -173,15 +175,17 @@ export class Renderer extends MXP.Entity {
 			resolution: new GLP.Vector( 256 * 3, 256 * 4 ),
 		} );
 
-		// deferred
+		// postprocess
 
 		this.deferredPostProcess = new DeferredRenderer( {
 			envMap: this.pmremRender.renderTarget.textures[ 0 ] as GLP.GLPowerTexture,
-			// envMap: this.pmremRender.passes[ 0 ].renderTarget?.textures[ 0 ] as GLP.GLPowerTexture,
 			envMapCube: envMap as GLP.GLPowerTextureCube,
 		} );
 
 		this.addComponent( this.deferredPostProcess );
+
+		this.pipelinePostProcess = new PipelinePostProcess();
+		this.addComponent( this.pipelinePostProcess );
 
 		// quad
 
@@ -351,7 +355,7 @@ export class Renderer extends MXP.Entity {
 
 			this.renderCamera( "deferred", cameraEntity, stack.deferred, cameraComponent.renderTarget.gBuffer );
 
-			this.deferredPostProcess.setRenderTarget( cameraComponent.renderTarget );
+			this.deferredPostProcess.setRenderCamera( cameraComponent );
 
 			this.renderPostProcess( this.deferredPostProcess, { cameraOverride: {
 				viewMatrix: cameraComponent.viewMatrix,
@@ -383,38 +387,22 @@ export class Renderer extends MXP.Entity {
 
 			// scene
 
-			const prePostprocess = cameraEntity.getComponentByKey<MXP.PostProcess>( 'scenePostProcess' );
+			this.pipelinePostProcess.setRenderCamera( cameraComponent );
 
-			if ( prePostprocess && prePostprocess.enabled ) {
+			this.renderPostProcess( this.pipelinePostProcess, { cameraOverride: {
+				viewMatrix: cameraComponent.viewMatrix,
+				projectionMatrix: cameraComponent.projectionMatrix,
+				cameraMatrixWorld: cameraEntity.matrixWorld,
+				cameraNear: cameraComponent.near,
+				cameraFar: cameraComponent.far,
+			} } );
 
-				this.renderPostProcess( prePostprocess, { cameraOverride: {
-					viewMatrix: cameraComponent.viewMatrix,
-					projectionMatrix: cameraComponent.projectionMatrix,
-					cameraMatrixWorld: cameraEntity.matrixWorld,
-					cameraNear: cameraComponent.near,
-					cameraFar: cameraComponent.far,
-				} } );
+			if ( this.pipelinePostProcess.output ) {
 
-				if ( prePostprocess.output ) {
-
-					this.gl.bindFramebuffer( this.gl.READ_FRAMEBUFFER, prePostprocess.output.getFrameBuffer() );
-					this.gl.bindFramebuffer( this.gl.DRAW_FRAMEBUFFER, cameraComponent.renderTarget.uiBuffer.getFrameBuffer() );
-
-					const size = prePostprocess.output.size;
-
-					this.gl.blitFramebuffer(
-						0, 0, size.x, size.y,
-						0, 0, size.x, size.y,
-						this.gl.COLOR_BUFFER_BIT, this.gl.NEAREST );
-
-				}
-
-			} else {
-
-				this.gl.bindFramebuffer( this.gl.READ_FRAMEBUFFER, cameraComponent.renderTarget.forwardBuffer.getFrameBuffer() );
+				this.gl.bindFramebuffer( this.gl.READ_FRAMEBUFFER, this.pipelinePostProcess.output.getFrameBuffer() );
 				this.gl.bindFramebuffer( this.gl.DRAW_FRAMEBUFFER, cameraComponent.renderTarget.uiBuffer.getFrameBuffer() );
 
-				const size = cameraComponent.renderTarget.forwardBuffer.size;
+				const size = this.pipelinePostProcess.output.size;
 
 				this.gl.blitFramebuffer(
 					0, 0, size.x, size.y,

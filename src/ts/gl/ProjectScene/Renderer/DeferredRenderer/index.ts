@@ -258,7 +258,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 
 	public static get key(): string {
 
-		return ( super.constructor as typeof MXP.PostProcess ).key + "deferred";
+		return super.key + "deferred";
 
 	}
 
@@ -286,7 +286,9 @@ export class DeferredRenderer extends MXP.PostProcess {
 
 	}
 
-	public setRenderTarget( renderTarget: RenderCameraTarget ) {
+	public setRenderCamera( renderCamera: MXP.RenderCamera ) {
+
+		const renderTarget = renderCamera.renderTarget;
 
 		for ( let i = 0; i < renderTarget.gBuffer.textures.length; i ++ ) {
 

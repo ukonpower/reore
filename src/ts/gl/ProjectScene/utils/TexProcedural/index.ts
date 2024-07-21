@@ -11,9 +11,7 @@ export class TexProcedural extends GLP.GLPowerTexture {
 
 	private frameBuffer: GLP.GLPowerFrameBuffer;
 
-	constructor( renderer: Renderer, param: TexProceduralParam ) {
-
-		const gl = renderer.gl;
+	constructor( gl: WebGL2RenderingContext, param: TexProceduralParam ) {
 
 		super( gl );
 
@@ -25,6 +23,8 @@ export class TexProcedural extends GLP.GLPowerTexture {
 			magFilter: gl.LINEAR,
 			minFilter: gl.LINEAR,
 		} );
+
+		const renderer = new Renderer( gl );
 
 		renderer.resize( resolution );
 
