@@ -4,14 +4,14 @@ import { ComponentParams } from '..';
 import { ExportableProps, ExportablePropsSerialized } from '../../Exportable';
 import { ShadowMapCamera } from '../Camera/ShadowMapCamera';
 
+// import { gl } from '~/ts/gl/GLGlobals';
+
 export type LightType = 'directional' | 'spot'
 
 interface LightParams extends ComponentParams {
 }
 
 export class Light extends ShadowMapCamera {
-
-	private gl: WebGL2RenderingContext;
 
 	public lightType: LightType;
 
@@ -29,11 +29,9 @@ export class Light extends ShadowMapCamera {
 
 	// animation
 
-	constructor( gl: WebGL2RenderingContext, params?: LightParams ) {
+	constructor( params?: LightParams ) {
 
 		super( params );
-
-		this.gl = gl;
 
 		this.lightType = 'directional';
 
@@ -95,7 +93,7 @@ export class Light extends ShadowMapCamera {
 
 		if ( props.useShadowMap ) {
 
-			this.renderTarget = new GLP.GLPowerFrameBuffer( this.gl ).setTexture( [ new GLP.GLPowerTexture( this.gl ).setting( { magFilter: this.gl.LINEAR, minFilter: this.gl.LINEAR } ) ] ).setSize( new GLP.Vector( 512, 512 ) );
+			// this.renderTarget = new GLP.GLPowerFrameBuffer( gl ).setTexture( [ new GLP.GLPowerTexture( gl ).setting( { magFilter: gl.LINEAR, minFilter: gl.LINEAR } ) ] ).setSize( new GLP.Vector( 512, 512 ) );
 
 		} else {
 

@@ -8,6 +8,7 @@ type SwapBuffer = {rt1: GLP.GLPowerFrameBuffer, rt2: GLP.GLPowerFrameBuffer};
 
 export class PMREMRender extends MXP.PostProcess {
 
+	public resolution: GLP.Vector;
 	public renderTarget: GLP.GLPowerFrameBuffer;
 	private pmremPasses: MXP.PostProcessPass[];
 	private swapBuffers: SwapBuffer[];
@@ -29,8 +30,8 @@ export class PMREMRender extends MXP.PostProcess {
 				type: gl.FLOAT,
 				internalFormat: gl.RGBA16F,
 				format: gl.RGBA,
-				magFilter: gl.NEAREST,
-				minFilter: gl.NEAREST,
+				magFilter: gl.LINEAR,
+				minFilter: gl.LINEAR,
 				wrapS: gl.CLAMP_TO_EDGE,
 				wrapT: gl.CLAMP_TO_EDGE,
 				generateMipmap: true
@@ -112,6 +113,7 @@ export class PMREMRender extends MXP.PostProcess {
 			passes,
 		} );
 
+		this.resolution = resolution;
 		this.renderTarget = renderTarget;
 		this.pmremPasses = pmremPasses;
 		this.swapBuffers = swapBuffers;

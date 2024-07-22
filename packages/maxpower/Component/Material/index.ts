@@ -56,7 +56,7 @@ export class Material extends Component {
 		this.name = params.name || '';
 
 		this.visibilityFlag = {};
-		this.setVisibility( params.phase || [ "deferred", "shadowMap" ] );
+		this.setVisibility( params.phase || [ "deferred" ] );
 
 		this.useLight = true;
 		this.depthTest = true;

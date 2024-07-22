@@ -341,7 +341,7 @@ export class Renderer extends MXP.Entity {
 
 		}
 
-		this.renderPostProcess( this.pmremRender, this.renderCanvasSize );
+		this.renderPostProcess( this.pmremRender, this.pmremRender.resolution );
 
 		this.pmremRender.swap();
 

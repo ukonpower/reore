@@ -212,7 +212,7 @@ export class BLidger extends Component {
 		if ( this.node.type == "light" ) {
 
 			const lightParam = this.node.param as BLidgeLightParam;
-			const light = entity.addComponent( new Light( this.gl, { disableEdit: true } ) );
+			const light = entity.addComponent( new Light( { disableEdit: true } ) );
 
 			light.setProps( {
 				...lightParam,
