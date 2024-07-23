@@ -56,16 +56,30 @@
 							"name": "SkyBox"
 						}
 					]
+				},
+				{
+					"path": "/root/Test",
+					"components": [
+						{
+							"key": "matchMove",
+							"name": "MatchMove"
+						}
+					]
 				}
 			],
 			"scene": {
-				"name": "root"
+				"name": "root",
+				"childs": [
+					{
+						"name": "Test"
+					}
+				]
 			}
 		}
 	],
 	"settings": {
 		"currentProjectName": "OREngine",
-		"resolutionScale": 1,
-		"viewType": "debug"
+		"resolutionScale": 0.125,
+		"viewType": "render"
 	}
 }

@@ -1,24 +1,33 @@
 import * as GLP from 'glpower';
-import * as MXP from 'maxpower';
+
+import { Entity } from '../../Entity';
+import { shaderParse } from "../../Utils/ShaderParser";
+import { Camera } from '../Camera';
+import { RenderCamera } from '../Camera/RenderCamera';
+import { Geometry } from '../Geometry';
+import { PlaneGeometry } from '../Geometry/PlaneGeometry';
+import { GPUCompute } from '../GPUCompute';
+import { Light, LightType } from '../Light';
+import { MaterialRenderType, Material } from '../Material';
+import { PostProcess } from '../PostProcess';
 
 import { DeferredRenderer } from './DeferredRenderer';
 import { PipelinePostProcess } from './PipelinePostProcess';
 import { PMREMRender } from './PMREMRender';
-import { ProgramManager } from "./ProgramManager";
-import { shaderParse } from "./ShaderParser";
+import { ProgramManager } from './ProgramManager';
 
 
 // render stack
 
 export type RenderStack = {
-	light: MXP.Entity[];
-	camera: MXP.Entity[];
-	envMap: MXP.Entity[];
-	shadowMap: MXP.Entity[];
-	deferred: MXP.Entity[];
-	forward: MXP.Entity[];
-	ui: MXP.Entity[];
-	gpuCompute: MXP.Entity[];
+	light: Entity[];
+	camera: Entity[];
+	envMap: Entity[];
+	shadowMap: Entity[];
+	deferred: Entity[];
+	forward: Entity[];
+	ui: Entity[];
+	gpuCompute: Entity[];
 }
 
 // light
@@ -27,16 +36,16 @@ type LightInfo = {
 	position: GLP.Vector;
 	direction: GLP.Vector;
 	color: GLP.Vector;
-	component: MXP.Light;
+	component: Light;
 }
 
-export type CollectedLights = {[K in MXP.LightType]: LightInfo[]}
+export type CollectedLights = {[K in LightType]: LightInfo[]}
 
 // envmap
 
 type EnvMapCamera = {
-	entity: MXP.Entity,
-	camera: MXP.Camera,
+	entity: Entity,
+	camera: Camera,
 }
 
 // drawParam
@@ -69,7 +78,7 @@ type GPUState = {
 
 export let TextureUnitCounter = 0;
 
-export class Renderer extends MXP.Entity {
+export class Renderer extends Entity {
 
 	public gl: WebGL2RenderingContext;
 	private renderCanvasSize: GLP.Vector;
@@ -96,7 +105,7 @@ export class Renderer extends MXP.Entity {
 
 	// quad
 
-	private quad: MXP.Geometry;
+	private quad: Geometry;
 
 	// gpu state
 
@@ -155,8 +164,8 @@ export class Renderer extends MXP.Entity {
 
 		for ( let i = 0; i < 6; i ++ ) {
 
-			const entity = new MXP.Entity( { name: "envMapCamera/" + i } );
-			const camera = entity.addComponent( new MXP.Camera() );
+			const entity = new Entity( { name: "envMapCamera/" + i } );
+			const camera = entity.addComponent( new Camera() );
 			camera.fov = 90;
 			camera.near = 0.1;
 			camera.far = 1000;
@@ -189,7 +198,7 @@ export class Renderer extends MXP.Entity {
 
 		// quad
 
-		this.quad = new MXP.PlaneGeometry( { width: 2.0, height: 2.0 } );
+		this.quad = new PlaneGeometry( { width: 2.0, height: 2.0 } );
 
 		// gpu
 
@@ -262,14 +271,14 @@ export class Renderer extends MXP.Entity {
 
 		// light
 
-		const shadowMapLightList: MXP.Entity[] = [];
+		const shadowMapLightList: Entity[] = [];
 		const prevLightsNum: {[key:string]: number} = {};
 
 		const lightKeys = Object.keys( this.lights );
 
 		for ( let i = 0; i < lightKeys.length; i ++ ) {
 
-			const l = lightKeys[ i ] as MXP.LightType;
+			const l = lightKeys[ i ] as LightType;
 			prevLightsNum[ l ] = this.lights[ l ].length;
 			this.lights[ l ] = [];
 
@@ -291,7 +300,7 @@ export class Renderer extends MXP.Entity {
 
 		for ( let i = 0; i < lightKeys.length; i ++ ) {
 
-			const l = lightKeys[ i ] as MXP.LightType;
+			const l = lightKeys[ i ] as LightType;
 
 			if ( prevLightsNum[ l ] != this.lights[ l ].length ) {
 
@@ -306,7 +315,7 @@ export class Renderer extends MXP.Entity {
 
 		for ( let i = 0; i < stack.gpuCompute.length; i ++ ) {
 
-			const gpu = stack.gpuCompute[ i ].getComponent( MXP.GPUCompute )!;
+			const gpu = stack.gpuCompute[ i ].getComponent( GPUCompute )!;
 
 			this.renderPostProcess( gpu, this.renderCanvasSize );
 
@@ -317,7 +326,7 @@ export class Renderer extends MXP.Entity {
 		for ( let i = 0; i < shadowMapLightList.length; i ++ ) {
 
 			const lightEntity = shadowMapLightList[ i ];
-			const lightComponent = lightEntity.getComponent( MXP.Light )!;
+			const lightComponent = lightEntity.getComponent( Light )!;
 
 			if ( lightComponent.renderTarget ) {
 
@@ -347,7 +356,7 @@ export class Renderer extends MXP.Entity {
 		for ( let i = 0; i < stack.camera.length; i ++ ) {
 
 			const cameraEntity = stack.camera[ i ];
-			const cameraComponent = cameraEntity.getComponent( MXP.RenderCamera )!;
+			const cameraComponent = cameraEntity.getComponent( RenderCamera )!;
 
 			// deferred
 
@@ -426,7 +435,7 @@ export class Renderer extends MXP.Entity {
 
 			// postprocess
 
-			const postProcess = cameraEntity.getComponentByKey<MXP.PostProcess>( 'postProcess' );
+			const postProcess = cameraEntity.getComponentByKey<PostProcess>( 'postProcess' );
 
 			if ( postProcess && postProcess.enabled ) {
 
@@ -459,9 +468,9 @@ export class Renderer extends MXP.Entity {
 
 	}
 
-	public renderCamera( renderType: MXP.MaterialRenderType, cameraEntity: MXP.Entity, entities: MXP.Entity[], renderTarget: GLP.GLPowerFrameBuffer | null, canvasSize: GLP.Vector, renderOption?: RenderOption ) {
+	public renderCamera( renderType: MaterialRenderType, cameraEntity: Entity, entities: Entity[], renderTarget: GLP.GLPowerFrameBuffer | null, canvasSize: GLP.Vector, renderOption?: RenderOption ) {
 
-		const camera = cameraEntity.getComponent( MXP.Camera ) || cameraEntity.getComponent( MXP.Light )!;
+		const camera = cameraEntity.getComponent( Camera ) || cameraEntity.getComponent( Light )!;
 
 		renderOption = renderOption || {};
 
@@ -533,8 +542,8 @@ export class Renderer extends MXP.Entity {
 		for ( let i = 0; i < entities.length; i ++ ) {
 
 			const entity = entities[ i ];
-			const material = entity.getComponent( MXP.Material )!;
-			const geometry = entity.getComponent( MXP.Geometry )!;
+			const material = entity.getComponent( Material )!;
+			const geometry = entity.getComponent( Geometry )!;
 
 			drawParam.modelMatrixWorld = entity.matrixWorld;
 			drawParam.modelMatrixWorldPrev = entity.matrixWorldPrev;
@@ -548,9 +557,9 @@ export class Renderer extends MXP.Entity {
 
 	}
 
-	private collectLight( lightEntity: MXP.Entity ) {
+	private collectLight( lightEntity: Entity ) {
 
-		const lightComponent = lightEntity.getComponent( MXP.Light )!;
+		const lightComponent = lightEntity.getComponent( Light )!;
 		const type = lightComponent.lightType;
 
 		const info: LightInfo = {
@@ -574,7 +583,7 @@ export class Renderer extends MXP.Entity {
 
 	}
 
-	public renderPostProcess( postprocess: MXP.PostProcess, canvasSize: GLP.Vector, renderOption?: RenderOption ) {
+	public renderPostProcess( postprocess: PostProcess, canvasSize: GLP.Vector, renderOption?: RenderOption ) {
 
 		// render
 
@@ -672,7 +681,7 @@ export class Renderer extends MXP.Entity {
 
 	}
 
-	private draw( drawId: string, renderType: MXP.MaterialRenderType, geometry: MXP.Geometry, material: MXP.Material, param?: DrawParam ) {
+	private draw( drawId: string, renderType: MaterialRenderType, geometry: Geometry, material: Material, param?: DrawParam ) {
 
 		TextureUnitCounter = 0;
 

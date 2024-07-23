@@ -6,7 +6,6 @@ import timelineFrag from './shaders/timeline.fs';
 
 import { gl } from '~/ts/gl/GLGlobals';
 import { OREngineProjectFrame } from '~/ts/gl/ProjectScene/IO/ProjectSerializer';
-import { Renderer } from '~/ts/gl/ProjectScene/Renderer';
 
 export class TimelineCanvasRenderer extends GLP.EventEmitter {
 
@@ -18,7 +17,7 @@ export class TimelineCanvasRenderer extends GLP.EventEmitter {
 
 	private canvas: HTMLCanvasElement;
 	private canvasCtx: CanvasRenderingContext2D;
-	private glRenderer: Renderer;
+	private glRenderer: MXP.Renderer;
 	private postProcess: MXP.PostProcess;
 
 	private viewPort: number[];
@@ -66,7 +65,7 @@ export class TimelineCanvasRenderer extends GLP.EventEmitter {
 
 		// gl
 
-		this.glRenderer = new Renderer( this.gl );
+		this.glRenderer = new MXP.Renderer( this.gl );
 		this.canvasTexture = new GLP.GLPowerTexture( this.gl );
 
 		// music

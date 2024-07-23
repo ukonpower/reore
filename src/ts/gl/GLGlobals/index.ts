@@ -1,13 +1,13 @@
 import * as GLP from 'glpower';
+import * as MXP from 'maxpower';
 
-import { Renderer } from '../ProjectScene/Renderer';
 import { GPUState } from '../ProjectScene/utils/GPUState';
 import { OREngineResource } from '../Resources';
 
 export const canvas = document.createElement( "canvas" );
 export const gl = canvas.getContext( 'webgl2', { antialias: false } )!;
 export const power = new GLP.Power( gl );
-export const renderer = new Renderer( power.gl );
+export const renderer = new MXP.Renderer( power.gl );
 
 export const globalUniforms: {[key: string]: GLP.Uniforms} = {
 	time: {

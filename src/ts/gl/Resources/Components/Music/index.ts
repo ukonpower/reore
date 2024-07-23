@@ -5,7 +5,6 @@ import musicFrag from './shaders/music.fs';
 import musicVert from './shaders/music.vs';
 
 import { power } from '~/ts/gl/GLGlobals';
-import { shaderParse } from '~/ts/gl/ProjectScene/Renderer/ShaderParser';
 
 const BPM = 85;
 const MUSIC_DURATION = 60 * ( ( 8 * 2 ) / BPM );
@@ -97,7 +96,7 @@ export class Music extends MXP.Component {
 
 			tf.bind( () => {
 
-				program.setShader( shaderParse( MXP.hotGet( "music", musicVert ) ), musicFrag, { transformFeedbackVaryings: [ 'o_left', 'o_right' ] } );
+				program.setShader( MXP.shaderParse( MXP.hotGet( "music", musicVert ) ), musicFrag, { transformFeedbackVaryings: [ 'o_left', 'o_right' ] } );
 
 			} );
 

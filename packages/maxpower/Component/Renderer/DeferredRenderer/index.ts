@@ -1,8 +1,6 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import { gaussWeights } from '../../utils/Math';
-
 import deferredShadingFrag from './shaders/deferredShading.fs';
 import lightShaftFrag from './shaders/lightShaft.fs';
 import ssaoFrag from './shaders/ssao.fs';
@@ -156,7 +154,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 			},
 			uWeights: {
 				type: '1fv',
-				value: gaussWeights( 16 )
+				value: GLP.MathUtils.gaussWeights( 16 )
 			},
 		} );
 
