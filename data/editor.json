@@ -27,6 +27,15 @@
 					]
 				},
 				{
+					"path": "/root/tets",
+					"components": [
+						{
+							"key": "matchMove",
+							"name": "MatchMove"
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/Cube",
 					"components": [
 						{

@@ -76,11 +76,11 @@ export class ProjectSerializer extends GLP.EventEmitter {
 
 	}
 
-	public deserialize( project: OREngineProjectData ) {
+	public deserialize( project: OREngineProjectData, target: MXP.Entity ) {
 
-		const _ = ( node: SceneNode ): MXP.Entity => {
+		const _ = ( node: SceneNode, target?: MXP.Entity ): MXP.Entity => {
 
-			const entity = new MXP.Entity();
+			const entity = target || new MXP.Entity();
 			entity.initiator = "user";
 			entity.name = node.name;
 
@@ -113,15 +113,16 @@ export class ProjectSerializer extends GLP.EventEmitter {
 
 		};
 
-		const root = project.scene ? _( project.scene ) : new MXP.Entity();
+		if ( project.scene ) {
 
-		root.initiator = "god";
+			_( project.scene, target );
 
-		this.applyOverride( root, root, project.objectOverride );
+		}
 
-		return {
-			root
-		};
+		target.initiator = "god";
+
+		this.applyOverride( target, target, project.objectOverride );
+
 
 	}
 

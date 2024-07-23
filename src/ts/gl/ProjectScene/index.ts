@@ -133,36 +133,32 @@ export class ProjectScene extends MXP.Entity {
 
 	public init( project?: OREngineProjectData ) {
 
-		const currentRoot = this.root;
-		currentRoot.remove( this.camera );
-		currentRoot.remove( renderer );
-		currentRoot.disposeRecursive();
+		this.root.remove( this.camera );
+		this.root.remove( renderer );
 
-		currentRoot.position.set( 0, 0, 0 );
-		currentRoot.euler.set( 0, 0, 0 );
-		currentRoot.scale.set( 1, 1, 1 );
+		this.root.disposeRecursive();
+
+		this.root.add( this.camera );
+		this.root.add( renderer );
+
+		this.root.position.set( 0, 0, 0 );
+		this.root.euler.set( 0, 0, 0 );
+		this.root.scale.set( 1, 1, 1 );
+		this.add( this.root );
 
 		this.projectCache = project || null;
 
 		if ( project ) {
 
 			this.name = project.setting.name;
-
-			this.remove( this.root );
-
 			this.setProps( project.setting );
-			this.root = this.projectSerializer.deserialize( project ).root;
-
-			this.add( this.root );
+			this.projectSerializer.deserialize( project, this.root );
 
 		} else {
 
 			this.name = "New Project";
 
 		}
-
-		this.root.add( this.camera );
-		this.root.add( renderer );
 
 		this.emit( "update/graph" );
 		this.emit( "loaded" );
