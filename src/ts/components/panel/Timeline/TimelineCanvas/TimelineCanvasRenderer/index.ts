@@ -45,7 +45,8 @@ export class TimelineCanvasRenderer extends GLP.EventEmitter {
 		this.canvasCtx = this.canvas.getContext( '2d' )!;
 
 		this.glCanvas = document.createElement( 'canvas' );
-		this.gl = this.glCanvas.getContext( 'webgl2' )!;
+		const power = new GLP.Power( this.glCanvas.getContext( 'webgl2' )! );
+		this.gl = power.gl;
 
 		this.canvasSize = new GLP.Vector( this.glCanvas.width, this.glCanvas.height );
 

@@ -6,8 +6,8 @@ import { OREngineResource } from '../Resources';
 
 export const canvas = document.createElement( "canvas" );
 export const gl = canvas.getContext( 'webgl2', { antialias: false } )!;
-export const renderer = new Renderer( gl );
 export const power = new GLP.Power( gl );
+export const renderer = new Renderer( power.gl );
 
 export const globalUniforms: {[key: string]: GLP.Uniforms} = {
 	time: {

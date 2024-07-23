@@ -170,7 +170,7 @@ export class Renderer extends MXP.Entity {
 
 		// pmrem
 
-		this.pmremRender = new PMREMRender( gl, {
+		this.pmremRender = new PMREMRender( this.gl, {
 			input: [ envMap ],
 			resolution: new GLP.Vector( 256 * 3, 256 * 4 ),
 		} );
@@ -178,7 +178,6 @@ export class Renderer extends MXP.Entity {
 		// postprocess
 
 		this.deferredPostProcess = new DeferredRenderer( gl, {
-
 			envMap: this.pmremRender.renderTarget.textures[ 0 ] as GLP.GLPowerTexture,
 			envMapCube: envMap as GLP.GLPowerTextureCube,
 		} );
