@@ -107,6 +107,7 @@ export const initResouces = () => {
 
 	comOther.register( BLidgeClient );
 	comOther.register( Music );
+	comOther.register( MXP.Light );
 
 	/*-------------------------------
 		Textures

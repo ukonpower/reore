@@ -71,6 +71,37 @@
 				"name": "root",
 				"childs": [
 					{
+						"name": "Test",
+						"pos": [
+							0,
+							4.749999999999996,
+							0
+						]
+					}
+				]
+			}
+		},
+		{
+			"setting": {
+				"name": "New Project",
+				"timeline/duration": 679.6000000000003,
+				"timeline/fps": 60
+			},
+			"objectOverride": [
+				{
+					"path": "/root/Test",
+					"components": [
+						{
+							"key": "skybox",
+							"name": "SkyBox"
+						}
+					]
+				}
+			],
+			"scene": {
+				"name": "root",
+				"childs": [
+					{
 						"name": "Test"
 					}
 				]
@@ -80,6 +111,6 @@
 	"settings": {
 		"currentProjectName": "OREngine",
 		"resolutionScale": 0.5,
-		"viewType": "debug"
+		"viewType": "render"
 	}
 }

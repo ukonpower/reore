@@ -335,7 +335,6 @@ export class Renderer extends Entity {
 
 			this.renderCamera( "envMap", cameraEntity, stack.envMap, this.envMapRenderTarget, this.renderCanvasSize );
 
-
 		}
 
 		this.renderPostProcess( this.pmremRender, this.pmremRender.resolution );
@@ -565,6 +564,12 @@ export class Renderer extends Entity {
 		} else if ( type == 'spot' ) {
 
 			this.lights.spot.push( info );
+
+		}
+
+		if ( lightComponent.castShadow && lightComponent.renderTarget == null ) {
+
+			lightComponent.renderTarget = new GLP.GLPowerFrameBuffer( this.gl ).setTexture( [ new GLP.GLPowerTexture( this.gl ).setting( { magFilter: this.gl.LINEAR, minFilter: this.gl.LINEAR } ) ] ).setSize( new GLP.Vector( 512, 512 ) );
 
 		}
 

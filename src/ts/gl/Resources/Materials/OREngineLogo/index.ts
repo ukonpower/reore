@@ -13,6 +13,7 @@ export class OREngineLogo extends MXP.Material {
 			frag: MXP.hotGet( "orengineLogoFrag", orengineLogoFrag ),
 			vert: MXP.hotGet( "orengineLogoVert", orengineLogoVert ),
 			uniforms: globalUniforms.time,
+			phase: [ "deferred", "shadowMap" ]
 		} );
 
 		if ( import.meta.hot ) {
