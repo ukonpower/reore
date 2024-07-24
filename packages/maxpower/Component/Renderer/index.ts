@@ -6,7 +6,6 @@ import { Camera } from '../Camera';
 import { RenderCamera } from '../Camera/RenderCamera';
 import { Geometry } from '../Geometry';
 import { PlaneGeometry } from '../Geometry/PlaneGeometry';
-import { GPUCompute } from '../GPUCompute';
 import { Light, LightType } from '../Light';
 import { MaterialRenderType, Material } from '../Material';
 import { PostProcess } from '../PostProcess';
@@ -311,16 +310,6 @@ export class Renderer extends Entity {
 
 		}
 
-		// gpu
-
-		for ( let i = 0; i < stack.gpuCompute.length; i ++ ) {
-
-			const gpu = stack.gpuCompute[ i ].getComponent( GPUCompute )!;
-
-			this.renderPostProcess( gpu, this.renderCanvasSize );
-
-		}
-
 		// shadowmap
 
 		for ( let i = 0; i < shadowMapLightList.length; i ++ ) {
@@ -583,7 +572,7 @@ export class Renderer extends Entity {
 
 	}
 
-	public renderPostProcess( postprocess: PostProcess, canvasSize: GLP.Vector, renderOption?: RenderOption ) {
+	public renderPostProcess( postprocess: PostProcess, canvasSize?: GLP.Vector, renderOption?: RenderOption ) {
 
 		// render
 
@@ -611,7 +600,11 @@ export class Renderer extends Entity {
 
 				} else {
 
-					this.gl.viewport( 0, 0, canvasSize.x, canvasSize.y );
+					if ( canvasSize ) {
+
+						this.gl.viewport( 0, 0, canvasSize.x, canvasSize.y );
+
+					}
 
 				}
 

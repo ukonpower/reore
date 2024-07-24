@@ -174,7 +174,6 @@ export class Entity extends Exportable {
 			ui: [],
 			shadowMap: [],
 			envMap: [],
-			gpuCompute: [],
 		};
 
 		const childEvent = { ...event } as ComponentUpdateEvent;
@@ -210,14 +209,6 @@ export class Entity extends Exportable {
 		if ( light && light.enabled ) {
 
 			event.renderStack.light.push( this );
-
-		}
-
-		const gpuCompute = this.getComponent( GPUCompute );
-
-		if ( gpuCompute && gpuCompute.enabled ) {
-
-			event.renderStack.gpuCompute.push( this );
 
 		}
 

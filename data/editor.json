@@ -27,7 +27,7 @@
 					]
 				},
 				{
-					"path": "/root/tets",
+					"path": "/root/Test",
 					"components": [
 						{
 							"key": "matchMove",
@@ -65,15 +65,6 @@
 							"name": "SkyBox"
 						}
 					]
-				},
-				{
-					"path": "/root/Test",
-					"components": [
-						{
-							"key": "matchMove",
-							"name": "MatchMove"
-						}
-					]
 				}
 			],
 			"scene": {
@@ -88,7 +79,7 @@
 	],
 	"settings": {
 		"currentProjectName": "OREngine",
-		"resolutionScale": 0.125,
-		"viewType": "render"
+		"resolutionScale": 0.5,
+		"viewType": "debug"
 	}
 }
