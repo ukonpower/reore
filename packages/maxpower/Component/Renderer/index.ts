@@ -285,11 +285,18 @@ export class Renderer extends Entity {
 
 		for ( let i = 0; i < stack.light.length; i ++ ) {
 
-			const light = stack.light[ i ];
+			const lightEntity = stack.light[ i ];
+			const lightComponent = lightEntity.getComponent( Light );
 
-			if ( this.collectLight( light ) ) {
+			if ( lightComponent ) {
 
-				shadowMapLightList.push( light );
+				this.collectLight( lightEntity, lightComponent );
+
+				if ( lightComponent.castShadow && lightComponent.renderTarget ) {
+
+					shadowMapLightList.push( lightEntity );
+
+				}
 
 			}
 
@@ -545,9 +552,8 @@ export class Renderer extends Entity {
 
 	}
 
-	private collectLight( lightEntity: Entity ) {
+	private collectLight( lightEntity: Entity, lightComponent: Light ) {
 
-		const lightComponent = lightEntity.getComponent( Light )!;
 		const type = lightComponent.lightType;
 
 		const info: LightInfo = {
@@ -569,11 +575,11 @@ export class Renderer extends Entity {
 
 		if ( lightComponent.castShadow && lightComponent.renderTarget == null ) {
 
-			lightComponent.renderTarget = new GLP.GLPowerFrameBuffer( this.gl ).setTexture( [ new GLP.GLPowerTexture( this.gl ).setting( { magFilter: this.gl.LINEAR, minFilter: this.gl.LINEAR } ) ] ).setSize( new GLP.Vector( 512, 512 ) );
+			lightComponent.setShadowMap(
+				new GLP.GLPowerFrameBuffer( this.gl ).setTexture( [ new GLP.GLPowerTexture( this.gl ).setting( { magFilter: this.gl.LINEAR, minFilter: this.gl.LINEAR } ) ] )
+			);
 
 		}
-
-		return lightComponent.renderTarget != null;
 
 	}
 

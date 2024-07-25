@@ -17,7 +17,9 @@ export class Light extends ShadowMapCamera {
 
 	public color: GLP.Vector;
 	public intensity: number;
+
 	public castShadow: boolean;
+	private shadowMapSize: GLP.Vector;
 
 	// spot
 
@@ -39,7 +41,8 @@ export class Light extends ShadowMapCamera {
 
 		// shadow
 
-		this.castShadow = true;
+		this.castShadow = false;
+		this.shadowMapSize = new GLP.Vector( 512, 512 );
 
 		// directional
 
@@ -104,6 +107,25 @@ export class Light extends ShadowMapCamera {
 		this.fov = this.angle / Math.PI * 180;
 
 		super.updateProjectionMatrix();
+
+	}
+
+	public setShadowMap( renderTarget: GLP.GLPowerFrameBuffer ) {
+
+		this.renderTarget = renderTarget;
+		this.renderTarget.setSize( this.shadowMapSize );
+
+	}
+
+	public setShadowMapSize( size: GLP.Vector ) {
+
+		this.shadowMapSize.copy( size );
+
+		if ( this.renderTarget ) {
+
+			this.renderTarget.setSize( this.shadowMapSize );
+
+		}
 
 	}
 

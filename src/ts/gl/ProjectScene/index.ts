@@ -116,9 +116,6 @@ export class ProjectScene extends MXP.Entity {
 		this.cameraComponent = this.camera.addComponent( new MainCamera() );
 		const orbitControls = this.camera.getComponent( OrbitControls );
 
-		console.log( "aaaaa" );
-
-
 		if ( orbitControls ) {
 
 			orbitControls.setPosition( new GLP.Vector( 0, 0, 0 ), new GLP.Vector( 0, 0, 5 ) );

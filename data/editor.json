@@ -71,12 +71,7 @@
 				"name": "root",
 				"childs": [
 					{
-						"name": "Test",
-						"pos": [
-							0,
-							4.749999999999996,
-							0
-						]
+						"name": "Test"
 					}
 				]
 			}
