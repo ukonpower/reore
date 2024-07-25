@@ -87,8 +87,39 @@
 					"path": "/root/Test",
 					"components": [
 						{
-							"key": "skybox",
-							"name": "SkyBox"
+							"key": "geometry",
+							"name": "CubeGeometry",
+							"props": {
+								"vertCount": 24
+							}
+						},
+						{
+							"key": "material",
+							"name": "Material"
+						}
+					]
+				},
+				{
+					"path": "/root/Light",
+					"components": [
+						{
+							"key": "light",
+							"name": "Light",
+							"props": {
+								"lightType": "directional",
+								"color": {
+									"x": 1,
+									"y": 1,
+									"z": 1,
+									"w": 0
+								},
+								"intensity": 2.599999999999999,
+								"angle": 49.80000000000001,
+								"blend": 1.3500000000000003,
+								"distance": 30.80000000000001,
+								"decay": 2,
+								"castShadow": true
+							}
 						}
 					]
 				}
@@ -98,6 +129,14 @@
 				"childs": [
 					{
 						"name": "Test"
+					},
+					{
+						"name": "Light",
+						"pos": [
+							0,
+							9.850000000000007,
+							0
+						]
 					}
 				]
 			}

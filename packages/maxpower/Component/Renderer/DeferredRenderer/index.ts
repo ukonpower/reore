@@ -314,9 +314,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 
 		this.ssaoBlur.uniforms.uDepthTexture.value = renderTarget.gBuffer.textures[ 0 ];
 		this.ssaoBlur.uniforms.uNormalTexture.value = renderTarget.gBuffer.textures[ 1 ];
-
 		this.lightShaft.uniforms.uDepthTexture.value = renderTarget.gBuffer.depthTexture;
-
 		this.shading.renderTarget = renderTarget.shadingBuffer;
 
 	}

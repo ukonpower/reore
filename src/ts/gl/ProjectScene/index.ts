@@ -113,6 +113,10 @@ export class ProjectScene extends MXP.Entity {
 
 		this.camera = new MXP.Entity( { name: "camera" } );
 		this.camera.position.set( 0, 0, 5 );
+
+		console.log( "new camera" );
+
+
 		this.cameraComponent = this.camera.addComponent( new MainCamera() );
 		const orbitControls = this.camera.getComponent( OrbitControls );
 

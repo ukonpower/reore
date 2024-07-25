@@ -58,9 +58,9 @@ export const HierarchyNode = ( props: HierarchyNodeProps ) => {
 
 		glEditor.selectEntity( props.entity );
 
-		pushContent( <Picker label='Entity' list={[
+		pushContent( <Picker label={props.entity.name} list={[
 			{
-				label: "New Entity",
+				label: "Add Entity",
 				onClick: () => {
 
 					pushContent(
