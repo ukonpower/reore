@@ -97,13 +97,6 @@ export class Entity extends Exportable {
 
 	public update( event: EntityUpdateEvent ) {
 
-		if ( this.name == "Renderer" ) {
-
-			console.log( "aaaaaa" );
-
-
-		}
-
 		const childEvent = { ...event } as ComponentUpdateEvent;
 		childEvent.entity = this;
 		childEvent.matrix = this.matrixWorld;
@@ -111,6 +104,7 @@ export class Entity extends Exportable {
 		// update components
 
 		// pre
+
 
 		this.preUpdateImpl( event );
 
