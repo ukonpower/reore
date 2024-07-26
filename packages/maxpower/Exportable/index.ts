@@ -9,7 +9,7 @@ export type ExportablePropsOpt = {
 }
 
 type ExportableInitiator = 'user' | 'script' | "god";
-export type ExportableProps = {[key: string]: { value: any, opt?: ExportablePropsOpt, } | ExportableProps}
+export type ExportableProps = {[key: string]: { value: any, opt?: ExportablePropsOpt, } | ExportableProps | undefined}
 export type ExportablePropsSerialized = {[key: string]: any }
 
 export class Exportable extends Resource {
@@ -43,9 +43,11 @@ export class Exportable extends Resource {
 
 				const prop = props[ key ];
 
+				if ( prop === undefined ) return;
+
 				if ( "value" in prop ) {
 
-					propertyValue[ path_ ] = props[ key ].value;
+					propertyValue[ path_ ] = prop.value;
 
 				} else {
 
