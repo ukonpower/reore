@@ -43,6 +43,7 @@ export class ProjectScene extends MXP.Entity {
 	// renderer
 
 	public canvas: HTMLCanvasElement;
+	public enableRender: boolean;
 
 	// camera
 
@@ -85,6 +86,7 @@ export class ProjectScene extends MXP.Entity {
 		// canvas
 
 		this.canvas = canvas;
+		this.enableRender = true;
 
 		// time
 
@@ -200,7 +202,11 @@ export class ProjectScene extends MXP.Entity {
 
 		const renderStack = this.root.finalize( event );
 
-		renderer.render( renderStack );
+		if ( this.enableRender ) {
+
+			renderer.render( renderStack );
+
+		}
 
 		return this.time.delta;
 
