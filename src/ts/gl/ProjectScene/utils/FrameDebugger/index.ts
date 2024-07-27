@@ -101,9 +101,30 @@ export class FrameDebugger extends GLP.EventEmitter {
 
 		// click
 
+		const touchStartPos = new GLP.Vector( 0, 0 );
+
 		const onClick = this.onClick.bind( this );
 
-		elm.addEventListener( "click", onClick );
+		const onPointerDown = ( e: PointerEvent ) => {
+
+			touchStartPos.set( e.clientX, e.clientY );
+
+		};
+
+		const onPointerUp = ( e: PointerEvent ) => {
+
+			const endPos = new GLP.Vector( e.clientX, e.clientY );
+
+			if ( touchStartPos.clone().sub( endPos ).length( ) < 10 ) {
+
+				onClick( e );
+
+			}
+
+		};
+
+		elm.addEventListener( "pointerdown", onPointerDown );
+		elm.addEventListener( "pointerup", onPointerUp );
 
 		// esc
 
@@ -123,7 +144,8 @@ export class FrameDebugger extends GLP.EventEmitter {
 
 		this.once( "dispose", () => {
 
-			elm.removeEventListener( "click", onClick );
+			elm.removeEventListener( "pointerdown", onPointerDown );
+			elm.removeEventListener( "pointerup", onPointerUp );
 			window.removeEventListener( "keydown", onKeydown );
 
 		} );
