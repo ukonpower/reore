@@ -6,8 +6,11 @@ import musicVert from './shaders/music.vs';
 
 import { power } from '~/ts/gl/GLGlobals';
 
-const BPM = 85;
-const MUSIC_DURATION = 60 * ( ( 8 * 2 ) / BPM );
+const BPM = 100;
+const MUSIC_DURATION = 60 * ( ( 8 * ( 4 ) ) / BPM );
+
+
+console.log( MUSIC_DURATION );
 
 
 export class Music extends MXP.Component {

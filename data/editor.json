@@ -3,7 +3,7 @@
 		{
 			"setting": {
 				"name": "OREngine",
-				"timeline/duration": 679.6000000000003,
+				"timeline/duration": 8640,
 				"timeline/fps": 60
 			},
 			"objectOverride": [
@@ -14,23 +14,16 @@
 							"key": "blidgeClient",
 							"name": "BLidgeClient",
 							"props": {
-								"mode": "json",
+								"mode": "websocket",
 								"gltf": true,
-								"gltfPath": "/scene.glb"
+								"gltfPath": "/scene.glb",
+								"websocket/connected": true,
+								"websocket/url": "ws://localhost:3100"
 							}
 						},
 						{
 							"key": "music",
 							"name": "Music"
-						}
-					]
-				},
-				{
-					"path": "/root/Test",
-					"components": [
-						{
-							"key": "matchMove",
-							"name": "MatchMove"
 						}
 					]
 				},
@@ -48,15 +41,6 @@
 					]
 				},
 				{
-					"path": "/root/blidgeRoot/OREngine",
-					"components": [
-						{
-							"key": "material",
-							"name": "OREngineLogo"
-						}
-					]
-				},
-				{
 					"path": "/root/blidgeRoot/SkyBox",
 					"components": [
 						{
@@ -67,12 +51,7 @@
 				}
 			],
 			"scene": {
-				"name": "root",
-				"childs": [
-					{
-						"name": "Test"
-					}
-				]
+				"name": "root"
 			}
 		},
 		{
@@ -142,8 +121,9 @@
 		}
 	],
 	"settings": {
+		"enableRender": false,
 		"currentProjectName": "OREngine",
-		"resolutionScale": 0.5,
+		"resolutionScale": 0.125,
 		"viewType": "render"
 	}
 }

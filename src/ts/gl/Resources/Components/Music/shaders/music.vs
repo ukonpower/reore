@@ -272,32 +272,37 @@ vec2 dada( float time, float loop ) {
 }
 
 /*-------------------------------
-	faaa
+	Kodama
 -------------------------------*/
 
-const float mainCord[] = float[](
-	4.0, 6.0, 7.0, 6.0,
-	7.0, 9.0, 11.0, 6.0,
-	11.0, 13.0, 14.0, 13.0
+const float KODAMA_CODE[] = float[](
+	-24.0, -0.5, 0.0, 3.0,
+	0.0, 0.0, 0.0, 0.0,
+	0.0, 0.0, 0.0, 0.0,
+	0.0, 0.0, 0.0, 0.0
 );
 
-vec2 faaa( float time, float loop ) {
+vec2 kodama( float time, float loop ) {
 
 	int index = int( loop );
-	float envTime = fract( loop );
 
 	vec2 o = vec2( 0.0 );
 
-	for( int i = 0; i < 3; i ++ ) {
+	float w = smoothstep( 0.0, 1.0, ssin( mod(loop, 8.0) * 4.0 ) );
+	w *= step( fract( loop * 0.5 ), 0.5 );
 
-		float scale = mainCord[ index + 4 * i ];
-		float freq = s2f(scale + 12.0); 
+	float s = floor( loop );
 
-		o += ( sin( time * freq ) + sin( time * freq * 1.007 ) );
+	for( int i = 0; i < 4; i ++ ) {
+
+		float scale = KODAMA_CODE[ int(s * 4.0) + i ];
+
+		float freq = s2f(scale - 12.0 - 3.0 ); 
+		o += ssin( (time) * freq ) * w ; 
 
 	}
 
-	o *= 0.05;
+	o *= 0.03;
 
 	return o;
 	
@@ -317,17 +322,21 @@ vec2 music( float time ) {
 	float loop8Phase = floor( loop8 );
 
 	float loop16 = mod( t, 16.0 ); 
-	float loop16Phase = loop16 / 16.0;
+	float loop16Phase = floor( loop16 );
 	
 	float loop32 = mod( t, 32.0 );
-	float loop32Phase = t / 32.0;
+	float loop32Phase = floor( t );
 
 	vec2 o = vec2( 0.0 );
 
 	// click
 
-	o += step( fract( loop4 ), 0.1 ) * ssin( time * s2f(3.0) * 2.0 ) * 0.03;
-	o += step( fract( loop4 / 4.0 ), 0.05 ) * ssin( time * s2f(12.0) * 2.0 ) * 0.02;
+	// o += step( fract( loop4 ), 0.1 ) * ssin( time * s2f(3.0) * 2.0 ) * 0.03;
+	// o += step( fract( loop4 / 4.0 ), 0.05 ) * ssin( time * s2f(12.0) * 2.0 ) * 0.02;
+
+	// kodama
+
+	o += kodama( time, loop8 );
 
 	return o;
 	

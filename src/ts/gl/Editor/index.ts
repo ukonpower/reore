@@ -43,12 +43,9 @@ export class GLEditor extends MXP.Exportable {
 	public canvasWrapElm: HTMLElement | null;
 	public resolutionScale: number;
 
-	// veiw
+	// view
 
-	public viewType: OREngineEditorViewType;
-
-	// frame debugger
-
+	private viewType: OREngineEditorViewType;
 	private frameDebugger: FrameDebugger;
 
 	// sound
@@ -284,6 +281,9 @@ export class GLEditor extends MXP.Exportable {
 	public getProps(): MXP.ExportableProps {
 
 		return {
+			enableRender: {
+				value: this.scene.enableRender,
+			},
 			currentProjectName: {
 				value: this.scene.name,
 			},
@@ -298,6 +298,10 @@ export class GLEditor extends MXP.Exportable {
 	}
 
 	public setPropsImpl( props: MXP.ExportablePropsSerialized ) {
+
+		// render
+
+		this.scene.enableRender = props[ "enableRender" ];
 
 		// viewtype
 
