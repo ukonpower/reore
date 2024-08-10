@@ -6,7 +6,7 @@ import musicVert from './shaders/music.vs';
 
 import { power } from '~/ts/gl/GLGlobals';
 
-const BPM = 100;
+const BPM = 82;
 const MUSIC_DURATION = 60 * ( ( 8 * ( 4 ) ) / BPM );
 
 
@@ -39,7 +39,6 @@ export class Music extends MXP.Component {
 	public timeDomainTexture: GLP.GLPowerTexture;
 	public frequencyArray: Uint8Array;
 	public frequencyTexture: GLP.GLPowerTexture;
-
 
 	constructor( ) {
 

@@ -71,6 +71,16 @@ bool isin( float time, float start, float end ) {
 	
 }
 
+vec3 beat( float time, float beat ) {
+
+	float x = mod( time, beat );
+	float y = x  / beat;
+	float z = floor( beat );
+
+	return vec3( x, y, z );
+	
+}
+
 /*-------------------------------
 	clap
 -------------------------------*/
@@ -129,11 +139,11 @@ vec2 hihat1( float time, float loop ) {
 	Kick
 -------------------------------*/
 
-float kick( float time, float loop ) {
+float kick( float t, float ft ) {
 
-	float envTime = fract( loop );
+	float envTime = fract( t );
 
-	float t = time;
+	float t = ft;
 	t -= 0.1 * exp( -70.0 * envTime );
 	t += 0.1;
 
@@ -144,88 +154,22 @@ float kick( float time, float loop ) {
 
 }
 
-vec2 kick1( float time, float loop ) {
+vec2 kick1( float mt, float ft ) {
 
 	vec2 o = vec2( 0.0 );
 
-	float loop2 = loop - 0.25;
-	float loop3 = loop - 0.625;
+	vec3 b4 = beat( mt, 4.0 );
+	vec3 b8 = beat( mt, 8.0 );
 
-	o += kick( time, loop ) * float[]( 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0  )[int( loop )];
-	o += kick( time, loop2 ) * float[]( 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0  )[int( loop2 )];
-	o += kick( time, loop3 ) * float[]( 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0 )[int( loop3 )];
-
-
-	return o;
-
-}
-
-/*-------------------------------
-	Mooooon
--------------------------------*/
-
-float moooon( float time, float loop ) {
-
-	float envTime = fract( loop );
-
-	float t = time;
-	t -= 1.0 * exp( -7.0 * envTime );
-
-	float o = 0.0;
-	o = ( smoothstep( -1.0, 1.0, sin( t * 200.0 ) ) * 2.0 - 1.0 ) * smoothstep( 1.0, 0.0, envTime );
-	o *= 0.35;
-
-    return o;
-
-} 
-
-/*-------------------------------
-	xylophone
--------------------------------*/
-
-const float xylophoneMelody[] = float[](
-	4.0, 9.0, 11.0, 4.0, 9.0, 11.0, 4.0, 9.0, 11.0, 4.0, 9.0, 11.0, 4.0, 9.0, 11.0,
-	4.0, 9.0, 11.0, 4.0, 9.0, 11.0, 4.0, 9.0, 11.0, 4.0, 9.0, 11.0, 4.0, 9.0, 11.0, 4.0, 9.0,
-	4.0, 9.0, 11.0, 4.0, 9.0, 11.0, 4.0, 9.0, 11.0, 4.0, 9.0, 11.0, 4.0, 9.0, 11.0,
-	4.0, 9.0, 11.0, 4.0, 9.0, 11.0, 4.0, 9.0, 11.0, 4.0, 9.0, 11.0, 4.0, 9.0, 11.0, 4.0, 9.0
-);
-
-const float xylophoneMelody2[] = float[](
-	4.0, 9.0, 11.0, 16.0, 18.0, 16.0, 11.0, 9.0,
-	4.0, 9.0, 11.0, 16.0, 18.0, 16.0, 11.0, 9.0,
-	4.0, 9.0, 11.0, 16.0, 18.0, 16.0, 11.0, 9.0,
-	4.0, 9.0, 11.0, 16.0, 18.0, 16.0, 11.0, 9.0,
-	6.0, 9.0, 11.0, 16.0, 18.0, 16.0, 11.0, 9.0,
-	6.0, 9.0, 11.0, 16.0, 18.0, 16.0, 11.0, 9.0,
-	6.0, 9.0, 11.0, 16.0, 18.0, 16.0, 11.0, 9.0,
-	6.0, 9.0, 11.0, 16.0, 18.0, 16.0, 11.0, 9.0
-);
-
-vec2 xylophone1( float time, float loop, float type ) {
-
-	vec2 o = vec2( 0.0 );
-
-	float envTime = fract( loop );
-
-	float t = time;
-	t -= 0.02 * exp( -70.0 * envTime );
-	t += 0.02;
-
-	float s = xylophoneMelody[int( loop )];
-
-	if( type == 1.0 ) {
-
-		s = xylophoneMelody2[int( loop )];
+	for(int i = 0; i < 3; i++){
 		
-	}
+		float l = b4.y - float(i) / ( 16.0 / 3.0 );
 
-	for(int i = 0; i < 1; i++){
+		if( i != 2 || b8.y > 0.5 ) {
 
-		float fi = float( i ) / 2.0;
+			o += kick( l, ft );
 
-		float v = ( smoothstep( -0.5, 0.5, ssin( t * s2f( s + 12.0 * float( i ) ) ) ) * 2.0 - 1.0 ) * smoothstep( 1.0, 0.1, envTime );
-
-		o += v * 0.03 * ( 1.0 - fi * 1.5 );
+		}
 		
 	}
 
@@ -233,110 +177,25 @@ vec2 xylophone1( float time, float loop, float type ) {
 
 }
 
-/*-------------------------------
-	dada
--------------------------------*/
 
-vec2 dada( float time, float loop ) {
 
-	int index = int( loop );
-	float envTime = fract( loop );
-	float w = mod(envTime * 8.0, 2.0);
+vec2 music( float t ) {
 
-	vec2 o = vec2( 0.0 );
-
-	for( int i = 0; i < 6; i ++ ) {
-
-		float fi = float( i ) / 6.0;
-		float frec = s2f(4.0 + float(i) * 12.0 ) * pow( 0.5, 4.0 ); 
-
-		float v = saw( time * frec + ssin( w * 20.0 ) + TPI * fi ) * abs( pow( sin( w * TPI ), 3.0 ));
-
-		o.x += v * ( sin( fi * TPI ) * 0.5 + 0.5 );
-		o.y += v * ( cos( fi * TPI ) * 0.5 + 0.5 );
-
-		frec = s2f(4.0 + float(i) * 12.0 ) * pow( 0.5, 10.0 ); 
-		v = tri( time * frec + ssin( w * 21.0 ) + TPI * fi ) * abs( pow( sin( w * TPI ), 1.0 )) * 0.8;
-
-		o.x += v * ( sin( PI / 2.0 + fi * TPI ) * 0.5 + 0.5 );
-		o.y += v * ( cos( PI / 2.0 + fi * TPI ) * 0.5 + 0.5 );
-
-	}
-
-	o *= isin(w, 1.0, 2.0 ) && isin(loop, 1.75, 2.0 ) ? 1.0 : 0.0 ;
-	
-	o *= 0.05;
-
-	return o;
-	
-}
-
-/*-------------------------------
-	Kodama
--------------------------------*/
-
-const float KODAMA_CODE[] = float[](
-	-24.0, -0.5, 0.0, 3.0,
-	0.0, 0.0, 0.0, 0.0,
-	0.0, 0.0, 0.0, 0.0,
-	0.0, 0.0, 0.0, 0.0
-);
-
-vec2 kodama( float time, float loop ) {
-
-	int index = int( loop );
-
-	vec2 o = vec2( 0.0 );
-
-	float w = smoothstep( 0.0, 1.0, ssin( mod(loop, 8.0) * 4.0 ) );
-	w *= step( fract( loop * 0.5 ), 0.5 );
-
-	float s = floor( loop );
-
-	for( int i = 0; i < 4; i ++ ) {
-
-		float scale = KODAMA_CODE[ int(s * 4.0) + i ];
-
-		float freq = s2f(scale - 12.0 - 3.0 ); 
-		o += ssin( (time) * freq ) * w ; 
-
-	}
-
-	o *= 0.03;
-
-	return o;
-	
-}
-
-vec2 music( float time ) {
-
-	float t = time * (uBPM / 60.0);
-	t = max( 0.0, t - 0.0 );
-
-	float loop1 = fract( t );
-	
-	float loop4 = mod( t, 4.0 );
-	float loop4Phase = floor( loop4 );
-
-	float loop8 = mod( t, 8.0 );
-	float loop8Phase = floor( loop8 );
-
-	float loop16 = mod( t, 16.0 ); 
-	float loop16Phase = floor( loop16 );
-	
-	float loop32 = mod( t, 32.0 );
-	float loop32Phase = floor( t );
+	float mt = t * (uBPM / 60.0);
+	mt = max( 0.0, mt - 0.0 );
 
 	vec2 o = vec2( 0.0 );
 
 	// click
+	
+	vec3 beat4 = beat( mt, 4.0 );
 
-	// o += step( fract( loop4 ), 0.1 ) * ssin( time * s2f(3.0) * 2.0 ) * 0.03;
-	// o += step( fract( loop4 / 4.0 ), 0.05 ) * ssin( time * s2f(12.0) * 2.0 ) * 0.02;
+	o += step( fract( beat4.x ), 0.1 ) * ssin( t * s2f(3.0) * 2.0 ) * 0.03;
+	o += step( fract( beat4.x / 4.0 ), 0.05 ) * ssin( t * s2f(12.0) * 2.0 ) * 0.02;
 
-	// kodama
+	// kick
 
-	o += kodama( time, loop8 );
+	o += kick1( mt, t );
 
 	return o;
 	
