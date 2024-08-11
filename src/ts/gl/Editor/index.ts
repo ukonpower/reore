@@ -10,15 +10,23 @@ import { OREngineResource } from '../Resources';
 import { EditorDataManager, OREngineEditorData, OREngineEditorViewType } from './EditorDataManager';
 import { FileSystem } from './FileSystem';
 
+export type EditorTimelineLoop = {
+	enabled: boolean,
+	start: number,
+	end: number,
+}
+
 export class GLEditor extends MXP.Exportable {
+
+	// canvas
+
+	public canvas: HTMLCanvasElement;
+	public canvasWrapElm: HTMLElement | null;
+	public resolutionScale: number;
 
 	// resources
 
 	public resource: OREngineResource;
-
-	// scene
-
-	public selectedEntity: MXP.Entity | null = null;
 
 	// filesystem
 
@@ -37,20 +45,22 @@ export class GLEditor extends MXP.Exportable {
 
 	public scene: ProjectScene;
 
-	// canvas
-
-	public canvas: HTMLCanvasElement;
-	public canvasWrapElm: HTMLElement | null;
-	public resolutionScale: number;
-
 	// view
 
 	private viewType: OREngineEditorViewType;
 	private frameDebugger: FrameDebugger;
 
+	// selected
+
+	public selectedEntity: MXP.Entity | null;
+
 	// sound
 
 	public audioBuffer: AudioBuffer | null;
+
+	// loop
+
+	private frameLoop: EditorTimelineLoop;
 
 	// dispose
 
@@ -185,6 +195,10 @@ export class GLEditor extends MXP.Exportable {
 
 		} );
 
+		// selected
+
+		this.selectedEntity = null;
+
 		// sound
 
 		this.audioBuffer = null;
@@ -194,6 +208,14 @@ export class GLEditor extends MXP.Exportable {
 			this.audioBuffer = buffer;
 
 		} );
+
+		// loop
+
+		this.frameLoop = {
+			enabled: false,
+			start: 0,
+			end: 0,
+		};
 
 		// blidge
 
@@ -254,9 +276,21 @@ export class GLEditor extends MXP.Exportable {
 
 		if ( this.scene.frame.playing ) {
 
-			if ( this.scene.frame.current > this.scene.frameSetting.duration ) {
+			if ( this.scene.frame.current < 0 || this.scene.frame.current > this.scene.frameSetting.duration ) {
 
 				this.scene.frame.current = 0;
+
+			}
+
+			// loop
+
+			if ( this.frameLoop.enabled ) {
+
+				if ( this.scene.frame.current < this.frameLoop.start || this.scene.frame.current > this.frameLoop.end ) {
+
+					this.scene.frame.current = this.frameLoop.start;
+
+				}
 
 			}
 
@@ -292,6 +326,17 @@ export class GLEditor extends MXP.Exportable {
 			},
 			viewType: {
 				value: this.viewType
+			},
+			frameLoop: {
+				enabled: {
+					value: this.frameLoop.enabled,
+				},
+				start: {
+					value: this.frameLoop.start,
+				},
+				end: {
+					value: this.frameLoop.end,
+				}
 			}
 		};
 
@@ -339,6 +384,11 @@ export class GLEditor extends MXP.Exportable {
 
 		this.scene.name = props[ "currentProjectName" ];
 
+		// frameLoop
+		this.frameLoop.enabled = props[ "frameLoop/enabled" ];
+
+		this.frameLoop.start = props[ "frameLoop/start" ] || 0;
+		this.frameLoop.end = Math.max( this.frameLoop.start, props[ "frameLoop/end" ] ) || 100;
 
 	}
 

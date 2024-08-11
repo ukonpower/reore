@@ -24,6 +24,7 @@ export class TimelineCanvasRenderer extends GLP.EventEmitter {
 	private viewPortRange: number[];
 	private viewPortScale: number;
 	private frameSetting: OREngineProjectFrame | null;
+	private loopSetting: { enabled: boolean, start: number, end: number };
 
 	private musicBuffer: AudioBuffer | null;
 	private musicTexture: GLP.GLPowerTexture;
@@ -58,6 +59,14 @@ export class TimelineCanvasRenderer extends GLP.EventEmitter {
 		// frame
 
 		this.frameSetting = null;
+
+		// loop
+
+		this.loopSetting = {
+			enabled: false,
+			start: 0,
+			end: 0
+		};
 
 		// resize
 
@@ -131,6 +140,7 @@ export class TimelineCanvasRenderer extends GLP.EventEmitter {
 			this.canvasCtx.fillRect( s, 0, e - s, this.canvas.height );
 
 		}
+
 
 		// grid
 
@@ -226,6 +236,19 @@ export class TimelineCanvasRenderer extends GLP.EventEmitter {
 
 		}
 
+
+		// loop area
+
+		if ( this.loopSetting.enabled ) {
+
+			this.canvasCtx.fillStyle = '#0009';
+			const s = this.frameToPx( this.loopSetting.start );
+			const e = this.frameToPx( this.loopSetting.end );
+			this.canvasCtx.fillRect( 0, 0, s, this.canvas.height );
+			this.canvasCtx.fillRect( e, 0, this.canvas.width - e, this.canvas.height );
+
+		}
+
 		this.canvasTexture.attach( this.canvas );
 
 		this.postProcess.passes[ 0 ].uniforms.uCanvasTex.value = this.canvasTexture;
@@ -281,6 +304,18 @@ export class TimelineCanvasRenderer extends GLP.EventEmitter {
 			this.render();
 
 		}, 100 );
+
+	}
+
+	public setLoopSetting( enabled: boolean, start: number, end: number ) {
+
+		this.loopSetting = {
+			enabled,
+			start,
+			end
+		};
+
+		this.render();
 
 	}
 

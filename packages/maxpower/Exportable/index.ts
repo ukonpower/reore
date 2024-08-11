@@ -73,7 +73,7 @@ export class Exportable extends Resource {
 
 		this.setPropsImpl( { ...this.getPropsSerialized(), ...props } );
 
-		this.emit( "update/props", [ this.getPropsSerialized() ] );
+		this.emit( "update/props", [ this.getPropsSerialized(), Object.keys( props ) ] );
 
 	}
 
@@ -82,17 +82,27 @@ export class Exportable extends Resource {
 
 	// unit
 
-	public getPropValue( path: string ) {
+	public getPropValue<T>( path: string ) {
 
 		const props = this.getPropsSerialized();
 
-		return props[ path ];
+		return props[ path ] as ( T | undefined );
 
 	}
 
 	public setPropValue( path: string, value: any ) {
 
 		this.setProps( { [ path ]: value } );
+
+	}
+
+	public prop<T>( path: string ) {
+
+		return {
+			path,
+			value: this.getPropValue<T>( path ),
+			set: ( value: T ) => this.setPropValue( path, value )
+		};
 
 	}
 

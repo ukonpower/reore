@@ -22,6 +22,7 @@ export type ValueProps = {
 	onChange?: ( value: ValueType, label: string ) => void
 	vertical?: boolean
 	disabled?: boolean
+	labelAutoWidth?: boolean
 } & ValueOpt
 
 export const Value = ( { value, label, onChange, ...props }: ValueProps ) => {
@@ -77,7 +78,7 @@ export const Value = ( { value, label, onChange, ...props }: ValueProps ) => {
 	}
 
 	return <div className={style.value} data-value_vertical={props.vertical} >
-		{label && <div className={style.value_label} >{label}</div>}
+		{label && <div className={style.value_label} data-auto_width={props.labelAutoWidth} >{label}</div>}
 		<div className={style.input}>
 			<div className={style.input_value}></div>
 			{inputElm}
