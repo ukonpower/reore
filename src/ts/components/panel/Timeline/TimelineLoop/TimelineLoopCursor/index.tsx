@@ -1,4 +1,4 @@
-import { PointerEvent, useCallback, useRef } from 'react';
+import { PointerEvent, useRef } from 'react';
 
 import style from './index.module.scss';
 
@@ -6,36 +6,41 @@ export const TimelineLoopCursor: React.FC<{onMove?: ( movePx: number ) => void}>
 
 	const pointerDownRef = useRef( false );
 
-	const onPointerMove = useCallback( ( e: PointerEvent<HTMLDivElement> ) => {
+	return <div className={style.cursor}
+		onPointerDown={e=> {
 
-		if ( pointerDownRef.current === false ) return;
+			if ( e.buttons == 1 ) {
 
-		const elm = e.target as HTMLElement;
-		elm.setPointerCapture( e.pointerId );
+				pointerDownRef.current = true;
 
-		if ( e.buttons == 1 ) {
+				e.stopPropagation();
 
-			if ( onMove ) onMove( e.clientX );
+			}
 
-		}
+		}}
+		onPointerMove={( e: PointerEvent<HTMLDivElement> ) => {
 
-		e.nativeEvent.preventDefault();
-		e.nativeEvent.stopPropagation();
+			const elm = e.target as HTMLElement;
 
-	}, [ onMove ] );
+			if ( pointerDownRef.current === false ||	e.buttons != 1 ) return;
 
-	return <div className={style.cursor} onPointerDown={e=> {
+			elm.setPointerCapture( e.pointerId );
 
-		pointerDownRef.current = true;
+			if ( e.buttons == 1 ) {
 
-		e.stopPropagation();
+				if ( onMove ) onMove( e.clientX );
 
-	}} onPointerMove={onPointerMove}
-	onPointerUp={e=> {
+			}
 
-		pointerDownRef.current = false;
+			e.nativeEvent.preventDefault();
+			e.nativeEvent.stopPropagation();
 
-	}}
+		}}
+		onPointerUp={()=> {
+
+			pointerDownRef.current = false;
+
+		}}
 	></div>;
 
 };

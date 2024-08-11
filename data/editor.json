@@ -104,7 +104,7 @@
 		"resolutionScale": 0.125,
 		"viewType": "render",
 		"frameLoop/enabled": true,
-		"frameLoop/start": 2106.97485223149,
-		"frameLoop/end": 3685.135201445317
+		"frameLoop/start": 0,
+		"frameLoop/end": 700.2781767677704
 	}
 }

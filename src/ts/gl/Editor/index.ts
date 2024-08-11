@@ -387,8 +387,8 @@ export class GLEditor extends MXP.Exportable {
 		// frameLoop
 		this.frameLoop.enabled = props[ "frameLoop/enabled" ];
 
-		this.frameLoop.start = props[ "frameLoop/start" ] || 0;
-		this.frameLoop.end = Math.max( this.frameLoop.start, props[ "frameLoop/end" ] ) || 100;
+		this.frameLoop.start = Math.max( 0, props[ "frameLoop/start" ] || 0 );
+		this.frameLoop.end = Math.min( this.scene.frameSetting.duration, Math.max( this.frameLoop.start, props[ "frameLoop/end" ] ) || 100 );
 
 	}
 
