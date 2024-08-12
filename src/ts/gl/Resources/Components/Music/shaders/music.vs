@@ -71,13 +71,14 @@ bool isin( float time, float start, float end ) {
 	
 }
 
-vec3 beat( float time, float beat ) {
+vec4 beat( float time, float beat ) {
 
 	float x = mod( time, beat );
 	float y = x  / beat;
-	float z = floor( beat );
+	float z = floor( time );
+	float w = fract( x );
 
-	return vec3( x, y, z );
+	return vec4( x, y, z, w );
 	
 }
 
@@ -85,29 +86,42 @@ vec3 beat( float time, float beat ) {
 	Base
 -------------------------------*/
 
-vec2 base( float mt, float ft ) {
+vec2 base( float mt, float ft, float scale ) {
 
 	vec2 o = vec2( 0.0 );
 
 	float envTime = fract(mt) ;
 	
-	o += sin( ft * s2f(0.0) );
+	for(float i = 0.0; i < 3.0; i++){
 
-	o *= 0.7;
+		o += slope( ssin( ft * s2f( scale - 12.0 + 12.0 * i ) ), 0.3 - i * 0.3 );
+
+	}
+
+	o *= 0.4;
 	
 	return o;
 
 }
 
+const float baseLine[] = float[](
+	10.0, 6.0, 3.0, 5.0, 10.0, 6.0, 3.0, 5.0
+);
+
+
 vec2 base1( float mt, float ft ) { 
 
 	vec2 o = vec2( 0.0 );
 
-	vec3 bt = beat( mt, 4.0 );
+	vec4 bt = beat( mt / 4.0 , 4.0 );
 
-	o += base( bt.y, ft );
+	float scale = baseLine[ int( bt.z ) % 8 ];
+
+	scale -= 12.0 * 3.0;
+
+	o += base( bt.y, ft, scale ) * smoothstep( 0.95, 0.75, bt.w);
 	
-	return o * 0.8;
+	return o * 0.25;
 
 }
 
@@ -129,6 +143,7 @@ float snare( float mt, float ft ) {
 	
 	o += ( fbm( t * 1400.0 ) - 0.5 ) * env * 2.0;
 
+	o *= 0.4;
 	
 	return o;
 
@@ -138,7 +153,7 @@ vec2 snare1( float mt, float ft ) {
 
 	vec2 o = vec2( 0.0 );
 
-	vec3 bt = beat( mt, 4.0 );
+	vec4 bt = beat( mt, 4.0 );
 
 	o += snare( bt.y - 0.725, fract( ft ) );
 	
@@ -206,8 +221,8 @@ vec2 kick1( float mt, float ft ) {
 
 	vec2 o = vec2( 0.0 );
 
-	vec3 b4 = beat( mt, 4.0 );
-	vec3 b8 = beat( mt, 8.0 );
+	vec4 b4 = beat( mt, 4.0 );
+	vec4 b8 = beat( mt, 8.0 );
 
 	for(int i = 0; i < 3; i++){
 		
@@ -235,7 +250,7 @@ vec2 music( float t ) {
 
 	// click
 	
-	vec3 beat4 = beat( mt, 4.0 );
+	vec4 beat4 = beat( mt, 4.0 );
 
 	// o += step( fract( beat4.x ), 0.1 ) * ssin( t * s2f(3.0) * 2.0 ) * 0.03;
 	// o += step( fract( beat4.x / 4.0 ), 0.05 ) * ssin( t * s2f(12.0) * 2.0 ) * 0.02;
@@ -250,7 +265,7 @@ vec2 music( float t ) {
 
 	// base
 
-	o += base( mt, t );
+	o += base1( mt, t );
 
 	return o;
 	
