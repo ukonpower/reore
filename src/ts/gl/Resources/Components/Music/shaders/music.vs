@@ -82,32 +82,67 @@ vec3 beat( float time, float beat ) {
 }
 
 /*-------------------------------
-	clap
+	Base
 -------------------------------*/
 
-float clap( float time, float loop ) {
+vec2 base( float mt, float ft ) {
 
-	float envTime = fract(loop) * 10.0;
+	vec2 o = vec2( 0.0 );
 
-	float o = 0.0;
+	float envTime = fract(mt) ;
 	
-	float env = mix( exp( envTime * - 8.0 ), exp( fract(envTime * 14.0 ) * -5.0), exp( envTime  * -10.0  ) );
-	
-	o += fbm( envTime * 780.0 ) * env * 1.3;
+	o += sin( ft * s2f(0.0) );
+
+	o *= 0.7;
 	
 	return o;
 
 }
 
-vec2 clap1( float time, float loop ) {
+vec2 base1( float mt, float ft ) { 
 
 	vec2 o = vec2( 0.0 );
 
-	float l = loop - 0.5;
+	vec3 bt = beat( mt, 4.0 );
 
-	o += clap( time, l ) * float[]( 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0  )[int(l)];
+	o += base( bt.y, ft );
 	
-	return o * 0.5;
+	return o * 0.8;
+
+}
+
+/*-------------------------------
+	Snare
+-------------------------------*/
+
+float snare( float mt, float ft ) {
+
+	float envTime = fract(mt) ;
+
+	float o = 0.0;
+	
+	float et = envTime;
+	float env = exp( -120.0 * envTime ) ;
+
+	float t = ft;
+	t -= 0.1 * exp( -70.0 * envTime );
+	
+	o += ( fbm( t * 1400.0 ) - 0.5 ) * env * 2.0;
+
+	
+	return o;
+
+}
+
+vec2 snare1( float mt, float ft ) { 
+
+	vec2 o = vec2( 0.0 );
+
+	vec3 bt = beat( mt, 4.0 );
+
+	o += snare( bt.y - 0.725, fract( ft ) );
+	
+	return o * 0.8;
 
 }
 
@@ -115,20 +150,18 @@ vec2 clap1( float time, float loop ) {
 	Hihat
 -------------------------------*/
 
-float hihat( float time, float loop ) {
+float hihat( float mt, float ft ) {
 
-	return noise(time * 22000.0) * max(0.0,1.0-min(0.85,loop*4.25)-(loop-0.25)*0.3);
+	return noise(ft * 22000.0) * max(0.0,1.0-min(0.85,mt*4.25)-(mt-0.25)*0.3);
 
 }
 
-vec2 hihat1( float time, float loop ) {
+vec2 hihat1( float mt, float ft ) {
 	
 	vec2 o = vec2( 0.0 );
 
-	float l4 = loop * 4.0;
+	o += hihat( mt, ft  * 0.01);
 
-	o += hihat( time, fract( l4 ) ) * (step( 0.4, whiteNoise( floor( l4 )) ) * 0.5 + 0.5);
-	o += hihat( time, fract( l4 + 0.5 ) ) * step( 0.5, whiteNoise(  floor( l4 + 0.5 ) * 10.0 + 0.1 ) );
 	o *= 0.04;
 	
 	return o;
@@ -154,6 +187,21 @@ float kick( float t, float ft ) {
 
 }
 
+float lightKick( float mt, float ft ) {
+
+	float envTime = fract( mt );
+
+	float t = ft;
+	t -= 0.05 * exp( -100.0 * envTime );
+
+	float o = ( slope( sin( t * s2f( 5.0 ) ), 0.0 ) ) * exp( - 20.0 * envTime );
+	o *= smoothstep( 0.0, 0.0005, envTime);
+	o *= 0.3;
+
+    return o;
+
+}
+
 vec2 kick1( float mt, float ft ) {
 
 	vec2 o = vec2( 0.0 );
@@ -167,7 +215,7 @@ vec2 kick1( float mt, float ft ) {
 
 		if( i != 2 || b8.y > 0.5 ) {
 
-			o += kick( l, ft );
+			o += lightKick( l, ft );
 
 		}
 		
@@ -176,7 +224,6 @@ vec2 kick1( float mt, float ft ) {
 	return o;
 
 }
-
 
 
 vec2 music( float t ) {
@@ -190,12 +237,20 @@ vec2 music( float t ) {
 	
 	vec3 beat4 = beat( mt, 4.0 );
 
-	o += step( fract( beat4.x ), 0.1 ) * ssin( t * s2f(3.0) * 2.0 ) * 0.03;
-	o += step( fract( beat4.x / 4.0 ), 0.05 ) * ssin( t * s2f(12.0) * 2.0 ) * 0.02;
+	// o += step( fract( beat4.x ), 0.1 ) * ssin( t * s2f(3.0) * 2.0 ) * 0.03;
+	// o += step( fract( beat4.x / 4.0 ), 0.05 ) * ssin( t * s2f(12.0) * 2.0 ) * 0.02;
 
 	// kick
 
 	o += kick1( mt, t );
+
+	// snare
+
+	o += snare1( mt, t ); 
+
+	// base
+
+	o += base( mt, t );
 
 	return o;
 	
