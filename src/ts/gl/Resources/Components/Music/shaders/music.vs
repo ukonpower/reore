@@ -67,18 +67,20 @@ float slope( float value, float slope ) {
 
 bool isin( float time, float start, float end ) {
 
-	return start <= time && time <= end;
+	return start <= time && time < end;
 	
 }
 
 vec4 beat( float time, float beat ) {
 
-	float x = mod( time, beat );
-	float y = x  / beat;
-	float z = floor( time );
-	float w = fract( x );
+	float b = mod( time, beat );
 
-	return vec4( x, y, z, w );
+	return vec4( 
+		b, 
+		floor( time / beat ),
+		b / beat,
+		0.0
+	);
 	
 }
 
@@ -86,15 +88,13 @@ vec4 beat( float time, float beat ) {
 	Base
 -------------------------------*/
 
-vec2 base( float mt, float ft, float scale ) {
+vec2 base( float et, float ft, float scale ) {
 
 	vec2 o = vec2( 0.0 );
 
-	float envTime = fract(mt) ;
-	
-	for(float i = 0.0; i < 3.0; i++){
+	for(float i = 0.0; i < 2.0; i++){
 
-		o += slope( ssin( ft * s2f( scale - 12.0 + 12.0 * i ) ), 0.3 - i * 0.3 );
+		o += slope( ssin( ft * s2f( scale - 12.0 + 12.0 * i ) + float( i ) * 0.1 ), 0.3 - i * 0.3 );
 
 	}
 
@@ -115,11 +115,14 @@ vec2 base1( float mt, float ft ) {
 
 	vec4 bt = beat( mt / 4.0 , 4.0 );
 
-	float scale = baseLine[ int( bt.z ) % 8 ];
+	float scale = baseLine[ int( bt.x ) % 8 ];
 
-	scale -= 12.0 * 3.0;
+	scale -= 12.0 * 2.0;
 
-	o += base( bt.y, ft, scale ) * smoothstep( 0.95, 0.75, bt.w);
+	float et = fract( bt.x );
+
+	o += base( et, ft, scale ) * smoothstep( 0.95, 0.75, et );
+	o *= smoothstep( 0.0, 0.001, et );
 	
 	return o * 0.25;
 
@@ -129,33 +132,43 @@ vec2 base1( float mt, float ft ) {
 	Snare
 -------------------------------*/
 
-float snare( float mt, float ft ) {
-
-	float envTime = fract(mt) ;
+float snare( float et, float ft, float etw ) {
 
 	float o = 0.0;
-	
-	float et = envTime;
-	float env = exp( -120.0 * envTime ) ;
+
+	et = fract( et );
 
 	float t = ft;
-	t -= 0.1 * exp( -70.0 * envTime );
+	t -= 0.2 * exp( -0.0 * et * etw );
 	
-	o += ( fbm( t * 1400.0 ) - 0.5 ) * env * 2.0;
+	o += ( fbm( t * 2900.0 ) - 0.5 ) * exp( -200.0 * et * etw ) * 2.0;
 
-	o *= 0.4;
+	o *= 0.7;
 	
 	return o;
 
 }
 
+
 vec2 snare1( float mt, float ft ) { 
 
 	vec2 o = vec2( 0.0 );
 
-	vec4 bt = beat( mt, 4.0 );
+	vec4 bt = beat( mt, 8.0 );
 
-	o += snare( bt.y - 0.725, fract( ft ) );
+	o += snare( bt.z - (1.0 - 0.125), fract( ft ), 1.0 );
+	
+	return o * 0.8;
+
+}
+
+vec2 snare2( float mt, float ft ) { 
+
+	vec2 o = vec2( 0.0 );
+
+	vec4 bt = beat( mt, 2.0 );
+
+	o += snare( bt.z - (0.5), fract( ft ), 0.25 );
 	
 	return o * 0.8;
 
@@ -202,9 +215,9 @@ float kick( float t, float ft ) {
 
 }
 
-float lightKick( float mt, float ft ) {
+float lightKick( float et, float ft ) {
 
-	float envTime = fract( mt );
+	float envTime = fract( et );
 
 	float t = ft;
 	t -= 0.05 * exp( -100.0 * envTime );
@@ -226,13 +239,77 @@ vec2 kick1( float mt, float ft ) {
 
 	for(int i = 0; i < 3; i++){
 		
-		float l = b4.y - float(i) / ( 16.0 / 3.0 );
+		float l = b4.z - float(i) / ( 16.0 / 3.0 );
 
-		if( i != 2 || b8.y > 0.5 ) {
+		if( i != 2 || b8.z > 0.5 ) {
 
 			o += lightKick( l, ft );
 
 		}
+		
+	}
+
+	return o;
+
+}
+
+
+/*-------------------------------
+	xylophone
+-------------------------------*/
+
+const float xylophoneMelody[] = float[](
+	1.0, 10.0, 13.0,
+	3.0, 8.0, 12.0,
+	5.0, 10.0, 13.0,
+
+	5.0, 10.0, 13.0,
+	3.0, 12.0, 15.0,
+	1.0, 10.0, 13.0,
+
+	1.0, 8.0, 12.0,
+
+	
+
+	1.0, 10.0, 13.0,
+	3.0, 8.0, 12.0,
+	5.0, 10.0, 13.0,
+
+	5.0, 10.0, 13.0,
+	3.0, 12.0, 15.0,
+	1.0, 10.0, 13.0,
+
+	5.0, 10.0, 13.0
+);
+
+vec2 xylophone1( float mt, float ft ) {
+
+	vec2 o = vec2( 0.0 );
+
+	float ph = floor( mod( mt, 8.0 ) / 4.0 );
+	ph = 0.0;
+
+	mt = mod(mt, 4.0) / (4.0 / ( 16.0 / 3.0 ));
+
+	vec4 b4 = beat( mt, 6.0 );
+
+	float envTime = fract( b4.x );
+
+	float sb = floor( b4.x ) * 3.0 + ph * 18.0;
+
+	float w =  smoothstep( 1.0, 0.1, envTime );
+
+	float t = ft;
+	t -= 0.02 * exp( -100.0 * envTime );
+	t += 0.02;
+
+	for(int i = 0; i < 3; i++){
+
+		float s = xylophoneMelody[ int( sb ) + i ] - 12.0;
+
+		float v = ( smoothstep( -0.5, 0.5, ssin( t * s2f( s ) ) ) * 2.0 - 1.0 ) * w;
+
+		o += v * 0.03;// * ( 1.0 - fi * 1.5 );
 		
 	}
 
@@ -248,24 +325,34 @@ vec2 music( float t ) {
 
 	vec2 o = vec2( 0.0 );
 
+	vec4 beat4 = beat( mt, 4.0 );
+	vec4 beat16 = beat( mt, 16.0 );
+
 	// click
 	
-	vec4 beat4 = beat( mt, 4.0 );
+	o += step( fract( beat4.x ), 0.1 ) * ssin( t * s2f(3.0) * 2.0 ) * 0.03;
+	o += step( fract( beat4.x / 4.0 ), 0.05 ) * ssin( t * s2f(12.0) * 2.0 ) * 0.02;
 
-	// o += step( fract( beat4.x ), 0.1 ) * ssin( t * s2f(3.0) * 2.0 ) * 0.03;
-	// o += step( fract( beat4.x / 4.0 ), 0.05 ) * ssin( t * s2f(12.0) * 2.0 ) * 0.02;
 
-	// kick
+	if( isin( beat16.y, 0.0, 2.0 ) ) {
 
-	o += kick1( mt, t );
+		o += kick1( mt, t );
 
-	// snare
+		o += snare1( mt, t ); 
 
-	o += snare1( mt, t ); 
+	}
 
-	// base
+	if( isin( beat16.y, 2.0, 4.0 ) ) {
+
+		o += kick1( mt, t );
+		o += snare2( mt, t );
+
+		o += xylophone1( mt, t );
+
+	}
 
 	o += base1( mt, t );
+
 
 	return o;
 	
