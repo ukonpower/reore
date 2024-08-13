@@ -268,18 +268,7 @@ const float xylophoneMelody[] = float[](
 	1.0, 10.0, 13.0,
 
 	1.0, 8.0, 12.0,
-
-	
-
-	1.0, 10.0, 13.0,
-	3.0, 8.0, 12.0,
-	5.0, 10.0, 13.0,
-
-	5.0, 10.0, 13.0,
-	3.0, 12.0, 15.0,
-	1.0, 10.0, 13.0,
-
-	5.0, 10.0, 13.0
+	3.0, 12.0, 15.0
 );
 
 vec2 xylophone1( float mt, float ft ) {
@@ -287,27 +276,39 @@ vec2 xylophone1( float mt, float ft ) {
 	vec2 o = vec2( 0.0 );
 
 	float ph = floor( mod( mt, 8.0 ) / 4.0 );
-	ph = 0.0;
 
-	mt = mod(mt, 4.0) / (4.0 / ( 16.0 / 3.0 ));
+	vec4 b16 = beat( mt, 16.0 );
+	vec4 b4 = beat( mt, 4.0 );
+	vec4 b6 = beat( mod(mt, 4.0) / (4.0 / ( 16.0 / 3.0 )), 6.0 );
 
-	vec4 b4 = beat( mt, 6.0 );
+	float envTime = fract( b6.x );
 
-	float envTime = fract( b4.x );
+	float scaleBase = floor( b6.x ) * 3.0 + ph * 9.0;
+	float env =  smoothstep( 1.0, 0.99, envTime );
 
-	float sb = floor( b4.x ) * 3.0 + ph * 18.0;
+	if( b6.x > 2.0 ) {
 
-	float w =  smoothstep( 1.0, 0.1, envTime );
+		scaleBase = (mod( b4.y, 2.0 ) == 0.0) ? 2.0 * 3.0 : 5.0 * 3.0; 
+		env = 1.0;
+		envTime = b6.x - 2.0;
+
+	}
+
+	if( mod(b4.y, 4.0) >= 3.0 ) {
+
+		scaleBase = mod( b16.y, 2.0 ) == 0.0 ? 6.0 * 3.0 : 7.0 * 3.0;
+		envTime = b4.x;
+		
+	}
 
 	float t = ft;
 	t -= 0.02 * exp( -100.0 * envTime );
-	t += 0.02;
 
 	for(int i = 0; i < 3; i++){
 
-		float s = xylophoneMelody[ int( sb ) + i ] - 12.0;
+		float s = xylophoneMelody[ int( scaleBase ) + i ] - 12.0;
 
-		float v = ( smoothstep( -0.5, 0.5, ssin( t * s2f( s ) ) ) * 2.0 - 1.0 ) * w;
+		float v = ( smoothstep( -0.5, 0.5, ssin( t * s2f( s ) ) ) * 2.0 - 1.0 ) * env;
 
 		o += v * 0.03;// * ( 1.0 - fi * 1.5 );
 		
