@@ -307,34 +307,44 @@ vec2 xylophone1( float mt, float ft ) {
 	}
 
 	float t = ft;
-	t -= 0.001 * exp( -10.0 * envTime );
+
+	t -= 0.001 * exp( -50.0 * envTime );
 
 	for(int i = 0; i < 3; i++){
 
-		float s = xylophoneMelody[ int( scaleBase ) + i ] - 12.0 * 1.0;
+		float s = xylophoneMelody[ int( scaleBase ) + i ] - 12.0 * 2.0;
 
-		float v = 0.0;
+		for(int j = 0; j < 4; j++){
+			
+			float v = 0.0;
 		
-		v += tanh( 
-			ssin( t * s2f( s ) ) * 
-			( 
-				3.0 +
-				ssin( b6.x * 1.0 ) * 0.5 +
-				exp( envTime * -15.0) * 50.0 
-			)
-		) * env;
+			v = ssin( t * s2f( s - 12.0 ) + float(j) / 4.0 * 0.5 ) * env;
+			
+			v += tanh( 
+				ssin( t * s2f( s ) + v + float(j) / 4.0 * PI ) * 
+				( 
+					2.0 +
+					ssin( b6.x * 1.0 ) * 0.3 +
+					exp( envTime * -10.0) * 8.0 
+				)
+			) * env;
 
+			if( i == 0 ) {
+
+				v *= 0.3;
+				
+			}
+
+			o += v * 0.015;
+
+			
+		}
+
+		
 		// v += tanh( ssin( t * s2f( s + 12.0 )  ) * 1.0 ) * env;
 		// v += tanh( ssin( t * s2f( s + 12.0 )  ) ) * env * noiseV( vec3( ft * 000.0 ) );
 		// v = 1.0;
 		
-		if( i == 0 ) {
-
-			v *= 0.3;
-			
-		}
-
-		o += v * 0.015;
 			
 	}
 
