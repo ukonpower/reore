@@ -91,13 +91,18 @@ vec2 base( float et, float ft, float scale ) {
 
 	vec2 o = vec2( 0.0 );
 
+	scale -= 12.0;
+
 	for(float i = 0.0; i < 2.0; i++){
 
-		o += slope( ssin( ft * s2f( scale - 12.0 + 12.0 * i ) + float( i ) * 0.1 ), 0.3 - i * 0.3 );
+		float v = ssin( ft * s2f( scale - 0.0 ) );
+		v =  tanh( ssin( ft * s2f( scale - 12.0 ) + v * 0.1 + float( i ) * 0.1 ) * 1.0 * 1.15 );
 
+		o += v;
+ 
 	}
 
-	o *= 0.4;
+	// o *= 1.1;
 	
 	return o;
 
