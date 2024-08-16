@@ -1,5 +1,4 @@
 #include <common>
-
 #include <noise>
 
 in float aTime;
@@ -284,7 +283,7 @@ vec2 xylophone1( float mt, float ft ) {
 	float envTime = fract( b6.x );
 
 	float scaleBase = floor( b6.x ) * 3.0 + ph * 9.0;
-	float env =  smoothstep( 1.0, 0.99, envTime );
+	float env =  smoothstep( 1.0, 0.95, envTime );
 
 	if( b6.x > 2.0 ) {
 
@@ -297,27 +296,46 @@ vec2 xylophone1( float mt, float ft ) {
 	if( mod(b4.y, 4.0) >= 3.0 ) {
 
 		scaleBase = mod( b16.y, 2.0 ) == 0.0 ? 6.0 * 3.0 : 7.0 * 3.0;
+		env = 1.0;
 		envTime = b4.x;
 		
 	}
 
 	float t = ft;
-	t -= 0.02 * exp( -100.0 * envTime );
+	t -= 0.001 * exp( -10.0 * envTime );
 
 	for(int i = 0; i < 3; i++){
 
-		float s = xylophoneMelody[ int( scaleBase ) + i ] - 12.0;
+		float s = xylophoneMelody[ int( scaleBase ) + i ] - 12.0 * 1.0;
 
-		float v = ( smoothstep( -0.5, 0.5, ssin( t * s2f( s ) ) ) * 2.0 - 1.0 ) * env;
-
-		o += v * 0.03;// * ( 1.0 - fi * 1.5 );
+		float v = 0.0;
 		
+		v += tanh( 
+			ssin( t * s2f( s ) ) * 
+			( 
+				3.0 +
+				ssin( b6.x * 1.0 ) * 0.5 +
+				exp( envTime * -15.0) * 50.0 
+			)
+		) * env;
+
+		// v += tanh( ssin( t * s2f( s + 12.0 )  ) * 1.0 ) * env;
+		// v += tanh( ssin( t * s2f( s + 12.0 )  ) ) * env * noiseV( vec3( ft * 000.0 ) );
+		// v = 1.0;
+		
+		if( i == 0 ) {
+
+			v *= 0.3;
+			
+		}
+
+		o += v * 0.015;
+			
 	}
 
 	return o;
 
 }
-
 
 vec2 music( float t ) {
 
@@ -331,8 +349,8 @@ vec2 music( float t ) {
 
 	// click
 	
-	o += step( fract( beat4.x ), 0.1 ) * ssin( t * s2f(3.0) * 2.0 ) * 0.03;
-	o += step( fract( beat4.x / 4.0 ), 0.05 ) * ssin( t * s2f(12.0) * 2.0 ) * 0.02;
+	// o += step( fract( beat4.x ), 0.1 ) * ssin( t * s2f(3.0) * 2.0 ) * 0.03;
+	// o += step( fract( beat4.x / 4.0 ), 0.05 ) * ssin( t * s2f(12.0) * 2.0 ) * 0.02;
 
 
 	if( isin( beat16.y, 0.0, 2.0 ) ) {
