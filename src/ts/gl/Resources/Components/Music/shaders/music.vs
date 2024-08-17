@@ -128,7 +128,7 @@ vec2 base1( float mt, float ft ) {
 	o += base( et, ft, scale ) * smoothstep( 0.95, 0.75, et );
 	o *= smoothstep( 0.0, 0.001, et );
 	
-	return o * 0.25;
+	return o * 0.20;
 
 }
 
@@ -288,14 +288,16 @@ vec2 xylophone1( float mt, float ft ) {
 	float envTime = fract( b6.x );
 
 	float scaleBase = floor( b6.x ) * 3.0 + ph * 9.0;
+
 	float env =  smoothstep( 1.0, 0.95, envTime );
+
 
 	if( b6.x > 2.0 ) {
 
 		scaleBase = (mod( b4.y, 2.0 ) == 0.0) ? 2.0 * 3.0 : 5.0 * 3.0; 
 		env = 1.0;
 		envTime = b6.x - 2.0;
-
+		env = smoothstep( 1.0, 0.0, envTime );
 	}
 
 	if( mod(b4.y, 4.0) >= 3.0 ) {
@@ -305,6 +307,9 @@ vec2 xylophone1( float mt, float ft ) {
 		envTime = b4.x;
 		
 	}
+
+	env = smoothstep( 1.0, 0.0, envTime );
+	env *= smoothstep( 0.0, 0.001, envTime );
 
 	float t = ft;
 
@@ -320,22 +325,18 @@ vec2 xylophone1( float mt, float ft ) {
 		
 			v = ssin( t * s2f( s - 12.0 ) + float(j) / 4.0 * 0.5 ) * env;
 			
-			v += tanh( 
-				ssin( t * s2f( s ) + v + float(j) / 4.0 * PI ) * 
+			v += ( 
+				ssin( t * s2f( s ) + v * 0.25 + float(j) / 4.0 * PI ) * 
 				( 
-					2.0 +
+					1.0 +
 					ssin( b6.x * 1.0 ) * 0.3 +
-					exp( envTime * -10.0) * 8.0 
+					exp( envTime * -10.0) * 5.0 
 				)
 			) * env;
 
-			if( i == 0 ) {
+			v *= float( i ) * 0.7 + 0.3;
 
-				v *= 0.3;
-				
-			}
-
-			o += v * 0.015;
+			o += v * 0.015 * 0.4;
 
 			
 		}
