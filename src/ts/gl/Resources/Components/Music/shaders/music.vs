@@ -112,7 +112,6 @@ const float baseLine[] = float[](
 	10.0, 6.0, 3.0, 5.0, 10.0, 6.0, 3.0, 5.0
 );
 
-
 vec2 base1( float mt, float ft ) { 
 
 	vec2 o = vec2( 0.0 );
@@ -132,6 +131,25 @@ vec2 base1( float mt, float ft ) {
 
 }
 
+vec2 base2( float mt, float ft ) { 
+
+	vec2 o = vec2( 0.0 );
+
+	vec4 bt = beat( mt , 8.0 );
+
+	float scale = 10.0;
+
+	scale -= 12.0 * 2.0;
+
+	float et = fract( bt.z ) * 2.0;
+
+	o += base( et, ft, scale ) * smoothstep( 0.95, 0.75, et );
+	o *= smoothstep( 0.0, 0.001, et );
+	
+	return o * 0.20;
+
+}
+
 /*-------------------------------
 	Snare
 -------------------------------*/
@@ -143,11 +161,10 @@ float snare( float et, float ft, float etw ) {
 	et = fract( et );
 
 	float t = ft;
-	t -= 0.2 * exp( -0.0 * et * etw );
 	
-	o += ( fbm( t * 2900.0 ) - 0.5 ) * exp( -200.0 * et * etw ) * 2.0;
+	o += ( fbm( t * 3200.0 ) - 0.5 ) * exp( -150.0 * et * etw );
 
-	o *= 0.7;
+	o *= 1.0;
 	
 	return o;
 
@@ -173,6 +190,18 @@ vec2 snare2( float mt, float ft ) {
 	vec4 bt = beat( mt, 2.0 );
 
 	o += snare( bt.z - (0.5), fract( ft ), 0.25 );
+	
+	return o * 0.8;
+
+}
+
+vec2 snare3( float mt, float ft ) { 
+
+	vec2 o = vec2( 0.0 );
+
+	vec4 bt = beat( mt, 4.0 );
+
+	o += snare( bt.z - (0.725), fract( ft ), 0.5 );
 	
 	return o * 0.8;
 
@@ -275,7 +304,7 @@ const float xylophoneMelody[] = float[](
 	3.0, 12.0, 15.0
 );
 
-vec2 xylophone1( float mt, float ft ) {
+vec2 xylophone1( float mt, float ft, float pitch ) {
 
 	vec2 o = vec2( 0.0 );
 
@@ -308,7 +337,7 @@ vec2 xylophone1( float mt, float ft ) {
 		
 	}
 
-	env = smoothstep( 1.0, 0.0, envTime );
+	env = exp( envTime * -0.5 );
 	env *= smoothstep( 0.0, 0.001, envTime );
 
 	float t = ft;
@@ -317,7 +346,7 @@ vec2 xylophone1( float mt, float ft ) {
 
 	for(int i = 0; i < 3; i++){
 
-		float s = xylophoneMelody[ int( scaleBase ) + i ] - 12.0 * 2.0;
+		float s = xylophoneMelody[ int( scaleBase ) + i ] - 12.0 * 2.0 + pitch;
 
 		for(int j = 0; j < 4; j++){
 			
@@ -371,22 +400,63 @@ vec2 music( float t ) {
 
 	if( isin( beat16.y, 0.0, 2.0 ) ) {
 
+		o += base1( mt, t );
 		o += kick1( mt, t );
-
 		o += snare1( mt, t ); 
 
 	}
 
-	if( isin( beat16.y, 2.0, 4.0 ) ) {
+	if( isin( beat16.y, 2.0, 6.0 ) ) {
 
+		o += base1( mt, t );
 		o += kick1( mt, t );
 		o += snare2( mt, t );
-
-		o += xylophone1( mt, t );
+		o += xylophone1( mt, t, 0.0 );
 
 	}
 
-	o += base1( mt, t );
+	if( isin( beat16.y, 6.0, 8.0 ) ) {
+
+		o += base2( mt, t );
+		o += snare3( mt, t );
+		o += kick1( mt, t );
+
+	}
+
+	if( isin( beat16.y, 8.0, 10.0 ) ) {
+
+		o += base1( mt, t );
+		o += kick1( mt, t );
+		o += snare2( mt, t );
+		o += xylophone1( mt, t, 0.0 );
+
+	}
+
+	if( isin( beat16.y, 10.0, 12.0 ) ) {
+
+		o += base1( mt, t );
+		o += kick1( mt, t );
+		o += snare2( mt, t );
+		o += xylophone1( mt, t, 3.0 );
+
+	}
+
+	if( isin( beat16.y, 12.0, 13.0 ) ) {
+
+		o += base1( mt, t );  
+		o += kick1( mt, t );
+		o += snare1( mt, t );
+		o += xylophone1( mt, t, 0.0 );
+
+	}
+
+	if( isin( beat16.y, 13.0, 14.0 ) ) {
+		o += kick1( mt, t );
+		o += snare1( mt, t );
+		o += xylophone1( mt, t, 0.0 );
+
+	}
+
 
 
 	return o;
