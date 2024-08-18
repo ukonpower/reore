@@ -164,7 +164,7 @@ float snare( float et, float ft, float etw ) {
 	
 	o += ( fbm( t * 3200.0 ) - 0.5 ) * exp( -150.0 * et * etw );
 
-	o *= 1.0;
+	o *= 0.7;
 	
 	return o;
 
@@ -208,28 +208,6 @@ vec2 snare3( float mt, float ft ) {
 }
 
 /*-------------------------------
-	Hihat
--------------------------------*/
-
-float hihat( float mt, float ft ) {
-
-	return noise(ft * 22000.0) * max(0.0,1.0-min(0.85,mt*4.25)-(mt-0.25)*0.3);
-
-}
-
-vec2 hihat1( float mt, float ft ) {
-	
-	vec2 o = vec2( 0.0 );
-
-	o += hihat( mt, ft  * 0.01);
-
-	o *= 0.04;
-	
-	return o;
-  
-}
-
-/*-------------------------------
 	Kick
 -------------------------------*/
 
@@ -237,11 +215,10 @@ float kick( float t, float ft ) {
 
 	float envTime = fract( t );
 
-	float t = ft;
-	t -= 0.1 * exp( -70.0 * envTime );
-	t += 0.1;
+	ft -= 0.1 * exp( -70.0 * envTime );
+	ft += 0.1;
 
-	float o = ( smoothstep( -0.5, 0.5, sin( t * 190.0 ) ) * 2.0 - 1.0 ) * smoothstep( 1.0, 0.1, envTime );
+	float o = ( smoothstep( -0.5, 0.5, sin( ft * 190.0 ) ) * 2.0 - 1.0 ) * smoothstep( 1.0, 0.1, envTime );
 	o *= 0.25;
 
     return o;
@@ -286,12 +263,11 @@ vec2 kick1( float mt, float ft ) {
 
 }
 
-
 /*-------------------------------
-	xylophone
+	Melody
 -------------------------------*/
 
-const float xylophoneMelody[] = float[](
+const float melodyArray[] = float[](
 	1.0, 10.0, 13.0,
 	3.0, 8.0, 12.0,
 	5.0, 10.0, 13.0,
@@ -304,9 +280,7 @@ const float xylophoneMelody[] = float[](
 	3.0, 12.0, 15.0
 );
 
-vec2 xylophone1( float mt, float ft, float pitch ) {
-
-	vec2 o = vec2( 0.0 );
+vec3 getMelody( float mt ) {
 
 	float ph = floor( mod( mt, 8.0 ) / 4.0 );
 
@@ -314,67 +288,80 @@ vec2 xylophone1( float mt, float ft, float pitch ) {
 	vec4 b4 = beat( mt, 4.0 );
 	vec4 b6 = beat( mod(mt, 4.0) / (4.0 / ( 16.0 / 3.0 )), 6.0 );
 
+	float envType = 0.0;
 	float envTime = fract( b6.x );
 
-	float scaleBase = floor( b6.x ) * 3.0 + ph * 9.0;
-
-	float env =  smoothstep( 1.0, 0.95, envTime );
-
+	float scaleIndex = floor( b6.x ) * 3.0 + ph * 9.0;
 
 	if( b6.x > 2.0 ) {
 
-		scaleBase = (mod( b4.y, 2.0 ) == 0.0) ? 2.0 * 3.0 : 5.0 * 3.0; 
-		env = 1.0;
+		scaleIndex = (mod( b4.y, 2.0 ) == 0.0) ? 2.0 * 3.0 : 5.0 * 3.0; 
 		envTime = b6.x - 2.0;
-		env = smoothstep( 1.0, 0.0, envTime );
+		envType = 1.0;
+
 	}
 
 	if( mod(b4.y, 4.0) >= 3.0 ) {
 
-		scaleBase = mod( b16.y, 2.0 ) == 0.0 ? 6.0 * 3.0 : 7.0 * 3.0;
-		env = 1.0;
+		scaleIndex = mod( b16.y, 2.0 ) == 0.0 ? 6.0 * 3.0 : 7.0 * 3.0;
+		envType = 2.0;
 		envTime = b4.x;
 		
 	}
 
-	env = exp( envTime * -0.5 );
+	float env = exp( envTime * -0.4 );
 	env *= smoothstep( 0.0, 0.001, envTime );
 
-	float t = ft;
+	return vec3(
+		scaleIndex,
+		envTime,
+		envType
+	);
+	
+}
 
-	t -= 0.001 * exp( -50.0 * envTime );
+/*-------------------------------
+	xylophone
+-------------------------------*/
+
+vec2 xylophone( float mt, float ft, float pitch ) {
+
+	vec2 o = vec2( 0.0 );
+
+	vec4 b6 = beat( mod(mt, 4.0) / (4.0 / ( 16.0 / 3.0 )), 6.0 );
+
+	vec3 ml = getMelody( mt );
+	
+	ft -= 0.005 * exp( -70.0 * ml.y );
+	
+	float envTime = ml.y;
+	float env = exp( envTime * -0.4 );
+	env *= smoothstep( 0.0, 0.001, envTime );
 
 	for(int i = 0; i < 3; i++){
 
-		float s = xylophoneMelody[ int( scaleBase ) + i ] - 12.0 * 2.0 + pitch;
+		float s = melodyArray[ int( ml.x ) + i ] - 12.0 * 2.0 + pitch;
 
 		for(int j = 0; j < 4; j++){
 			
 			float v = 0.0;
 		
-			v = ssin( t * s2f( s - 12.0 ) + float(j) / 4.0 * 0.5 ) * env;
+			v = ssin( ft * s2f( s - 12.0 ) + float(j) / 4.0 * 0.5 ) * env;
 			
 			v += ( 
-				ssin( t * s2f( s ) + v * 0.25 + float(j) / 4.0 * PI ) * 
+				ssin( ft * s2f( s ) + v * 0.25 + float(j) / 4.0 * PI ) * 
 				( 
 					1.0 +
-					ssin( b6.x * 1.0 ) * 0.3 +
+					ssin( b6.x * 1.0 ) * 0.4 +
 					exp( envTime * -10.0) * 5.0 
 				)
 			) * env;
 
 			v *= float( i ) * 0.7 + 0.3;
 
-			o += v * 0.015 * 0.4;
+			o += v * 0.015 * 0.6;
 
-			
 		}
-
-		
-		// v += tanh( ssin( t * s2f( s + 12.0 )  ) * 1.0 ) * env;
-		// v += tanh( ssin( t * s2f( s + 12.0 )  ) ) * env * noiseV( vec3( ft * 000.0 ) );
-		// v = 1.0;
-		
 			
 	}
 
@@ -382,10 +369,14 @@ vec2 xylophone1( float mt, float ft, float pitch ) {
 
 }
 
+/*-------------------------------
+	Music
+-------------------------------*/
+
 vec2 music( float t ) {
 
 	float mt = t * (uBPM / 60.0);
-	mt = max( 0.0, mt - 0.0 );
+	mt = max( 0.0, mt - 4.0 );
 
 	vec2 o = vec2( 0.0 );
 
@@ -400,7 +391,7 @@ vec2 music( float t ) {
 
 	if( isin( beat16.y, 0.0, 2.0 ) ) {
 
-		o += base1( mt, t );
+		// o += base1( mt, t );
 		o += kick1( mt, t );
 		o += snare1( mt, t ); 
 
@@ -411,7 +402,7 @@ vec2 music( float t ) {
 		o += base1( mt, t );
 		o += kick1( mt, t );
 		o += snare2( mt, t );
-		o += xylophone1( mt, t, 0.0 );
+		o += xylophone( mt, t, 0.0 );
 
 	}
 
@@ -428,7 +419,7 @@ vec2 music( float t ) {
 		o += base1( mt, t );
 		o += kick1( mt, t );
 		o += snare2( mt, t );
-		o += xylophone1( mt, t, 0.0 );
+		o += xylophone( mt, t, 0.0 );
 
 	}
 
@@ -437,7 +428,7 @@ vec2 music( float t ) {
 		o += base1( mt, t );
 		o += kick1( mt, t );
 		o += snare2( mt, t );
-		o += xylophone1( mt, t, 3.0 );
+		o += xylophone( mt, t, 3.0 );
 
 	}
 
@@ -446,14 +437,14 @@ vec2 music( float t ) {
 		o += base1( mt, t );  
 		o += kick1( mt, t );
 		o += snare1( mt, t );
-		o += xylophone1( mt, t, 0.0 );
+		o += xylophone( mt, t, 0.0 );
 
 	}
 
 	if( isin( beat16.y, 13.0, 14.0 ) ) {
 		o += kick1( mt, t );
 		o += snare1( mt, t );
-		o += xylophone1( mt, t, 0.0 );
+		o += xylophone( mt, t, 0.0 );
 
 	}
 

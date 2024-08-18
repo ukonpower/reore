@@ -3,7 +3,7 @@
 		{
 			"setting": {
 				"name": "OREngine",
-				"timeline/duration": 9834,
+				"timeline/duration": 10185.365853658535,
 				"timeline/fps": 60
 			},
 			"objectOverride": [
@@ -104,7 +104,7 @@
 		"resolutionScale": 0.125,
 		"viewType": "render",
 		"frameLoop/enabled": true,
-		"frameLoop/start": 1392.1719799809048,
-		"frameLoop/end": 2797.44891297136
+		"frameLoop/start": 0,
+		"frameLoop/end": 10185.365853658535
 	}
 }
