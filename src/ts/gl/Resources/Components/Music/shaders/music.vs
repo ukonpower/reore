@@ -372,17 +372,17 @@ vec2 zowaa( float mt, float ft, float pitch, float offset ) {
 
 	for(int i = 0; i < 3; i++){
 
-		float s = melodyArray[ int( ml.x ) + i ] - 12.0 * 2.0 + pitch;
+		float s = melodyArray[ int( ml.x ) + i ] - 12.0 * 0.0 + pitch;
 
 		vec2 v = vec2( 0.0 );
 
-		v += saw( ft * s2f( s ) + vec2( 0.0, 0.1 ) ) * start * env;
+		v += saw( ft * s2f( s - 12.0 )  ) * env * start;
 
-		o += v * 0.05;
+		o += v * 0.04;
 			
 	}
 
-	o *= tanh( cos( easeIn(start, 2.5) * PI * 9.0 ) * 2.0 );
+	o *= tanh( cos( easeIn(start, 2.5) * PI * 9.0 ) * 2.0 ) * 0.8;
 
 	return o;
 
@@ -466,14 +466,11 @@ vec2 howahowa1( float mt, float ft, float pitch ) {
 	vec4 b4 = beat( mt, 4.0 );
 	vec4 b14 = beat( mt * 4.0, 8.0 );
 
-	// int index = int( mod( floor( b14.x ) * 1.0 * 1.0, 8.0 ) );
 	int index = int( floor( b14.x + 2.0 ) );
 
 	float s = howahowaArray[ index ];
 	float v = howahowa( fract( b14.x ), ft, s + pitch );
 	o += v * 0.8;
-
-	// o *= step( mod(b4.y, 2.0 ), 0.0 );
 
 	return o;
 
@@ -534,9 +531,9 @@ vec2 music( float t ) {
 		o += xylophone( mt, t, 0.0 );
 		o += howahowa2( mt, t, 0.0 ) * 0.8;
 
-		if( isin( beat16.w, 3.75, 6.0 ) ) {
+		if( isin( beat16.w, 4.0, 6.0 ) ) {
 
-			// o += zowaa( mt, t, 0.0, 4.0 )  * 0.75;
+			o += zowaa( mt, t, 0.0, 4.0 )  * 0.75;
 			
 		}
 
@@ -565,7 +562,7 @@ vec2 music( float t ) {
 		o += kick1( mt, t );
 		o += snare2( mt, t );
 		o += xylophone(mt_, t, 3.0 );
-		o += zowaa(mt_, t, 3.0, 0.0 ) * 0.7;
+		o += zowaa(mt_, t, 3.0, 8.0 ) * 0.7;
 
 	}
 
