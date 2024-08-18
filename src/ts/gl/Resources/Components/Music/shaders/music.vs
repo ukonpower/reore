@@ -78,7 +78,7 @@ vec4 beat( float time, float beat ) {
 		b, 
 		floor( time / beat ),
 		b / beat,
-		0.0
+		time / beat
 	);
 	
 }
@@ -288,7 +288,7 @@ vec3 getMelody( float mt ) {
 	vec4 b4 = beat( mt, 4.0 );
 	vec4 b6 = beat( mod(mt, 4.0) / (4.0 / ( 16.0 / 3.0 )), 6.0 );
 
-	float envType = 0.0;
+	float envScale = 1.0;
 	float envTime = fract( b6.x );
 
 	float scaleIndex = floor( b6.x ) * 3.0 + ph * 9.0;
@@ -297,14 +297,14 @@ vec3 getMelody( float mt ) {
 
 		scaleIndex = (mod( b4.y, 2.0 ) == 0.0) ? 2.0 * 3.0 : 5.0 * 3.0; 
 		envTime = b6.x - 2.0;
-		envType = 1.0;
+		envScale = 2.0;
 
 	}
 
 	if( mod(b4.y, 4.0) >= 3.0 ) {
 
 		scaleIndex = mod( b16.y, 2.0 ) == 0.0 ? 6.0 * 3.0 : 7.0 * 3.0;
-		envType = 2.0;
+		envScale = 4.0;
 		envTime = b4.x;
 		
 	}
@@ -315,9 +315,38 @@ vec3 getMelody( float mt ) {
 	return vec3(
 		scaleIndex,
 		envTime,
-		envType
+		envScale
 	);
 	
+}
+
+/*-------------------------------
+	zowaa
+-------------------------------*/
+
+vec2 zowaa( float mt, float ft, float pitch ) {
+
+	vec2 o = vec2( 0.0 );
+
+	vec3 ml = getMelody( mt );
+	
+	float envTime = ml.y;
+	float env = 1.0; //smoothstep( ml.z, 0.9, envTime );
+	env *= smoothstep( 0.0, 0.001, envTime );
+
+	for(int i = 0; i < 3; i++){
+
+		float s = melodyArray[ int( ml.x ) + i ] - 12.0 * 1.0 + pitch;
+
+		float v = 0.0;
+		v = saw( ft * s2f( s - 12.0 ) ) * env;
+
+		o += v * 0.05;
+			
+	}
+
+	return o;
+
 }
 
 /*-------------------------------
@@ -404,6 +433,12 @@ vec2 music( float t ) {
 		o += snare2( mt, t );
 		o += xylophone( mt, t, 0.0 );
 
+		if( isin( beat16.y, 4.0, 6.0 ) ) {
+
+			o += zowaa( mt, t, 0.0 )  * 0.75;
+			
+		}
+
 	}
 
 	if( isin( beat16.y, 6.0, 8.0 ) ) {
@@ -414,21 +449,28 @@ vec2 music( float t ) {
 
 	}
 
-	if( isin( beat16.y, 8.0, 10.0 ) ) {
+	if( isin( beat16.y, 8.0, 9.0 ) ) {
 
-		o += base1( mt, t );
-		o += kick1( mt, t );
-		o += snare2( mt, t );
 		o += xylophone( mt, t, 0.0 );
-
+	
+		
 	}
 
-	if( isin( beat16.y, 10.0, 12.0 ) ) {
+	if( isin( beat16.y, 9.0, 12.0 ) ) {
 
+		float mt_ = mt;
+
+		if( isin( beat16.y, 9.0, 10.0 ) ) {
+
+			mt_ -= 16.0;
+
+		}
+		
 		o += base1( mt, t );
 		o += kick1( mt, t );
 		o += snare2( mt, t );
-		o += xylophone( mt, t, 3.0 );
+		o += xylophone(mt_, t, 3.0 );
+		o += zowaa(mt_, t, 3.0 ) * 0.7;
 
 	}
 
@@ -442,6 +484,7 @@ vec2 music( float t ) {
 	}
 
 	if( isin( beat16.y, 13.0, 14.0 ) ) {
+		
 		o += kick1( mt, t );
 		o += snare1( mt, t );
 		o += xylophone( mt, t, 0.0 );
