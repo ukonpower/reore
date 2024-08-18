@@ -28,6 +28,15 @@ float saw(float time){
 	
 }
 
+vec2 saw( vec2 time ) {
+
+	return vec2( 
+		saw( time.x ),
+		saw( time.y )
+	);
+	
+}
+
 float square( float time) {
 
 	return sign( fract( time ) - 0.1 );
@@ -149,6 +158,34 @@ vec2 base2( float mt, float ft ) {
 	return o * 0.20;
 
 }
+
+/*-------------------------------
+	Hihat
+-------------------------------*/
+
+// float hihat( float mt, float ft ) {
+
+// 	return fbm(ft * 1500.0) * max(0.0,1.0-min(0.85,mt*4.25)-(mt-0.25)*0.3);
+
+// }
+
+// vec2 hihat1( float mt, float ft ) {
+	
+// 	vec2 o = vec2( 0.0 );
+
+// 	vec4 b4 = beat( mt, 4.0 );
+
+// 	float l4 = fract( b4.x * 4.0 );
+// 	float l4_ = fract( b4.x * 4.0 + 0.5 );
+
+// 	o += hihat( l4, ft ) *  (step( 0.5, fbm( floor( b4.x * 8.0 ) ) ) );
+// 	o += hihat( l4_, ft );
+// 	o *= 0.2;
+	
+// 	return o;
+  
+// }
+
 
 /*-------------------------------
 	Snare
@@ -324,26 +361,49 @@ vec3 getMelody( float mt ) {
 	zowaa
 -------------------------------*/
 
-vec2 zowaa( float mt, float ft, float pitch ) {
+vec2 zowaa( float mt, float ft, float pitch, float offset ) {
 
 	vec2 o = vec2( 0.0 );
 
+	mt -= offset * 16.0;
+
 	vec3 ml = getMelody( mt );
-	
+
+	float start = 1.0;
+
+	if( mt < 0.0 ) {
+
+		ml = vec3(
+			0.0,
+			1.0,
+			1.0
+		);
+
+		start = linearstep( -2.5, 0.0, mt );
+
+	}
+
 	float envTime = ml.y;
-	float env = 1.0; //smoothstep( ml.z, 0.9, envTime );
+	float env = start;
 	env *= smoothstep( 0.0, 0.001, envTime );
 
 	for(int i = 0; i < 3; i++){
 
 		float s = melodyArray[ int( ml.x ) + i ] - 12.0 * 1.0 + pitch;
 
-		float v = 0.0;
-		v = saw( ft * s2f( s - 12.0 ) ) * env;
+		vec2 v = vec2( 0.0 );
+
+		for(int j = 0; j < 1; j++){
+			
+			v += saw( ft * s2f( s - 12.0 ) + vec2( 0.0, 0.1 ) + float( j ) / 3.0 ) * start * env;
+
+		}
 
 		o += v * 0.05;
 			
 	}
+
+	o *= tanh( cos( easeIn(start, 2.5) * PI * 9.0 ) * 2.0 );
 
 	return o;
 
@@ -360,7 +420,7 @@ vec2 xylophone( float mt, float ft, float pitch ) {
 	vec4 b6 = beat( mod(mt, 4.0) / (4.0 / ( 16.0 / 3.0 )), 6.0 );
 
 	vec3 ml = getMelody( mt );
-	
+
 	ft -= 0.005 * exp( -70.0 * ml.y );
 	
 	float envTime = ml.y;
@@ -417,6 +477,8 @@ vec2 music( float t ) {
 	// o += step( fract( beat4.x ), 0.1 ) * ssin( t * s2f(3.0) * 2.0 ) * 0.03;
 	// o += step( fract( beat4.x / 4.0 ), 0.05 ) * ssin( t * s2f(12.0) * 2.0 ) * 0.02;
 
+	// o += hihat1(mt, t);
+
 
 	if( isin( beat16.y, 0.0, 2.0 ) ) {
 
@@ -433,9 +495,9 @@ vec2 music( float t ) {
 		o += snare2( mt, t );
 		o += xylophone( mt, t, 0.0 );
 
-		if( isin( beat16.y, 4.0, 6.0 ) ) {
+		if( isin( beat16.w, 3.75, 6.0 ) ) {
 
-			o += zowaa( mt, t, 0.0 )  * 0.75;
+			o += zowaa( mt, t, 0.0, 4.0 )  * 0.75;
 			
 		}
 
@@ -460,17 +522,12 @@ vec2 music( float t ) {
 
 		float mt_ = mt;
 		mt_ -= 16.0;
-
-		if( isin( beat16.y, 9.0, 10.0 ) ) {
-
-
-		}
 		
 		o += base1( mt, t );
 		o += kick1( mt, t );
 		o += snare2( mt, t );
 		o += xylophone(mt_, t, 3.0 );
-		o += zowaa(mt_, t, 3.0 ) * 0.7;
+		o += zowaa(mt_, t, 3.0, 0.0 ) * 0.7;
 
 	}
 
@@ -490,8 +547,6 @@ vec2 music( float t ) {
 		o += xylophone( mt, t, 0.0 );
 
 	}
-
-
 
 	return o;
 	

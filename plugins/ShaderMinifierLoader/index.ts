@@ -109,7 +109,7 @@ export const ShaderMinifierLoader = (): Plugin => {
 
 			}
 
-			if ( false ) {
+			if ( true ) {
 
 				return {
 					code: `export default ${JSON.stringify( code )};`,
