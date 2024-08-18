@@ -459,10 +459,10 @@ vec2 music( float t ) {
 	if( isin( beat16.y, 9.0, 12.0 ) ) {
 
 		float mt_ = mt;
+		mt_ -= 16.0;
 
 		if( isin( beat16.y, 9.0, 10.0 ) ) {
 
-			mt_ -= 16.0;
 
 		}
 		
