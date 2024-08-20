@@ -346,7 +346,7 @@ vec2 zowaa( float mt, float ft, float pitch, float offset ) {
 
 		vec2 v = vec2( 0.0 );
 
-		// v += ssin( ft * s2f(  s  ) + saw( ft * s2f( s ) ) * 0.05 + fbm( mt * 9.0 ) * 1.0  ) * env * start;
+		v += ssin( ft * s2f(  s  ) + ssin( ft * s2f( s ) ) * 0.1 ) * env * start;
 
 		o += v * 0.04;
 			
