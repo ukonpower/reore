@@ -61,8 +61,8 @@ export const initResouces = () => {
 	const comMaterial = resource.componentCategory( "Material" );
 
 	comMaterial.register( MXP.Material );
-	comMaterial.register( OREngineLogo );
-	comMaterial.register( OREngineCube );
+	// comMaterial.register( OREngineLogo );
+	// comMaterial.register( OREngineCube );
 
 	// controls
 
@@ -75,11 +75,11 @@ export const initResouces = () => {
 		speed: 1.0
 	} );
 
-	comView.register( OrbitControls );
+	// comView.register( OrbitControls );
 
 	comView.register( VJCamera );
 
-	comView.register( TurnTable );
+	// comView.register( TurnTable );
 
 	// entity
 
@@ -87,19 +87,19 @@ export const initResouces = () => {
 
 	comEntity.register( SkyBox );
 
-	comEntity.register( FluidCrystal );
+	// comEntity.register( FluidCrystal );
 
-	comEntity.register( TemplateComponent );
+	// comEntity.register( TemplateComponent );
 
-	comEntity.register( FlashLine );
+	// comEntity.register( FlashLine );
 
-	comEntity.register( MatchMove );
+	// comEntity.register( MatchMove );
 
-	comEntity.register( GridCross );
+	// comEntity.register( GridCross );
 
-	comEntity.register( DashCube );
+	// comEntity.register( DashCube );
 
-	comEntity.register( TextEffect );
+	// comEntity.register( TextEffect );
 
 	// Other
 

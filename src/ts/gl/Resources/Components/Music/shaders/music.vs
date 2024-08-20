@@ -66,22 +66,6 @@ float s2f( float scale ){
 	
 }
 
-float slope( float value, float slope ) {
-
-	if( value >= 0.0 ) {
-
-		return linearstep( 0.0, 1.0 - slope, value );
-
-	} else {
-
-		return linearstep( 0.0, -1.0 + slope, value ) * -1.0;
-		
-	}
-
-	return 0.0;
-	
-}
-
 bool isin( float time, float start, float end ) {
 
 	return start <= time && time < end;
@@ -229,20 +213,6 @@ vec2 snare3( float mt, float ft ) {
 	Kick
 -------------------------------*/
 
-float kick( float t, float ft ) {
-
-	float envTime = fract( t );
-
-	ft -= 0.1 * exp( -70.0 * envTime );
-	ft += 0.1;
-
-	float o = ( smoothstep( -0.5, 0.5, sin( ft * 190.0 ) ) * 2.0 - 1.0 ) * smoothstep( 1.0, 0.1, envTime );
-	o *= 0.25;
-
-    return o;
-
-}
-
 float lightKick( float et, float ft ) {
 
 	float envTime = fract( et );
@@ -250,7 +220,7 @@ float lightKick( float et, float ft ) {
 	float t = ft;
 	t -= 0.05 * exp( -100.0 * envTime );
 
-	float o = ( slope( sin( t * s2f( 5.0 ) ), 0.0 ) ) * exp( - 20.0 * envTime );
+	float o = sin( t * s2f( 5.0 ) ) * exp( - 20.0 * envTime );
 	o *= smoothstep( 0.0, 0.0005, envTime);
 	o *= 0.3;
 
@@ -376,7 +346,7 @@ vec2 zowaa( float mt, float ft, float pitch, float offset ) {
 
 		vec2 v = vec2( 0.0 );
 
-		v += saw( ft * s2f( s - 12.0 )  ) * env * start;
+		// v += ssin( ft * s2f(  s  ) + saw( ft * s2f( s ) ) * 0.05 + fbm( mt * 9.0 ) * 1.0  ) * env * start;
 
 		o += v * 0.04;
 			
@@ -469,8 +439,14 @@ vec2 howahowa1( float mt, float ft, float pitch ) {
 	int index = int( floor( b14.x + 2.0 ) );
 
 	float s = howahowaArray[ index ];
+
 	float v = howahowa( fract( b14.x ), ft, s + pitch );
 	o += v * 0.8;
+
+	float rd = mt * 0.5;
+
+	o.x *= ssin( rd );
+	o.y *= ssin( rd + PI );
 
 	return o;
 
@@ -490,6 +466,33 @@ vec2 howahowa2( float mt, float ft, float pitch ) {
 	float v = howahowa( fract( b14.x ), ft, s + pitch );
 
 	o += v * 0.8;
+
+	float rd = mt * 0.5;
+	o.x *= ssin( rd );
+	o.y *= ssin( rd + PI );
+
+	return o;
+
+}
+
+vec2 howahowa3 ( float mt, float ft, float pitch ) {
+
+	vec2 o = vec2( 0.0 );
+
+	vec4 b4 = beat( mt, 4.0 );
+	vec4 b14 = beat( mt * 4.0, 8.0 );
+
+	int index = int( mod( floor( mt * 4.0 ) * 3.0 + 8.0, 8.0 ) +  abs( 2.0 - mod(b4.y, 4.0) ) );
+
+	float s = howahowaArray[ index ];
+
+	float v = howahowa( fract( b14.x ), ft, s + pitch );
+
+	o += v * 0.8;
+
+	float rd = mt * 0.5;
+	o.x *= ssin( rd );
+	o.y *= ssin( rd + PI );
 
 	return o;
 
@@ -519,7 +522,7 @@ vec2 music( float t ) {
 
 		o += kick1( mt, t );
 		o += snare1( mt, t ); 
-		o += howahowa1( mt, t, 0.0 ) * smoothstep( 1.89, 1.87, beat16.w );
+		o += howahowa1( mt, t, 0.0 ) * step( beat16.w, 1.878 );
 
 	}
 
@@ -529,9 +532,9 @@ vec2 music( float t ) {
 		o += kick1( mt, t );
 		o += snare2( mt, t );
 		o += xylophone( mt, t, 0.0 );
-		o += howahowa2( mt, t, 0.0 ) * 0.8;
+		o += howahowa2( mt, t, 0.0 ) * 0.7;
 
-		if( isin( beat16.w, 4.0, 6.0 ) ) {
+		if( isin( beat16.w, 3.75, 6.0 ) ) {
 
 			o += zowaa( mt, t, 0.0, 4.0 )  * 0.75;
 			
@@ -564,6 +567,8 @@ vec2 music( float t ) {
 		o += xylophone(mt_, t, 3.0 );
 		o += zowaa(mt_, t, 3.0, 8.0 ) * 0.7;
 
+		o += howahowa3( mt_, t, 3.0 ) * 0.7;
+
 	}
 
 	if( isin( beat16.y, 12.0, 13.0 ) ) {
@@ -572,6 +577,7 @@ vec2 music( float t ) {
 		o += kick1( mt, t );
 		o += snare1( mt, t );
 		o += xylophone( mt, t, 0.0 );
+		o += howahowa3( mt, t, 0.0 ) * 0.7;
 
 	}
 
@@ -580,6 +586,8 @@ vec2 music( float t ) {
 		o += kick1( mt, t );
 		o += snare1( mt, t );
 		o += xylophone( mt, t, 0.0 );
+		o += howahowa3( mt, t, 0.0 ) * 0.7;
+
 
 	}
 
