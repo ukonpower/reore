@@ -62,6 +62,11 @@ float noiseV( float x ) {
   return noiseV( vec3(x) );
 }
 
+
+vec2 noiseV( vec2 x ) {
+  return vec2( noiseV( x.x ), noiseV( x.y ) );
+}
+
 float fbm(vec3 x) {
 	float v = 0.0;
 	float a = 0.5;

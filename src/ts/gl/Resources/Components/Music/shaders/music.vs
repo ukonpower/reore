@@ -364,12 +364,35 @@ vec2 zowaa( float mt, float ft, float pitch, float offset ) {
 
 		v *= float( i ) * 0.5 + 0.5;
 
-		o += v * 0.02;
+		o += v * 0.015;
 			
 	}
 
 	o *= tanh( cos( easeIn(start, 2.5) * PI * 5.0 ) * 2.0 ) * 0.8;
-	o *= smoothstep( 0.0, 1.0, envTime );
+	o *= smoothstep( 0.0, 1.5, envTime );
+
+	return o;
+
+}
+
+/*-------------------------------
+	Shuwaa
+-------------------------------*/
+
+vec2 shuwaa( float mt, float ft ) {
+
+	vec2 o = vec2( 0.0 );
+	vec4 b = beat( mt, 16.0 );
+
+	vec2 v = vec2( 0.0 );
+
+	float env = b.z;
+	float ft_ = linearstep(0.3, 1.0, env ) * 1.0;
+
+	float noise = ((noiseV( ft_ * 5500.0 * env) - 0.5) * 1.8 ) * 0.1 * exp(-6.*smoothstep( 1.0,0.3,env)) * smoothstep(1.0,.99,env);
+    v += noise;
+
+	o += v;
 
 	return o;
 
@@ -534,6 +557,7 @@ vec2 music( float t ) {
 	// o += step( fract( beat4.x ), 0.1 ) * ssin( t * s2f(3.0) * 2.0 ) * 0.03;
 	// o += step( fract( beat4.x / 4.0 ), 0.05 ) * ssin( t * s2f(12.0) * 2.0 ) * 0.02;
 
+	o += shuwaa( mt, t );
 
 	if( isin( beat16.y, 0.0, 2.0 ) ) {
 
