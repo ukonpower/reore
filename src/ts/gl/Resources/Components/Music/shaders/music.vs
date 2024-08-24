@@ -103,8 +103,6 @@ vec2 base( float et, float ft, float scale ) {
 		o += v;
  
 	}
-
-	// o *= 1.1;
 	
 	return o;
 
@@ -149,6 +147,29 @@ vec2 base2( float mt, float ft ) {
 	o *= smoothstep( 0.0, 0.001, et );
 	
 	return o * 0.20;
+
+}
+
+vec2 base3( float mt, float ft ) {
+	
+	vec2 o = vec2( 0.0 );
+
+	vec4 bt = beat( mt / 4.0 , 4.0 );
+
+	float scale = baseLine[ int( bt.x ) % 8 ];
+
+	// scale -= 12.0 * 2.0;
+
+	float et = fract( bt.x );
+
+	for(int i = 0; i < 3; i++){
+
+		// o += base( et, ft, scale + 12.0 * float(  i - 1 ) ) * exp( -(1.0 - et) * 5.0 );
+
+	}
+	o *= smoothstep( 0.0, 0.001, et );
+	
+	return o * 0.05;
 
 }
 
@@ -354,10 +375,10 @@ vec2 zowaa( float mt, float ft, float pitch, float offset ) {
 			float w = float( j ) / 12.0;
 			
 			v += ssin( 
-				fft * s2f(  s - 12.0 ) + 
-				saw( 
+				ft * s2f(  s - 12.0 ) + 
+				ssin( 
 					ft * s2f( s - 12.0 * 1.0 + float( j ) * 12.0 ) + w 
-				) * 0.09 + vec2( 0.2, 0.0 ) 
+				) * 0.2 + vec2( 0.2, 0.0 ) 
 			) * env * start * (0.1 + ( 1.0 - w ) * 0.9);
 
 		}
@@ -538,6 +559,12 @@ vec2 howahowa3 ( float mt, float ft, float pitch ) {
 
 }
 
+float getFrec( float t, float m, vec4 b8 ) {
+	
+	return t - ( m * 16.0 + max( 0.0, b8.y - m * 2.0 ) * 8.0 ) * ( 60.0 / uBPM ) ;
+
+}
+
 /*-------------------------------
 	Music
 -------------------------------*/
@@ -550,6 +577,7 @@ vec2 music( float t ) {
 	vec2 o = vec2( 0.0 );
 
 	vec4 beat4 = beat( mt, 4.0 );
+	vec4 beat8 = beat( mt, 8.0 );
 	vec4 beat16 = beat( mt, 16.0 );
 
 	// click
@@ -557,17 +585,18 @@ vec2 music( float t ) {
 	// o += step( fract( beat4.x ), 0.1 ) * ssin( t * s2f(3.0) * 2.0 ) * 0.03;
 	// o += step( fract( beat4.x / 4.0 ), 0.05 ) * ssin( t * s2f(12.0) * 2.0 ) * 0.02;
 
-	o += shuwaa( mt, t );
-
 	if( isin( beat16.y, 0.0, 2.0 ) ) {
+
+		t = getFrec( t, 0.0, beat8 );
 
 		o += kick1( mt, t );
 		o += snare1( mt, t ); 
 		o += howahowa1( mt, t, 0.0 ) * step( beat16.w, 1.878 );
-
 	}
 
 	if( isin( beat16.y, 2.0, 6.0 ) ) {
+
+		t = getFrec( t, 2.0, beat8 );
 
 		o += base1( mt, t );
 		o += kick1( mt, t );
@@ -577,13 +606,15 @@ vec2 music( float t ) {
 
 		if( isin( beat16.w, 3.75, 6.0 ) ) {
 
-			o += zowaa( mt, t, 0.0, 4.0 )  * 0.75;
+			o += base3( mt, t );
 			
 		}
 
 	}
 
 	if( isin( beat16.y, 6.0, 8.0 ) ) {
+
+		t = getFrec( t, 6.0, beat8 );
 
 		o += base2( mt, t );
 		o += snare3( mt, t );
@@ -593,11 +624,15 @@ vec2 music( float t ) {
 
 	if( isin( beat16.y, 8.0, 9.0 ) ) {
 
+		t = getFrec( t, 8.0, beat8 );
+
 		o += xylophone( mt, t, 0.0 );
 	
 	}
 
 	if( isin( beat16.y, 9.0, 12.0 ) ) {
+
+		t = getFrec( t, 9.0, beat8 );
 
 		float mt_ = mt;
 		mt_ -= 16.0;
@@ -606,13 +641,14 @@ vec2 music( float t ) {
 		o += kick1( mt, t );
 		o += snare2( mt, t );
 		o += xylophone(mt_, t, 3.0 );
-		o += zowaa(mt_, t, 3.0, 8.0 ) * 0.7;
-
 		o += howahowa3( mt_, t, 3.0 ) * 0.7;
+		o += zowaa(mt_, t, 3.0, 8.0 ) * 0.7;
 
 	}
 
 	if( isin( beat16.y, 12.0, 13.0 ) ) {
+
+		t = getFrec( t, 12.0, beat8 );
 
 		o += base1( mt, t );  
 		o += kick1( mt, t );
@@ -624,11 +660,15 @@ vec2 music( float t ) {
 
 	if( isin( beat16.y, 13.0, 14.0 ) ) {
 		
+		t = getFrec( t, 13.0, beat8 );
+		
 		o += kick1( mt, t );
 		o += snare1( mt, t );
 		o += xylophone( mt, t, 0.0 );
 
 	}
+
+	// o += shuwaa( mt, t );
 
 	return o;
 	
