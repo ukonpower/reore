@@ -351,7 +351,7 @@ vec2 zowaa( float mt, float ft, float pitch, float offset ) {
 			1.0
 		);
 
-		start = linearstep( -1.25, 0.0, mt );
+		start = exp( -(1.0 - linearstep( -3.75, 0.0, mt )) * 5.0 );
 
 	}
 
@@ -366,30 +366,32 @@ vec2 zowaa( float mt, float ft, float pitch, float offset ) {
 
 	for(int i = 0; i < 3; i++){
 
-		float s = melodyArray[ int( ml.x ) + i ] + pitch;
+		float s = melodyArray[ int( ml.x ) + i ] + pitch - 12.0;
 
 		vec2 v = vec2( 0.0 );
 
-		for(int j = 0; j < 12; j++){
+		// for(int j = 0; j < 12; j++){
 			
-			float w = float( j ) / 12.0;
+		// 	float w = float( j ) / 12.0;
 			
-			v += ssin( 
-				ft * s2f(  s - 12.0 ) + 
-				ssin( 
-					ft * s2f( s - 12.0 * 1.0 + float( j ) * 12.0 ) + w 
-				) * 0.2 + vec2( 0.2, 0.0 ) 
-			) * env * start * (0.1 + ( 1.0 - w ) * 0.9);
+		// 	v += ssin( 
+		// 		ft * s2f(  s - 12.0 ) + 
+		// 		saw( 
+		// 			ft * s2f( s - 12.0 * 1.0 + float( j ) * 12.0 ) + w 
+		// 		) * 0.2 + vec2( 0.2, 0.0 ) 
+		// 	) * env * start * (0.1 + ( 1.0 - w ) * 0.9);
 
-		}
+		// }
 
-		v *= float( i ) * 0.5 + 0.5;
+		v += ( ssin( ft * s2f(s) + vec2( 0.5, 0.0 )  ) + ssin( ft * s2f(s) * 1.004 + vec2( 0.0, 0.1 ) ) ) * 0.5;
+		// v += base( envTime, ft, s + 12.0 );
 
-		o += v * 0.015;
+		o += v * 0.15;
 			
 	}
 
-	o *= tanh( cos( easeIn(start, 2.5) * PI * 5.0 ) * 2.0 ) * 0.8;
+	// o *= tanh( sin( easeIn(start, 2.5) * (PI * 5.0 + PI / 2.0) ) * 2.0 ) * 0.8;
+	o *= start;
 	o *= smoothstep( 0.0, 1.5, envTime );
 
 	return o;
@@ -606,7 +608,11 @@ vec2 music( float t ) {
 
 		if( isin( beat16.w, 3.75, 6.0 ) ) {
 
-			o += base3( mt, t );
+			// o += base3( mt, t );
+
+			// o += zowaa(mt, t, 3.0, 8.0 ) * 0.7;
+			o += zowaa( mt, t, 0.0, 4.0 )  * 0.75;
+
 			
 		}
 
