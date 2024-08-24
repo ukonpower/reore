@@ -2,8 +2,8 @@
 	"projects": [
 		{
 			"setting": {
-				"name": "OREngine",
-				"timeline/duration": 10185.365853658535,
+				"name": "Demo3",
+				"timeline/duration": 10185,
 				"timeline/fps": 60
 			},
 			"objectOverride": [
@@ -15,8 +15,7 @@
 							"name": "BLidgeClient",
 							"props": {
 								"mode": "websocket",
-								"gltf": true,
-								"gltfPath": "/scene.glb",
+								"gltf": false,
 								"websocket/connected": true,
 								"websocket/url": "ws://localhost:3100"
 							}
@@ -26,85 +25,29 @@
 							"name": "Music"
 						}
 					]
+				},
+				{
+					"path": "/root/blidgeRoot/SkyBox",
+					"components": [
+						{
+							"key": "skybox",
+							"name": "SkyBoxDemo3"
+						}
+					]
 				}
 			],
 			"scene": {
 				"name": "root"
 			}
-		},
-		{
-			"setting": {
-				"name": "New Project",
-				"timeline/duration": 679.6000000000003,
-				"timeline/fps": 60
-			},
-			"objectOverride": [
-				{
-					"path": "/root/Test",
-					"components": [
-						{
-							"key": "geometry",
-							"name": "CubeGeometry",
-							"props": {
-								"vertCount": 24
-							}
-						},
-						{
-							"key": "material",
-							"name": "Material"
-						}
-					]
-				},
-				{
-					"path": "/root/Light",
-					"components": [
-						{
-							"key": "light",
-							"name": "Light",
-							"props": {
-								"lightType": "directional",
-								"color": {
-									"x": 1,
-									"y": 1,
-									"z": 1,
-									"w": 0
-								},
-								"intensity": 2.599999999999999,
-								"angle": 49.80000000000001,
-								"blend": 1.3500000000000003,
-								"distance": 30.80000000000001,
-								"decay": 2,
-								"castShadow": true
-							}
-						}
-					]
-				}
-			],
-			"scene": {
-				"name": "root",
-				"childs": [
-					{
-						"name": "Test"
-					},
-					{
-						"name": "Light",
-						"pos": [
-							0,
-							9.850000000000007,
-							0
-						]
-					}
-				]
-			}
 		}
 	],
 	"settings": {
-		"enableRender": false,
-		"currentProjectName": "OREngine",
-		"resolutionScale": 0.125,
+		"enableRender": true,
+		"currentProjectName": "Demo3",
+		"resolutionScale": 0.5,
 		"viewType": "render",
-		"frameLoop/enabled": true,
+		"frameLoop/enabled": false,
 		"frameLoop/start": 0,
-		"frameLoop/end": 6411.396910727648
+		"frameLoop/end": 100
 	}
 }

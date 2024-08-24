@@ -294,14 +294,17 @@ export class MainCamera extends MXP.Component {
 
 		entity.on( 'sceneCreated', ( root: MXP.Entity, ) => {
 
-			const camera = root.getEntityByName( "Camera" ) || null;
+			const camera = root.getEntityByName( "CamPos" ) || null;
 
-			const lookAtTarget = root.getEntityByName( "CameraTarget" ) || null;
+			const lookAtTarget = root.getEntityByName( "CamLook" ) || null;
 			this.lookAt.setTarget( lookAtTarget );
 
 			const ortbitControls = entity.getComponent( OrbitControls );
 
 			if ( ortbitControls && camera && lookAtTarget ) {
+
+				console.log( camera.userData );
+
 
 				ortbitControls.setPosition( camera.position, lookAtTarget.position );
 				this.cameraComponent.fov = camera.userData.cameraParam.fov;
@@ -309,7 +312,7 @@ export class MainCamera extends MXP.Component {
 
 			}
 
-			this.dofTarget = root.getEntityByName( 'CameraTargetDof' ) || null;
+			this.dofTarget = root.getEntityByName( 'CamDof' ) || null;
 			this.baseFov = this.cameraComponent.fov;
 			this.updateCameraParams( this.resolution );
 

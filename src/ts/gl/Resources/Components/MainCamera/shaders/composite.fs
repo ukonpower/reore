@@ -22,7 +22,7 @@ void main( void ) {
 	float w = 0.05;
 
 	float d;
-	float s = 1.0;
+	float s = 1.0; 
 
 	#pragma loop_start 8
 		d = -float( LOOP_INDEX ) / 8.0 * w;
@@ -37,7 +37,7 @@ void main( void ) {
 	#pragma loop_end
 
 	float len = length(cuv);
-	col *= smoothstep( 0.9, 0.3, len );
+	col *= smoothstep( 1.2, 0.3, len );
 	
 	outColor = vec4( col, 1.0 );
 
