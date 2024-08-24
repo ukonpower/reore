@@ -29,6 +29,6 @@ void main( void ) {
 
 	vec4 ssrCol = texture( uSSRTexture, vUv );
 
-	outColor.xyz += f * ssrCol.xyz;
+	outColor.xyz += f * ssrCol.xyz * 0.15;
 
 }

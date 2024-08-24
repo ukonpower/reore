@@ -30,8 +30,9 @@ export class Component extends Exportable {
 
 	public readonly uuid: string;
 	public entity: Entity | null;
-	public enabled: boolean;
 	public disableEdit: boolean;
+
+	protected enabled_: boolean;
 
 	constructor( params?: ComponentParams ) {
 
@@ -39,11 +40,24 @@ export class Component extends Exportable {
 
 		params = params ?? {};
 
-		this.enabled = true;
+		this.enabled_ = true;
 		this.keyOverride = params.keyOverride || null;
 		this.disableEdit = params.disableEdit || false;
 		this.entity = null;
 		this.uuid = GLP.ID.genUUID();
+
+
+	}
+
+	public set enabled( value: boolean ) {
+
+		this.enabled_ = value;
+
+	}
+
+	public get enabled() {
+
+		return this.enabled_;
 
 	}
 

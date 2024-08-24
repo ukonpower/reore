@@ -1,8 +1,8 @@
 import * as GLP from 'glpower';
-import { ExportableProps } from 'maxpower';
+import { Camera, ExportableProps } from 'maxpower';
 
 import { Component, ComponentParams, ComponentUpdateEvent } from "..";
-import { BLidge, BLidgeNode, BLidgeLightParam } from "../../BLidge";
+import { BLidge, BLidgeNode, BLidgeLightParam, BLidgeCameraParam } from "../../BLidge";
 import { Entity } from '../../Entity';
 import { Geometry } from "../Geometry";
 import { CubeGeometry } from "../Geometry/CubeGeometry";
@@ -19,7 +19,6 @@ interface BLidgerParams extends ComponentParams {
 
 export class BLidger extends Component {
 
-	private gl: WebGL2RenderingContext;
 	private blidge: BLidge;
 
 	public node: BLidgeNode;
@@ -30,15 +29,17 @@ export class BLidger extends Component {
 	public curveRotation?: GLP.FCurveGroup;
 	public curveScale?: GLP.FCurveGroup;
 	public curveHide?: GLP.FCurveGroup;
+	public curveFov?: GLP.FCurveGroup;
 
 	public uniforms: GLP.Uniforms;
 	public uniformCurves: {name: string, curve: GLP.FCurveGroup}[];
 
-	constructor( gl: WebGL2RenderingContext, params: BLidgerParams ) {
+	private cameraComponent?: Camera;
+
+	constructor( params: BLidgerParams ) {
 
 		super( params );
 
-		this.gl = gl;
 		this.blidge = params.blidge;
 		this.node = params.node;
 		this.rotationOffsetX = 0;
@@ -53,6 +54,7 @@ export class BLidger extends Component {
 		this.curveRotation = this.blidge.getCurveGroup( this.node.animation.rotation );
 		this.curveScale = this.blidge.getCurveGroup( this.node.animation.scale );
 		this.curveHide = this.blidge.getCurveGroup( this.node.animation.hide );
+		this.curveFov = this.blidge.getCurveGroup( this.node.animation.fov );
 
 		// uniforms
 
@@ -223,7 +225,28 @@ export class BLidger extends Component {
 
 		}
 
+		// camera
+
+		this.cameraComponent = entity.getComponent( Camera );
+
+		if ( this.node.type == 'camera' && this.cameraComponent ) {
+
+			const cameraParam = this.node.param as BLidgeCameraParam;
+
+			this.cameraComponent.fov = cameraParam.fov;
+
+		}
+
+
+		// visibility
+
 		entity.visible = this.node.visible;
+
+	}
+
+	protected unsetEntityImpl( prevEntity: Entity ): void {
+
+		this.cameraComponent = undefined;
 
 	}
 
@@ -320,6 +343,12 @@ export class BLidger extends Component {
 		if ( this.curveHide ) {
 
 			entity.visible = this.curveHide.setFrame( frame ).value.x < 0.5;
+
+		}
+
+		if ( this.curveFov && this.cameraComponent ) {
+
+			this.cameraComponent.fov = 2 * Math.atan( 12 / ( 2 * this.curveFov.setFrame( frame ).value.x ) ) / Math.PI * 180;
 
 		}
 

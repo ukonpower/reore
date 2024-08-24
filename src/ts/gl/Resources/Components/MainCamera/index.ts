@@ -50,7 +50,7 @@ export class MainCamera extends MXP.Component {
 	// components
 
 	private lookAt: LookAt;
-	private orbitControls: MXP.Component;
+	private orbitControls: OrbitControls;
 	private shakeViewer: MXP.Component;
 	private postProcess: MXP.PostProcess;
 
@@ -75,7 +75,10 @@ export class MainCamera extends MXP.Component {
 		this.renderTarget = this.cameraComponent.renderTarget;
 
 		this.lookAt = new LookAt();
+
 		this.orbitControls = new OrbitControls( { elm: canvas } );
+		this.orbitControls.enabled = false;
+
 		this.shakeViewer = new ShakeViewer();
 
 		// resolution
@@ -287,30 +290,24 @@ export class MainCamera extends MXP.Component {
 
 		entity.addComponent( this.cameraComponent );
 		entity.addComponent( this.postProcess );
+		entity.addComponent( this.lookAt );
 		entity.addComponent( this.orbitControls );
-		// entity.addComponent( new VJCamera() );
 
 		// events
-
 		entity.on( 'sceneCreated', ( root: MXP.Entity, ) => {
 
-			const camera = root.getEntityByName( "CamPos" ) || null;
+			const camera = root.getEntityByName( "Camera" ) || null;
+
+			const blidger = camera?.getComponent( MXP.BLidger );
+
+			if ( blidger ) {
+
+				entity.addComponent( blidger );
+
+			}
 
 			const lookAtTarget = root.getEntityByName( "CamLook" ) || null;
 			this.lookAt.setTarget( lookAtTarget );
-
-			const ortbitControls = entity.getComponent( OrbitControls );
-
-			if ( ortbitControls && camera && lookAtTarget ) {
-
-				console.log( camera.userData );
-
-
-				ortbitControls.setPosition( camera.position, lookAtTarget.position );
-				this.cameraComponent.fov = camera.userData.cameraParam.fov;
-				this.cameraComponent.updateProjectionMatrix();
-
-			}
 
 			this.dofTarget = root.getEntityByName( 'CamDof' ) || null;
 			this.baseFov = this.cameraComponent.fov;
@@ -376,6 +373,13 @@ export class MainCamera extends MXP.Component {
 		}
 
 		this.cameraComponent.dof.focusDistance = this.tmpVector1.sub( this.tmpVector2 ).length();
+
+		// orbitcontrols
+
+		if ( this.orbitControls && this.orbitControls.enabled ) {
+
+
+		}
 
 	}
 
