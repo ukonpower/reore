@@ -9,8 +9,8 @@ import { LookAt } from "./Components/LookAt";
 import { Music } from './Components/Music';
 import { OrbitControls } from './Components/OrbitControls';
 import { ShakeViewer } from "./Components/ShakeViewer";
-import { SkyBox } from "./Components/SkyBox";
 import { SkyBoxDemo3 } from './Components/SkyBoxDemo3';
+import { TuringRenderer } from './Components/TuringTex';
 import { VJCamera } from './Components/VJCamera';
 import { Font1 } from './Fonts/Font1';
 import noiseFrag from './Textures/noise.fs';
@@ -73,7 +73,7 @@ export const initResouces = () => {
 	const comEntity = resource.componentCategory( "Entity" );
 
 	comEntity.register( SkyBoxDemo3 );
-
+	comEntity.register( TuringRenderer );
 
 	// Other
 

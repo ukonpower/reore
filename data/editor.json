@@ -27,6 +27,18 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/MainCube",
+					"components": [
+						{
+							"key": "turingTex",
+							"name": "TuringRenderer",
+							"props": {
+								"": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/SkyBox",
 					"components": [
 						{
@@ -44,7 +56,7 @@
 	"settings": {
 		"enableRender": true,
 		"currentProjectName": "Demo3",
-		"resolutionScale": 0.5,
+		"resolutionScale": 0.125,
 		"viewType": "render",
 		"frameLoop/enabled": false,
 		"frameLoop/start": 0,
