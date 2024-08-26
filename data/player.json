@@ -1,7 +1,7 @@
 {
 	"setting": {
-		"name": "OREngine",
-		"timeline/duration": 679.6000000000003,
+		"name": "Demo3",
+		"timeline/duration": 10185,
 		"timeline/fps": 60
 	},
 	"objectOverride": [
@@ -12,60 +12,27 @@
 					"key": "blidgeClient",
 					"name": "BLidgeClient",
 					"props": {
-						"mode": "json",
-						"gltfPath": "/scene.glb",
+						"mode": "websocket",
+						"gltf": false,
 						"websocket/connected": true,
 						"websocket/url": "ws://localhost:3100"
 					}
 				},
 				{
 					"key": "music",
-					"name": "Music",
-					"props": {}
+					"name": "Music"
 				}
 			]
 		},
 		{
-			"path": "/root/blidgeRoot/Cube",
+			"path": "/root/blidgeRoot/MainCube",
 			"components": [
 				{
-					"key": "material",
-					"name": "OREngineCube",
+					"key": "turingTex",
+					"name": "TuringRenderer",
 					"props": {
-						"name": "",
-						"deferred": true,
-						"forward": false,
-						"shadowMap": true,
-						"ui": false,
-						"useLight": true,
-						"depthTest": true,
-						"cullFace": true,
-						"drawType": "TRIANGLES"
-					}
-				},
-				{
-					"key": "turntable",
-					"name": "TurnTable",
-					"props": {}
-				}
-			]
-		},
-		{
-			"path": "/root/blidgeRoot/OREngine",
-			"components": [
-				{
-					"key": "material",
-					"name": "OREngineLogo",
-					"props": {
-						"name": "",
-						"deferred": true,
-						"forward": false,
-						"shadowMap": true,
-						"ui": false,
-						"useLight": true,
-						"depthTest": true,
-						"cullFace": true,
-						"drawType": "TRIANGLES"
+						"f": 0.016999999999999973,
+						"k": 0.04349999999999998
 					}
 				}
 			]
@@ -74,53 +41,13 @@
 			"path": "/root/blidgeRoot/SkyBox",
 			"components": [
 				{
-					"key": "geometry",
-					"name": "SphereGeometry",
-					"props": {
-						"vertCount": 272
-					}
-				},
-				{
-					"key": "material",
-					"name": "Material",
-					"props": {
-						"name": "",
-						"deferred": true,
-						"forward": false,
-						"shadowMap": false,
-						"ui": false,
-						"useLight": true,
-						"depthTest": true,
-						"cullFace": false,
-						"drawType": "TRIANGLES"
-					}
-				},
-				{
 					"key": "skybox",
-					"name": "SkyBox",
-					"props": {}
+					"name": "SkyBoxDemo3"
 				}
 			]
 		}
 	],
 	"scene": {
-		"name": "root",
-		"pos": [
-			0,
-			0,
-			0
-		],
-		"rot": [
-			0,
-			0,
-			0,
-			0
-		],
-		"scale": [
-			1,
-			1,
-			1
-		],
-		"childs": []
+		"name": "root"
 	}
 }

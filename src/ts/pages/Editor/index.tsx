@@ -13,6 +13,7 @@ import { Screen } from '~/ts/components/panel/Screen';
 import { Timeline } from '~/ts/components/panel/Timeline';
 import { Panel } from '~/ts/components/ui/Panel';
 import { PanelContainer } from '~/ts/components/ui/PanelContainer';
+import { useLayout } from '~/ts/hooks/useLayout';
 
 export const EditorProvider = ( { children } :{children: ReactNode} ) => {
 
@@ -32,6 +33,10 @@ export const EditorProvider = ( { children } :{children: ReactNode} ) => {
 export const EditorPage = () => {
 
 	const glContext = useGL();
+	const layout = useLayout();
+
+	console.log( layout.isPC );
+
 
 	return <GLContext.Provider value={glContext}>
 		<EditorProvider>
@@ -51,13 +56,13 @@ export const EditorPage = () => {
 						<div className={style.preview}>
 							<Screen />
 						</div>
-						<div className={style.property}>
+						{ <div className={style.property}>
 							<PanelContainer >
 								<Panel title="Property" >
 									<Property />
 								</Panel>
 							</PanelContainer>
-						</div>
+						</div>}
 					</div>
 					<div className={style.bottom}>
 						<PanelContainer >

@@ -1,21 +1,23 @@
-uniform sampler2D backBuffer;
-uniform vec2 dataSize;
-uniform vec4 uTuringParam;
-uniform float uTime;
-uniform vec2 noiseY;
-uniform vec2 noiseX;
+#include <common>
+#include <noise>
 
-varying vec2 vUv;
+uniform sampler2D uGPUSampler0;
+uniform vec2 uGPUResolution;
+uniform vec4 uTuringParam;
+
+in vec2 vUv;
+
+layout (location = 0) out vec4 outColor;
 
 void main( void ) {
 
-	vec2 d = vec2( 1.0 ) / vec2( dataSize );
+	vec2 d = vec2( 1.0 ) / vec2( uGPUResolution );
 	
-	vec4 center = texture2D( backBuffer, vUv );
-	vec4 top = texture2D( backBuffer, vUv + vec2( 0.0, d.y * uTuringParam.z ) );
-	vec4 bottom = texture2D( backBuffer, vUv - vec2( 0.0, d.y * uTuringParam.z ) );
-	vec4 left = texture2D( backBuffer, vUv - vec2( d.x * uTuringParam.w, 0.0 ) );
-	vec4 right = texture2D( backBuffer, vUv + vec2( d.x * uTuringParam.w, 0.0 ) );
+	vec4 center = texture( uGPUSampler0, vUv );
+	vec4 top = texture( uGPUSampler0, vUv + vec2( 0.0, d.y * uTuringParam.z ) );
+	vec4 bottom = texture( uGPUSampler0, vUv - vec2( 0.0, d.y * uTuringParam.z ) );
+	vec4 left = texture( uGPUSampler0, vUv - vec2( d.x * uTuringParam.w, 0.0 ) );
+	vec4 right = texture( uGPUSampler0, vUv + vec2( d.x * uTuringParam.w, 0.0 ) );
 
 	float dx = 0.02;
 	float dt = 1.0;
@@ -30,10 +32,6 @@ void main( void ) {
 	float nextU = center.x + du * dt;
 	float nextV = center.y + dv * dt;
 
-	float erase = smoothstep( 0.0, 0.4, noise3D( vec3( vUv * ( 0.6 + uTuringMask.x * 1.0), uTuringMask.y * 100.0 ) ) );
-	nextU = mix( nextU, 1.0, erase);
-	nextV = mix( nextV, 0.0, erase);
-
-	gl_FragColor = vec4( nextU, nextV, 0.0, 0.0 );
+	outColor = vec4( nextU, nextV, 0.0, 0.0 );
 
 }

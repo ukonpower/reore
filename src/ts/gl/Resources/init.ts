@@ -6,6 +6,7 @@ import { TexProcedural } from '../ProjectScene/utils/TexProcedural';
 
 import { BLidgeClient } from "./Components/BLidgeClient";
 import { LookAt } from "./Components/LookAt";
+import { MatchMove } from './Components/MatchMove';
 import { Music } from './Components/Music';
 import { OrbitControls } from './Components/OrbitControls';
 import { ShakeViewer } from "./Components/ShakeViewer";
@@ -74,6 +75,7 @@ export const initResouces = () => {
 
 	comEntity.register( SkyBoxDemo3 );
 	comEntity.register( TuringRenderer );
+	comEntity.register( MatchMove );
 
 	// Other
 

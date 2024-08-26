@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 
+import { Button } from '../../Button';
 import { InputBoolean } from '../../Input/InputCheckBox';
 import { InputNumber } from '../../Input/InputNumber';
 import { InputSelect } from '../../Input/InputSelect';
@@ -7,7 +8,7 @@ import { InputText } from '../../Input/InputText';
 
 import style from './index.module.scss';
 
-export type ValueType = number | boolean | string | Array<String>;
+export type ValueType = number | boolean | string | Array<String> | ( () => void );
 
 export type ValueOpt = {
 	readOnly?: boolean,
@@ -74,6 +75,17 @@ export const Value = ( { value, label, onChange, ...props }: ValueProps ) => {
 	if ( typeof value == "boolean" ) {
 
 		inputElm = <InputBoolean {...props} checked={value} onChange={onChangeValue} />;
+
+	}
+
+
+	if ( typeof value == 'function' ) {
+
+		return (
+			<div className={style.value}>
+				<Button onClick={value}>{label}</Button>
+			</div>
+		);
 
 	}
 

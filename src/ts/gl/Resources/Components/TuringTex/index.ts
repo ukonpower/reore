@@ -12,23 +12,42 @@ export class TuringRenderer extends MXP.GPUCompute {
 
 	constructor() {
 
+		const f = 0.016;
+		const k = 0.043;
+		const x = 1.5;
+		const y = 1.5;
+
 		const pass = new MXP.GPUComputePass( {
 			gl: gl,
+			size: new GLP.Vector( 512, 512 ),
+			dataLayerCount: 1,
 			frag: turingFrag,
-			size: new GLP.Vector( 256, 256 ),
-			dataLayerCount: 1
+			uniforms: {
+				uTuringParam: {
+					value: new GLP.Vector( f, k, x, y ),
+					type: '4f'
+				}
+			},
 		} );
 
 		super( {
-			renderer: renderer,
+			renderer,
 			passes: [
 				pass
 			]
 		} );
 
+		this.reset();
+
 		this.material = new MXP.Material( {
 			name: "turin",
 			frag: turingMatFrag,
+			uniforms: {
+				uTuringTex: {
+					value: pass.renderTarget!.textures[ 0 ],
+					type: '1i'
+				}
+			}
 		} );
 
 	}
@@ -42,6 +61,51 @@ export class TuringRenderer extends MXP.GPUCompute {
 	protected unsetEntityImpl( prevEntity: MXP.Entity ): void {
 
 		prevEntity.removeComponent( this.material );
+
+	}
+
+	public getProps(): MXP.ExportableProps | null {
+
+		return {
+			f: {
+				value: this.passes[ 0 ].uniforms.uTuringParam.value.x,
+				opt: {
+					slideScale: 0.01
+				}
+			},
+			k: {
+				value: this.passes[ 0 ].uniforms.uTuringParam.value.y,
+				opt: {
+					slideScale: 0.01
+				}
+			},
+			reset: {
+				value: () => {
+
+					this.reset();
+
+				}
+			}
+		};
+
+	}
+
+	private reset(): void {
+
+		this.passes[ 0 ].initTexture( ( layerCnt, x, y ) => {
+
+			return [
+				Math.random() * Math.sin( x * 0.05 ), Math.random() * Math.sin( y * 0.05 ), Math.random(), Math.random()
+			];
+
+		} );
+
+	}
+
+	public setProps( props: MXP.ExportablePropsSerialized ): void {
+
+		this.passes[ 0 ].uniforms.uTuringParam.value.x = props.f || 0.05;
+		this.passes[ 0 ].uniforms.uTuringParam.value.y = props.k || 0.059;
 
 	}
 

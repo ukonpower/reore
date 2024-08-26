@@ -14,7 +14,7 @@ export interface GPUComputeParam extends PostProcessParam{
 
 export class GPUCompute extends PostProcess {
 
-	private renderer: MXP.Renderer;
+	protected renderer: MXP.Renderer;
 	declare public passes: GPUComputePass[];
 
 	constructor( param: GPUComputeParam ) {

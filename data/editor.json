@@ -33,7 +33,8 @@
 							"key": "turingTex",
 							"name": "TuringRenderer",
 							"props": {
-								"": true
+								"f": 0.016999999999999973,
+								"k": 0.04349999999999998
 							}
 						}
 					]
@@ -56,7 +57,7 @@
 	"settings": {
 		"enableRender": true,
 		"currentProjectName": "Demo3",
-		"resolutionScale": 0.125,
+		"resolutionScale": 0.5,
 		"viewType": "render",
 		"frameLoop/enabled": false,
 		"frameLoop/start": 0,
