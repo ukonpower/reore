@@ -18,16 +18,13 @@
 	display: flex;
 
 	@include sp {
-		flex-direction: column;
+		flex: unset;
+		height: 55vh;
 	}
 }
 
 .preview {
 	flex: 1;
-
-	@include sp {
-		order: 1;
-	}
 }
 
 .hierarchy {
@@ -35,9 +32,8 @@
 	height: 100%;
 
 	@include sp {
-		width: 100%;
-		height: 15dvh;
-		order: 2;
+		width: 40%;
+		border-right: 1px solid $bgCol2;
 	}
 }
 
@@ -47,10 +43,8 @@
 	height: 100%;
 
 	@include sp {
-		width: 100%;
-		max-width: none;
-		height: 15dvh;
-		order: 3;
+		max-width: unset;
+		flex: 1;
 	}
 }
 
@@ -59,7 +53,7 @@
 	display: flex;
 
 	@include sp {
-		height: 20dvh;
+		height: 12dvh;
 		max-height: 300px;
 	}
 }

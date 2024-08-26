@@ -35,11 +35,11 @@ export const EditorPage = () => {
 	const glContext = useGL();
 	const layout = useLayout();
 
-	console.log( layout.isPC );
+	let editorElm = null;
 
+	if ( layout.isPC ) {
 
-	return <GLContext.Provider value={glContext}>
-		<EditorProvider>
+		editorElm = <EditorProvider>
 			<div className={style.editor}>
 				<div className={style.vert}>
 					<div className={style.horiz}>
@@ -56,13 +56,13 @@ export const EditorPage = () => {
 						<div className={style.preview}>
 							<Screen />
 						</div>
-						{ <div className={style.property}>
+						<div className={style.property}>
 							<PanelContainer >
 								<Panel title="Property" >
 									<Property />
 								</Panel>
 							</PanelContainer>
-						</div>}
+						</div>
 					</div>
 					<div className={style.bottom}>
 						<PanelContainer >
@@ -74,7 +74,51 @@ export const EditorPage = () => {
 				</div>
 			</div>
 			<MouseMenu />
-		</EditorProvider>
+		</EditorProvider>;
+
+	} else {
+
+		editorElm = <EditorProvider>
+			<div className={style.editor}>
+				<div className={style.vert}>
+					<div className={style.preview}>
+						<Screen />
+					</div>
+					<div className={style.horiz}>
+						<div className={style.hierarchy}>
+							<PanelContainer >
+								<Panel title="Scene" >
+									<Hierarchy />
+								</Panel>
+								<Panel title="Project" >
+									<ProjectControl />
+								</Panel>
+							</PanelContainer>
+						</div>
+						<div className={style.property}>
+							<PanelContainer >
+								<Panel title="Property" >
+									<Property />
+								</Panel>
+							</PanelContainer>
+						</div>
+					</div>
+					<div className={style.bottom}>
+						<PanelContainer >
+							<Panel title="Timeline" noPadding>
+								<Timeline />
+							</Panel>
+						</PanelContainer>
+					</div>
+				</div>
+			</div>
+			<MouseMenu />
+		</EditorProvider>;
+
+	}
+
+	return <GLContext.Provider value={glContext}>
+		{editorElm}
 	</GLContext.Provider>;
 
 };
