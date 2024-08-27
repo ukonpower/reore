@@ -41,14 +41,30 @@ export class TuringRenderer extends MXP.GPUCompute {
 
 		this.material = new MXP.Material( {
 			name: "turin",
-			frag: turingMatFrag,
-			uniforms: {
+			frag: MXP.hotGet( "turingMatFrag", turingMatFrag ),
+			uniforms: GLP.UniformsUtils.merge( {
 				uTuringTex: {
 					value: pass.renderTarget!.textures[ 0 ],
 					type: '1i'
 				}
-			}
+			}, pass.outputUniforms )
 		} );
+
+		if ( import.meta.hot ) {
+
+			import.meta.hot.accept( './shaders/turingMat.fs', ( module ) => {
+
+				if ( module ) {
+
+					this.material.frag = MXP.hotUpdate( 'turingMatFrag', module.default );
+
+					this.material.requestUpdate();
+
+				}
+
+			} );
+
+		}
 
 	}
 

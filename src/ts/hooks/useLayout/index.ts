@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const SPWIDTH = 800;
+const SPWIDTH = 900;
 
 export const useLayout = () => {
 

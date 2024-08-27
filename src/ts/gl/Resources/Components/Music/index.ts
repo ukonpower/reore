@@ -11,7 +11,6 @@ const MUSIC_DURATION = 60 * ( ( 8 * ( 28 + 1 ) ) / BPM );
 
 // console.log( MUSIC_DURATION * 60 );
 
-
 export class Music extends MXP.Component {
 
 	private power: GLP.Power;

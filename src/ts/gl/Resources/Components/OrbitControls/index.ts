@@ -6,7 +6,6 @@ import { LookAt } from '../LookAt';
 import { Keyboard } from '~/ts/gl/ProjectScene/utils/Keyboard';
 import { Pointer, PointerEventArgs } from '~/ts/gl/ProjectScene/utils/Pointer';
 
-
 export class OrbitControls extends MXP.Component {
 
 	private keyborad: Keyboard;

@@ -278,6 +278,48 @@ export class MainCamera extends MXP.Component {
 		this.tmpVector1 = new GLP.Vector();
 		this.tmpVector2 = new GLP.Vector();
 
+		// dev
+
+		if ( process.env.NODE_ENV === 'development' ) {
+
+			const onMouseDown = ( e: PointerEvent ) => {
+
+				const elm = e.target as HTMLElement;
+
+				elm.setPointerCapture( e.pointerId );
+
+				this.orbitControls.enabled = true;
+
+			};
+
+			const onWheel = () => {
+
+				this.orbitControls.enabled = true;
+
+			};
+
+			const onMouseLeave = () => {
+
+				this.orbitControls.enabled = false;
+
+			};
+
+			canvas.addEventListener( "pointerdown", onMouseDown );
+			canvas.addEventListener( "mouseleave", onMouseLeave );
+			canvas.addEventListener( "wheel", onWheel );
+
+			const onDispose = () => {
+
+				canvas.removeEventListener( "mousedown", onMouseLeave );
+				canvas.removeEventListener( "mouseleave", onMouseLeave );
+				canvas.removeEventListener( "wheel", onWheel );
+
+			};
+
+			this.once( "dispose", onDispose );
+
+		}
+
 	}
 
 	public static get key() {
@@ -373,13 +415,6 @@ export class MainCamera extends MXP.Component {
 		}
 
 		this.cameraComponent.dof.focusDistance = this.tmpVector1.sub( this.tmpVector2 ).length();
-
-		// orbitcontrols
-
-		if ( this.orbitControls && this.orbitControls.enabled ) {
-
-
-		}
 
 	}
 
