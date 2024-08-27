@@ -15,7 +15,8 @@
 							"name": "BLidgeClient",
 							"props": {
 								"mode": "websocket",
-								"gltf": false,
+								"gltf": true,
+								"gltfPath": "/scene.glb",
 								"websocket/connected": true,
 								"websocket/url": "ws://localhost:3100"
 							}
@@ -57,7 +58,7 @@
 	"settings": {
 		"enableRender": true,
 		"currentProjectName": "Demo3",
-		"resolutionScale": 0.5,
+		"resolutionScale": 0.25,
 		"viewType": "render",
 		"frameLoop/enabled": false,
 		"frameLoop/start": 0,

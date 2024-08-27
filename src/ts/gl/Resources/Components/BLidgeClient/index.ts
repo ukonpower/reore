@@ -167,7 +167,7 @@ export class BLidgeClient extends MXP.Component {
 
 		const timeStamp = new Date().getTime();
 
-		const _ = ( node: MXP.BLidgeNode ): MXP.Entity => {
+		const _ = ( node: MXP.BLidgeEntity ): MXP.Entity => {
 
 			const entity: MXP.Entity = ( this.entities.get( node.name ) || router( node ) );
 

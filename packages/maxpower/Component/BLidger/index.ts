@@ -2,7 +2,7 @@ import * as GLP from 'glpower';
 import { Camera, ExportableProps } from 'maxpower';
 
 import { Component, ComponentParams, ComponentUpdateEvent } from "..";
-import { BLidge, BLidgeNode, BLidgeLightParam, BLidgeCameraParam } from "../../BLidge";
+import { BLidge, BLidgeEntity, BLidgeLightParam, BLidgeCameraParam } from "../../BLidge";
 import { Entity } from '../../Entity';
 import { Geometry } from "../Geometry";
 import { CubeGeometry } from "../Geometry/CubeGeometry";
@@ -14,14 +14,14 @@ import { Material } from '../Material';
 
 interface BLidgerParams extends ComponentParams {
 	blidge: BLidge;
-	node: BLidgeNode;
+	node: BLidgeEntity;
 }
 
 export class BLidger extends Component {
 
 	private blidge: BLidge;
 
-	public node: BLidgeNode;
+	public node: BLidgeEntity;
 
 	public rotationOffsetX: number;
 
@@ -67,7 +67,7 @@ export class BLidger extends Component {
 
 			const name = keys[ i ];
 			const accessor = this.node.material.uniforms[ name ];
-			const curve = this.blidge.curveGroups.find( curve => curve.name == accessor );
+			const curve = this.blidge.curveGroups[ accessor ];
 
 			if ( curve ) {
 

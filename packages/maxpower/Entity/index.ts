@@ -1,7 +1,7 @@
 import * as GLP from 'glpower';
 
 
-import { BLidgeNode } from "../BLidge";
+import { BLidgeEntity } from "../BLidge";
 import { Component, ComponentUpdateEvent, BuiltInComponents } from "../Component";
 import { BLidger } from '../Component/BLidger';
 import { Camera } from '../Component/Camera';
@@ -55,7 +55,7 @@ export class Entity extends Exportable {
 	public children: Entity[];
 	public components: Map<string, Component>;
 
-	protected blidgeNode?: BLidgeNode;
+	protected blidgeNode?: BLidgeEntity;
 
 	public visible: boolean;
 
