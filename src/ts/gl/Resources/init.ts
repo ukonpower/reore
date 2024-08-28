@@ -4,15 +4,15 @@ import * as MXP from 'maxpower';
 import { gl, renderer, resource } from '../GLGlobals';
 import { TexProcedural } from '../ProjectScene/utils/TexProcedural';
 
-import { BLidgeClient } from "./Components/BLidgeClient";
-import { LookAt } from "./Components/LookAt";
-import { MatchMove } from './Components/MatchMove';
-import { Music } from './Components/Music';
-import { OrbitControls } from './Components/OrbitControls';
-import { ShakeViewer } from "./Components/ShakeViewer";
-import { SkyBoxDemo3 } from './Components/SkyBoxDemo3';
-import { TuringRenderer } from './Components/TuringTex';
-import { VJCamera } from './Components/VJCamera';
+import { Music } from './Components/Demo3/Music';
+import { SkyBoxDemo3 } from './Components/Demo3/SkyBoxDemo3';
+import { TuringRenderer } from './Components/Demo3/TuringTex';
+import { MatchMove } from './Components/Entities/MatchMove';
+import { BLidgeClient } from './Components/Utilities/BLidgeClient';
+import { LookAt } from './Components/View/LookAt';
+import { OrbitControls } from './Components/View/OrbitControls';
+import { ShakeViewer } from './Components/View/ShakeViewer';
+import { VJCamera } from './Components/View/VJCamera';
 import { Font1 } from './Fonts/Font1';
 import noiseFrag from './Textures/noise.fs';
 

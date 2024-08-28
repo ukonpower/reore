@@ -1,9 +1,10 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import { LookAt } from '../LookAt';
-import { OrbitControls } from '../OrbitControls';
-import { ShakeViewer } from '../ShakeViewer';
+
+import { LookAt } from '../../View/LookAt';
+import { OrbitControls } from '../../View/OrbitControls';
+import { ShakeViewer } from '../../View/ShakeViewer';
 
 import bloomBlurFrag from './shaders/bloomBlur.fs';
 import bloomBrightFrag from './shaders/bloomBright.fs';

@@ -2,8 +2,8 @@ import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
 import { canvas, globalUniforms, renderer } from '../GLGlobals';
-import { MainCamera } from '../Resources/Components/MainCamera';
-import { OrbitControls } from '../Resources/Components/OrbitControls';
+import { MainCamera } from '../Resources/Components/Camera/MainCamera';
+import { OrbitControls } from '../Resources/Components/View/OrbitControls';
 import { initResouces } from '../Resources/init';
 
 import { OREngineProjectData, ProjectSerializer, OREngineProjectFrame } from './IO/ProjectSerializer';
