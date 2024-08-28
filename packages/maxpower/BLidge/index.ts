@@ -39,7 +39,7 @@ export type BLidgeEntity = {
 	param?: BLidgeCameraParam | BLidgeMeshParam | BLidgeLightParamCommon
 	parent: string,
 	children: BLidgeEntity[],
-	animation: BLidgeAnimationAccessor,
+	animations: BLidgeAnimationAccessor,
 	position: number[],
 	rotation: number[],
 	scale: number[],
@@ -390,7 +390,7 @@ export class BLidge extends GLP.EventEmitter {
 				class: nodeParam.class,
 				parent: nodeParam.parent,
 				children: [],
-				animation: nodeParam.animation || {},
+				animations: nodeParam.animation || {},
 				position: nodeParam.position || [ 0, 0, 0 ],
 				rotation: nodeParam.rotation || [ 0, 0, 0 ],
 				scale: nodeParam.scale || [ 1, 1, 1 ],

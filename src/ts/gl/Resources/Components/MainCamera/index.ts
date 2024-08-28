@@ -441,10 +441,7 @@ export class MainCamera extends MXP.Component {
 
 	private updateCameraParams( resolution: GLP.Vector ) {
 
-		// this.cameraComponent.near = 0.01;
-		// this.cameraComponent.far = 1000;
 		this.cameraComponent.aspect = resolution.x / resolution.y;
-		// this.cameraComponent.fov = this.baseFov - Math.max( this.cameraComponent.aspect - 1.0, 0.0 ) * 0.6;
 		this.cameraComponent.needsUpdate = true;
 
 	}

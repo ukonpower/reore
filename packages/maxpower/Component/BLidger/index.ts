@@ -19,21 +19,13 @@ interface BLidgerParams extends ComponentParams {
 
 export class BLidger extends Component {
 
-	private blidge: BLidge;
-
 	public node: BLidgeEntity;
-
 	public rotationOffsetX: number;
-
-	public curvePosition?: GLP.FCurveGroup;
-	public curveRotation?: GLP.FCurveGroup;
-	public curveScale?: GLP.FCurveGroup;
-	public curveHide?: GLP.FCurveGroup;
-	public curveFov?: GLP.FCurveGroup;
-
+	public animationCurves: Map<string, GLP.FCurveGroup>;
 	public uniforms: GLP.Uniforms;
-	public uniformCurves: {name: string, curve: GLP.FCurveGroup}[];
+	public uniformCurves: Map<string, GLP.FCurveGroup>;
 
+	private blidge: BLidge;
 	private cameraComponent?: Camera;
 
 	constructor( params: BLidgerParams ) {
@@ -42,6 +34,9 @@ export class BLidger extends Component {
 
 		this.blidge = params.blidge;
 		this.node = params.node;
+
+		// rotation offset
+
 		this.rotationOffsetX = 0;
 
 		if ( this.node.type == "camera" ) {
@@ -50,31 +45,36 @@ export class BLidger extends Component {
 
 		}
 
-		this.curvePosition = this.blidge.getCurveGroup( this.node.animation.position );
-		this.curveRotation = this.blidge.getCurveGroup( this.node.animation.rotation );
-		this.curveScale = this.blidge.getCurveGroup( this.node.animation.scale );
-		this.curveHide = this.blidge.getCurveGroup( this.node.animation.hide );
-		this.curveFov = this.blidge.getCurveGroup( this.node.animation.fov );
+		// animations
+
+		this.animationCurves = new Map();
+
+		const animationCurveKeys = Object.keys( this.node.animations );
+
+		for ( let i = 0; i < animationCurveKeys.length; i ++ ) {
+
+			const name = animationCurveKeys[ i ];
+
+			this.animationCurves.set( name, this.blidge.getCurveGroup( this.node.animations[ name ] ) );
+
+		}
 
 		// uniforms
 
 		this.uniforms = {};
-		this.uniformCurves = [];
+		this.uniformCurves = new Map();
 
-		const keys = Object.keys( this.node.material.uniforms );
+		const uniformCurveKeys = Object.keys( this.node.material.uniforms );
 
-		for ( let i = 0; i < keys.length; i ++ ) {
+		for ( let i = 0; i < uniformCurveKeys.length; i ++ ) {
 
-			const name = keys[ i ];
+			const name = uniformCurveKeys[ i ];
 			const accessor = this.node.material.uniforms[ name ];
 			const curve = this.blidge.curveGroups[ accessor ];
 
 			if ( curve ) {
 
-				this.uniformCurves.push( {
-					name: name,
-					curve: curve
-				} );
+				this.uniformCurves.set( name, curve );
 
 				this.uniforms[ name ] = {
 					type: '4fv',
@@ -253,26 +253,35 @@ export class BLidger extends Component {
 	protected preUpdateImpl( event: ComponentUpdateEvent ): void {
 
 		const entity = event.entity;
-		// const frame = this.blidge.frame.current;
 		const frame = event.timeCode * this.blidge.frame.fps;
 
-		if ( this.curvePosition ) {
+		// animations
 
-			const position = this.curvePosition.setFrame( frame ).value;
+		this.animationCurves.forEach( ( curve ) => {
 
-			if ( this.curvePosition.getFCurve( 'x' ) ) {
+			curve.setFrame( frame );
+
+		} );
+
+		const curvePosition = this.animationCurves.get( 'position' );
+
+		if ( curvePosition ) {
+
+			const position = curvePosition.value;
+
+			if ( curvePosition.getFCurve( 'x' ) ) {
 
 				entity.position.x = position.x;
 
 			}
 
-			if ( this.curvePosition.getFCurve( 'y' ) ) {
+			if ( curvePosition.getFCurve( 'y' ) ) {
 
 				entity.position.y = position.y;
 
 			}
 
-			if ( this.curvePosition.getFCurve( 'z' ) ) {
+			if ( curvePosition.getFCurve( 'z' ) ) {
 
 				entity.position.z = position.z;
 
@@ -280,7 +289,9 @@ export class BLidger extends Component {
 
 		}
 
-		if ( this.curveRotation ) {
+		const curveRotation = this.animationCurves.get( 'rotation' );
+
+		if ( curveRotation ) {
 
 			const rot = {
 				x: this.node.rotation[ 0 ],
@@ -288,21 +299,21 @@ export class BLidger extends Component {
 				z: this.node.rotation[ 2 ],
 			};
 
-			const rotValue = this.curveRotation.setFrame( frame ).value;
+			const rotValue = curveRotation.value;
 
-			if ( this.curveRotation.getFCurve( 'x' ) ) {
+			if ( curveRotation.getFCurve( 'x' ) ) {
 
 				rot.x = rotValue.x;
 
 			}
 
-			if ( this.curveRotation.getFCurve( 'y' ) ) {
+			if ( curveRotation.getFCurve( 'y' ) ) {
 
 				rot.y = rotValue.y;
 
 			}
 
-			if ( this.curveRotation.getFCurve( 'z' ) ) {
+			if ( curveRotation.getFCurve( 'z' ) ) {
 
 				rot.z = rotValue.z;
 
@@ -316,23 +327,25 @@ export class BLidger extends Component {
 
 		}
 
-		if ( this.curveScale ) {
+		const curveScale = this.animationCurves.get( 'scale' );
 
-			const scaleValue = this.curveScale.setFrame( frame ).value;
+		if ( curveScale ) {
 
-			if ( this.curveScale.getFCurve( 'x' ) ) {
+			const scaleValue = curveScale.setFrame( frame ).value;
+
+			if ( curveScale.getFCurve( 'x' ) ) {
 
 				entity.scale.x = scaleValue.x;
 
 			}
 
-			if ( this.curveScale.getFCurve( 'y' ) ) {
+			if ( curveScale.getFCurve( 'y' ) ) {
 
 				entity.scale.y = scaleValue.y;
 
 			}
 
-			if ( this.curveScale.getFCurve( 'z' ) ) {
+			if ( curveScale.getFCurve( 'z' ) ) {
 
 				entity.scale.z = scaleValue.z;
 
@@ -340,24 +353,33 @@ export class BLidger extends Component {
 
 		}
 
-		if ( this.curveHide ) {
+		const curveHide = this.animationCurves.get( 'hide' );
 
-			entity.visible = this.curveHide.setFrame( frame ).value.x < 0.5;
+		if ( curveHide ) {
 
-		}
-
-		if ( this.curveFov && this.cameraComponent ) {
-
-			this.cameraComponent.fov = 2 * Math.atan( 12 / ( 2 * this.curveFov.setFrame( frame ).value.x ) ) / Math.PI * 180;
+			entity.visible = curveHide.value.x < 0.5;
 
 		}
 
-		for ( let i = 0; i < this.uniformCurves.length; i ++ ) {
+		if ( this.cameraComponent ) {
 
-			const curve = this.uniformCurves[ i ];
-			this.uniforms[ curve.name ].value = curve.curve.setFrame( frame ).value;
+			const curveFov = this.animationCurves.get( 'fov' );
+
+			if ( curveFov ) {
+
+				this.cameraComponent.fov = 2 * Math.atan( 12 / ( 2 * curveFov.setFrame( frame ).value.x ) ) / Math.PI * 180;
+
+			}
 
 		}
+
+		// uniforms
+
+		this.uniformCurves.forEach( ( curve, name ) => {
+
+			this.uniforms[ name ].value = curve.setFrame( frame ).value;
+
+		} );
 
 	}
 

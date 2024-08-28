@@ -10,17 +10,17 @@ export class OrbitControls extends MXP.Component {
 
 	private keyborad: Keyboard;
 	private pointer: Pointer;
-
 	private orbit: GLP.Vector;
 	private mouseVelOrbit: GLP.Vector;
 	private mouseVelMove: GLP.Vector;
-
 	private eye: GLP.Vector;
-	public target: GLP.Vector;
+	private target: GLP.Vector;
 	private up: GLP.Vector;
 	private lookatMatrix: GLP.Matrix;
 	private distance: number;
 	private distanceVel: number;
+	private memPos: GLP.Vector;
+	private memTarget: GLP.Vector;
 
 	constructor( params: MXP.ComponentParams & {elm?: HTMLElement} ) {
 
@@ -28,17 +28,17 @@ export class OrbitControls extends MXP.Component {
 
 		this.pointer = new Pointer();
 		this.keyborad = new Keyboard();
-
 		this.orbit = new GLP.Vector();
 		this.mouseVelOrbit = new GLP.Vector();
 		this.mouseVelMove = new GLP.Vector();
-
 		this.target = new GLP.Vector();
 		this.eye = new GLP.Vector();
 		this.up = new GLP.Vector( 0, 1, 0 );
 		this.distance = 5.0;
 		this.distanceVel = 0.0;
 		this.lookatMatrix = new GLP.Matrix();
+		this.memPos = new GLP.Vector();
+		this.memTarget = new GLP.Vector();
 
 		const targetElm = params && params.elm || document.body;
 
@@ -111,6 +111,9 @@ export class OrbitControls extends MXP.Component {
 		this.enabled_ = value;
 
 		if ( value && this.entity ) {
+
+			this.memTarget.copy( this.target );
+			this.memPos.copy( this.entity.position );
 
 			const lookAt = this.entity.getComponent( LookAt );
 
