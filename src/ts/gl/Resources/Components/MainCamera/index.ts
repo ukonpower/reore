@@ -282,6 +282,18 @@ export class MainCamera extends MXP.Component {
 
 		if ( process.env.NODE_ENV === 'development' ) {
 
+			const switchAutoUpdate = ( auto: boolean ) => {
+
+				const blidger = this.entity && this.entity.getComponent( MXP.BLidger );
+
+				if ( blidger ) {
+
+					blidger.transformAutoUpdate = auto;
+
+				}
+
+			};
+
 			const onMouseDown = ( e: PointerEvent ) => {
 
 				const elm = e.target as HTMLElement;
@@ -290,29 +302,39 @@ export class MainCamera extends MXP.Component {
 
 				this.orbitControls.enabled = true;
 
+				switchAutoUpdate( false );
+
 			};
 
 			const onWheel = () => {
 
 				this.orbitControls.enabled = true;
 
+				switchAutoUpdate( false );
+
 			};
 
-			const onMouseLeave = () => {
+			const onKeyDown = ( e: KeyboardEvent ) => {
 
-				this.orbitControls.enabled = false;
+				if ( e.key === 'Escape' ) {
+
+					this.orbitControls.enabled = false;
+
+					switchAutoUpdate( true );
+
+				}
 
 			};
 
 			canvas.addEventListener( "pointerdown", onMouseDown );
-			canvas.addEventListener( "mouseleave", onMouseLeave );
 			canvas.addEventListener( "wheel", onWheel );
+			window.addEventListener( "keydown", onKeyDown );
 
 			const onDispose = () => {
 
-				canvas.removeEventListener( "mousedown", onMouseLeave );
-				canvas.removeEventListener( "mouseleave", onMouseLeave );
+				canvas.removeEventListener( "pointerdown", onMouseDown );
 				canvas.removeEventListener( "wheel", onWheel );
+				window.removeEventListener( "keydown", onKeyDown );
 
 			};
 

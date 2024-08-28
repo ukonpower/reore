@@ -24,6 +24,7 @@ export class BLidger extends Component {
 	public animationCurves: Map<string, GLP.FCurveGroup>;
 	public uniforms: GLP.Uniforms;
 	public uniformCurves: Map<string, GLP.FCurveGroup>;
+	public transformAutoUpdate: boolean;
 
 	private blidge: BLidge;
 	private cameraComponent?: Camera;
@@ -84,6 +85,8 @@ export class BLidger extends Component {
 			}
 
 		}
+
+		this.transformAutoUpdate = true;
 
 	}
 
@@ -263,91 +266,96 @@ export class BLidger extends Component {
 
 		} );
 
-		const curvePosition = this.animationCurves.get( 'position' );
+		if ( this.transformAutoUpdate ) {
 
-		if ( curvePosition ) {
 
-			const position = curvePosition.value;
+			const curvePosition = this.animationCurves.get( 'position' );
 
-			if ( curvePosition.getFCurve( 'x' ) ) {
+			if ( curvePosition ) {
 
-				entity.position.x = position.x;
+				const position = curvePosition.value;
 
-			}
+				if ( curvePosition.getFCurve( 'x' ) ) {
 
-			if ( curvePosition.getFCurve( 'y' ) ) {
+					entity.position.x = position.x;
 
-				entity.position.y = position.y;
+				}
 
-			}
+				if ( curvePosition.getFCurve( 'y' ) ) {
 
-			if ( curvePosition.getFCurve( 'z' ) ) {
+					entity.position.y = position.y;
 
-				entity.position.z = position.z;
+				}
 
-			}
+				if ( curvePosition.getFCurve( 'z' ) ) {
 
-		}
+					entity.position.z = position.z;
 
-		const curveRotation = this.animationCurves.get( 'rotation' );
-
-		if ( curveRotation ) {
-
-			const rot = {
-				x: this.node.rotation[ 0 ],
-				y: this.node.rotation[ 1 ],
-				z: this.node.rotation[ 2 ],
-			};
-
-			const rotValue = curveRotation.value;
-
-			if ( curveRotation.getFCurve( 'x' ) ) {
-
-				rot.x = rotValue.x;
+				}
 
 			}
 
-			if ( curveRotation.getFCurve( 'y' ) ) {
+			const curveRotation = this.animationCurves.get( 'rotation' );
 
-				rot.y = rotValue.y;
+			if ( curveRotation ) {
+
+				const rot = {
+					x: this.node.rotation[ 0 ],
+					y: this.node.rotation[ 1 ],
+					z: this.node.rotation[ 2 ],
+				};
+
+				const rotValue = curveRotation.value;
+
+				if ( curveRotation.getFCurve( 'x' ) ) {
+
+					rot.x = rotValue.x;
+
+				}
+
+				if ( curveRotation.getFCurve( 'y' ) ) {
+
+					rot.y = rotValue.y;
+
+				}
+
+				if ( curveRotation.getFCurve( 'z' ) ) {
+
+					rot.z = rotValue.z;
+
+				}
+
+				entity.quaternion.setFromEuler( {
+					x: rot.x + this.rotationOffsetX,
+					y: rot.y,
+					z: rot.z
+				}, 'YZX' );
 
 			}
 
-			if ( curveRotation.getFCurve( 'z' ) ) {
+			const curveScale = this.animationCurves.get( 'scale' );
 
-				rot.z = rotValue.z;
+			if ( curveScale ) {
 
-			}
+				const scaleValue = curveScale.setFrame( frame ).value;
 
-			entity.quaternion.setFromEuler( {
-				x: rot.x + this.rotationOffsetX,
-				y: rot.y,
-				z: rot.z
-			}, 'YZX' );
+				if ( curveScale.getFCurve( 'x' ) ) {
 
-		}
+					entity.scale.x = scaleValue.x;
 
-		const curveScale = this.animationCurves.get( 'scale' );
+				}
 
-		if ( curveScale ) {
+				if ( curveScale.getFCurve( 'y' ) ) {
 
-			const scaleValue = curveScale.setFrame( frame ).value;
+					entity.scale.y = scaleValue.y;
 
-			if ( curveScale.getFCurve( 'x' ) ) {
+				}
 
-				entity.scale.x = scaleValue.x;
+				if ( curveScale.getFCurve( 'z' ) ) {
 
-			}
+					entity.scale.z = scaleValue.z;
 
-			if ( curveScale.getFCurve( 'y' ) ) {
-
-				entity.scale.y = scaleValue.y;
-
-			}
-
-			if ( curveScale.getFCurve( 'z' ) ) {
-
-				entity.scale.z = scaleValue.z;
+				}
 
 			}
 
