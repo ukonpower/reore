@@ -28,15 +28,11 @@
 					]
 				},
 				{
-					"path": "/root/blidgeRoot/MainCube",
+					"path": "/root/blidgeRoot/MainObj",
 					"components": [
 						{
-							"key": "turingTex",
-							"name": "TuringRenderer",
-							"props": {
-								"f": 0.016999999999999973,
-								"k": 0.04349999999999998
-							}
+							"key": "mainobj",
+							"name": "MainObj"
 						}
 					]
 				},
@@ -107,7 +103,7 @@
 	"settings": {
 		"enableRender": true,
 		"currentProjectName": "Demo3",
-		"resolutionScale": 0.25,
+		"resolutionScale": 1,
 		"viewType": "render",
 		"frameLoop/enabled": false,
 		"frameLoop/start": 0,

@@ -283,13 +283,22 @@ export class MainCamera extends MXP.Component {
 
 		if ( process.env.NODE_ENV === 'development' ) {
 
-			const switchAutoUpdate = ( auto: boolean ) => {
+			const activeOrbitControls = ( activeOrbitcontrols: boolean ) => {
+
+				this.orbitControls.enabled = activeOrbitcontrols;
 
 				const blidger = this.entity && this.entity.getComponent( MXP.BLidger );
+				const lookat = this.entity && this.entity.getComponent( LookAt );
 
 				if ( blidger ) {
 
-					blidger.transformAutoUpdate = auto;
+					blidger.transformAutoUpdate = ! activeOrbitcontrols;
+
+				}
+
+				if ( lookat ) {
+
+					lookat.enable = ! activeOrbitcontrols;
 
 				}
 
@@ -297,21 +306,21 @@ export class MainCamera extends MXP.Component {
 
 			const onMouseDown = ( e: PointerEvent ) => {
 
+				if ( this.orbitControls.enabled ) return;
+
 				const elm = e.target as HTMLElement;
 
 				elm.setPointerCapture( e.pointerId );
 
-				this.orbitControls.enabled = true;
-
-				switchAutoUpdate( false );
+				activeOrbitControls( true );
 
 			};
 
 			const onWheel = () => {
 
-				this.orbitControls.enabled = true;
+				if ( this.orbitControls.enabled ) return;
 
-				switchAutoUpdate( false );
+				activeOrbitControls( true );
 
 			};
 
@@ -319,9 +328,7 @@ export class MainCamera extends MXP.Component {
 
 				if ( e.key === 'Escape' ) {
 
-					this.orbitControls.enabled = false;
-
-					switchAutoUpdate( true );
+					activeOrbitControls( false );
 
 				}
 
