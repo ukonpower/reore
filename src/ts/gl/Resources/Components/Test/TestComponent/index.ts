@@ -6,7 +6,7 @@ import templateVert from './shaders/template.vs';
 
 import { globalUniforms } from '~/ts/gl/GLGlobals';
 
-export class TemplateComponent extends MXP.Component {
+export class TestComponent extends MXP.Component {
 
 	private geometry: MXP.Geometry;
 	private material: MXP.Material;
@@ -59,7 +59,7 @@ export class TemplateComponent extends MXP.Component {
 
 	static get key(): string {
 
-		return "templateComponent";
+		return "test1";
 
 	}
 

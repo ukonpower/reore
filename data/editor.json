@@ -14,11 +14,9 @@
 							"key": "blidgeClient",
 							"name": "BLidgeClient",
 							"props": {
-								"mode": "websocket",
+								"mode": "json",
 								"gltf": true,
-								"gltfPath": "/scene.glb",
-								"websocket/connected": true,
-								"websocket/url": "ws://localhost:3100"
+								"gltfPath": "/scene.glb"
 							}
 						},
 						{
@@ -47,7 +45,12 @@
 				}
 			],
 			"scene": {
-				"name": "root"
+				"name": "root",
+				"childs": [
+					{
+						"name": "Test"
+					}
+				]
 			}
 		},
 		{
@@ -103,7 +106,7 @@
 	"settings": {
 		"enableRender": true,
 		"currentProjectName": "Demo3",
-		"resolutionScale": 1,
+		"resolutionScale": 0.25,
 		"viewType": "render",
 		"frameLoop/enabled": false,
 		"frameLoop/start": 0,

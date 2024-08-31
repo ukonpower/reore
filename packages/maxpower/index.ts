@@ -39,6 +39,10 @@ export * from './Entity';
 
 export * from './Loaders/GLTFLoader';
 
+// Resource
+
+export * from './Resource';
+
 // Exportable
 
 export * from './Exportable';

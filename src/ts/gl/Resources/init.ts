@@ -2,10 +2,7 @@
 import { gl, renderer, resource } from '../GLGlobals';
 import { TexProcedural } from '../ProjectScene/utils/TexProcedural';
 
-import { MainObj } from './Components/Demo3/MainObj';
-import { Music } from './Components/Demo3/Music';
-import { SkyBoxDemo3 } from './Components/Demo3/SkyBoxDemo3';
-import { BLidgeClient } from './Components/Utilities/BLidgeClient';
+import { COMPONENTLIST } from './_data/componentList';
 import { Font1 } from './Fonts/Font1';
 import noiseFrag from './Textures/noise.fs';
 
@@ -17,19 +14,19 @@ export const initResouces = () => {
 
 	resource.clear();
 
-	// demo3
+	const keys = Object.keys( COMPONENTLIST );
 
-	const comEntity = resource.componentCategory( "Demo3" );
+	keys.forEach( ( key ) => {
 
-	comEntity.register( SkyBoxDemo3 );
-	comEntity.register( MainObj );
+		const comEntity = resource.componentCategory( key );
 
-	// Utils
+		COMPONENTLIST[ key ].forEach( ( component: any ) => {
 
-	const comUtils = resource.componentCategory( "Utils" );
+			comEntity.register( component );
 
-	comUtils.register( BLidgeClient );
-	comUtils.register( Music );
+		} );
+
+	} );
 
 	/*-------------------------------
 		Textures

@@ -12,10 +12,9 @@
 					"key": "blidgeClient",
 					"name": "BLidgeClient",
 					"props": {
-						"mode": "websocket",
-						"gltf": false,
-						"websocket/connected": true,
-						"websocket/url": "ws://localhost:3100"
+						"mode": "json",
+						"gltf": true,
+						"gltfPath": "/scene.glb"
 					}
 				},
 				{
@@ -25,15 +24,11 @@
 			]
 		},
 		{
-			"path": "/root/blidgeRoot/MainCube",
+			"path": "/root/blidgeRoot/MainObj",
 			"components": [
 				{
-					"key": "turingTex",
-					"name": "TuringRenderer",
-					"props": {
-						"f": 0.016999999999999973,
-						"k": 0.04349999999999998
-					}
+					"key": "mainobj",
+					"name": "MainObj"
 				}
 			]
 		},

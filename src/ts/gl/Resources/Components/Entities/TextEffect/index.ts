@@ -1,6 +1,6 @@
 import * as MXP from 'maxpower';
 
-import { Text } from '../Text';
+import { Text } from '../../Utilities/Text';
 
 
 export class TextEffect extends MXP.Component {

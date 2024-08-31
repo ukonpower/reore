@@ -1,4 +1,4 @@
-import { Resource } from "~/ts/gl/Resources/Resource";
+import { Resource } from "../Resource";
 
 export type ExportablePropsOpt = {
 } & {

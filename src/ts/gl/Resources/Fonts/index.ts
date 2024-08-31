@@ -1,8 +1,7 @@
 import * as GLP from 'glpower';
+import * as MXP from 'maxpower';
 
-import { Resource } from '../Resource';
-
-export class Font extends Resource {
+export class Font extends MXP.Resource {
 
 	public texture: GLP.GLPowerTexture;
 	public matrices: Map<string, {geo: GLP.Matrix, uv: GLP.Matrix}> = new Map();

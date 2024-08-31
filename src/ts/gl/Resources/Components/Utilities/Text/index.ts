@@ -1,7 +1,7 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import { Font1 } from '../../Fonts/Font1';
+import { Font1 } from '../../../Fonts/Font1';
 
 import textFrag from './shaders/text.fs';
 import textVert from './shaders/text.vs';

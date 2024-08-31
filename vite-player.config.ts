@@ -3,6 +3,7 @@ import path from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
 
+import { ResourceManager } from './plugins/ResourceManager';
 import { ShaderMinifierLoader } from './plugins/ShaderMinifierLoader';
 
 const basePath = ``;
@@ -35,6 +36,7 @@ export default defineConfig( {
 	},
 	plugins: [
 		ShaderMinifierLoader(),
+		ResourceManager(),
 		visualizer( {
 			template: "treemap"
 		} ),
