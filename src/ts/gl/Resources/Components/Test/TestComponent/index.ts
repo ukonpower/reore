@@ -57,13 +57,6 @@ export class TestComponent extends MXP.Component {
 
 	}
 
-	static get key(): string {
-
-		return "test1";
-
-	}
-
-
 	public setEntityImpl( entity: MXP.Entity ): void {
 
 		entity.addComponent( this.material );

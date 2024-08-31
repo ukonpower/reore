@@ -240,12 +240,6 @@ export class MatchMove extends MXP.Component {
 
 	}
 
-	public static get key(): string {
-
-		return "matchMove";
-
-	}
-
 	public setEntityImpl( entity: MXP.Entity ): void {
 
 		entity.addComponent( this.compute );

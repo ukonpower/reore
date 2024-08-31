@@ -34,12 +34,6 @@ export class VJCamera extends MXP.Component {
 
 	}
 
-	static get key(): string {
-
-		return "vjCamera";
-
-	}
-
 	private move() {
 
 		this.animator.animate( "pos", new GLP.Vector(

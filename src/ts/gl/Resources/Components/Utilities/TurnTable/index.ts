@@ -17,12 +17,6 @@ export class TurnTable extends MXP.Component {
 
 	}
 
-	static get key(): string {
-
-		return "turntable";
-
-	}
-
 	protected updateImpl( event: MXP.ComponentUpdateEvent ): void {
 
 		const entity = event.entity;

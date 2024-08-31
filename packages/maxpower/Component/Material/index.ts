@@ -46,7 +46,6 @@ export class Material extends Component {
 	public visibilityFlag: MaterialVisibility;
 	public programCache: MaterialProgramCache;
 
-
 	constructor( params?: MaterialParam ) {
 
 		super( params );
@@ -75,7 +74,7 @@ export class Material extends Component {
 
 	}
 
-	static get key() {
+	public static get tag() {
 
 		return "material";
 

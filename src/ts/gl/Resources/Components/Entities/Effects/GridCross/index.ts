@@ -97,13 +97,6 @@ export class GridCross extends MXP.Component {
 
 	}
 
-	static get key(): string {
-
-		return 'gridCross';
-
-	}
-
-
 	public setEntityImpl( entity: MXP.Entity ): void {
 
 		entity.addComponent( this.material );

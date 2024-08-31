@@ -161,12 +161,6 @@ export class Music extends MXP.Component {
 
 	}
 
-	static get key(): string {
-
-		return "music";
-
-	}
-
 	private render() {
 
 		if ( this.currentRender ) [

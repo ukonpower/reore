@@ -125,11 +125,4 @@ export class TuringRenderer extends MXP.GPUCompute {
 
 	}
 
-	static get key(): string {
-
-		return 'turingTex';
-
-	}
-
-
 }

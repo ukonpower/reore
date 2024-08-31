@@ -30,12 +30,6 @@ export class ShakeViewer extends MXP.Component {
 
 	}
 
-	static get key() {
-
-		return "shakeViewer";
-
-	}
-
 
 	public getProps(): MXP.ExportableProps | null {
 

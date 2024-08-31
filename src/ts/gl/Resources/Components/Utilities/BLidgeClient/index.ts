@@ -68,12 +68,6 @@ export class BLidgeClient extends MXP.Component {
 
 	}
 
-	public static get key() {
-
-		return "blidgeClient";
-
-	}
-
 	public getProps(): MXP.ExportableProps {
 
 		const connect = this.connection.enabled;

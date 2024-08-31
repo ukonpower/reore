@@ -26,7 +26,6 @@ export type RenderStack = {
 	deferred: Entity[];
 	forward: Entity[];
 	ui: Entity[];
-	gpuCompute: Entity[];
 }
 
 // light
@@ -430,7 +429,7 @@ export class Renderer extends Entity {
 
 			// postprocess
 
-			const postProcess = cameraEntity.getComponentByKey<PostProcess>( 'postProcess' );
+			const postProcess = cameraEntity.getComponent( PostProcess );
 
 			if ( postProcess && postProcess.enabled ) {
 
@@ -465,7 +464,7 @@ export class Renderer extends Entity {
 
 	public renderCamera( renderType: MaterialRenderType, cameraEntity: Entity, entities: Entity[], renderTarget: GLP.GLPowerFrameBuffer | null, canvasSize: GLP.Vector, renderOption?: RenderOption ) {
 
-		const camera = cameraEntity.getComponent( Camera ) || cameraEntity.getComponent( Light )!;
+		const camera = cameraEntity.getComponentByTag<Camera>( "camera" ) || cameraEntity.getComponent( Light )!;
 
 		renderOption = renderOption || {};
 
@@ -537,8 +536,8 @@ export class Renderer extends Entity {
 		for ( let i = 0; i < entities.length; i ++ ) {
 
 			const entity = entities[ i ];
-			const material = entity.getComponent( Material )!;
-			const geometry = entity.getComponent( Geometry )!;
+			const material = entity.getComponentByTag<Material>( "material" )!;
+			const geometry = entity.getComponentByTag<Geometry>( "geometry" )!;
 
 			drawParam.modelMatrixWorld = entity.matrixWorld;
 			drawParam.modelMatrixWorldPrev = entity.matrixWorldPrev;

@@ -90,12 +90,6 @@ export class BLidger extends Component {
 
 	}
 
-	public static get key(): string {
-
-		return "blidger";
-
-	}
-
 	public getProps(): ExportableProps | null {
 
 		return {
@@ -172,7 +166,7 @@ export class BLidger extends Component {
 
 				if ( gltfEntity ) {
 
-					const geo = gltfEntity.getComponent( Geometry );
+					const geo = gltfEntity.getComponentByTag<Geometry>( "geometry" );
 
 					if ( geo ) {
 
@@ -181,7 +175,7 @@ export class BLidger extends Component {
 
 					}
 
-					const mat = gltfEntity.getComponent( Material );
+					const mat = gltfEntity.getComponentByTag<Material>( "material" );
 
 					if ( mat ) {
 
@@ -200,13 +194,13 @@ export class BLidger extends Component {
 
 		// base material
 
-		const mat = entity.getComponent( Material );
+		const mat = entity.getComponentByTag<Material>( "material" );
 
 		if ( mat ) {
 
 			mat.uniforms = GLP.UniformsUtils.merge( mat.uniforms, this.uniforms );
 
-		} else if ( entity.getComponent( Geometry ) ) {
+		} else if ( entity.getComponentByTag<Geometry>( "geometry" ) ) {
 
 			entity.addComponent( new Material( { disableEdit: true, name: entity.name, phase: [ "deferred", "shadowMap" ] } ) );
 

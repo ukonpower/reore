@@ -32,11 +32,12 @@ export class Geometry extends Component {
 
 	}
 
-	static get key(): string {
+	public static get tag() {
 
 		return "geometry";
 
 	}
+
 
 	public getProps(): ExportableProps | null {
 

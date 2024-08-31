@@ -260,7 +260,6 @@ export class MainCamera extends MXP.Component {
 		}
 
 		this.postProcess = new MXP.PostProcess( {
-			keyOverride: 'postProcess',
 			input: this.renderTarget.uiBuffer.textures,
 			passes: [
 				this.bloomBright,

@@ -23,12 +23,6 @@ export class LookAt extends MXP.Component {
 
 	}
 
-	static get key() {
-
-		return "lookat";
-
-	}
-
 	public getProps(): MXP.ExportableProps | null {
 
 		return {
@@ -56,7 +50,7 @@ export class LookAt extends MXP.Component {
 
 			entity.matrixWorld.lookAt( this.entityWorldPos, this.targetWorldPos, this.up );
 
-			const camera = entity.getComponent( MXP.Camera );
+			const camera = entity.getComponentByTag<MXP.Camera>( "camera" );
 
 			if ( camera ) {
 

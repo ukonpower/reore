@@ -54,12 +54,6 @@ export class FluidCrystal extends MXP.Component {
 
 	}
 
-	static get key(): string {
-
-		return "fluidCrystal";
-
-	}
-
 	public setEntity( entity: MXP.Entity ): void {
 
 		entity.addComponent( this.material );

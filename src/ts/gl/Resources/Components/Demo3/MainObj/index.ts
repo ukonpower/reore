@@ -21,7 +21,7 @@ export class MainObj extends MXP.Component {
 
 	}
 
-	public get key() {
+	public get id() {
 
 		return "mainobj";
 

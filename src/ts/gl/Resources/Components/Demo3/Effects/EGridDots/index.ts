@@ -110,7 +110,7 @@ export class EGridDots extends MXP.Component {
 
 	}
 
-	public get key(): string {
+	public get id(): string {
 
 		return "EGridDots";
 

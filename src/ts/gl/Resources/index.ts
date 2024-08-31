@@ -104,7 +104,7 @@ export class OREngineResource extends GLP.EventEmitter {
 
 		const k = typeof key == 'string' ? key : key.key;
 
-		return this.fonts.find( f => f.key == k );
+		return this.fonts.find( f => f.id == k );
 
 	}
 

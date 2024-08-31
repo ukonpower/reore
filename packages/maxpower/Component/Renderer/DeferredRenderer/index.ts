@@ -263,12 +263,6 @@ export class DeferredRenderer extends MXP.PostProcess {
 
 	}
 
-	public static get key(): string {
-
-		return super.key + "deferred";
-
-	}
-
 	protected updateImpl( event: MXP.ComponentUpdateEvent ): void {
 
 		// uniforms

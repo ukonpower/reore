@@ -20,7 +20,7 @@ export const ComponentView = ( { component, keyName }: ComponentViewProps ) => {
 	const { reflesh } = useContext( EditorContext );
 
 	const propElms: JSX.Element[] = [
-		<Value key='-1' label={"key"} value={keyName} readOnly />
+		<Value key='-2' label={"attribute"} value={component.tag} readOnly />
 	];
 
 	const compoProps = component.getProps();

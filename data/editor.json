@@ -11,7 +11,7 @@
 					"path": "/root",
 					"components": [
 						{
-							"key": "blidgeClient",
+							"key": "BLidgeClient",
 							"name": "BLidgeClient",
 							"props": {
 								"mode": "json",
@@ -20,7 +20,7 @@
 							}
 						},
 						{
-							"key": "music",
+							"key": "Music",
 							"name": "Music"
 						}
 					]
@@ -38,7 +38,7 @@
 					"path": "/root/blidgeRoot/SkyBox",
 					"components": [
 						{
-							"key": "skybox",
+							"key": "SkyBoxDemo3",
 							"name": "SkyBoxDemo3"
 						}
 					]

@@ -272,7 +272,7 @@ export class PipelinePostProcess extends MXP.PostProcess {
 		} );
 
 		super( {
-			keyOverride: 'scenePostProcess',
+			idOverride: 'scenePostProcess',
 			passes: [
 				colorCollection,
 				ssr,
@@ -309,12 +309,6 @@ export class PipelinePostProcess extends MXP.PostProcess {
 
 		this.renderCamera = null;
 
-
-	}
-
-	public static get key(): string {
-
-		return super.key + "pipelinePostprocess";
 
 	}
 

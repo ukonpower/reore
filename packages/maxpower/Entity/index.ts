@@ -2,16 +2,15 @@ import * as GLP from 'glpower';
 
 
 import { BLidgeEntity } from "../BLidge";
-import { Component, ComponentUpdateEvent, BuiltInComponents } from "../Component";
+import { Component, ComponentUpdateEvent } from "../Component";
 import { BLidger } from '../Component/BLidger';
 import { Camera } from '../Component/Camera';
+import { RenderCamera } from '../Component/Camera/RenderCamera';
 import { Geometry } from '../Component/Geometry';
-import { GPUCompute } from '../Component/GPUCompute';
 import { Light } from '../Component/Light';
 import { Material } from '../Component/Material';
+import { RenderStack } from '../Component/Renderer';
 import { Exportable } from '../Exportable';
-
-import { RenderStack } from '~/ts/gl/ProjectScene/Renderer';
 
 export type EntityUpdateEvent = {
 	timElapsed: number;
@@ -54,6 +53,7 @@ export class Entity extends Exportable {
 	public parent: Entity | null;
 	public children: Entity[];
 	public components: Map<string, Component>;
+	private componentsByTag: Map<string, Component>;
 
 	protected blidgeNode?: BLidgeEntity;
 
@@ -82,6 +82,7 @@ export class Entity extends Exportable {
 		this.children = [];
 
 		this.components = new Map();
+		this.componentsByTag = new Map();
 
 		this.visible = true;
 
@@ -184,8 +185,8 @@ export class Entity extends Exportable {
 		const visibility = ( event.visibility || event.visibility === undefined ) && this.visible;
 		childEvent.visibility = visibility;
 
-		const geometry = this.getComponent( Geometry );
-		const material = this.getComponent( Material );
+		const geometry = this.getComponentByTag<Geometry>( "geometry" );
+		const material = this.getComponentByTag<Material>( "material" );
 
 		if ( geometry && material && ( geometry.enabled && material.enabled && visibility || event.forceDraw ) ) {
 
@@ -197,7 +198,7 @@ export class Entity extends Exportable {
 
 		}
 
-		const camera = this.getComponent( Camera );
+		const camera = this.getComponent( RenderCamera );
 
 		if ( camera && camera.enabled ) {
 
@@ -316,9 +317,9 @@ export class Entity extends Exportable {
 
 	public addComponent<T extends Component>( component: T ) {
 
-		const key = component.key;
+		const id = component.id;
 
-		const prevComponent = this.components.get( key );
+		const prevComponent = this.components.get( id );
 
 		if ( prevComponent ) {
 
@@ -328,9 +329,15 @@ export class Entity extends Exportable {
 
 		component.setEntity( this );
 
-		this.components.set( key, component );
+		this.components.set( id, component );
 
-		if ( key == "blidger" ) {
+		if ( component.tag !== "" ) {
+
+			this.componentsByTag.set( component.tag, component );
+
+		}
+
+		if ( id == "blidger" ) {
 
 			this.appendBlidger( component as unknown as BLidger );
 
@@ -340,26 +347,38 @@ export class Entity extends Exportable {
 
 	}
 
-	public getComponentByKey<T extends Component>( name: BuiltInComponents ): T | undefined {
+	public getComponentByTag<T extends Component>( tag: string ): T | undefined {
 
-		return this.components.get( name ) as T;
+		return this.componentsByTag.get( tag ) as T;
+
+	}
+
+	public getComponentById<T extends Component>( id: string ): T | undefined {
+
+		return this.components.get( id ) as T;
 
 	}
 
 	public getComponent<T extends typeof Component>( component: T ): InstanceType<T> | undefined {
 
-		return this.getComponentByKey( component.key );
+		return this.getComponentById( component.id );
 
 	}
 
 	public removeComponent( component: Component | typeof Component ) {
 
-		const currentComponent = this.components.get( component.key );
+		const currentComponent = this.components.get( component.id );
 
 		if ( currentComponent ) {
 
-			this.components.delete( currentComponent.key );
+			this.components.delete( currentComponent.id );
 			currentComponent.unsetEntity();
+
+			if ( currentComponent.tag !== "" ) {
+
+				this.componentsByTag.delete( currentComponent.tag );
+
+			}
 
 		}
 

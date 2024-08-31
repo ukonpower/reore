@@ -7,28 +7,15 @@ export type ComponentUpdateEvent = EntityFinalizeEvent & {
 	entity: Entity,
 }
 
-export type BuiltInComponents =
-	'camera' |
-	'cameraShadowMap' |
-	'perspective' |
-	"orthographic" |
-	'material' |
-	'geometry' |
-	'light' |
-	'blidger' |
-	'scenePostProcess' |
-	'postProcess' |
-	'gpuCompute' |
-( string & {} );
-
 export type ComponentParams = {
-	keyOverride?: string,
+	idOverride?: string,
 	disableEdit?: boolean
 }
 
 export class Component extends Exportable {
 
 	public readonly uuid: string;
+
 	public entity: Entity | null;
 	public disableEdit: boolean;
 
@@ -40,12 +27,24 @@ export class Component extends Exportable {
 
 		params = params ?? {};
 
-		this.enabled_ = true;
-		this.keyOverride = params.keyOverride || null;
-		this.disableEdit = params.disableEdit || false;
-		this.entity = null;
+		this.idOverride = params.idOverride || null;
 		this.uuid = GLP.ID.genUUID();
+		this.entity = null;
+		this.disableEdit = params.disableEdit || false;
+		this.enabled_ = true;
 
+
+	}
+
+	public static get tag() {
+
+		return "";
+
+	}
+
+	public get tag() {
+
+		return ( this.constructor as typeof Component ).tag;
 
 	}
 

@@ -76,13 +76,6 @@ export class FlashLine extends MXP.Component {
 
 	}
 
-	static get key(): string {
-
-		return "flashLine";
-
-	}
-
-
 	public setEntityImpl( entity: MXP.Entity ): void {
 
 		entity.addComponent( this.material );

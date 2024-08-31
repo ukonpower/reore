@@ -25,12 +25,6 @@ export class GPUCompute extends PostProcess {
 
 	}
 
-	public static get key(): string {
-
-		return 'gpuCompute';
-
-	}
-
 	protected updateImpl( event: ComponentUpdateEvent ): void {
 
 		this.renderer.renderPostProcess( this );

@@ -1,7 +1,6 @@
 import * as GLP from "glpower";
 
 import { CameraParam, Camera } from "..";
-import { ExportableProps, ExportablePropsSerialized } from "../../../Exportable";
 
 export type RenderCameraTarget = {
 	gBuffer: GLP.GLPowerFrameBuffer,

@@ -76,10 +76,4 @@ export class TextEffect extends MXP.Component {
 
 	}
 
-	static get key(): string {
-
-		return 'textEffect';
-
-	}
-
 }

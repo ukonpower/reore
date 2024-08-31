@@ -66,12 +66,6 @@ export class Text extends MXP.Component {
 
 	}
 
-	static get key(): string {
-
-		return 'text';
-
-	}
-
 	public setText( text: string, align?: string ): void {
 
 		const font = resource.getFont( Font1 )!;
