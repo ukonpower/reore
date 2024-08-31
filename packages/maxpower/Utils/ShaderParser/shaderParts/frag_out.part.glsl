@@ -1,3 +1,7 @@
+#if defined(IS_DEPTH) || defined(IS_DEFERRED)
+	vec4 mv = viewMatrix * vec4(outPos, 1.0);
+#endif
+
 #ifdef IS_DEPTH
 	float depth_z = (-mv.z - cameraNear) / (cameraFar - cameraNear);
 	outColor0 = vec4(floatToRGBA( depth_z ));
@@ -32,10 +36,6 @@
 		mat3 vTBN = mat3( tangent, bitangent, outNormal );
 		outNormal = normalize( vTBN * outNormalMap );
 
-	#endif
-
-	#if defined(IS_DEPTH) || defined(IS_DEFERRED)
-		vec4 mv = viewMatrix * vec4(outPos, 1.0);
 	#endif
 
 	vec4 mvp = projectionMatrix * mv;
