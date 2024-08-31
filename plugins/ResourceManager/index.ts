@@ -24,7 +24,11 @@ const updateComponentList = ( ) => {
 
 			if ( stat.isDirectory() ) {
 
-				getIndexTsFiles( filePath, fileList );
+				if ( path.relative( componentsDir, dir ).split( '/' ).length < 2 ) {
+
+					getIndexTsFiles( filePath, fileList );
+
+				}
 
 			} else if ( stat.isFile() && file === 'index.ts' ) {
 

@@ -1,13 +1,8 @@
 import { MainCamera } from '../Components/Camera/MainCamera/index.ts';
-import { EGridDots } from '../Components/Demo3/Effects/EGridDots/index.ts';
-import { RectWire } from '../Components/Demo3/MainObj/RectWire/index.ts';
 import { MainObj } from '../Components/Demo3/MainObj/index.ts';
 import { Music } from '../Components/Demo3/Music/index.ts';
 import { SkyBoxDemo3 } from '../Components/Demo3/SkyBoxDemo3/index.ts';
 import { TuringRenderer } from '../Components/Demo3/TuringTex/index.ts';
-import { DashCube } from '../Components/Entities/Effects/DashCube/index.ts';
-import { FlashLine } from '../Components/Entities/Effects/FlashLine/index.ts';
-import { GridCross } from '../Components/Entities/Effects/GridCross/index.ts';
 import { FluidCrystal } from '../Components/Entities/FluidCrystal/index.ts';
 import { MatchMove } from '../Components/Entities/MatchMove/index.ts';
 import { SkyBox } from '../Components/Entities/SkyBox/index.ts';
@@ -27,17 +22,12 @@ export const COMPONENTLIST: {[key: string]: any} = {
 		MainCamera,
 	],
 	Demo3: [
-		EGridDots,
-		RectWire,
 		MainObj,
 		Music,
 		SkyBoxDemo3,
 		TuringRenderer,
 	],
 	Entities: [
-		DashCube,
-		FlashLine,
-		GridCross,
 		FluidCrystal,
 		MatchMove,
 		SkyBox,
