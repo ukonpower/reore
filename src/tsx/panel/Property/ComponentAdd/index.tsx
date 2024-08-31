@@ -6,12 +6,12 @@ import { MouseMenuContext } from '../../MouseMenu/useMouseMenu';
 
 import style from './index.module.scss';
 
-import { EditorContext } from '~/ts/components/gl/useEditor';
-import { Button } from "~/ts/components/ui/Button";
-import { InputGroup } from '~/ts/components/ui/InputGroup';
-import { Picker } from '~/ts/components/ui/Picker';
-import { ValueType } from '~/ts/components/ui/Property/Value';
 import { ResouceComponentItem } from '~/ts/gl/Resources';
+import { EditorContext } from '~/tsx/gl/useEditor';
+import { Button } from '~/tsx/ui/Button';
+import { InputGroup } from '~/tsx/ui/InputGroup';
+import { Picker } from '~/tsx/ui/Picker';
+import { ValueType } from '~/tsx/ui/Property/Value';
 
 type ComponentAddProps= {
 	entity: MXP.Entity

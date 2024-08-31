@@ -2,18 +2,18 @@ import { ReactNode, useContext } from 'react';
 
 import style from './index.module.scss';
 
-import { useEditor, EditorContext } from '~/ts/components/gl/useEditor';
-import { GLContext, useGL } from '~/ts/components/gl/useGL';
-import { Hierarchy } from '~/ts/components/panel/Hierarchy';
-import { MouseMenu } from '~/ts/components/panel/MouseMenu';
-import { MouseMenuContext, useMouseMenu } from '~/ts/components/panel/MouseMenu/useMouseMenu';
-import { ProjectControl } from '~/ts/components/panel/ProjectControl';
-import { Property } from '~/ts/components/panel/Property';
-import { Screen } from '~/ts/components/panel/Screen';
-import { Timeline } from '~/ts/components/panel/Timeline';
-import { Panel } from '~/ts/components/ui/Panel';
-import { PanelContainer } from '~/ts/components/ui/PanelContainer';
 import { useLayout } from '~/ts/hooks/useLayout';
+import { useEditor, EditorContext } from '~/tsx/gl/useEditor';
+import { GLContext, useGL } from '~/tsx/gl/useGL';
+import { Hierarchy } from '~/tsx/panel/Hierarchy';
+import { MouseMenu } from '~/tsx/panel/MouseMenu';
+import { MouseMenuContext, useMouseMenu } from '~/tsx/panel/MouseMenu/useMouseMenu';
+import { ProjectControl } from '~/tsx/panel/ProjectControl';
+import { Property } from '~/tsx/panel/Property';
+import { Screen } from '~/tsx/panel/Screen';
+import { Timeline } from '~/tsx/panel/Timeline';
+import { Panel } from '~/tsx/ui/Panel';
+import { PanelContainer } from '~/tsx/ui/PanelContainer';
 
 export const EditorProvider = ( { children } :{children: ReactNode} ) => {
 

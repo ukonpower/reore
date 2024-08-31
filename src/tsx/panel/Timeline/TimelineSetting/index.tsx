@@ -5,9 +5,9 @@ import { TimelineContext } from '../hooks/useTimeline';
 
 import style from './index.module.scss';
 
-import { useWatchExportable } from '~/ts/components/gl/useWatchExportable';
-import { Panel } from '~/ts/components/ui/Panel';
-import { Value, ValueType } from '~/ts/components/ui/Property/Value';
+import { useWatchExportable } from '~/tsx/gl/useWatchExportable';
+import { Panel } from '~/tsx/ui/Panel';
+import { Value, ValueType } from '~/tsx/ui/Property/Value';
 
 export const TimelineSetting = () => {
 

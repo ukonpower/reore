@@ -5,10 +5,10 @@ import { MouseMenuContext } from '../../MouseMenu/useMouseMenu';
 
 import style from './index.module.scss';
 
-import { EditorContext } from '~/ts/components/gl/useEditor';
-import { ArrowIcon } from '~/ts/components/ui/icon/ArrowIcon';
-import { InputGroup } from '~/ts/components/ui/InputGroup';
-import { Picker } from '~/ts/components/ui/Picker';
+import { EditorContext } from '~/tsx/gl/useEditor';
+import { ArrowIcon } from '~/tsx/ui/icon/ArrowIcon';
+import { InputGroup } from '~/tsx/ui/InputGroup';
+import { Picker } from '~/tsx/ui/Picker';
 
 type HierarchyNodeProps = {
 	depth?: number;

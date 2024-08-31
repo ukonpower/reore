@@ -5,7 +5,7 @@ import { TimelineContext } from '../hooks/useTimeline';
 import style from './index.module.scss';
 import { TimelineLoopCursor } from './TimelineLoopCursor';
 
-import { useWatchExportable } from '~/ts/components/gl/useWatchExportable';
+import { useWatchExportable } from '~/tsx/gl/useWatchExportable';
 
 export const TimelineLoop = () => {
 
