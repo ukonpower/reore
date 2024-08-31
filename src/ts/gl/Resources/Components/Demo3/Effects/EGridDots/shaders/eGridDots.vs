@@ -7,7 +7,7 @@ layout (location = 4 ) in vec3 insId;
 
 out float vAlpha;
 
-uniform float uTime;
+uniform float uTimeE;
 
 void main( void ) {
 
@@ -17,6 +17,6 @@ void main( void ) {
 	
 	#include <vert_out>
 
-	vAlpha = noise( insPos * 4.0 + vec3( 0.0, 0.0, uTime + insId.z * 100.0 ) ) * 0.9;
+	vAlpha = noiseV( insPos * 4.0 + vec3( 0.0, 0.0, uTimeE + insId.z * 100.0 ) ) * 0.9;
 	
 }

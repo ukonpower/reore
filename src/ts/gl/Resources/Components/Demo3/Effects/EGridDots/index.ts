@@ -13,7 +13,12 @@ export class EGridDots extends MXP.Component {
 	private geometry: MXP.Geometry;
 	private material: MXP.Material;
 
-	constructor( dotType: DotType = 'circle', res: GLP.Vector = new GLP.Vector( 8.0, 8.0 ), size: GLP.Vector = new GLP.Vector( 1.0, 1.0 ), dotSclae : number = 1.0 ) {
+	constructor( ) {
+
+		const dotType: DotType = 'circle';
+		const res: GLP.Vector = new GLP.Vector( 8.0, 8.0 );
+		const size: GLP.Vector = new GLP.Vector( 1.0, 1.0 );
+		const dotSclae : number = 1.0;
 
 		super();
 
@@ -49,7 +54,6 @@ export class EGridDots extends MXP.Component {
 
 		this.geometry.setAttribute( "insPos", new Float32Array( instancePosArray ), 3, { instanceDivisor: 1 } );
 		this.geometry.setAttribute( "insId", new Float32Array( instanceIdArray ), 3, { instanceDivisor: 1 } );
-
 
 		/*-------------------------------
 			Material
@@ -103,6 +107,19 @@ export class EGridDots extends MXP.Component {
 			} );
 
 		}
+
+	}
+
+	public get key(): string {
+
+		return "EGridDots";
+
+	}
+
+	public setEntityImpl( entity: MXP.Entity ): void {
+
+		entity.addComponent( this.geometry );
+		entity.addComponent( this.material );
 
 	}
 
