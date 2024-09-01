@@ -222,7 +222,7 @@ export class ProjectScene extends MXP.Entity {
 
 	}
 
-	public getProps(): MXP.ExportableProps {
+	public getProps(): MXP.SerializableProps {
 
 		return {
 			name: { value: this.name },
@@ -238,7 +238,7 @@ export class ProjectScene extends MXP.Entity {
 
 	}
 
-	public setPropsImpl( props: MXP.ExportablePropsSerialized ) {
+	public setPropsImpl( props: MXP.SerializedProps ) {
 
 		this.name = props[ "name" ];
 		this.frameSetting.duration = props[ "timeline/duration" ];

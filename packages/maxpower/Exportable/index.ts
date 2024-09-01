@@ -1,6 +1,6 @@
 import { Resource } from "../Resource";
 
-export type ExportablePropsOpt = {
+export type SerializablePropsOpt = {
 } & {
 	readOnly?: boolean,
 	precision?: number,
@@ -8,34 +8,63 @@ export type ExportablePropsOpt = {
 	slideScale?: number,
 }
 
-type ExportableInitiator = 'user' | 'script' | "god";
-export type ExportableProps = {[key: string]: { value: any, opt?: ExportablePropsOpt, } | ExportableProps | undefined}
-export type ExportablePropsSerialized = {[key: string]: any }
+export type SerializableProps = {[key: string]: { value: any, opt?: SerializablePropsOpt, } | SerializableProps | undefined}
 
-export class Exportable extends Resource {
+export type SerializedProps = {[key: string]: any }
+
+type ExportableInitiator = 'user' | 'script' | "god";
+
+export type DeserializeProps<T extends Serializable> = T["serialize"];
+
+export class Serializable extends Resource {
 
 	public initiator?: ExportableInitiator;
 
 	constructor() {
 
 		super();
+
 		this.initiator = 'script';
 
 	}
 
-	// get
+	// get/set props
 
-	public getProps(): ExportableProps | null {
+	public get props(): ReturnType<this["serialize"]> {
 
-		return null;
+		return this.serialize() as ReturnType<this["serialize"]>;
 
 	}
 
-	public getPropsSerialized() {
+	public set props( props: SerializableProps | null ) {
 
-		const propertyValue:ExportablePropsSerialized = {};
+		this.deserialize( {
+			...this.serialize(),
+			...props
+		} );
 
-		const _ = ( path: string, props: ExportableProps ): ExportablePropsSerialized => {
+	}
+
+	// serialize / deserialize
+
+	public serialize(): SerializableProps {
+
+		return {};
+
+	}
+
+	public deserialize( props: DeserializeProps<this> ) {
+
+
+	}
+
+	// get/set props serialized
+
+	public get propsSerialized() {
+
+		const propertyValue:SerializedProps = {};
+
+		const _ = ( path: string, props: SerializableProps ): SerializedProps => {
 
 			Object.keys( props || {} ).forEach( ( key ) => {
 
@@ -61,49 +90,54 @@ export class Exportable extends Resource {
 
 		};
 
-		_( "", this.getProps() || {} );
+		_( "", this.props || {} );
 
 		return propertyValue;
 
 	}
 
+	// public set propsSerialized() {
+
+	// }
+
+
 	// set
 
-	public setProps( props: ExportablePropsSerialized ) {
+	// public setProps( props: SerializedProps ) {
 
-		this.setPropsImpl( { ...this.getPropsSerialized(), ...props } );
+	// 	this.setPropsImpl( { ...this.getPropsSerialized(), ...props } );
 
-		this.emit( "update/props", [ this.getPropsSerialized(), Object.keys( props ) ] );
+	// 	this.emit( "update/props", [ this.getPropsSerialized(), Object.keys( props ) ] );
 
-	}
+	// }
 
-	public setPropsImpl( props: ExportablePropsSerialized ) {
-	}
+	// public setPropsImpl( props: SerializedProps ) {
+	// }
 
 	// unit
 
-	public getPropValue<T>( path: string ) {
+	// public getPropValue<T>( path: string ) {
 
-		const props = this.getPropsSerialized();
+	// 	const props = this.getPropsSerialized();
 
-		return props[ path ] as ( T | undefined );
+	// 	return props[ path ] as ( T | undefined );
 
-	}
+	// }
 
-	public setPropValue( path: string, value: any ) {
+	// public setPropValue( path: string, value: any ) {
 
-		this.setProps( { [ path ]: value } );
+	// 	this.setProps( { [ path ]: value } );
 
-	}
+	// }
 
-	public prop<T>( path: string ) {
+	// public prop<T>( path: string ) {
 
-		return {
-			path,
-			value: this.getPropValue<T>( path ),
-			set: ( value: T ) => this.setPropValue( path, value )
-		};
+	// 	return {
+	// 		path,
+	// 		value: this.getPropValue<T>( path ),
+	// 		set: ( value: T ) => this.setPropValue( path, value )
+	// 	};
 
-	}
+	// }
 
 }

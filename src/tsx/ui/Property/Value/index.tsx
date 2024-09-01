@@ -19,7 +19,7 @@ export type ValueOpt = {
 
 export type ValueProps = {
 	label?: string
-	value: ValueType,
+	value: ValueType | undefined,
 	onChange?: ( value: ValueType, label: string ) => void
 	vertical?: boolean
 	disabled?: boolean

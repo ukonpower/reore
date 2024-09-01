@@ -36,7 +36,7 @@ export const Property = () => {
 		<div className={style.content}>
 			<PropertyBlock label={"Info"}>
 				<Value label="Name" value={active.name} readOnly/>
-				<Value label="Initiator" value={active.initiator} readOnly/>
+				<Value label="Initiator" value={active.initiator } readOnly/>
 			</PropertyBlock>
 			<PropertyBlock label={"Transform"} accordion={true}>
 				<PropertyBlock label={"Position"} >
@@ -67,9 +67,9 @@ export const Property = () => {
 			<PropertyBlock label={"Components"} accordion={true} noIndent>
 				<div className={style.component_list}>
 					{
-						componentArray.map( ( { component, key }, index ) => {
+						componentArray.map( ( { component } ) => {
 
-							return <ComponentView key={component.uuid} keyName={key} component={component}/>;
+							return <ComponentView key={component.uuid} component={component}/>;
 
 						} )
 					}

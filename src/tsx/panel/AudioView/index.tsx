@@ -62,7 +62,7 @@ export const AudioView = () => {
 
 			const scene = glEditor.scene;
 
-			const onUpdateSceneProps = ( props: MXP.ExportablePropsSerialized ) => {
+			const onUpdateSceneProps = ( props: MXP.SerializedProps ) => {
 
 				setFrameSetting( {
 					duration: props[ "timeline/duration" ],

@@ -66,7 +66,7 @@ export class TextEffect extends MXP.Component {
 
 			}
 
-		}, 50 );
+		}, 500 );
 
 		this.once( "dispose", () => {
 

@@ -79,7 +79,7 @@ export class EditorDataManager extends GLP.EventEmitter {
 
 	// setting
 
-	public setSetting( setting: MXP.ExportablePropsSerialized ) {
+	public setSetting( setting: MXP.SerializedProps ) {
 
 		this.settings = setting;
 

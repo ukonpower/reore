@@ -1,6 +1,6 @@
 
 import * as MXP from 'maxpower';
-import { MouseEvent, useCallback, useContext } from 'react';
+import { MouseEvent, useCallback, useContext, useMemo } from 'react';
 
 import style from './index.module.scss';
 
@@ -12,15 +12,14 @@ import { Value, ValueType } from '~/tsx/ui/Property/Value';
 
 type ComponentViewProps = {
 	component: MXP.Component
-	keyName: string
 };
 
-export const ComponentView = ( { component, keyName }: ComponentViewProps ) => {
+export const ComponentView = ( { component }: ComponentViewProps ) => {
 
 	const { reflesh } = useContext( EditorContext );
 
 	const propElms: JSX.Element[] = [
-		<Value key='-2' label={"attribute"} value={component.tag} readOnly />
+		<Value key='-2' label={"tag"} value={component.tag} readOnly />
 	];
 
 	const compoProps = component.getProps();
@@ -38,7 +37,7 @@ export const ComponentView = ( { component, keyName }: ComponentViewProps ) => {
 
 	if ( compoProps ) {
 
-		const _ = ( depth: number, path: string, elmArray: JSX.Element[], props: MXP.ExportableProps ): JSX.Element[] => {
+		const _ = ( depth: number, path: string, elmArray: JSX.Element[], props: MXP.SerializableProps ): JSX.Element[] => {
 
 			const propKeys = Object.keys( props );
 
@@ -54,7 +53,7 @@ export const ComponentView = ( { component, keyName }: ComponentViewProps ) => {
 				if ( "value" in prop ) {
 
 					const value = prop.value;
-					const opt = prop.opt as MXP.ExportablePropsOpt;
+					const opt = prop.opt as MXP.SerializablePropsOpt;
 
 					elmArray.push( <Value key={i} label={key} value={value} onChange={( value ) => {
 
@@ -98,7 +97,9 @@ export const ComponentView = ( { component, keyName }: ComponentViewProps ) => {
 
 		const entity = component.entity;
 
+		console.log( entity );
 		if ( entity ) {
+
 
 			entity.removeComponent( component );
 
@@ -108,9 +109,9 @@ export const ComponentView = ( { component, keyName }: ComponentViewProps ) => {
 
 	}, [ component, reflesh ] );
 
-	const Head = () => {
+	const Head = useMemo( () => {
 
-		return <div className={style.head}>
+		return () => <div className={style.head}>
 			<div className={style.check}>
 				<InputBoolean checked={component.enabled} onChange={onChangeEnabled} readOnly={component.disableEdit} />
 			</div>
@@ -122,7 +123,7 @@ export const ComponentView = ( { component, keyName }: ComponentViewProps ) => {
 			</div>
 		</div>;
 
-	};
+	}, [ component, onClickDelete, onChangeEnabled ] );
 
 	return <div className={style.compoView} data-disable_component={component.disableEdit}>
 		<div className={style.content}>

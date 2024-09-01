@@ -16,9 +16,9 @@ export class Font extends MXP.Resource {
 
 	}
 
-	public get id() {
+	public get resourceId() {
 
-		return ( this.constructor as typeof Font ).id;
+		return ( this.constructor as typeof Font ).resourceId;
 
 	}
 

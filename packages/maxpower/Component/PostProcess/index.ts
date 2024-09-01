@@ -1,7 +1,7 @@
 import * as GLP from 'glpower';
 
 import { Component, ComponentParams } from '..';
-import { ExportableProps, ExportablePropsSerialized } from '../../Exportable';
+import { SerializableProps, SerializedProps } from '../../Exportable';
 import { PostProcessPass } from '../PostProcessPass';
 
 export interface PostProcessParam extends ComponentParams {
@@ -36,9 +36,9 @@ export class PostProcess extends Component {
 
 	}
 
-	public getProps(): ExportableProps | null {
+	public getProps(): SerializableProps | null {
 
-		const props: ExportableProps = {};
+		const props: SerializableProps = {};
 
 		for ( let i = 0; i < this.passes.length; i ++ ) {
 
@@ -54,7 +54,7 @@ export class PostProcess extends Component {
 
 	}
 
-	public setProps( props: ExportablePropsSerialized ) {
+	public setProps( props: SerializedProps ) {
 
 		if ( props === null ) return;
 

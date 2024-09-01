@@ -10,7 +10,7 @@ import { Geometry } from '../Component/Geometry';
 import { Light } from '../Component/Light';
 import { Material } from '../Component/Material';
 import { RenderStack } from '../Component/Renderer';
-import { Exportable } from '../Exportable';
+import { Serializable } from '../Exportable';
 
 export type EntityUpdateEvent = {
 	timElapsed: number;
@@ -34,7 +34,7 @@ export type EntityParams = {
 	name?: string;
 }
 
-export class Entity extends Exportable {
+export class Entity extends Serializable {
 
 	public readonly uuid: string;
 
@@ -317,7 +317,7 @@ export class Entity extends Exportable {
 
 	public addComponent<T extends Component>( component: T ) {
 
-		const id = component.id;
+		const id = component.resourceId;
 
 		const prevComponent = this.components.get( id );
 
@@ -353,7 +353,7 @@ export class Entity extends Exportable {
 
 	}
 
-	public getComponentById<T extends Component>( id: string ): T | undefined {
+	public getComponentByResourceId<T extends Component>( id: string ): T | undefined {
 
 		return this.components.get( id ) as T;
 
@@ -361,17 +361,17 @@ export class Entity extends Exportable {
 
 	public getComponent<T extends typeof Component>( component: T ): InstanceType<T> | undefined {
 
-		return this.getComponentById( component.id );
+		return this.getComponentByResourceId( component.resourceId );
 
 	}
 
 	public removeComponent( component: Component | typeof Component ) {
 
-		const currentComponent = this.components.get( component.id );
+		const currentComponent = this.components.get( component.resourceId );
 
 		if ( currentComponent ) {
 
-			this.components.delete( currentComponent.id );
+			this.components.delete( currentComponent.resourceId );
 			currentComponent.unsetEntity();
 
 			if ( currentComponent.tag !== "" ) {

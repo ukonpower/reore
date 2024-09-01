@@ -26,6 +26,15 @@
 					]
 				},
 				{
+					"path": "/root/Test",
+					"components": [
+						{
+							"key": "TextEffect",
+							"name": "TextEffect"
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/MainObj",
 					"components": [
 						{

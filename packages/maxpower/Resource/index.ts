@@ -2,7 +2,7 @@ import * as GLP from 'glpower';
 
 export class Resource extends GLP.EventEmitter {
 
-	public idOverride: string | null = null;
+	public resourceIdOverride: string | null = null;
 
 	constructor() {
 
@@ -10,17 +10,17 @@ export class Resource extends GLP.EventEmitter {
 
 	}
 
-	public static get id() {
+	public static get resourceId() {
 
 		return this.name;
 
 	}
 
-	public get id() {
+	public get resourceId() {
 
-		if ( this.idOverride ) return this.idOverride;
+		if ( this.resourceIdOverride ) return this.resourceIdOverride;
 
-		return ( this.constructor as typeof Resource ).id;
+		return ( this.constructor as typeof Resource ).resourceId;
 
 	}
 

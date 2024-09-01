@@ -80,7 +80,7 @@ export class TuringRenderer extends MXP.GPUCompute {
 
 	}
 
-	public getProps(): MXP.ExportableProps | null {
+	public getProps(): MXP.SerializableProps | null {
 
 		return {
 			f: {
@@ -118,7 +118,7 @@ export class TuringRenderer extends MXP.GPUCompute {
 
 	}
 
-	public setProps( props: MXP.ExportablePropsSerialized ): void {
+	public setProps( props: MXP.SerializedProps ): void {
 
 		this.passes[ 0 ].uniforms.uTuringParam.value.x = props.f || 0.05;
 		this.passes[ 0 ].uniforms.uTuringParam.value.y = props.k || 0.059;

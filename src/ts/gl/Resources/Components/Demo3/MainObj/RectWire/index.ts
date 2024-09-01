@@ -116,7 +116,7 @@ export class RectWire extends MXP.Component {
 
 	}
 
-	public get id() {
+	public get resourceId() {
 
 		return "rectwire";
 

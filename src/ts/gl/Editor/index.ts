@@ -16,7 +16,7 @@ export type EditorTimelineLoop = {
 	end: number,
 }
 
-export class GLEditor extends MXP.Exportable {
+export class GLEditor extends MXP.Serializable {
 
 	// canvas
 
@@ -312,7 +312,7 @@ export class GLEditor extends MXP.Exportable {
 		Props
 	-------------------------------*/
 
-	public getProps(): MXP.ExportableProps {
+	protected serialize() {
 
 		return {
 			enableRender: {
@@ -342,7 +342,12 @@ export class GLEditor extends MXP.Exportable {
 
 	}
 
-	public setPropsImpl( props: MXP.ExportablePropsSerialized ) {
+	protected deserialize( props: MXP.DeserializeProps<this> ): void {
+
+
+	}
+
+	public setPropsImpl( props: MXP.SerializedProps ) {
 
 		// render
 

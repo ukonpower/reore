@@ -1,7 +1,7 @@
 import * as GLP from 'glpower';
 
 import { Entity, EntityFinalizeEvent } from '../Entity';
-import { Exportable } from '../Exportable';
+import { Serializable } from '../Exportable';
 
 export type ComponentUpdateEvent = EntityFinalizeEvent & {
 	entity: Entity,
@@ -12,7 +12,7 @@ export type ComponentParams = {
 	disableEdit?: boolean
 }
 
-export class Component extends Exportable {
+export class Component extends Serializable {
 
 	public readonly uuid: string;
 
@@ -27,7 +27,7 @@ export class Component extends Exportable {
 
 		params = params ?? {};
 
-		this.idOverride = params.idOverride || null;
+		this.resourceIdOverride = params.idOverride || null;
 		this.uuid = GLP.ID.genUUID();
 		this.entity = null;
 		this.disableEdit = params.disableEdit || false;

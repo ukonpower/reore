@@ -68,7 +68,7 @@ export class BLidgeClient extends MXP.Component {
 
 	}
 
-	public getProps(): MXP.ExportableProps {
+	public getProps(): MXP.SerializableProps {
 
 		const connect = this.connection.enabled;
 
@@ -103,7 +103,7 @@ export class BLidgeClient extends MXP.Component {
 
 	}
 
-	public setProps( props: MXP.ExportablePropsSerialized ) {
+	public setProps( props: MXP.SerializedProps ) {
 
 		this.connection.url = props[ "websocket/url" ] || this.connection.url;
 		this.connection.enabled = props[ "websocket/connected" ] || false;
@@ -129,7 +129,7 @@ export class BLidgeClient extends MXP.Component {
 
 	}
 
-	public getPropsSerialized(): MXP.ExportableProps {
+	public getPropsSerialized(): MXP.SerializableProps {
 
 		return {
 			...super.getPropsSerialized()

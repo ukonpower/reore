@@ -78,15 +78,15 @@ export class OREngineResource extends GLP.EventEmitter {
 		Texture
 	-------------------------------*/
 
-	public addTexture( key: string, texture: GLP.GLPowerTexture ) {
+	public addTexture( name: string, texture: GLP.GLPowerTexture ) {
 
-		this.textures.set( key, texture );
+		this.textures.set( name, texture );
 
 	}
 
-	public getTexture( key: string ) {
+	public getTexture( name: string ) {
 
-		return this.textures.get( key );
+		return this.textures.get( name );
 
 	}
 
@@ -100,11 +100,11 @@ export class OREngineResource extends GLP.EventEmitter {
 
 	}
 
-	public getFont( key: typeof Font | string ) {
+	public getFont( font: typeof Font | string ) {
 
-		const k = typeof key == 'string' ? key : key.key;
+		const k = typeof font == 'string' ? font : font.name;
 
-		return this.fonts.find( f => f.id == k );
+		return this.fonts.find( f => f.resourceId == k );
 
 	}
 
