@@ -134,6 +134,30 @@ export class ProjectScene extends MXP.Entity {
 
 	}
 
+	public get props() {
+
+		return {
+			name: { value: this.name },
+			timeline: {
+				duration: {
+					value: this.frameSetting.duration,
+				},
+				fps: {
+					value: this.frameSetting.fps
+				},
+			}
+		};
+
+	}
+
+	protected deserializer( props: MXP.TypedSerializableProps<this> ) {
+
+		this.name = props.name.value;
+		this.frameSetting.duration = props.timeline.duration.value;
+		this.frameSetting.fps = props.timeline.fps.value;
+
+	}
+
 	public init( project?: OREngineProjectData ) {
 
 		this.root.remove( this.camera );
@@ -219,30 +243,6 @@ export class ProjectScene extends MXP.Entity {
 
 		renderer.resize( resolution );
 		this.cameraComponent.resize( resolution );
-
-	}
-
-	public get props() {
-
-		return {
-			name: { value: this.name },
-			timeline: {
-				duration: {
-					value: this.frameSetting.duration,
-				},
-				fps: {
-					value: this.frameSetting.fps
-				},
-			}
-		};
-
-	}
-
-	protected deserializer( props: MXP.TypedSerializableProps<this> ) {
-
-		this.name = props.name.value;
-		this.frameSetting.duration = props.timeline.duration.value;
-		this.frameSetting.fps = props.timeline.fps.value;
 
 	}
 

@@ -76,32 +76,31 @@ export class Serializable extends Resource {
 
 	public deserialize( serializedProps: SerializedProps ) {
 
-		const props = JSON.parse( JSON.stringify( this.props ) ) as SerializableProps;
+		const serializableProps = JSON.parse( JSON.stringify( this.props ) ) as SerializableProps;
 
-		const keys = Object.keys( serializedProps );
+		const serializedKeys = Object.keys( serializedProps );
 
-		for ( let i = 0; i < keys.length; i ++ ) {
+		for ( let i = 0; i < serializedKeys.length; i ++ ) {
 
-			const path = keys[ i ];
-
+			const path = serializedKeys[ i ];
 			const splitPath = path.split( "/" );
 
-			let prop: SerializableProps = props;
+			let targetProps: SerializableProps = serializableProps;
 
 			for ( let i = 0; i < splitPath.length; i ++ ) {
 
 				const dir = splitPath[ i ];
-				const current = prop[ dir ];
+				const props = targetProps[ dir ];
 
-				if ( current ) {
+				if ( props ) {
 
-					if ( "value" in current ) {
+					if ( "value" in props ) {
 
-						current.value = serializedProps[ path ];
+						props.value = serializedProps[ path ];
 
 					} else {
 
-						prop = current;
+						targetProps = props;
 
 					}
 
@@ -111,7 +110,35 @@ export class Serializable extends Resource {
 
 		}
 
-		this.deserializer( props );
+		const lastPropsSerialized = this.serialize();
+
+		this.deserializer( serializableProps );
+
+		const newPropsSerialized = this.serialize();
+
+		const updatedPaths: string[] = [];
+
+		const keys = Object.keys( lastPropsSerialized );
+
+		for ( let i = 0; i < keys.length; i ++ ) {
+
+			const key = keys[ i ];
+
+			if ( lastPropsSerialized[ key ] !== newPropsSerialized[ key ] ) {
+
+				updatedPaths.push( key );
+
+				this.emit( "update/props/" + key, [ newPropsSerialized[ key ] ] );
+
+			}
+
+		}
+
+		if ( updatedPaths.length > 0 ) {
+
+			this.emit( "update/props", [ newPropsSerialized, updatedPaths ] );
+
+		}
 
 	}
 

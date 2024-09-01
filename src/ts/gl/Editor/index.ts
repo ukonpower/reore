@@ -385,7 +385,7 @@ export class GLEditor extends MXP.Serializable {
 		this.frameLoop.enabled = props.frameLoop.enabled.value;
 
 		this.frameLoop.start = Math.max( 0, props.frameLoop.start.value || 0 );
-		this.frameLoop.end = Math.min( this.scene.frameSetting.duration, Math.max( this.frameLoop.start, props[ "frameLoop/end" ] ) || 100 );
+		this.frameLoop.end = Math.min( this.scene.frameSetting.duration, Math.max( this.frameLoop.start, props.frameLoop.end.value ) || 100 );
 
 
 	}
