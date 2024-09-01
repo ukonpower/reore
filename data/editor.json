@@ -117,8 +117,8 @@
 		"currentProjectName": "Demo3",
 		"resolutionScale": 0.25,
 		"viewType": "render",
-		"frameLoop/enabled": false,
-		"frameLoop/start": 0,
-		"frameLoop/end": 100
+		"frameLoop/enabled": true,
+		"frameLoop/start": 1460.7375730271003,
+		"frameLoop/end": 2610.2490721459344
 	}
 }

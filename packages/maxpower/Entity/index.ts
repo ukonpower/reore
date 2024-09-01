@@ -4,13 +4,12 @@ import * as GLP from 'glpower';
 import { BLidgeEntity } from "../BLidge";
 import { Component, ComponentUpdateEvent } from "../Component";
 import { BLidger } from '../Component/BLidger';
-import { Camera } from '../Component/Camera';
 import { RenderCamera } from '../Component/Camera/RenderCamera';
 import { Geometry } from '../Component/Geometry';
 import { Light } from '../Component/Light';
 import { Material } from '../Component/Material';
 import { RenderStack } from '../Component/Renderer';
-import { Serializable } from '../Exportable';
+import { Serializable, SerializableProps, TypedSerializableProps } from '../Exportable';
 
 export type EntityUpdateEvent = {
 	timElapsed: number;
@@ -58,8 +57,9 @@ export class Entity extends Serializable {
 	protected blidgeNode?: BLidgeEntity;
 
 	public visible: boolean;
-
 	public userData: any;
+
+	private childrenNum: number;
 
 	constructor( params?: EntityParams ) {
 
@@ -86,7 +86,26 @@ export class Entity extends Serializable {
 
 		this.visible = true;
 
+		this.childrenNum = 0;
+
 		this.userData = {};
+
+	}
+
+
+	public get props() {
+
+		return {
+			childNum: {
+				value: this.childrenNum,
+			}
+		};
+
+	}
+
+	protected deserializer( props: TypedSerializableProps<this> ): void {
+
+		this.childrenNum = props.childNum.value;
 
 	}
 
@@ -253,7 +272,7 @@ export class Entity extends Serializable {
 
 		this.children.push( entity );
 
-		entity.noticeParent( "update/graph", [ "add" ] );
+		this.deserialize( { "childNum": this.children.length } );
 
 	}
 
@@ -261,7 +280,7 @@ export class Entity extends Serializable {
 
 		this.children = this.children.filter( c => c.uuid != entity.uuid );
 
-		entity.noticeParent( "update/graph" );
+		this.deserialize( { "childNum": this.children.length } );
 
 	}
 
@@ -435,6 +454,32 @@ export class Entity extends Serializable {
 			const c = this.children[ i ];
 
 			const entity = c.getEntityByName( name );
+
+			if ( entity ) {
+
+				return entity;
+
+			}
+
+		}
+
+		return undefined;
+
+	}
+
+	public getEntityById( id: string ) : Entity | undefined {
+
+		if ( this.uuid == id ) {
+
+			return this;
+
+		}
+
+		for ( let i = 0; i < this.children.length; i ++ ) {
+
+			const c = this.children[ i ];
+
+			const entity = c.getEntityById( id );
 
 			if ( entity ) {
 

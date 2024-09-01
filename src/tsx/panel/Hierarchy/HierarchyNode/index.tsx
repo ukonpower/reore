@@ -6,6 +6,7 @@ import { MouseMenuContext } from '../../MouseMenu/useMouseMenu';
 import style from './index.module.scss';
 
 import { EditorContext } from '~/tsx/gl/useEditor';
+import { useWatchExportable } from '~/tsx/gl/useWatchExportable';
 import { ArrowIcon } from '~/tsx/ui/icon/ArrowIcon';
 import { InputGroup } from '~/tsx/ui/InputGroup';
 import { Picker } from '~/tsx/ui/Picker';
@@ -17,13 +18,19 @@ type HierarchyNodeProps = {
 
 export const HierarchyNode = ( props: HierarchyNodeProps ) => {
 
-	const { glEditor, active: selected } = useContext( EditorContext );
+	const { glEditor } = useContext( EditorContext );
 
 	const depth = props.depth || 0;
 	const childs = props.entity.children.concat().sort( ( a, b ) => a.name.localeCompare( b.name ) );
 	const hasChild = childs.length > 0;
 	const offsetPx = depth * 20;
 	const noEditable = props.entity.initiator == "script";
+
+	const selectedEntityId = glEditor?.prop<string>( "selectedEntity" );
+	const selectedEntity = selectedEntityId?.value !== undefined && glEditor?.scene.getEntityById( selectedEntityId.value );
+
+	useWatchExportable( glEditor, [ selectedEntityId?.path ] );
+	const { currentValue } = useWatchExportable( props.entity, [ "childNum" ] );
 
 	// click fold controls
 
@@ -93,7 +100,7 @@ export const HierarchyNode = ( props: HierarchyNodeProps ) => {
 	}, [ glEditor, props.entity, pushContent, closeAll, noEditable ] );
 
 	return <div className={style.node} data-no_export={noEditable}>
-		<div className={style.self} style={{ paddingLeft: offsetPx }} onClick={onClickNode} onContextMenu={onRightClickNode} data-selected={selected && selected.uuid == props.entity.uuid}>
+		<div className={style.self} style={{ paddingLeft: offsetPx }} onClick={onClickNode} onContextMenu={onRightClickNode} data-selected={selectedEntity && selectedEntity.uuid == props.entity.uuid}>
 			<div className={style.fold} data-hnode_open={open}>
 				{hasChild && <button className={style.fold_button} onClick={onClickFoldControls} ><ArrowIcon open={open}/></button> }
 			</div>

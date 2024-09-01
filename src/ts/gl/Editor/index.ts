@@ -334,6 +334,9 @@ export class GLEditor extends MXP.Serializable {
 				end: {
 					value: this.frameLoop.end,
 				}
+			},
+			selectedEntity: {
+				value: this.selectedEntity
 			}
 		};
 
@@ -382,11 +385,15 @@ export class GLEditor extends MXP.Serializable {
 		this.scene.name = props.currentProjectName.value;
 
 		// frameLoop
+
 		this.frameLoop.enabled = props.frameLoop.enabled.value;
 
 		this.frameLoop.start = Math.max( 0, props.frameLoop.start.value || 0 );
 		this.frameLoop.end = Math.min( this.scene.frameSetting.duration, Math.max( this.frameLoop.start, props.frameLoop.end.value ) || 100 );
 
+		// selected eneity
+
+		this.selectedEntity = props.selectedEntity.value;
 
 	}
 
@@ -406,9 +413,9 @@ export class GLEditor extends MXP.Serializable {
 
 	public selectEntity( entity: MXP.Entity | null ) {
 
-		this.selectedEntity = entity;
-
-		this.emit( "action/select", [ entity ] );
+		this.deserialize( {
+			"selectedEntity": entity ? entity.uuid : null
+		} );
 
 	}
 

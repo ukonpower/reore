@@ -1,10 +1,9 @@
 
 import * as MXP from 'maxpower';
-import { MouseEvent, useCallback, useContext, useMemo } from 'react';
+import { MouseEvent, useCallback, useMemo } from 'react';
 
 import style from './index.module.scss';
 
-import { EditorContext } from '~/tsx/gl/useEditor';
 import { CrossIcon } from '~/tsx/ui/icon/CrossIcon';
 import { InputBoolean } from '~/tsx/ui/Input/InputCheckBox';
 import { PropertyBlock } from '~/tsx/ui/Property/PropertyBlock';
@@ -15,8 +14,6 @@ type ComponentViewProps = {
 };
 
 export const ComponentView = ( { component }: ComponentViewProps ) => {
-
-	const { reflesh } = useContext( EditorContext );
 
 	const propElms: JSX.Element[] = [
 		<Value key='-2' label={"tag"} value={component.tag} readOnly />
@@ -31,9 +28,7 @@ export const ComponentView = ( { component }: ComponentViewProps ) => {
 			[ label ]: value
 		} );
 
-		reflesh && reflesh();
-
-	}, [ component, reflesh ] );
+	}, [ component ] );
 
 	if ( compoProps ) {
 
@@ -87,9 +82,7 @@ export const ComponentView = ( { component }: ComponentViewProps ) => {
 
 		component.enabled = checked;
 
-		reflesh && reflesh();
-
-	}, [ component, reflesh ] );
+	}, [ component ] );
 
 	const onClickDelete = useCallback( ( e: MouseEvent ) => {
 
@@ -105,9 +98,7 @@ export const ComponentView = ( { component }: ComponentViewProps ) => {
 
 		}
 
-		reflesh && reflesh();
-
-	}, [ component, reflesh ] );
+	}, [ component ] );
 
 	const Head = useMemo( () => {
 

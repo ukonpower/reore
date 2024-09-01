@@ -12,16 +12,25 @@ import { ComponentAdd } from './ComponentAdd';
 import { ComponentView } from './ComponentView';
 import style from './index.module.scss';
 
+import { useWatchExportable } from '~/tsx/gl/useWatchExportable';
+
 
 export const Property = () => {
 
-	const { active, reflesh } = useContext( EditorContext );
+	const { glEditor } = useContext( EditorContext );
 
-	if ( ! active ) return null;
+	// select entity
+
+	const selectedEntityId = glEditor?.prop<string>( "selectedEntity" );
+	const selectedEntity = selectedEntityId?.value !== undefined && glEditor?.scene.getEntityById( selectedEntityId.value );
+
+	useWatchExportable( glEditor, [ selectedEntityId?.path ] );
+
+	if ( ! selectedEntity ) return null;
 
 	const componentArray: {key: string, component: MXP.Component }[] = [];
 
-	active.components.forEach( ( component, key ) => {
+	selectedEntity.components.forEach( ( component, key ) => {
 
 		componentArray.push( {
 			key,
@@ -30,36 +39,33 @@ export const Property = () => {
 
 	} );
 
-	const disabled = active.initiator != "user";
+	const disabled = selectedEntity.initiator != "user";
 
 	return <div className={style.property}>
 		<div className={style.content}>
 			<PropertyBlock label={"Info"}>
-				<Value label="Name" value={active.name} readOnly/>
-				<Value label="Initiator" value={active.initiator } readOnly/>
+				<Value label="Name" value={selectedEntity.name} readOnly/>
+				<Value label="Initiator" value={selectedEntity.initiator } readOnly/>
 			</PropertyBlock>
 			<PropertyBlock label={"Transform"} accordion={true}>
 				<PropertyBlock label={"Position"} >
-					<Vector type='vec3' disabled={disabled} value={active.position} onChange={( value ) => {
+					<Vector type='vec3' disabled={disabled} value={selectedEntity.position} onChange={( value ) => {
 
-						active.position.copy( value );
-						reflesh && reflesh();
+						selectedEntity.position.copy( value );
 
 					}}/>
 				</PropertyBlock>
 				<PropertyBlock label={"Rotation"} >
-					<Vector type='vec3' disabled={disabled} value={ new GLP.Vector().copy( active.euler ).multiply( 1.0 / Math.PI * 180 )} slideScale={50} onChange={( value ) => {
+					<Vector type='vec3' disabled={disabled} value={ new GLP.Vector().copy( selectedEntity.euler ).multiply( 1.0 / Math.PI * 180 )} slideScale={50} onChange={( value ) => {
 
-						active.euler.copy( value ).multiply( 1.0 / 180 * Math.PI );
-						reflesh && reflesh();
+						selectedEntity.euler.copy( value ).multiply( 1.0 / 180 * Math.PI );
 
 					}}/>
 				</PropertyBlock>
 				<PropertyBlock label={"Scale"} >
-					<Vector type='vec3' disabled={disabled} value={active.scale} onChange={( value ) => {
+					<Vector type='vec3' disabled={disabled} value={selectedEntity.scale} onChange={( value ) => {
 
-						active.scale.copy( value );
-						reflesh && reflesh();
+						selectedEntity.scale.copy( value );
 
 					}}/>
 				</PropertyBlock>
@@ -75,7 +81,7 @@ export const Property = () => {
 					}
 				</div>
 				<div className={style.component_controls}>
-					<ComponentAdd entity={active} />
+					<ComponentAdd entity={selectedEntity} />
 				</div>
 			</PropertyBlock>
 		</div>
