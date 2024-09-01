@@ -12,7 +12,7 @@ import { ComponentAdd } from './ComponentAdd';
 import { ComponentView } from './ComponentView';
 import style from './index.module.scss';
 
-import { useWatchExportable } from '~/tsx/gl/useWatchExportable';
+import { useWatchSerializable } from '~/tsx/gl/useWatchSerializable';
 
 
 export const Property = () => {
@@ -24,7 +24,7 @@ export const Property = () => {
 	const selectedEntityId = glEditor?.prop<string>( "selectedEntity" );
 	const selectedEntity = selectedEntityId?.value !== undefined && glEditor?.scene.getEntityById( selectedEntityId.value );
 
-	useWatchExportable( glEditor, [ selectedEntityId?.path ] );
+	useWatchSerializable( glEditor, [ selectedEntityId?.path ] );
 
 	if ( ! selectedEntity ) return null;
 

@@ -90,7 +90,6 @@ export const ComponentView = ( { component }: ComponentViewProps ) => {
 
 		const entity = component.entity;
 
-		console.log( entity );
 		if ( entity ) {
 
 

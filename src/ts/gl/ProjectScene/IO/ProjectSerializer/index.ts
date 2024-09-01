@@ -167,7 +167,7 @@ export class ProjectSerializer extends GLP.EventEmitter {
 
 			e.components.forEach( ( c, key ) => {
 
-				const exportProps: MXP.SerializedProps = c.serialize();
+				const exportProps: MXP.SerializedProps = c.serialize( true );
 
 				if ( ! c.disableEdit && c.initiator == "user" ) {
 
@@ -190,7 +190,7 @@ export class ProjectSerializer extends GLP.EventEmitter {
 		} );
 
 		const serializedData: OREngineProjectData = {
-			setting: project.serialize(),
+			setting: project.serialize( true ),
 			objectOverride: override,
 			scene,
 		};

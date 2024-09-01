@@ -4,7 +4,7 @@ import { TimelineContext } from '../hooks/useTimeline';
 
 import style from './index.module.scss';
 
-import { useWatchExportable } from '~/tsx/gl/useWatchExportable';
+import { useWatchSerializable } from '~/tsx/gl/useWatchSerializable';
 
 const formatTime = ( sec: number ) => {
 
@@ -21,7 +21,7 @@ export const TimelineScale = () => {
 
 	const fps = glEditor?.scene?.prop<number>( "timeline/fps" );
 
-	useWatchExportable( glEditor?.scene, [ fps?.path ] );
+	useWatchSerializable( glEditor?.scene, [ fps?.path ] );
 
 	if ( ! viewPort || ! viewPortScale || fps === undefined ) return null;
 

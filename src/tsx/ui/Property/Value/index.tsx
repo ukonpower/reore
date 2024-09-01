@@ -17,22 +17,22 @@ export type ValueOpt = {
 	slideScale?: number,
 }
 
-export type ValueProps = {
+export type ValueProps<T extends ValueType> = {
 	label?: string
-	value: ValueType | undefined,
-	onChange?: ( value: ValueType, label: string ) => void
+	value: T | undefined,
+	onChange?: ( value: T, label: string ) => void
 	vertical?: boolean
 	disabled?: boolean
 	labelAutoWidth?: boolean
 } & ValueOpt
 
-export const Value = ( { value, label, onChange, ...props }: ValueProps ) => {
+export const Value = <T extends ValueType, >( { value, label, onChange, ...props }: ValueProps<T> ) => {
 
 	/*-------------------------------
 		Change
 	-------------------------------*/
 
-	const onChangeValue = useCallback( ( e: ValueType ) => {
+	const onChangeValue = useCallback( ( e: any ) => {
 
 		if ( props.disabled ) return;
 

@@ -5,7 +5,7 @@ import { TimelineContext } from '../hooks/useTimeline';
 import style from './index.module.scss';
 import { TimelineCanvasRenderer } from './TimelineCanvasRenderer';
 
-import { useWatchExportable } from '~/tsx/gl/useWatchExportable';
+import { useWatchSerializable } from '~/tsx/gl/useWatchSerializable';
 
 
 export const TimelineCanvas = () => {
@@ -49,7 +49,7 @@ export const TimelineCanvas = () => {
 
 	const duration = glEditor?.scene?.prop<number>( "timeline/duration" );
 	const fps = glEditor?.scene?.prop<number>( "timeline/fps" );
-	useWatchExportable( glEditor?.scene, [ duration?.path, fps?.path ] );
+	useWatchSerializable( glEditor?.scene, [ duration?.path, fps?.path ] );
 
 	useEffect( () => {
 
@@ -66,7 +66,7 @@ export const TimelineCanvas = () => {
 
 	// loop
 
-	useWatchExportable( glEditor, [
+	useWatchSerializable( glEditor, [
 		"frameLoop/enabled",
 		"frameLoop/start",
 		"frameLoop/end",

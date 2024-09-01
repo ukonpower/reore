@@ -1,14 +1,14 @@
 import { Resource } from "../Resource";
 
 export type SerializablePropsOpt = {
-} & {
 	readOnly?: boolean,
 	precision?: number,
 	selectList?: string[]
 	slideScale?: number,
+	noExport?: boolean
 }
 
-export type SerializableProps = {[key: string]: { value: any, opt?: SerializablePropsOpt, } | SerializableProps | undefined}
+export type SerializableProps = {[key: string]: { value: any, opt?: SerializablePropsOpt } | SerializableProps | undefined}
 
 export type SerializedProps = {[key: string]: any }
 
@@ -28,17 +28,13 @@ export class Serializable extends Resource {
 
 	}
 
-	// serialize / deserialize
-
 	public get props(): SerializableProps {
 
 		return {};
 
 	}
 
-	// get/set props serialized
-
-	public serialize(): SerializedProps {
+	public serialize( isExport = false ): SerializedProps {
 
 		const propertyValue:SerializedProps = {};
 
@@ -54,7 +50,13 @@ export class Serializable extends Resource {
 
 				if ( "value" in prop ) {
 
-					propertyValue[ path_ ] = prop.value;
+					const opt = prop.opt as SerializablePropsOpt;
+
+					if ( ! isExport || ! ( opt && opt.noExport ) ) {
+
+						propertyValue[ path_ ] = prop.value;
+
+					}
 
 				} else {
 
@@ -74,15 +76,20 @@ export class Serializable extends Resource {
 
 	}
 
-	public deserialize( serializedProps: SerializedProps ) {
+	public deserialize( newSerializedProps: SerializedProps ) {
 
-		const serializableProps = JSON.parse( JSON.stringify( this.props ) ) as SerializableProps;
+		const serializableProps:SerializableProps = {};
 
-		const serializedKeys = Object.keys( serializedProps );
+		const lastPropsSerialized = this.serialize();
 
-		for ( let i = 0; i < serializedKeys.length; i ++ ) {
+		const serializedPaths = Object.keys( lastPropsSerialized );
 
-			const path = serializedKeys[ i ];
+		for ( let i = 0; i < serializedPaths.length; i ++ ) {
+
+			const path = serializedPaths[ i ];
+
+			const newValue = newSerializedProps[ path ];
+
 			const splitPath = path.split( "/" );
 
 			let targetProps: SerializableProps = serializableProps;
@@ -90,27 +97,32 @@ export class Serializable extends Resource {
 			for ( let i = 0; i < splitPath.length; i ++ ) {
 
 				const dir = splitPath[ i ];
-				const props = targetProps[ dir ];
 
-				if ( props ) {
+				if ( targetProps[ dir ] === undefined ) {
 
-					if ( "value" in props ) {
+					targetProps[ dir ] = {};
 
-						props.value = serializedProps[ path ];
+				}
+
+				if ( i == splitPath.length - 1 ) {
+
+					if ( newValue !== undefined ) {
+
+						targetProps[ dir ].value = newValue;
 
 					} else {
 
-						targetProps = props;
+						targetProps[ dir ].value = lastPropsSerialized[ path ];
 
 					}
 
 				}
 
+				targetProps = targetProps[ dir ] as SerializableProps;
+
 			}
 
 		}
-
-		const lastPropsSerialized = this.serialize();
 
 		this.deserializer( serializableProps );
 
@@ -144,9 +156,29 @@ export class Serializable extends Resource {
 
 	protected deserializer( props: SerializableProps ) {}
 
-	// unit
+	// change
 
-	public getPropValue<T>( path: string ) {
+	protected noticePropsChanged( path: string | string[] ) {
+
+		const propsSerialized = this.serialize();
+
+		const _path = typeof path == "string" ? [ path ] : path;
+
+		for ( let i = 0; i < _path.length; i ++ ) {
+
+			const pt = _path[ i ];
+
+			this.emit( "update/props/" + path, [ propsSerialized[ pt ] ] );
+
+		}
+
+		this.emit( "update/props", [ propsSerialized, _path ] );
+
+	}
+
+	// value
+
+	public getValue<T>( path: string ) {
 
 		const props = this.serialize();
 
@@ -154,18 +186,20 @@ export class Serializable extends Resource {
 
 	}
 
-	public setPropValue( path: string, value: any ) {
+	public setValue( path: string, value: any ) {
 
 		this.deserialize( { [ path ]: value } );
 
 	}
 
+	// accesor
+
 	public prop<T>( path: string ) {
 
 		return {
 			path,
-			value: this.getPropValue<T>( path ),
-			set: ( value: T ) => this.setPropValue( path, value )
+			value: this.getValue<T>( path ),
+			set: ( value: T ) => this.setValue( path, value )
 		};
 
 	}

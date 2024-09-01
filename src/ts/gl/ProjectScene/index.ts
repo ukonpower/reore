@@ -137,6 +137,7 @@ export class ProjectScene extends MXP.Entity {
 	public get props() {
 
 		return {
+			...super.props,
 			name: { value: this.name },
 			timeline: {
 				duration: {

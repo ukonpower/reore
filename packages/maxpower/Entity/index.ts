@@ -9,7 +9,7 @@ import { Geometry } from '../Component/Geometry';
 import { Light } from '../Component/Light';
 import { Material } from '../Component/Material';
 import { RenderStack } from '../Component/Renderer';
-import { Serializable, TypedSerializableProps } from '../Serializable';
+import { Serializable } from '../Serializable';
 
 export type EntityUpdateEvent = {
 	timElapsed: number;
@@ -59,8 +59,6 @@ export class Entity extends Serializable {
 	public visible: boolean;
 	public userData: any;
 
-	private childrenNum: number;
-
 	constructor( params?: EntityParams ) {
 
 		super();
@@ -86,8 +84,6 @@ export class Entity extends Serializable {
 
 		this.visible = true;
 
-		this.childrenNum = 0;
-
 		this.userData = {};
 
 	}
@@ -96,16 +92,13 @@ export class Entity extends Serializable {
 	public get props() {
 
 		return {
-			childNum: {
-				value: this.childrenNum,
+			children: {
+				value: this.children,
+				opt: {
+					noExport: true,
+				}
 			}
 		};
-
-	}
-
-	protected deserializer( props: TypedSerializableProps<this> ): void {
-
-		this.childrenNum = props.childNum.value;
 
 	}
 
@@ -272,7 +265,7 @@ export class Entity extends Serializable {
 
 		this.children.push( entity );
 
-		this.deserialize( { "childNum": this.children.length } );
+		this.noticePropsChanged( "children" );
 
 	}
 
@@ -280,7 +273,7 @@ export class Entity extends Serializable {
 
 		this.children = this.children.filter( c => c.uuid != entity.uuid );
 
-		this.deserialize( { "childNum": this.children.length } );
+		this.noticePropsChanged( "children" );
 
 	}
 

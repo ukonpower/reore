@@ -60,7 +60,7 @@ export class Component extends Serializable {
 
 	}
 
-	public noticeChanged( type?: string ) {
+	public noticePropsChanged( type?: string ) {
 
 		this.emit( 'changed', [ type ] );
 

@@ -1,7 +1,7 @@
 import { Serializable, SerializedProps } from "maxpower";
-import { useEffect, useMemo, useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 
-export const useWatchExportable = ( exportable: Serializable | undefined, deps?: ( string | undefined )[] ) => {
+export const useWatchSerializable = ( exportable: Serializable | undefined, deps?: ( string | undefined )[] ) => {
 
 	const [ currentValue, setCurrentValue ] = useState<SerializedProps>( );
 

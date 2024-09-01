@@ -5,7 +5,7 @@ import { TimelineContext } from '../hooks/useTimeline';
 
 import style from './index.module.scss';
 
-import { useWatchExportable } from '~/tsx/gl/useWatchExportable';
+import { useWatchSerializable } from '~/tsx/gl/useWatchSerializable';
 import { Panel } from '~/tsx/ui/Panel';
 import { Value, ValueType } from '~/tsx/ui/Property/Value';
 
@@ -26,11 +26,11 @@ export const TimelineSetting = () => {
 	// loop
 
 	const loop = glEditor?.prop<boolean>( "frameLoop/enabled" );
-	useWatchExportable( glEditor, [ loop?.path ] );
+	useWatchSerializable( glEditor, [ loop?.path ] );
 
 	const duration = glEditor?.scene?.prop<number>( "timeline/duration" );
 	const fps = glEditor?.scene?.prop<number>( "timeline/fps" );
-	useWatchExportable( glEditor?.scene, [ duration?.path, fps?.path ] );
+	useWatchSerializable( glEditor?.scene, [ duration?.path, fps?.path ] );
 
 	return <div className={style.timelineSetting}>
 		<Panel>

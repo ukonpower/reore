@@ -1,12 +1,12 @@
 import * as MXP from 'maxpower';
-import { MouseEvent, useCallback, useContext, useRef, useState } from 'react';
+import { MouseEvent, useCallback, useContext, useState } from 'react';
 
 import { MouseMenuContext } from '../../MouseMenu/useMouseMenu';
 
 import style from './index.module.scss';
 
 import { EditorContext } from '~/tsx/gl/useEditor';
-import { useWatchExportable } from '~/tsx/gl/useWatchExportable';
+import { useWatchSerializable } from '~/tsx/gl/useWatchSerializable';
 import { ArrowIcon } from '~/tsx/ui/icon/ArrowIcon';
 import { InputGroup } from '~/tsx/ui/InputGroup';
 import { Picker } from '~/tsx/ui/Picker';
@@ -29,8 +29,8 @@ export const HierarchyNode = ( props: HierarchyNodeProps ) => {
 	const selectedEntityId = glEditor?.prop<string>( "selectedEntity" );
 	const selectedEntity = selectedEntityId?.value !== undefined && glEditor?.scene.getEntityById( selectedEntityId.value );
 
-	useWatchExportable( glEditor, [ selectedEntityId?.path ] );
-	const { currentValue } = useWatchExportable( props.entity, [ "childNum" ] );
+	useWatchSerializable( glEditor, [ selectedEntityId?.path ] );
+	useWatchSerializable( props.entity, [ "children" ] );
 
 	// click fold controls
 

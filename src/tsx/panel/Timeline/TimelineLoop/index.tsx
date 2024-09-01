@@ -5,7 +5,7 @@ import { TimelineContext } from '../hooks/useTimeline';
 import style from './index.module.scss';
 import { TimelineLoopCursor } from './TimelineLoopCursor';
 
-import { useWatchExportable } from '~/tsx/gl/useWatchExportable';
+import { useWatchSerializable } from '~/tsx/gl/useWatchSerializable';
 
 export const TimelineLoop = () => {
 
@@ -13,7 +13,7 @@ export const TimelineLoop = () => {
 
 	const elmRef = useRef<HTMLDivElement>( null );
 
-	useWatchExportable( glEditor, [
+	useWatchSerializable( glEditor, [
 		"frameLoop/enabled",
 		"frameLoop/start",
 		"frameLoop/end",
