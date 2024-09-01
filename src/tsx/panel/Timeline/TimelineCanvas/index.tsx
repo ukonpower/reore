@@ -10,7 +10,7 @@ import { useWatchExportable } from '~/tsx/gl/useWatchExportable';
 
 export const TimelineCanvas = () => {
 
-	const { viewPort, viewPortScale, frameSetting, musicBuffer, musicBufferVersion, glEditor } = useContext( TimelineContext );
+	const { viewPort, viewPortScale, musicBuffer, musicBufferVersion, glEditor } = useContext( TimelineContext );
 
 	const [ renderer, setRenderer ] = useState<TimelineCanvasRenderer>();
 
@@ -46,15 +46,23 @@ export const TimelineCanvas = () => {
 
 	}, [ renderer, viewPort, viewPortScale ] );
 
+
+	const duration = glEditor?.scene?.prop<number>( "timeline/duration" );
+	const fps = glEditor?.scene?.prop<number>( "timeline/fps" );
+	useWatchExportable( glEditor?.scene, [ duration?.path, fps?.path ] );
+
 	useEffect( () => {
 
-		if ( renderer && frameSetting ) {
+		if ( renderer && duration && fps ) {
 
-			renderer.setFrameSetting( frameSetting );
+			renderer.setFrameSetting( {
+				duration: duration.value || 0,
+				fps: fps.value || 0,
+			} );
 
 		}
 
-	}, [ renderer, frameSetting ] );
+	}, [ renderer, duration, fps ] );
 
 	// loop
 

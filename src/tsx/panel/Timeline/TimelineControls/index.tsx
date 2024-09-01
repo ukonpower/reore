@@ -6,7 +6,7 @@ import style from './index.module.scss';
 
 export const TimelineControls: React.FC<{children?: React.ReactNode}> = ( props ) => {
 
-	const { viewPort, frameSetting: frame, setCurrentFrame: setFrame, getFrameViewPort, zoom, scroll, setViewPortCenter } = useContext( TimelineContext );
+	const { viewPort, setCurrentFrame: setFrame, getFrameViewPort, zoom, scroll, setViewPortCenter } = useContext( TimelineContext );
 
 	const viewPortRef = useRef( [ 0, 0, 0, 0 ] );
 	const viewPortRangeRef = useRef( [ 0, 0 ] );
@@ -150,7 +150,7 @@ export const TimelineControls: React.FC<{children?: React.ReactNode}> = ( props 
 
 	}, [ onWheel ] );
 
-	if ( ! viewPort || ! frame ) return null;
+	if ( ! viewPort ) return null;
 
 	return <div className={style.controls} onPointerDown={onPointerDown} ref={elmRef}>
 		{props.children}

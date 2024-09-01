@@ -1,20 +1,13 @@
-import * as MXP from 'maxpower';
 import { useState, useCallback, useEffect, createContext, useRef } from "react";
 
 import { GLEditor } from "~/ts/gl/Editor";
 import { FramePlay } from '~/ts/gl/ProjectScene';
-import { OREngineProjectFrame } from '~/ts/gl/ProjectScene/IO/ProjectSerializer';
 
 export const TimelineContext = createContext<HooksContext<typeof useTimeline>>( {} );
 
 export const useTimeline = ( glEditor: GLEditor | undefined ) => {
 
 	// timeline
-
-	const [ frameSetting, setFrameSetting ] = useState<OREngineProjectFrame>( {
-		duration: 0,
-		fps: 0,
-	} );
 
 	const [ framePlay, setFramePlay ] = useState<FramePlay>( {
 		current: 0,
@@ -55,18 +48,6 @@ export const useTimeline = ( glEditor: GLEditor | undefined ) => {
 
 			onUpdateFramePlay( scene.frame );
 
-			// scene
-
-			const onUpdateSceneProps = ( props: MXP.SerializedProps ) => {
-
-				setFrameSetting( {
-					duration: props[ "timeline/duration" ],
-					fps: props[ "timeline/fps" ]
-				} );
-
-			};
-
-			onUpdateSceneProps( scene.serialize() );
 
 			// music
 
@@ -92,14 +73,12 @@ export const useTimeline = ( glEditor: GLEditor | undefined ) => {
 
 			// addlistener
 
-			scene.on( "update/props", onUpdateSceneProps );
 			scene.on( "update/frame/play", onUpdateFramePlay );
 			scene.on( "update/music", onUpdateMusic );
 			glEditor.on( "action/loadProject", onLoadProject );
 
 			return () => {
 
-				scene.off( "update/frame/setting", onUpdateSceneProps );
 				scene.off( "update/frame/play", onUpdateFramePlay );
 				scene.off( "update/music", onUpdateMusic );
 				glEditor.off( "action/loadProject", onLoadProject );
@@ -164,7 +143,6 @@ export const useTimeline = ( glEditor: GLEditor | undefined ) => {
 
 	return {
 		glEditor,
-		frameSetting,
 		framePlay,
 		viewPort,
 		viewPortScale,

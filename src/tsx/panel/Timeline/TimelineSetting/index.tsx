@@ -11,34 +11,33 @@ import { Value, ValueType } from '~/tsx/ui/Property/Value';
 
 export const TimelineSetting = () => {
 
-	const { framePlay, frameSetting, glEditor } = useContext( TimelineContext );
+	const { framePlay, glEditor } = useContext( TimelineContext );
 
-	const onChane = useCallback( ( value: ValueType, label: string ) => {
+	const onChange = useCallback( ( value: ValueType, setter: ( ( value: any ) => void ) | undefined ) => {
 
-		if ( glEditor ) {
+		if ( setter ) {
 
-			glEditor.scene.setPropValue( 'timeline/' + label, value );
+			setter( value );
 
 		}
 
-	}, [ glEditor ] );
+	}, [] );
 
 	// loop
 
 	const loop = glEditor?.prop<boolean>( "frameLoop/enabled" );
-
 	useWatchExportable( glEditor, [ loop?.path ] );
+
+	const duration = glEditor?.scene?.prop<number>( "timeline/duration" );
+	const fps = glEditor?.scene?.prop<number>( "timeline/fps" );
+	useWatchExportable( glEditor?.scene, [ duration?.path, fps?.path ] );
 
 	return <div className={style.timelineSetting}>
 		<Panel>
 			<Value label='current' value={Math.floor( framePlay?.current || 0 )} vertical readOnly />
-			<Value label='duration' precision={0} value={( frameSetting?.duration || 0 )} vertical onChange={onChane}/>
-			<Value label='fps' precision={0} value={( frameSetting?.fps || 0 )} vertical onChange={onChane} />
-			<Value label='loop' value={loop?.value || false} labelAutoWidth onChange={( value: ValueType ) => {
-
-				loop?.set( value as boolean );
-
-			}}/>
+			<Value label='duration' precision={0} value={duration?.value} vertical onChange={( v ) => onChange( v, duration?.set )}/>
+			<Value label='fps' precision={0} value={fps?.value} vertical onChange={( v ) => onChange( v, fps?.set )} />
+			<Value label='loop' value={loop?.value || false} labelAutoWidth onChange={( v ) => onChange( v, loop?.set )}/>
 		</Panel>
 	</div>;
 

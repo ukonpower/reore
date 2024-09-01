@@ -4,6 +4,8 @@ import { TimelineContext } from '../hooks/useTimeline';
 
 import style from './index.module.scss';
 
+import { useWatchExportable } from '~/tsx/gl/useWatchExportable';
+
 const formatTime = ( sec: number ) => {
 
 	const m = ( "00" + Math.floor( ( sec % 3600 ) / 60 ) ).slice( - 2 );
@@ -15,10 +17,13 @@ const formatTime = ( sec: number ) => {
 
 export const TimelineScale = () => {
 
-	const { viewPort, viewPortScale, frameSetting } = useContext( TimelineContext );
+	const { glEditor, viewPort, viewPortScale } = useContext( TimelineContext );
 
-	if ( ! viewPort || ! viewPortScale || ! frameSetting ) return null;
+	const fps = glEditor?.scene?.prop<number>( "timeline/fps" );
 
+	useWatchExportable( glEditor?.scene, [ fps?.path ] );
+
+	if ( ! viewPort || ! viewPortScale || fps === undefined ) return null;
 
 	const elms = [];
 
@@ -28,7 +33,7 @@ export const TimelineScale = () => {
 	while ( frame < viewPort[ 2 ] && cnt < 100 ) {
 
 		const x = ( frame - viewPort[ 0 ] ) / ( viewPort[ 2 ] - viewPort[ 0 ] );
-		const sec = frame / frameSetting.fps;
+		const sec = frame / ( fps.value || 0 );
 
 		elms.push(
 			<div key={frame} className={style.scale_item} style={{ left: x * 100 + "%" }}>
