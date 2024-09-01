@@ -64,11 +64,11 @@ export class BLidgeClient extends MXP.Component {
 		this.useGLTF = false;
 		this.gltfPath = BASE_PATH + "/scene.glb";
 
-		this.setProps( this.getPropsSerialized() );
+		this.deserialize( this.serialize() );
 
 	}
 
-	public getProps(): MXP.SerializableProps {
+	public get props() {
 
 		const connect = this.connection.enabled;
 
@@ -103,13 +103,13 @@ export class BLidgeClient extends MXP.Component {
 
 	}
 
-	public setProps( props: MXP.SerializedProps ) {
+	protected deserializer( props: MXP.TypedSerializableProps<this> ) {
 
-		this.connection.url = props[ "websocket/url" ] || this.connection.url;
-		this.connection.enabled = props[ "websocket/connected" ] || false;
-		this.type = props[ "mode" ];
-		this.useGLTF = props[ "gltf" ] || false;
-		this.gltfPath = props[ "gltfPath" ] || this.gltfPath;
+		this.connection.url = ( props.websocket && props.websocket.url.value ) || this.connection.url;
+		this.connection.enabled = ( props.websocket && props.websocket.connected.value ) || false;
+		this.type = props.mode.value;
+		this.useGLTF = props.gltf.value || false;
+		this.gltfPath = ( props.gltfPath && props.gltfPath.value ) || this.gltfPath;
 
 		this.blidge.disconnect();
 
@@ -129,10 +129,10 @@ export class BLidgeClient extends MXP.Component {
 
 	}
 
-	public getPropsSerialized(): MXP.SerializableProps {
+	public serialize(): MXP.SerializableProps {
 
 		return {
-			...super.getPropsSerialized()
+			...super.serialize()
 		};
 
 	}

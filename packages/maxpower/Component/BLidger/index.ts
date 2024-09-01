@@ -213,7 +213,7 @@ export class BLidger extends Component {
 			const lightParam = this.node.param as BLidgeLightParam;
 			const light = entity.addComponent( new Light( { disableEdit: true } ) );
 
-			light.setProps( {
+			light.deserialize( {
 				...lightParam,
 				lightType: lightParam.type,
 				color: new GLP.Vector().copy( lightParam.color ),

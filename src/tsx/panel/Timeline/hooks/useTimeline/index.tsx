@@ -66,7 +66,7 @@ export const useTimeline = ( glEditor: GLEditor | undefined ) => {
 
 			};
 
-			onUpdateSceneProps( scene.getPropsSerialized() );
+			onUpdateSceneProps( scene.serialize() );
 
 			// music
 
@@ -82,7 +82,7 @@ export const useTimeline = ( glEditor: GLEditor | undefined ) => {
 
 			const onLoadProject = () => {
 
-				const props = scene.getPropsSerialized();
+				const props = scene.serialize();
 
 				setViewPort( [ 0, 0, props[ "timeline/duration" ], 0 ] );
 

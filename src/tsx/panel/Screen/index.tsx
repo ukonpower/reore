@@ -13,7 +13,7 @@ export const Screen = () => {
 
 	const { glEditor, reflesh } = useContext( EditorContext );
 
-	const editorProps = glEditor?.getPropsSerialized() || {};
+	const editorProps = glEditor?.serialize() || {};
 
 	// resolution
 

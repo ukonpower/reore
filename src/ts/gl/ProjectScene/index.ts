@@ -154,7 +154,7 @@ export class ProjectScene extends MXP.Entity {
 		if ( project ) {
 
 			this.name = project.setting.name;
-			this.setProps( project.setting );
+			this.deserialize( project.setting );
 			this.projectSerializer.deserialize( project, this.root );
 
 		} else {
@@ -222,7 +222,7 @@ export class ProjectScene extends MXP.Entity {
 
 	}
 
-	public getProps(): MXP.SerializableProps {
+	public get props() {
 
 		return {
 			name: { value: this.name },
@@ -238,11 +238,11 @@ export class ProjectScene extends MXP.Entity {
 
 	}
 
-	public setPropsImpl( props: MXP.SerializedProps ) {
+	protected deserializer( props: MXP.TypedSerializableProps<this> ) {
 
-		this.name = props[ "name" ];
-		this.frameSetting.duration = props[ "timeline/duration" ];
-		this.frameSetting.fps = props[ "timeline/fps" ];
+		this.name = props.name.value;
+		this.frameSetting.duration = props.timeline.duration.value;
+		this.frameSetting.fps = props.timeline.fps.value;
 
 	}
 

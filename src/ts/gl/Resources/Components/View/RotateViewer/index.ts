@@ -38,16 +38,17 @@ export class RotateViewer extends MXP.Component {
 
 	}
 
-	public getProps(): MXP.SerializableProps {
+	public get props() {
 
 		return {
 			speed: { value: this.speed }
 		};
 
 	}
-	public setProps( props: MXP.SerializedProps ) {
 
-		this.speed = props.speed;
+	protected deserializer( props: MXP.TypedSerializableProps<this> ): void {
+
+		this.speed = props.speed.value;
 
 	}
 

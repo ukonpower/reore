@@ -190,8 +190,9 @@ export class GLEditor extends MXP.Serializable {
 			}
 
 			this.projectOpen( this.dataManager.settings.currentProjectName || '' );
+			this.deserialize( this.dataManager.settings );
 
-			this.setProps( this.dataManager.settings );
+			// TODOなんか違う気がする
 
 		} );
 
@@ -308,11 +309,7 @@ export class GLEditor extends MXP.Serializable {
 
 	}
 
-	/*-------------------------------
-		Props
-	-------------------------------*/
-
-	protected serialize() {
+	public get props() {
 
 		return {
 			enableRender: {
@@ -342,20 +339,15 @@ export class GLEditor extends MXP.Serializable {
 
 	}
 
-	protected deserialize( props: MXP.DeserializeProps<this> ): void {
-
-
-	}
-
-	public setPropsImpl( props: MXP.SerializedProps ) {
+	protected deserializer( props: MXP.TypedSerializableProps<this> ): void {
 
 		// render
 
-		this.scene.enableRender = props[ "enableRender" ];
+		this.scene.enableRender = props.enableRender.value;
 
 		// viewtype
 
-		this.viewType = this.dataManager.settings.viewType = props[ "viewType" ];
+		this.viewType = this.dataManager.settings.viewType = props.viewType.value;
 
 		if ( this.viewType === "debug" ) {
 
@@ -369,7 +361,7 @@ export class GLEditor extends MXP.Serializable {
 
 		//  scale
 
-		const scale = props[ "resolutionScale" ];
+		const scale = props.resolutionScale.value;
 
 		this.dataManager.settings.resolutionScale = scale;
 
@@ -383,17 +375,18 @@ export class GLEditor extends MXP.Serializable {
 
 		if ( project ) {
 
-			project.setting.name = props[ "currentProjectName" ];
+			project.setting.name = props.currentProjectName.value;
 
 		}
 
-		this.scene.name = props[ "currentProjectName" ];
+		this.scene.name = props.currentProjectName.value;
 
 		// frameLoop
-		this.frameLoop.enabled = props[ "frameLoop/enabled" ];
+		this.frameLoop.enabled = props.frameLoop.enabled.value;
 
-		this.frameLoop.start = Math.max( 0, props[ "frameLoop/start" ] || 0 );
+		this.frameLoop.start = Math.max( 0, props.frameLoop.start.value || 0 );
 		this.frameLoop.end = Math.min( this.scene.frameSetting.duration, Math.max( this.frameLoop.start, props[ "frameLoop/end" ] ) || 100 );
+
 
 	}
 
@@ -485,7 +478,7 @@ export class GLEditor extends MXP.Serializable {
 	public projectSave() {
 
 		this.dataManager.setProject( this.scene.export() );
-		this.dataManager.setSetting( this.getPropsSerialized() );
+		this.dataManager.setSetting( this.serialize() );
 
 		this.fileSystem.set( "editor.json", this.dataManager.serialize() );
 

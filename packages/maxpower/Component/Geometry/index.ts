@@ -53,9 +53,6 @@ export class Geometry extends Component {
 
 	}
 
-	public setProps( props: SerializableProps | null ) {
-	}
-
 	public setAttribute( name: DefaultAttributeName | ( string & {} ), array: GLP.TArrayBuffer, size: number, opt?: GLP.AttributeOptions ) {
 
 		const currentAttr = this.attributes.get( name );

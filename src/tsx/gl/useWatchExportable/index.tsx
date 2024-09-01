@@ -17,7 +17,7 @@ export const useWatchExportable = ( exportable: Serializable | undefined, deps?:
 
 		if ( exportable === undefined ) return;
 
-		setCurrentValue( exportable.getPropsSerialized() );
+		setCurrentValue( exportable.serialize() );
 
 		const onUpdate = ( _: any, updateKeys: string[] ) => {
 
@@ -36,7 +36,7 @@ export const useWatchExportable = ( exportable: Serializable | undefined, deps?:
 
 			if ( found ) {
 
-				setCurrentValue( exportable.getPropsSerialized() );
+				setCurrentValue( exportable.serialize() );
 
 			}
 

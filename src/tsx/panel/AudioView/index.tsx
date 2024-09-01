@@ -85,7 +85,7 @@ export const AudioView = () => {
 
 			};
 
-			onUpdateSceneProps( glEditor.scene.getPropsSerialized() );
+			onUpdateSceneProps( glEditor.scene.serialize() );
 			onUpdateFramePlay( scene.frame );
 
 			scene.on( "update/props", onUpdateSceneProps );

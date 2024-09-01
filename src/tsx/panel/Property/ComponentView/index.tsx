@@ -22,12 +22,12 @@ export const ComponentView = ( { component }: ComponentViewProps ) => {
 		<Value key='-2' label={"tag"} value={component.tag} readOnly />
 	];
 
-	const compoProps = component.getProps();
+	const compoProps = component.props;
 
 	const onChange = useCallback( ( value: ValueType, label: string ) => {
 
-		component.setProps( {
-			...component.getPropsSerialized(),
+		component.deserialize( {
+			...component.serialize(),
 			[ label ]: value
 		} );
 

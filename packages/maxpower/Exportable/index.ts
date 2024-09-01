@@ -14,7 +14,7 @@ export type SerializedProps = {[key: string]: any }
 
 type ExportableInitiator = 'user' | 'script' | "god";
 
-export type DeserializeProps<T extends Serializable> = T["serialize"];
+export type TypedSerializableProps<T extends Serializable> = T["props"];
 
 export class Serializable extends Resource {
 
@@ -28,39 +28,17 @@ export class Serializable extends Resource {
 
 	}
 
-	// get/set props
-
-	public get props(): ReturnType<this["serialize"]> {
-
-		return this.serialize() as ReturnType<this["serialize"]>;
-
-	}
-
-	public set props( props: SerializableProps | null ) {
-
-		this.deserialize( {
-			...this.serialize(),
-			...props
-		} );
-
-	}
-
 	// serialize / deserialize
 
-	public serialize(): SerializableProps {
+	public get props(): SerializableProps {
 
 		return {};
 
 	}
 
-	public deserialize( props: DeserializeProps<this> ) {
-
-
-	}
-
 	// get/set props serialized
 
-	public get propsSerialized() {
+	public serialize(): SerializedProps {
 
 		const propertyValue:SerializedProps = {};
 
@@ -96,48 +74,73 @@ export class Serializable extends Resource {
 
 	}
 
-	// public set propsSerialized() {
+	public deserialize( serializedProps: SerializedProps ) {
 
-	// }
+		const props = JSON.parse( JSON.stringify( this.props ) ) as SerializableProps;
 
+		const keys = Object.keys( serializedProps );
 
-	// set
+		for ( let i = 0; i < keys.length; i ++ ) {
 
-	// public setProps( props: SerializedProps ) {
+			const path = keys[ i ];
 
-	// 	this.setPropsImpl( { ...this.getPropsSerialized(), ...props } );
+			const splitPath = path.split( "/" );
 
-	// 	this.emit( "update/props", [ this.getPropsSerialized(), Object.keys( props ) ] );
+			let prop: SerializableProps = props;
 
-	// }
+			for ( let i = 0; i < splitPath.length; i ++ ) {
 
-	// public setPropsImpl( props: SerializedProps ) {
-	// }
+				const dir = splitPath[ i ];
+				const current = prop[ dir ];
+
+				if ( current ) {
+
+					if ( "value" in current ) {
+
+						current.value = serializedProps[ path ];
+
+					} else {
+
+						prop = current;
+
+					}
+
+				}
+
+			}
+
+		}
+
+		this.deserializer( props );
+
+	}
+
+	protected deserializer( props: SerializableProps ) {}
 
 	// unit
 
-	// public getPropValue<T>( path: string ) {
+	public getPropValue<T>( path: string ) {
 
-	// 	const props = this.getPropsSerialized();
+		const props = this.serialize();
 
-	// 	return props[ path ] as ( T | undefined );
+		return props[ path ] as ( T | undefined );
 
-	// }
+	}
 
-	// public setPropValue( path: string, value: any ) {
+	public setPropValue( path: string, value: any ) {
 
-	// 	this.setProps( { [ path ]: value } );
+		this.deserialize( { [ path ]: value } );
 
-	// }
+	}
 
-	// public prop<T>( path: string ) {
+	public prop<T>( path: string ) {
 
-	// 	return {
-	// 		path,
-	// 		value: this.getPropValue<T>( path ),
-	// 		set: ( value: T ) => this.setPropValue( path, value )
-	// 	};
+		return {
+			path,
+			value: this.getPropValue<T>( path ),
+			set: ( value: T ) => this.setPropValue( path, value )
+		};
 
-	// }
+	}
 
 }

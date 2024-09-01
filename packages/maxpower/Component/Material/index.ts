@@ -68,7 +68,7 @@ export class Material extends Component {
 		this.defines = params.defines || {};
 		this.uniforms = params.uniforms || {};
 
-		this.setProps( params );
+		this.deserialize( params );
 
 		this.programCache = {};
 
