@@ -1,7 +1,7 @@
 import * as GLP from 'glpower';
 
 import { ComponentParams } from '..';
-import { SerializableProps, SerializedProps, TypedSerializableProps } from '../../Exportable';
+import { TypedSerializableProps } from '../../Serializable';
 import { ShadowMapCamera } from '../Camera/ShadowMapCamera';
 
 export type LightType = 'directional' | 'spot'

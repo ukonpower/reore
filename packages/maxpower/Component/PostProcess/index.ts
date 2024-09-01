@@ -1,7 +1,7 @@
 import * as GLP from 'glpower';
 
 import { Component, ComponentParams } from '..';
-import { SerializableProps, SerializedProps, TypedSerializableProps } from '../../Exportable';
+import { SerializableProps, TypedSerializableProps } from '../../Serializable';
 import { PostProcessPass } from '../PostProcessPass';
 
 export interface PostProcessParam extends ComponentParams {

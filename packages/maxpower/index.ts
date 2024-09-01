@@ -45,7 +45,7 @@ export * from './Resource';
 
 // Exportable
 
-export * from './Exportable';
+export * from './Serializable';
 
 // utils
 

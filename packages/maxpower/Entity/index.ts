@@ -9,7 +9,7 @@ import { Geometry } from '../Component/Geometry';
 import { Light } from '../Component/Light';
 import { Material } from '../Component/Material';
 import { RenderStack } from '../Component/Renderer';
-import { Serializable, SerializableProps, TypedSerializableProps } from '../Exportable';
+import { Serializable, TypedSerializableProps } from '../Serializable';
 
 export type EntityUpdateEvent = {
 	timElapsed: number;

@@ -1,7 +1,7 @@
 import * as GLP from 'glpower';
 
 import { Entity, EntityFinalizeEvent } from '../Entity';
-import { Serializable } from '../Exportable';
+import { Serializable } from '../Serializable';
 
 export type ComponentUpdateEvent = EntityFinalizeEvent & {
 	entity: Entity,

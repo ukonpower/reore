@@ -115,10 +115,11 @@
 	"settings": {
 		"enableRender": true,
 		"currentProjectName": "Demo3",
-		"resolutionScale": 0.25,
+		"resolutionScale": 0.5,
 		"viewType": "render",
-		"frameLoop/enabled": true,
+		"frameLoop/enabled": false,
 		"frameLoop/start": 1460.7375730271003,
-		"frameLoop/end": 2610.2490721459344
+		"frameLoop/end": 2610.2490721459344,
+		"selectedEntity": null
 	}
 }
