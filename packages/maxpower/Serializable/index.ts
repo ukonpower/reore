@@ -154,7 +154,7 @@ export class Serializable extends Resource {
 
 	}
 
-	protected deserializer( props: SerializableProps ) {}
+	protected deserializer( props: TypedSerializableProps<this> ) {}
 
 	// change
 

@@ -1,7 +1,7 @@
 import * as GLP from 'glpower';
 
 import { Entity, EntityFinalizeEvent } from '../Entity';
-import { Serializable } from '../Serializable';
+import { Serializable, SerializableProps, TypedSerializableProps } from '../Serializable';
 
 export type ComponentUpdateEvent = EntityFinalizeEvent & {
 	entity: Entity,
@@ -36,6 +36,22 @@ export class Component extends Serializable {
 
 	}
 
+	public get props() {
+
+		return {
+			enabled: {
+				value: this.enabled,
+			}
+		};
+
+	}
+
+	protected deserializer( props: TypedSerializableProps<this> ): void {
+
+		this.enabled = props.enabled.value;
+
+	}
+
 	public static get tag() {
 
 		return "";
@@ -57,18 +73,6 @@ export class Component extends Serializable {
 	public get enabled() {
 
 		return this.enabled_;
-
-	}
-
-	public noticePropsChanged( type?: string ) {
-
-		this.emit( 'changed', [ type ] );
-
-		if ( this.entity ) {
-
-			this.entity.noticeParent( "update/graph", [ "component" ] );
-
-		}
 
 	}
 

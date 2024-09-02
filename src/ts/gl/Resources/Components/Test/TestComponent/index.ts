@@ -24,6 +24,7 @@ export class TestComponent extends MXP.Component {
 		this.material = new MXP.Material( {
 			frag: MXP.hotGet( "templateFrag", templateFrag ),
 			vert: MXP.hotGet( "templateVert", templateVert ),
+			phase: [ "deferred", "shadowMap" ],
 			uniforms: GLP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time )
 		} );
 

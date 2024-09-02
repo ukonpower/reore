@@ -4,7 +4,6 @@ import * as MXP from 'maxpower';
 import { resource } from '~/ts/gl/GLGlobals';
 
 export interface OREngineNodeOverrideComponent {
-	key: string,
 	name: string,
 	props: {[key:string]: any} | undefined
 }
@@ -165,14 +164,13 @@ export class ProjectSerializer extends GLP.EventEmitter {
 				components: []
 			};
 
-			e.components.forEach( ( c, key ) => {
+			e.components.forEach( ( c ) => {
 
 				const exportProps: MXP.SerializedProps = c.serialize( true );
 
 				if ( ! c.disableEdit && c.initiator == "user" ) {
 
 					nodeOverrideData.components.push( {
-						key,
 						name: c.constructor.name,
 						props: Object.keys( exportProps ).length > 0 ? exportProps : undefined
 					} );

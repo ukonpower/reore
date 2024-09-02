@@ -21,6 +21,12 @@ export class MainObj extends MXP.Component {
 
 	}
 
+	protected unsetEntityImpl( prevEntity: MXP.Entity ): void {
+
+		prevEntity.remove( this.wire );
+
+	}
+
 	public get resourceId() {
 
 		return "mainobj";

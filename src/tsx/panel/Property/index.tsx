@@ -12,7 +12,7 @@ import { ComponentAdd } from './ComponentAdd';
 import { ComponentView } from './ComponentView';
 import style from './index.module.scss';
 
-import { useWatchSerializable } from '~/tsx/gl/useWatchSerializable';
+import { useSerializableProps } from '~/tsx/gl/useSerializableProps';
 
 
 export const Property = () => {
@@ -21,23 +21,15 @@ export const Property = () => {
 
 	// select entity
 
-	const selectedEntityId = glEditor?.prop<string>( "selectedEntity" );
-	const selectedEntity = selectedEntityId?.value !== undefined && glEditor?.scene.getEntityById( selectedEntityId.value );
+	const [ selectedEntityId ] = useSerializableProps<string>( glEditor, "selectedEntity" );
+	const selectedEntity = selectedEntityId !== undefined ? glEditor?.scene.getEntityById( selectedEntityId ) : undefined;
 
-	useWatchSerializable( glEditor, [ selectedEntityId?.path ] );
+	const [ position, setPosition ] = useSerializableProps<number[]>( selectedEntity, "position" );
+	const [ euler, setEuler ] = useSerializableProps<number[]>( selectedEntity, "euler" );
+	const [ scale, setScale ] = useSerializableProps<number[]>( selectedEntity, "scale" );
+	const [ coponents ] = useSerializableProps<MXP.Component[]>( selectedEntity, "components" );
 
 	if ( ! selectedEntity ) return null;
-
-	const componentArray: {key: string, component: MXP.Component }[] = [];
-
-	selectedEntity.components.forEach( ( component, key ) => {
-
-		componentArray.push( {
-			key,
-			component
-		} );
-
-	} );
 
 	const disabled = selectedEntity.initiator != "user";
 
@@ -49,35 +41,34 @@ export const Property = () => {
 			</PropertyBlock>
 			<PropertyBlock label={"Transform"} accordion={true}>
 				<PropertyBlock label={"Position"} >
-					<Vector type='vec3' disabled={disabled} value={selectedEntity.position} onChange={( value ) => {
+					<Vector type='vec3' disabled={disabled} value={new GLP.Vector().setFromArray( position || [] )} onChange={( value ) => {
 
-						selectedEntity.position.copy( value );
+						setPosition && setPosition( new GLP.Vector().copy( value ).getElm( 'vec3' ) );
 
 					}}/>
 				</PropertyBlock>
 				<PropertyBlock label={"Rotation"} >
-					<Vector type='vec3' disabled={disabled} value={ new GLP.Vector().copy( selectedEntity.euler ).multiply( 1.0 / Math.PI * 180 )} slideScale={50} onChange={( value ) => {
+					<Vector type='vec3' disabled={disabled} value={ new GLP.Vector().setFromArray( euler || [] ).multiply( 1.0 / Math.PI * 180 )} slideScale={50} onChange={( value ) => {
 
-						selectedEntity.euler.copy( value ).multiply( 1.0 / 180 * Math.PI );
+						setEuler && setEuler( new GLP.Vector().copy( value ).multiply( 1.0 / 180 * Math.PI ).getElm( 'vec3' ) );
 
 					}}/>
 				</PropertyBlock>
 				<PropertyBlock label={"Scale"} >
-					<Vector type='vec3' disabled={disabled} value={selectedEntity.scale} onChange={( value ) => {
+					<Vector type='vec3' disabled={disabled} value={new GLP.Vector().setFromArray( scale || [] )} onChange={( value ) => {
 
-						selectedEntity.scale.copy( value );
+						setScale && setScale( new GLP.Vector().copy( value ).getElm( 'vec3' ) );
 
 					}}/>
 				</PropertyBlock>
 			</PropertyBlock>
 			<PropertyBlock label={"Components"} accordion={true} noIndent>
 				<div className={style.component_list}>
-					{
-						componentArray.map( ( { component } ) => {
+					{coponents && coponents.map( ( component ) => {
 
-							return <ComponentView key={component.uuid} component={component}/>;
+						return <ComponentView key={component.uuid} component={component}/>;
 
-						} )
+					} )
 					}
 				</div>
 				<div className={style.component_controls}>

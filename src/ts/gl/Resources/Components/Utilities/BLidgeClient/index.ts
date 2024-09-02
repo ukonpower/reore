@@ -73,6 +73,7 @@ export class BLidgeClient extends MXP.Component {
 		const connect = this.connection.enabled;
 
 		return {
+			...super.props,
 			mode: {
 				value: this.type,
 				opt: {
@@ -104,6 +105,8 @@ export class BLidgeClient extends MXP.Component {
 	}
 
 	protected deserializer( props: MXP.TypedSerializableProps<this> ) {
+
+		super.deserializer( props );
 
 		this.connection.url = ( props.websocket && props.websocket.url.value ) || this.connection.url;
 		this.connection.enabled = ( props.websocket && props.websocket.connected.value ) || false;

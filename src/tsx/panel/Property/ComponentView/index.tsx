@@ -4,6 +4,8 @@ import { MouseEvent, useCallback, useMemo } from 'react';
 
 import style from './index.module.scss';
 
+import { useSerializableProps } from '~/tsx/gl/useSerializableProps';
+import { useWatchSerializable } from '~/tsx/gl/useWatchSerializable';
 import { CrossIcon } from '~/tsx/ui/icon/CrossIcon';
 import { InputBoolean } from '~/tsx/ui/Input/InputCheckBox';
 import { PropertyBlock } from '~/tsx/ui/Property/PropertyBlock';
@@ -14,6 +16,11 @@ type ComponentViewProps = {
 };
 
 export const ComponentView = ( { component }: ComponentViewProps ) => {
+
+	useWatchSerializable( component, [ ] );
+
+
+	const [ enabled, setEnabled ] = useSerializableProps<boolean>( component, "enabled" );
 
 	const propElms: JSX.Element[] = [
 		<Value key='-2' label={"tag"} value={component.tag} readOnly />
@@ -78,11 +85,6 @@ export const ComponentView = ( { component }: ComponentViewProps ) => {
 
 	}
 
-	const onChangeEnabled = useCallback( ( checked: boolean ) => {
-
-		component.enabled = checked;
-
-	}, [ component ] );
 
 	const onClickDelete = useCallback( ( e: MouseEvent ) => {
 
@@ -103,7 +105,7 @@ export const ComponentView = ( { component }: ComponentViewProps ) => {
 
 		return () => <div className={style.head}>
 			<div className={style.check}>
-				<InputBoolean checked={component.enabled} onChange={onChangeEnabled} readOnly={component.disableEdit} />
+				<InputBoolean checked={enabled} onChange={setEnabled} readOnly={component.disableEdit} />
 			</div>
 			<div className={style.name}>
 				{component.constructor.name}
@@ -113,7 +115,7 @@ export const ComponentView = ( { component }: ComponentViewProps ) => {
 			</div>
 		</div>;
 
-	}, [ component, onClickDelete, onChangeEnabled ] );
+	}, [ component, enabled, onClickDelete, setEnabled ] );
 
 	return <div className={style.compoView} data-disable_component={component.disableEdit}>
 		<div className={style.content}>

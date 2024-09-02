@@ -63,6 +63,7 @@ export class Light extends ShadowMapCamera {
 	public get props() {
 
 		return {
+			...super.props,
 			lightType: { value: this.lightType },
 			color: { value: this.color },
 			intensity: { value: this.intensity },

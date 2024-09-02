@@ -9,7 +9,7 @@ import { Geometry } from '../Component/Geometry';
 import { Light } from '../Component/Light';
 import { Material } from '../Component/Material';
 import { RenderStack } from '../Component/Renderer';
-import { Serializable } from '../Serializable';
+import { Serializable, SerializableProps, TypedSerializableProps } from '../Serializable';
 
 export type EntityUpdateEvent = {
 	timElapsed: number;
@@ -92,13 +92,36 @@ export class Entity extends Serializable {
 	public get props() {
 
 		return {
+			position: {
+				value: this.position.getElm( "vec3" ),
+			},
+			euler: {
+				value: this.euler.getElm( "vec3" ),
+			},
+			scale: {
+				value: this.scale.getElm( "vec3" ),
+			},
 			children: {
 				value: this.children,
 				opt: {
 					noExport: true,
 				}
+			},
+			components: {
+				value: Array.from( this.components.values() ),
+				opt: {
+					noExport: true,
+				}
 			}
 		};
+
+	}
+
+	protected deserializer( props: TypedSerializableProps<this> ): void {
+
+		this.position.set( props.position.value[ 0 ], props.position.value[ 1 ], props.position.value[ 2 ] );
+		this.euler.set( props.euler.value[ 0 ], props.euler.value[ 1 ], props.euler.value[ 2 ], props.euler.value[ 3 ] );
+		this.scale.set( props.scale.value[ 0 ], props.scale.value[ 1 ], props.scale.value[ 2 ] );
 
 	}
 
@@ -355,6 +378,8 @@ export class Entity extends Serializable {
 
 		}
 
+		this.noticePropsChanged( "components" );
+
 		return component;
 
 	}
@@ -393,6 +418,8 @@ export class Entity extends Serializable {
 			}
 
 		}
+
+		this.noticePropsChanged( "components" );
 
 		return currentComponent;
 
