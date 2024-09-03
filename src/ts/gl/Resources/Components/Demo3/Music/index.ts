@@ -16,7 +16,7 @@ export class Music extends MXP.Component {
 	private power: GLP.Power;
 	private gl: WebGL2RenderingContext;
 
-	private isAudioBufferReady: boolean = false;
+	private isAudioBufferReady: boolean;
 	private audioContext: AudioContext;
 	private audioBuffer: AudioBuffer;
 	private implusBuffer: AudioBuffer;
@@ -40,9 +40,9 @@ export class Music extends MXP.Component {
 
 	// play
 
-	private timeCode: number = 0;
-	private playStartTime: number = - 1;
-	private forcePlay: boolean = false;
+	private timeCode: number;
+	private playStartTime: number;
+	private forcePlay: boolean;
 
 	// texture
 
@@ -64,8 +64,11 @@ export class Music extends MXP.Component {
 
 		this.power = power;
 		this.gl = this.power.gl;
-
 		this.audioSrcNode = null;
+		this.isAudioBufferReady = false;
+		this.timeCode = 0;
+		this.playStartTime = - 1;
+		this.forcePlay = false;
 
 		/*-------------------------------
 			Audio
@@ -205,7 +208,6 @@ export class Music extends MXP.Component {
 			vao.setAttribute( 'aTime', this.bufferIn, 1 );
 
 			const startPos = Math.floor( this.timeCode / ( this.bufferLength / this.audioBuffer.sampleRate / this.numSampleBlocks ) );
-
 
 			const renderParts = async ( ) => {
 

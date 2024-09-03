@@ -1,5 +1,20 @@
 {
 	"setting": {
+		"position": [
+			0,
+			0,
+			0
+		],
+		"euler": [
+			0,
+			0,
+			0
+		],
+		"scale": [
+			1,
+			1,
+			1
+		],
 		"name": "Demo3",
 		"timeline/duration": 10185,
 		"timeline/fps": 60
@@ -9,17 +24,18 @@
 			"path": "/root",
 			"components": [
 				{
-					"key": "blidgeClient",
 					"name": "BLidgeClient",
 					"props": {
+						"enabled": true,
 						"mode": "json",
-						"gltf": true,
-						"gltfPath": "/scene.glb"
+						"gltf": false
 					}
 				},
 				{
-					"key": "music",
-					"name": "Music"
+					"name": "Music",
+					"props": {
+						"enabled": true
+					}
 				}
 			]
 		},
@@ -27,8 +43,10 @@
 			"path": "/root/blidgeRoot/MainObj",
 			"components": [
 				{
-					"key": "mainobj",
-					"name": "MainObj"
+					"name": "MainObj",
+					"props": {
+						"enabled": true
+					}
 				}
 			]
 		},
@@ -36,13 +54,20 @@
 			"path": "/root/blidgeRoot/SkyBox",
 			"components": [
 				{
-					"key": "skybox",
-					"name": "SkyBoxDemo3"
+					"name": "SkyBoxDemo3",
+					"props": {
+						"enabled": true
+					}
 				}
 			]
 		}
 	],
 	"scene": {
-		"name": "root"
+		"name": "root",
+		"childs": [
+			{
+				"name": "Test"
+			}
+		]
 	}
 }

@@ -73,6 +73,7 @@ class App {
 
 		};
 
+
 		this.startElm.appendChild( fullScreen );
 
 		// play button

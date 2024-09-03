@@ -83,9 +83,6 @@ export class EGridDots extends MXP.Component {
 
 			import.meta.hot.accept( "./shaders/eGridDots.fs", ( module ) => {
 
-				console.log( eGridDotsFrag );
-
-
 				if ( module ) {
 
 					this.material.frag = MXP.hotUpdate( matName + "fs", module.default );
