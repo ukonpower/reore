@@ -44,17 +44,21 @@ export class PostProcess extends Component {
 
 			const pass = this.passes[ i ];
 
-			props[ pass.name ] = {
+			props[ pass.name.replaceAll( "/", ":" ) ] = {
 				value: pass.enabled,
 			};
 
 		}
 
-		return props;
+		const res = { ...super.props, ...props };
+
+		return res;
 
 	}
 
 	protected deserializer( props: TypedSerializableProps<this> ) {
+
+		super.deserializer( props );
 
 		if ( props === null ) return;
 
@@ -62,7 +66,7 @@ export class PostProcess extends Component {
 
 			const pass = this.passes[ i ];
 
-			const enableProps = props[ pass.name ];
+			const enableProps = ( props as SerializableProps )[ pass.name.replaceAll( "/", ":" ) ];
 
 			if ( enableProps !== undefined ) {
 

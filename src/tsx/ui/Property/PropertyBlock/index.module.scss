@@ -27,9 +27,7 @@
 		padding-right: 5px;
 		display: inline-block;
 
-		&[data-accordion="true"] {
-			cursor: pointer;
-		}
+		cursor: pointer;
 	}
 
 	&_text {

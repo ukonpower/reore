@@ -50,6 +50,8 @@ export const ComponentView = ( { component }: ComponentViewProps ) => {
 
 				const path_ = path + key;
 
+				if ( key == "enabled" ) continue;
+
 				if ( prop === undefined ) continue;
 
 				if ( "value" in prop ) {
