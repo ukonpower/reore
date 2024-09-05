@@ -42,6 +42,17 @@
 					]
 				},
 				{
+					"path": "/root/Test",
+					"components": [
+						{
+							"name": "Particles",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/MainObj",
 					"components": [
 						{
@@ -68,7 +79,12 @@
 				"name": "root",
 				"childs": [
 					{
-						"name": "Test"
+						"name": "Test",
+						"pos": [
+							0,
+							5.699999999999996,
+							0
+						]
 					}
 				]
 			}
@@ -82,6 +98,6 @@
 		"frameLoop/enabled": false,
 		"frameLoop/start": 1460.7375730271003,
 		"frameLoop/end": 2610.2490721459344,
-		"selectedEntity": "69"
+		"selectedEntity": "4de"
 	}
 }

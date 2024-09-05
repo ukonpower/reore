@@ -105,7 +105,7 @@ export const HierarchyNode = ( props: HierarchyNodeProps ) => {
 				{hasChild && <button className={style.fold_button} onClick={onClickFoldControls} ><ArrowIcon open={open}/></button> }
 			</div>
 			<div className={style.self_name}>
-				<p>{props.entity.name || "<noname>"}</p>
+				<p>{props.entity.name || "-"}</p>
 			</div>
 		</div>
 		{hasChild && <div className={style.child} data-open={open} >

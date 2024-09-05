@@ -550,6 +550,7 @@ export class GLEditor extends MXP.Serializable {
 
 		this.disposed = true;
 
+		this.canvas.remove();
 		this.scene.disposeRecursive();
 		this.keyBoard.dispose();
 		this.frameDebugger.dispose();

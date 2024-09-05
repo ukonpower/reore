@@ -1,6 +1,7 @@
 import { MainCamera } from '../Components/Camera/MainCamera/index.ts';
 import { MainObj } from '../Components/Demo3/MainObj/index.ts';
 import { Music } from '../Components/Demo3/Music/index.ts';
+import { Particles } from '../Components/Demo3/Particles/index.ts';
 import { SkyBoxDemo3 } from '../Components/Demo3/SkyBoxDemo3/index.ts';
 import { TuringRenderer } from '../Components/Demo3/TuringTex/index.ts';
 import { FluidCrystal } from '../Components/Entities/FluidCrystal/index.ts';
@@ -24,6 +25,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 	Demo3: [
 		MainObj,
 		Music,
+		Particles,
 		SkyBoxDemo3,
 		TuringRenderer,
 	],
