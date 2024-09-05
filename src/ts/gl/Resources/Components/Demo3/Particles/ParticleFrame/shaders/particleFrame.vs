@@ -13,30 +13,42 @@ void main( void ) {
 	vec4 gpuPos1 = texture(uGPUSampler0, vec2( id ) );
 	vec4 gpuPos2 = texture(uGPUSampler0, vec2( id + 0.01 ) );
 
-	if( uv.x == 0.0 && uv.y == 0.0 ) {
+	vec4 gpuModelPosition = modelMatrix * vec4(gpuPos1.xyz, 1.0);
+	vec4 gpuMVPosition = viewMatrix * gpuModelPosition;
+	vec4 screenGPUPos1 = projectionMatrix * gpuMVPosition;
+	screenGPUPos1.xyz /= screenGPUPos1.w;
 
-		outPos = gpuPos1.xyz;
+	gpuModelPosition = modelMatrix * vec4(gpuPos2.xyz, 1.0);
+	gpuMVPosition = viewMatrix * gpuModelPosition;
+	vec4 screenGPUPos2 = projectionMatrix * gpuMVPosition;
+	screenGPUPos2.xyz /= screenGPUPos2.w;
 
-	}
+	if( uv.x == 0.0 ) {
 
-	if( uv.x == 1.0 && uv.y == 1.0 ) {
-
-		outPos = gpuPos2.xyz;
-
-	}
-
-	if( uv.x == 1.0 && uv.y == 0.0 ) {
-
-		outPos = gpuPos2.xyz;
+		outPos.x = screenGPUPos1.x;
 
 	}
 
-	if( uv.x == 1.0 && uv.y == 1.0 ) {
+	if( uv.x == 1.0 ) {
 
-		outPos = gpuPos2.xyz;
+		outPos.x = screenGPUPos2.x;
+
+	}
+
+	if( uv.y == 0.0) {
+
+		outPos.y = screenGPUPos1.y;
+
+	}
+
+	if( uv.y == 1.0 ) {
+
+		outPos.y = screenGPUPos2.y;
 
 	}
 
 	#include <vert_out>
+
+	gl_Position = vec4( outPos.xyz, 1.0 );
 
 }
