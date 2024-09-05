@@ -1,6 +1,6 @@
 import * as GLP from 'glpower';
 
-export type MaterialRenderType = "shadowMap" | "deferred" | "forward" | "envMap" | 'postprocess' | 'ui'
+export type MaterialRenderType = "shadowMap" | "deferred" | "forward" | "envMap" | 'ui'
 
 type MaterialDefines = {[key: string]: any};
 type MaterialVisibility = {[K in MaterialRenderType]?: boolean}

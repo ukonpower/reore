@@ -31,6 +31,8 @@ export class ParticleFrame extends MXP.Component {
 		this.mat = new MXP.Material( {
 			frag: particleFrameFrag,
 			vert: particleFrameVert,
+			phase: [ "forward" ],
+			blending: "ADD",
 			uniforms: GLP.UniformsUtils.merge( {
 			}, parentUniforms )
 		} );
