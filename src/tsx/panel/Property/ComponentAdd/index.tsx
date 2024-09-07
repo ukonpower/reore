@@ -6,8 +6,8 @@ import { MouseMenuContext } from '../../MouseMenu/useMouseMenu';
 
 import style from './index.module.scss';
 
+import { resource } from '~/ts/gl/GLGlobals';
 import { ResouceComponentItem } from '~/ts/gl/Resources';
-import { EditorContext } from '~/tsx/gl/useEditor';
 import { Button } from '~/tsx/ui/Button';
 import { InputGroup } from '~/tsx/ui/InputGroup';
 import { Picker } from '~/tsx/ui/Picker';
@@ -47,8 +47,7 @@ const ComponentCategoryGroup = ( { categoryName, componentList, onClick }: Compo
 export const ComponentAdd = ( props: ComponentAddProps ) => {
 
 	const { pushContent, closeAll } = useContext( MouseMenuContext );
-	const { glEditor } = useContext( EditorContext );
-	const resources = glEditor && glEditor.resource;
+	const resources = resource;
 
 	const argsInputCloseRef = useRef<() => void>();
 

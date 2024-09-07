@@ -75,13 +75,13 @@ export const useTimeline = ( glEditor: GLEditor | undefined ) => {
 
 			scene.on( "update/frame/play", onUpdateFramePlay );
 			scene.on( "update/music", onUpdateMusic );
-			glEditor.on( "action/loadProject", onLoadProject );
+			glEditor.on( "loadedProject", onLoadProject );
 
 			return () => {
 
 				scene.off( "update/frame/play", onUpdateFramePlay );
 				scene.off( "update/music", onUpdateMusic );
-				glEditor.off( "action/loadProject", onLoadProject );
+				glEditor.off( "loadedProject", onLoadProject );
 
 			};
 

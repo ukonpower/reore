@@ -17,7 +17,7 @@ export const ProjectControl = () => {
 
 	const { pushContent, closeAll } = useContext( MouseMenuContext );
 	const { glEditor, reflesh } = useContext( EditorContext );
-	const data = glEditor?.dataManager;
+	const data = glEditor?.data;
 
 	const projectList: string[] = [];
 

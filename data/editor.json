@@ -90,14 +90,12 @@
 			}
 		}
 	],
-	"settings": {
-		"enableRender": true,
-		"currentProjectName": "Demo3",
-		"resolutionScale": 0.5,
-		"viewType": "render",
-		"frameLoop/enabled": false,
-		"frameLoop/start": 1460.7375730271003,
-		"frameLoop/end": 2610.2490721459344,
-		"selectedEntity": "4de"
-	}
+	"enableRender": true,
+	"currentProjectName": "Demo3",
+	"resolutionScale": 0.125,
+	"viewType": "render",
+	"frameLoop/enabled": false,
+	"frameLoop/start": 1460.7375730271003,
+	"frameLoop/end": 1460.7375730271003,
+	"selectedEntity": "97"
 }
