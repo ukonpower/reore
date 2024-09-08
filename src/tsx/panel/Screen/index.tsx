@@ -37,7 +37,7 @@ export const Screen = () => {
 					}}/>
 				</div>
 				<div className={style.item}>
-					<Value label='Resolution' selectList={[ "1", "1/2", "1/4", "1/8" ]} value={resolutionDivideStr} onChange={( value ) => {
+					<Value label='Resolution' selectList={[ "1", "1/2", "1/4", "1/8", "1/16", "1/32" ]} value={resolutionDivideStr} onChange={( value ) => {
 
 						setResolutionScale && setResolutionScale( 1.0 / Number( value.toString().split( '/' )[ 1 ] || "1" ) );
 
