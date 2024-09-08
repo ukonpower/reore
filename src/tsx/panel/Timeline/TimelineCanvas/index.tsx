@@ -5,7 +5,7 @@ import { TimelineContext } from '../hooks/useTimeline';
 import style from './index.module.scss';
 import { TimelineCanvasRenderer } from './TimelineCanvasRenderer';
 
-import { useWatchSerializable } from '~/tsx/gl/useWatchSerializable';
+import { useSerializableProps } from '~/tsx/gl/useSerializableProps';
 
 
 export const TimelineCanvas = () => {
@@ -46,18 +46,16 @@ export const TimelineCanvas = () => {
 
 	}, [ renderer, viewPort, viewPortScale ] );
 
-
-	const duration = glEditor?.scene?.prop<number>( "timeline/duration" );
-	const fps = glEditor?.scene?.prop<number>( "timeline/fps" );
-	useWatchSerializable( glEditor?.scene, [ duration?.path, fps?.path ] );
+	const [ duration ] = useSerializableProps<number>( glEditor?.scene, "timeline/duration" );
+	const [ fps ] = useSerializableProps<number>( glEditor?.scene, "timeline/fps" );
 
 	useEffect( () => {
 
 		if ( renderer && duration && fps ) {
 
 			renderer.setFrameSetting( {
-				duration: duration.value || 0,
-				fps: fps.value || 0,
+				duration: duration || 0,
+				fps: fps || 0,
 			} );
 
 		}
@@ -66,29 +64,23 @@ export const TimelineCanvas = () => {
 
 	// loop
 
-	useWatchSerializable( glEditor, [
-		"frameLoop/enabled",
-		"frameLoop/start",
-		"frameLoop/end",
-	] );
-
-	const enabled = glEditor?.prop<boolean>( "frameLoop/enabled" );
-	const start = glEditor?.prop<number>( "frameLoop/start" );
-	const end = glEditor?.prop<number>( "frameLoop/end" );
+	const [ loopEnabled ] = useSerializableProps<boolean>( glEditor, "frameLoop/enabled" );
+	const [ loopStart ] = useSerializableProps<number>( glEditor, "frameLoop/start" );
+	const [ loopEnd ] = useSerializableProps<number>( glEditor, "frameLoop/end" );
 
 	useEffect( () => {
 
 		if ( renderer ) {
 
 			renderer.setLoopSetting(
-				enabled?.value || false,
-				start?.value || 0,
-				end?.value || 0,
+				loopEnabled || false,
+				loopStart || 0,
+				loopEnd || 0,
 			);
 
 		}
 
-	}, [ renderer, enabled, start, end ] );
+	}, [ renderer, loopEnabled, loopStart, loopEnd ] );
 
 	useEffect( () => {
 

@@ -178,7 +178,7 @@ export class Serializable extends Resource {
 
 	// value
 
-	public getValue<T>( path: string ) {
+	public getPropsValue<T>( path: string ) {
 
 		const props = this.serialize();
 
@@ -186,21 +186,9 @@ export class Serializable extends Resource {
 
 	}
 
-	public setValue( path: string, value: any ) {
+	public setPropsValue( path: string, value: any ) {
 
 		this.deserialize( { [ path ]: value } );
-
-	}
-
-	// accesor
-
-	public prop<T>( path: string ) {
-
-		return {
-			path,
-			value: this.getValue<T>( path ),
-			set: ( value: T ) => this.setValue( path, value )
-		};
 
 	}
 

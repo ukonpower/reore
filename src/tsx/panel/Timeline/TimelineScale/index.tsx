@@ -4,7 +4,7 @@ import { TimelineContext } from '../hooks/useTimeline';
 
 import style from './index.module.scss';
 
-import { useWatchSerializable } from '~/tsx/gl/useWatchSerializable';
+import { useSerializableProps } from '~/tsx/gl/useSerializableProps';
 
 const formatTime = ( sec: number ) => {
 
@@ -19,9 +19,7 @@ export const TimelineScale = () => {
 
 	const { glEditor, viewPort, viewPortScale } = useContext( TimelineContext );
 
-	const fps = glEditor?.scene?.prop<number>( "timeline/fps" );
-
-	useWatchSerializable( glEditor?.scene, [ fps?.path ] );
+	const [ fps, setFps ] = useSerializableProps<number>( glEditor?.scene, "timeline/fps" );
 
 	if ( ! viewPort || ! viewPortScale || fps === undefined ) return null;
 
@@ -33,7 +31,7 @@ export const TimelineScale = () => {
 	while ( frame < viewPort[ 2 ] && cnt < 100 ) {
 
 		const x = ( frame - viewPort[ 0 ] ) / ( viewPort[ 2 ] - viewPort[ 0 ] );
-		const sec = frame / ( fps.value || 0 );
+		const sec = frame / ( fps || 0 );
 
 		elms.push(
 			<div key={frame} className={style.scale_item} style={{ left: x * 100 + "%" }}>

@@ -5,7 +5,7 @@ import { TimelineContext } from '../hooks/useTimeline';
 
 import style from './index.module.scss';
 
-import { useWatchSerializable } from '~/tsx/gl/useWatchSerializable';
+import { useSerializableProps } from '~/tsx/gl/useSerializableProps';
 import { Panel } from '~/tsx/ui/Panel';
 import { Value, ValueType } from '~/tsx/ui/Property/Value';
 
@@ -24,20 +24,16 @@ export const TimelineSetting = () => {
 	}, [] );
 
 	// loop
-
-	const loop = glEditor?.prop<boolean>( "frameLoop/enabled" );
-	useWatchSerializable( glEditor, [ loop?.path ] );
-
-	const duration = glEditor?.scene?.prop<number>( "timeline/duration" );
-	const fps = glEditor?.scene?.prop<number>( "timeline/fps" );
-	useWatchSerializable( glEditor?.scene, [ duration?.path, fps?.path ] );
+	const [ loop, setLoop ] = useSerializableProps<boolean>( glEditor, "frameLoop/enabled" );
+	const [ duration, setDuration ] = useSerializableProps<number>( glEditor?.scene, "timeline/duration" );
+	const [ fps, setFps ] = useSerializableProps<number>( glEditor?.scene, "timeline/fps" );
 
 	return <div className={style.timelineSetting}>
 		<Panel>
 			<Value label='current' value={Math.floor( framePlay?.current || 0 )} vertical readOnly />
-			<Value label='duration' precision={0} value={duration?.value} vertical onChange={( v ) => onChange( v, duration?.set )}/>
-			<Value label='fps' precision={0} value={fps?.value} vertical onChange={( v ) => onChange( v, fps?.set )} />
-			<Value label='loop' value={loop?.value || false} labelAutoWidth onChange={( v ) => onChange( v, loop?.set )}/>
+			<Value label='duration' precision={0} value={duration} vertical onChange={( v ) => onChange( v, setDuration )}/>
+			<Value label='fps' precision={0} value={fps} vertical onChange={( v ) => onChange( v, setFps )} />
+			<Value label='loop' value={loop || false} labelAutoWidth onChange={( v ) => onChange( v, setLoop )}/>
 		</Panel>
 	</div>;
 

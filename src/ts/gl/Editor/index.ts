@@ -7,7 +7,7 @@ import { OREngineProjectData } from '../ProjectScene/IO/ProjectSerializer';
 import { FrameDebugger } from '../ProjectScene/utils/FrameDebugger';
 import { Keyboard, PressedKeys } from '../ProjectScene/utils/Keyboard';
 
-import { OREngineEditorData, OREngineEditorViewType } from './EditorDataManager';
+import { OREngineEditorViewType } from './EditorDataManager';
 import { FileSystem } from './FileSystem';
 
 export type EditorTimelineLoop = {
@@ -340,7 +340,7 @@ export class GLEditor extends MXP.Serializable {
 
 		this.frameLoop.enabled = props.frameLoop.enabled.value;
 		this.frameLoop.start = Math.max( 0, props.frameLoop.start.value || 0 );
-		this.frameLoop.end = Math.min( this.scene.frameSetting.duration, Math.max( this.frameLoop.start, props.frameLoop.end.value ) || 100 );
+		this.frameLoop.end = Math.max( this.frameLoop.start, props.frameLoop.end.value ) || 100;
 
 		// selected eneity
 
@@ -350,11 +350,11 @@ export class GLEditor extends MXP.Serializable {
 
 		props.projects.value.forEach( ( project ) => {
 
-			this.projects.set( project.setting.name, project );
+			this.projects.set( project[ "name" ], project );
 
 		} );
 
-		if ( ! this.currentProject || props.currentProjectName.value !== this.currentProject.setting.name ) {
+		if ( ! this.currentProject || props.currentProjectName.value !== this.currentProject.name ) {
 
 			this.projectOpen( props.currentProjectName.value );
 
@@ -425,7 +425,7 @@ export class GLEditor extends MXP.Serializable {
 		} else {
 
 			this.scene.init();
-			this.currentProject = this.scene.export();
+			this.currentProject = this.scene.serialize();
 
 		}
 
@@ -444,7 +444,8 @@ export class GLEditor extends MXP.Serializable {
 
 	public projectSave() {
 
-		this.projects.set( this.scene.name, this.scene.export() );
+		this.projects.set( this.scene.name, this.scene.serialize( true ) );
+
 		this.fileSystem.set( "editor.json", {
 			...this.serialize(),
 		} );
@@ -455,7 +456,7 @@ export class GLEditor extends MXP.Serializable {
 
 	public exportCurrentScene() {
 
-		return this.fileSystem.set( "player.json", this.scene.export() );
+		return this.fileSystem.set( "player.json", this.scene.serialize() );
 
 	}
 

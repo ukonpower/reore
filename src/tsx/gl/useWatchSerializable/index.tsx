@@ -3,7 +3,7 @@ import { useState, useMemo, useEffect } from "react";
 
 export const useWatchSerializable = ( exportable: Serializable | undefined, deps?: ( string | undefined )[] ) => {
 
-	const [ currentValue, setCurrentValue ] = useState<SerializedProps>( );
+	const [ props, setProps ] = useState<SerializedProps>( );
 
 	const _deps = deps ? [ ...deps ] : [];
 
@@ -17,7 +17,7 @@ export const useWatchSerializable = ( exportable: Serializable | undefined, deps
 
 		if ( exportable === undefined ) return;
 
-		setCurrentValue( exportable.serialize() );
+		setProps( exportable.serialize() );
 
 		const onUpdate = ( _: any, updateKeys: string[] ) => {
 
@@ -36,7 +36,7 @@ export const useWatchSerializable = ( exportable: Serializable | undefined, deps
 
 			if ( found ) {
 
-				setCurrentValue( exportable.serialize() );
+				setProps( exportable.serialize() );
 
 			}
 
@@ -53,7 +53,7 @@ export const useWatchSerializable = ( exportable: Serializable | undefined, deps
 	}, [ exportable, depsMemo ] );
 
 	return {
-		currentValue
+		props
 	};
 
 };

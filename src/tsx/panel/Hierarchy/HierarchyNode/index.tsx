@@ -6,6 +6,7 @@ import { MouseMenuContext } from '../../MouseMenu/useMouseMenu';
 import style from './index.module.scss';
 
 import { EditorContext } from '~/tsx/gl/useEditor';
+import { useSerializableProps } from '~/tsx/gl/useSerializableProps';
 import { useWatchSerializable } from '~/tsx/gl/useWatchSerializable';
 import { ArrowIcon } from '~/tsx/ui/icon/ArrowIcon';
 import { InputGroup } from '~/tsx/ui/InputGroup';
@@ -26,10 +27,9 @@ export const HierarchyNode = ( props: HierarchyNodeProps ) => {
 	const offsetPx = depth * 20;
 	const noEditable = props.entity.initiator == "script";
 
-	const selectedEntityId = glEditor?.prop<string>( "selectedEntity" );
-	const selectedEntity = selectedEntityId?.value !== undefined && glEditor?.scene.getEntityById( selectedEntityId.value );
+	const [ selectedEntityId ] = useSerializableProps<string>( glEditor, "selectedEntity" );
+	const selectedEntity = selectedEntityId !== undefined && glEditor?.scene.getEntityById( selectedEntityId );
 
-	useWatchSerializable( glEditor, [ selectedEntityId?.path ] );
 	useWatchSerializable( props.entity, [ "children" ] );
 
 	// click fold controls

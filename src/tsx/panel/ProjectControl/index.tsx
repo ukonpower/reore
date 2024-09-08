@@ -31,7 +31,7 @@ export const ProjectControl = () => {
 
 	}
 
-	const currentProjectName = glEditor?.getValue( 'currentProjectName' );
+	const currentProjectName = glEditor?.getPropsValue( 'currentProjectName' );
 
 	return <div className={style.project}>
 		<div className={style.project_inner}>
@@ -51,7 +51,7 @@ export const ProjectControl = () => {
 							pushContent && pushContent( <>
 								<InputGroup title='Rename Project' initialValues={{ name: currentProjectName }} onSubmit={( e ) => {
 
-									glEditor && glEditor.setValue( "currentProjectName", e.name as string );
+									glEditor && glEditor.setPropsValue( "currentProjectName", e.name as string );
 
 									closeAll && closeAll();
 

@@ -4,15 +4,19 @@ import { useWatchSerializable } from "../useWatchSerializable";
 
 export const useSerializableProps = <T, >( exportable: MXP.Serializable | undefined, path: string ): [T|undefined, ( ( value: T ) => void ) | undefined] => {
 
-	const prop = exportable?.prop<T>( path );
-	const propValue = prop && prop.value;
-	const propSetter = prop && prop.set;
+	const setter = ( value: any ) => {
 
-	useWatchSerializable( exportable, [ path ] );
+		exportable?.setPropsValue( path, value );
+
+	};
+
+	const { props } = useWatchSerializable( exportable, [ path ] );
+
+	const value = props && props[ path ];
 
 	return [
-		propValue,
-		propSetter,
+		value,
+		setter,
 	];
 
 };

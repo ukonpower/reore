@@ -5,6 +5,7 @@ import { TimelineContext } from '../hooks/useTimeline';
 import style from './index.module.scss';
 import { TimelineLoopCursor } from './TimelineLoopCursor';
 
+import { useSerializableProps } from '~/tsx/gl/useSerializableProps';
 import { useWatchSerializable } from '~/tsx/gl/useWatchSerializable';
 
 export const TimelineLoop = () => {
@@ -19,20 +20,16 @@ export const TimelineLoop = () => {
 		"frameLoop/end",
 	] );
 
-	if ( glEditor === undefined ) return null;
+	const [ enabled ] = useSerializableProps<boolean>( glEditor, "frameLoop/enabled" );
+	const [ start, setStart ] = useSerializableProps<number>( glEditor, "frameLoop/start" );
+	const [ end, setEnd ] = useSerializableProps<number>( glEditor, "frameLoop/end" );
 
-	const enabled = glEditor.prop<boolean>( "frameLoop/enabled" );
-
-	if ( enabled.value !== true ) return null;
-
-	const start = glEditor.prop<number>( "frameLoop/start" );
-	const end = glEditor.prop<number>( "frameLoop/end" );
-
-	if ( ! viewPort || ! framePlay || start.value === undefined || end.value === undefined ) return null;
+	if ( enabled !== true ) return null;
+	if ( ! viewPort || ! framePlay || start === undefined || end === undefined ) return null;
 
 	const rangeWidth = viewPort[ 2 ] - viewPort[ 0 ];
-	const startPos = ( start.value - viewPort[ 0 ] ) / rangeWidth;
-	const endPos = ( end.value - viewPort[ 0 ] ) / rangeWidth;
+	const startPos = ( start - viewPort[ 0 ] ) / rangeWidth;
+	const endPos = ( end - viewPort[ 0 ] ) / rangeWidth;
 
 	const calcFrame = ( elm: HTMLElement, pos: number ) => {
 
@@ -49,7 +46,7 @@ export const TimelineLoop = () => {
 
 					if ( elmRef.current ) {
 
-						start.set( calcFrame( elmRef.current, m ) );
+						setStart && setStart( calcFrame( elmRef.current, m ) );
 
 					}
 
@@ -60,7 +57,7 @@ export const TimelineLoop = () => {
 
 					if ( elmRef.current ) {
 
-						end.set( calcFrame( elmRef.current, m ) );
+						setEnd && setEnd( calcFrame( elmRef.current, m ) );
 
 					}
 
