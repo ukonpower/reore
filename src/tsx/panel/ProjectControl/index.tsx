@@ -10,38 +10,29 @@ import { MouseMenuContext } from '../MouseMenu/useMouseMenu';
 
 import style from './index.module.scss';
 
-import { OREngineProjectData } from '~/ts/gl/IO/ProjectSerializer';
+import { OREngineProjectData } from '~/ts/gl/ProjectScene/IO/ProjectSerializer';
+import { useSerializableProps } from '~/tsx/gl/useSerializableProps';
 
 
 export const ProjectControl = () => {
 
 	const { pushContent, closeAll } = useContext( MouseMenuContext );
-	const { glEditor, reflesh } = useContext( EditorContext );
-	const data = glEditor?.data;
+	const { glEditor } = useContext( EditorContext );
 
-	const projectList: string[] = [];
+	const [ projects ] = useSerializableProps<OREngineProjectData[]>( glEditor, "projects" );
+	const [ projectName ] = useSerializableProps<string>( glEditor, "projectName" );
+	const [ openedProject ] = useSerializableProps<string>( glEditor, "openedProject" );
 
-	if ( data ) {
-
-		data.projects.forEach( ( project: OREngineProjectData ) => {
-
-			projectList.push( project.setting.name );
-
-		} );
-
-	}
-
-	const currentProjectName = glEditor?.getPropsValue( 'currentProjectName' );
+	const projectList: string[] = projects?.map( ( project ) => project.name ) || [];
 
 	return <div className={style.project}>
 		<div className={style.project_inner}>
 			<PropertyBlock label="Project" accordion >
 				<div className={style.row} data-type="top">
 					<div className={style.projectSelector}>
+						<InputSelect value={openedProject || ''} selectList={projectList} onChange={( value ) => {
 
-						<InputSelect value={currentProjectName || ''} selectList={projectList} onChange={( value ) => {
-
-							glEditor && glEditor.projectOpen( value as string );
+							glEditor && glEditor.setPropsValue( "openedProject", value );
 
 						}}/>
 					</div>
@@ -49,13 +40,11 @@ export const ProjectControl = () => {
 						<Button onClick={() => {
 
 							pushContent && pushContent( <>
-								<InputGroup title='Rename Project' initialValues={{ name: currentProjectName }} onSubmit={( e ) => {
+								<InputGroup title='Rename Project' initialValues={{ name: projectName || "" }} onSubmit={( e ) => {
 
-									glEditor && glEditor.setPropsValue( "currentProjectName", e.name as string );
+									glEditor && glEditor.setPropsValue( "projectName", e.name as string );
 
 									closeAll && closeAll();
-
-									reflesh && reflesh();
 
 								}}/>
 							</> );
@@ -70,11 +59,9 @@ export const ProjectControl = () => {
 							pushContent && pushContent( <>
 								<InputGroup title='New Project' initialValues={{ name: "NewProject" }} onSubmit={( e ) => {
 
-									glEditor && glEditor.projectOpen( e.name as string );
+									glEditor && glEditor.setPropsValue( "openedProject", e.name as string );
 
 									closeAll && closeAll();
-
-									reflesh && reflesh();
 
 								}}/>
 							</> );
@@ -84,11 +71,11 @@ export const ProjectControl = () => {
 					<div className={style.rowItem} >
 						<Button onClick={()=>{
 
-							if ( glEditor ) {
+							if ( glEditor && projectName ) {
 
 								if ( window.confirm( "DELETE!!" ) ) {
 
-									glEditor.projectDelete( currentProjectName );
+									glEditor.projectDelete( projectName );
 
 								}
 

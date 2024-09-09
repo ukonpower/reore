@@ -283,8 +283,11 @@ export class GLEditor extends MXP.Serializable {
 			enableRender: {
 				value: this.scene.enableRender,
 			},
-			currentProjectName: {
-				value: this.scene.name,
+			projectName: {
+				value: this.currentProject && this.currentProject.name || "",
+			},
+			openedProject: {
+				value: this.currentProject && this.currentProject.name
 			},
 			resolutionScale: {
 				value: this.resolutionScale,
@@ -354,9 +357,24 @@ export class GLEditor extends MXP.Serializable {
 
 		} );
 
-		if ( ! this.currentProject || props.currentProjectName.value !== this.currentProject.name ) {
+		// project name
 
-			this.projectOpen( props.currentProjectName.value );
+		if ( this.currentProject ) {
+
+			this.currentProject.name = props.projectName.value;
+
+		}
+
+
+		// opened project
+
+		if ( this.currentProject === null ) {
+
+			this.projectOpen( props.openedProject.value || "" );
+
+		} else if ( props.openedProject.value !== this.currentProject.name && props.openedProject.value ) {
+
+			this.projectOpen( props.openedProject.value );
 
 		}
 
@@ -426,10 +444,12 @@ export class GLEditor extends MXP.Serializable {
 
 			this.scene.init();
 			this.currentProject = this.scene.serialize();
+			this.projectSave();
 
 		}
 
 		document.title = name;
+		this.noticePropsChanged( "openedProject" );
 
 		this.emit( "loadedProject" );
 
@@ -438,7 +458,17 @@ export class GLEditor extends MXP.Serializable {
 	public projectDelete( name: string ) {
 
 		this.projects.delete( name );
-		this.projectOpen( "" );
+		const project = this.projects.values().next().value;
+
+		if ( project ) {
+
+			this.projectOpen( project.name );
+
+		} else {
+
+			this.projectOpen( "" );
+
+		}
 
 	}
 

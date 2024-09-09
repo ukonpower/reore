@@ -88,12 +88,13 @@
 			"timeline/fps": 60
 		}
 	],
-	"enableRender": false,
-	"currentProjectName": "Demo3",
-	"resolutionScale": 0.03125,
+	"enableRender": true,
+	"projectName": "Demo3",
+	"openedProject": "Demo3",
+	"resolutionScale": 0.125,
 	"viewType": "render",
 	"frameLoop/enabled": true,
-	"frameLoop/start": 2125.3759588197217,
-	"frameLoop/end": 3825.9962214980014,
+	"frameLoop/start": 0,
+	"frameLoop/end": 10205.885149016929,
 	"selectedEntity": "97"
 }
