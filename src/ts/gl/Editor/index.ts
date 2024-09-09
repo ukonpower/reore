@@ -449,9 +449,9 @@ export class GLEditor extends MXP.Serializable {
 		}
 
 		document.title = name;
-		this.noticePropsChanged( "openedProject" );
 
 		this.emit( "loadedProject" );
+		this.noticePropsChanged( "openedProject" );
 
 	}
 

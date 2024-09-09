@@ -1,5 +1,5 @@
 
-import fs, { watch } from 'fs';
+import fs from 'fs';
 import path from 'path';
 
 import chokidar from 'chokidar';
@@ -24,11 +24,7 @@ const updateComponentList = ( ) => {
 
 			if ( stat.isDirectory() ) {
 
-				if ( path.relative( componentsDir, dir ).split( '/' ).length < 2 ) {
-
-					getIndexTsFiles( filePath, fileList );
-
-				}
+				getIndexTsFiles( filePath, fileList );
 
 			} else if ( stat.isFile() && file === 'index.ts' ) {
 
@@ -61,11 +57,13 @@ const updateComponentList = ( ) => {
 		const componentClassNameArray = componentClassName.split( ' ' );
 
 		const componentName = componentClassNameArray[ 2 ];
-
+		componentsDir;
 		return {
 
 			name: componentName,
-			relativePath: path.relative( path.dirname( componentListFile ), file ).replace( /\\/g, '/' )
+			path: path.relative( path.dirname( componentsDir ), file ).replace( /\\/g, '/' ),
+			relativePath: path.relative( path.dirname( componentListFile ), file ).replace( /\\/g, '/' ),
+
 
 		};
 
@@ -73,7 +71,7 @@ const updateComponentList = ( ) => {
 
 	// componentlist
 
-	const componentCatGroups: {[category: string]: string[]} = {};
+	const componentCatGroups: {[category: string]: any} = {};
 
 	components.forEach( ( component ) => {
 
@@ -83,13 +81,28 @@ const updateComponentList = ( ) => {
 
 		}
 
-		const category = component.relativePath.split( '/' )[ 2 ];
+		const splitPath = component.path.split( '/' );
 
-		const catArray = componentCatGroups[ category ] || [];
+		let targetGropus = componentCatGroups;
 
-		catArray.push( component.name );
+		for ( let i = 0; i < splitPath.length; i ++ ) {
 
-		componentCatGroups[ category ] = catArray;
+			const dir = splitPath[ i ];
+
+			if ( i == splitPath.length - 2 ) {
+
+				targetGropus[ dir ] = [ component.name, component.relativePath ];
+
+				break;
+
+			}
+
+			const catArray = targetGropus[ dir ] = targetGropus[ dir ] || {};
+
+			targetGropus = catArray;
+
+		}
+
 
 	} );
 
@@ -113,19 +126,37 @@ const updateComponentList = ( ) => {
 
 	file += "export const COMPONENTLIST: {[key: string]: any} = {\n";
 
-	Object.keys( componentCatGroups ).forEach( ( category ) => {
+	let indent = "";
 
-		file += `\t${category}: [\n`;
+	const _ = ( obj: any ) => {
 
-		componentCatGroups[ category ].forEach( ( component ) => {
+		indent += "\t";
 
-			file += `\t\t${component},\n`;
+		Object.keys( obj ).forEach( ( key ) => {
+
+			const value = obj[ key ];
+
+			if ( Array.isArray( value ) ) {
+
+				file += `${indent}${value[ 0 ]},\n`;
+
+			} else {
+
+				file += `${indent}${key}: {\n`;
+
+				_( value );
+
+				file += `${indent}},\n`;
+
+			}
 
 		} );
 
-		file += "\t],\n";
+		indent = indent.slice( 0, - 1 );
 
-	} );
+	};
+
+	_( componentCatGroups[ "Components" ] );
 
 	file += "};\n";
 

@@ -6,6 +6,8 @@ import { COMPONENTLIST } from './_data/componentList';
 import { Font1 } from './Fonts/Font1';
 import noiseFrag from './Textures/noise.fs';
 
+import { ComponentGroup } from '.';
+
 export const initResouces = () => {
 
 	/*-------------------------------
@@ -14,19 +16,41 @@ export const initResouces = () => {
 
 	resource.clear();
 
-	const keys = Object.keys( COMPONENTLIST );
+	// const keys = Object.keys( COMPONENTLIST );
 
-	keys.forEach( ( key ) => {
+	// for ( let i = 0; i < keys.length; i ++ ) {
 
-		const comEntity = resource.componentCategory( key );
+	// 	const groupName = keys[ i ];
 
-		COMPONENTLIST[ key ].forEach( ( component: any ) => {
+	// 	const _ = ( group: ComponentGroup, componentList: any ) => {
 
-			comEntity.register( component );
+	// 		if ( typeof componentList === 'object' ) {
 
-		} );
+	// 			const newGroup = group.group( groupName );
 
-	} );
+	// 			for ( const key in componentList ) {
+
+	// 				_( newGroup, componentList[ key ] );
+
+	// 			}
+
+	// 			group.add( newGroup );
+
+	// 		} else {
+
+	// 			group.add( componentList );
+
+	// 		}
+
+	// 	};
+
+	// 	_( resource.addComponentGroup( groupName ), COMPONENTLIST[ groupName ] );
+
+
+	// }
+
+	// console.log( resource.componentGroups );
+
 
 	/*-------------------------------
 		Textures

@@ -1,9 +1,15 @@
 import { MainCamera } from '../Components/Camera/MainCamera/index.ts';
+import { EGridDots } from '../Components/Demo3/Effects/EGridDots/index.ts';
+import { RectWire } from '../Components/Demo3/MainObj/RectWire/index.ts';
 import { MainObj } from '../Components/Demo3/MainObj/index.ts';
 import { Music } from '../Components/Demo3/Music/index.ts';
+import { ParticleFrame } from '../Components/Demo3/Particles/ParticleFrame/index.ts';
 import { Particles } from '../Components/Demo3/Particles/index.ts';
 import { SkyBoxDemo3 } from '../Components/Demo3/SkyBoxDemo3/index.ts';
 import { TuringRenderer } from '../Components/Demo3/TuringTex/index.ts';
+import { DashCube } from '../Components/Entities/Effects/DashCube/index.ts';
+import { FlashLine } from '../Components/Entities/Effects/FlashLine/index.ts';
+import { GridCross } from '../Components/Entities/Effects/GridCross/index.ts';
 import { FluidCrystal } from '../Components/Entities/FluidCrystal/index.ts';
 import { MatchMove } from '../Components/Entities/MatchMove/index.ts';
 import { SkyBox } from '../Components/Entities/SkyBox/index.ts';
@@ -19,35 +25,43 @@ import { ShakeViewer } from '../Components/View/ShakeViewer/index.ts';
 import { VJCamera } from '../Components/View/VJCamera/index.ts';
 
 export const COMPONENTLIST: {[key: string]: any} = {
-	Camera: [
+	Camera: {
 		MainCamera,
-	],
-	Demo3: [
+	},
+	Demo3: {
+		Effects: {
+			EGridDots,
+		},
 		MainObj,
 		Music,
 		Particles,
 		SkyBoxDemo3,
 		TuringRenderer,
-	],
-	Entities: [
+	},
+	Entities: {
+		Effects: {
+			DashCube,
+			FlashLine,
+			GridCross,
+		},
 		FluidCrystal,
 		MatchMove,
 		SkyBox,
 		TextEffect,
-	],
-	Test: [
+	},
+	Test: {
 		TestComponent,
-	],
-	Utilities: [
+	},
+	Utilities: {
 		BLidgeClient,
 		Text,
 		TurnTable,
-	],
-	View: [
+	},
+	View: {
 		LookAt,
 		OrbitControls,
 		RotateViewer,
 		ShakeViewer,
 		VJCamera,
-	],
+	},
 };

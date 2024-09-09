@@ -38,17 +38,6 @@
 					]
 				},
 				{
-					"path": "/root/Test",
-					"components": [
-						{
-							"name": "Particles",
-							"props": {
-								"enabled": true
-							}
-						}
-					]
-				},
-				{
 					"path": "/root/blidgeRoot/MainObj",
 					"components": [
 						{
@@ -72,29 +61,43 @@
 				}
 			],
 			"scene": {
-				"name": "root",
-				"childs": [
-					{
-						"name": "Test",
-						"pos": [
-							0,
-							5.699999999999996,
-							0
-						]
-					}
-				]
+				"name": "root"
+			},
+			"timeline/duration": 10185,
+			"timeline/fps": 60
+		},
+		{
+			"position": [
+				0,
+				0,
+				0
+			],
+			"euler": [
+				0,
+				0,
+				0
+			],
+			"scale": [
+				1,
+				1,
+				1
+			],
+			"name": "New Project",
+			"objectOverride": [],
+			"scene": {
+				"name": "root"
 			},
 			"timeline/duration": 10185,
 			"timeline/fps": 60
 		}
 	],
 	"enableRender": true,
-	"projectName": "Demo3",
-	"openedProject": "Demo3",
+	"projectName": "New Project",
+	"openedProject": "New Project",
 	"resolutionScale": 0.125,
 	"viewType": "render",
 	"frameLoop/enabled": true,
 	"frameLoop/start": 0,
 	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "97"
+	"selectedEntity": "57"
 }

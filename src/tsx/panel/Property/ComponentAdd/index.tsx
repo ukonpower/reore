@@ -1,46 +1,42 @@
 
 import * as MXP from 'maxpower';
-import { MouseEvent, ReactNode, useCallback, useContext, useRef } from 'react';
+import { MouseEvent, ReactNode, useCallback, useContext } from 'react';
 
 import { MouseMenuContext } from '../../MouseMenu/useMouseMenu';
 
 import style from './index.module.scss';
 
 import { resource } from '~/ts/gl/GLGlobals';
-import { ResouceComponentItem } from '~/ts/gl/Resources';
+import { ComponentGroup, ResouceComponentItem } from '~/ts/gl/Resources';
 import { Button } from '~/tsx/ui/Button';
-import { InputGroup } from '~/tsx/ui/InputGroup';
-import { Picker } from '~/tsx/ui/Picker';
-import { ValueType } from '~/tsx/ui/Property/Value';
 
 type ComponentAddProps= {
 	entity: MXP.Entity
 }
 
 type ComponentCategoryGroupProps = {
-	categoryName: string;
-	componentList: ResouceComponentItem[];
-	onClick: ( compItem: ResouceComponentItem ) =>void;
+	group: ComponentGroup;
+	onClickAdd: ( compItem: ResouceComponentItem ) => void;
 }
 
-const ComponentCategoryGroup = ( { categoryName, componentList, onClick }: ComponentCategoryGroupProps ) => {
+const ComponentCategoryGroup = ( { group, onClickAdd }: ComponentCategoryGroupProps ) => {
 
-	const listItem = componentList.map( ( compItem ) => {
+	return group.child.map( ( compItem ) => {
 
-		return {
-			label: compItem.component.name,
-			onClick: () => {
+		if ( "child" in compItem ) {
 
-				onClick( compItem );
+			return <div className="">aaa</div>;
 
-			}
-		};
+		} else {
+
+
+			return <div className={style.catGroup}>
+				{compItem.component.name}
+			</div>;
+
+		}
 
 	} ) || [];
-
-	return <div className={style.catGroup}>
-		<Picker label={categoryName} list={listItem} noBg/>
-	</div>;
 
 };
 
@@ -49,70 +45,25 @@ export const ComponentAdd = ( props: ComponentAddProps ) => {
 	const { pushContent, closeAll } = useContext( MouseMenuContext );
 	const resources = resource;
 
-	const argsInputCloseRef = useRef<() => void>();
-
 	const onClickAdd = useCallback( ( e: MouseEvent ) => {
 
 		if ( ! resources ) return;
 
+		const cagegoryGroupList: ReactNode[] = [];
+
+
 		const onClickComponentItem = ( compItem: ResouceComponentItem ) => {
 
-			if ( argsInputCloseRef.current ) {
+			props.entity.addComponent( new compItem.component() ).initiator = 'user';
 
-				argsInputCloseRef.current();
-
-			}
-
-			if ( compItem.defaultArgs ) {
-
-				const initialValues: { [key: string]: ValueType} = {};
-
-				const args = compItem.defaultArgs;
-				const propKeys = Object.keys( args );
-
-				for ( let i = 0; i < propKeys.length; i ++ ) {
-
-					const key = propKeys[ i ];
-					const prop = args[ key ];
-
-					initialValues[ key ] = prop;
-
-				}
-
-				const argsMenu = pushContent && pushContent(
-					<div className={style.argsInput}>
-						<InputGroup initialValues={initialValues} onSubmit={( e ) => {
-
-							props.entity.addComponent( new compItem.component( e ) ).initiator = 'user';
-
-							closeAll && closeAll();
-
-						}}/>
-					</div>
-				);
-
-				if ( argsMenu && argsMenu.close ) {
-
-					argsInputCloseRef.current = argsMenu.close;
-
-				}
-
-			} else {
-
-				props.entity.addComponent( new compItem.component() ).initiator = 'user';
-
-				closeAll && closeAll();
-
-			}
+			closeAll && closeAll();
 
 		};
 
-		const cagegoryGroupList: ReactNode[] = [];
-
-		resources.comListCats.forEach( ( compList, catName ) => {
+		resources.componentGroups.forEach( ( group, catName ) => {
 
 			cagegoryGroupList.push(
-				<ComponentCategoryGroup key={catName} categoryName={catName} componentList={compList} onClick={onClickComponentItem} />
+				<ComponentCategoryGroup key={catName} group={group} onClickAdd={onClickComponentItem} />
 			);
 
 		} );
