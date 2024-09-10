@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useEffect, useRef, useState } from "react";
 
 export const MouseMenuContext = createContext<HooksContext<typeof useMouseMenu>>( {} );
+export const MouseMenuItemContext = createContext<MouseMenuItem|undefined>( undefined );
 
 type Direction = "right-top" | "right-bottom" | "left-top" | "left-bottom"
 

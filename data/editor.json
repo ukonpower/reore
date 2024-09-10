@@ -92,12 +92,12 @@
 		}
 	],
 	"enableRender": true,
-	"projectName": "New Project",
-	"openedProject": "New Project",
+	"projectName": "Demo3",
+	"openedProject": "Demo3",
 	"resolutionScale": 0.125,
 	"viewType": "render",
 	"frameLoop/enabled": true,
 	"frameLoop/start": 0,
 	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "57"
+	"selectedEntity": "c0"
 }

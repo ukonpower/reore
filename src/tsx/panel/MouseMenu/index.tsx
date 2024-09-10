@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 import style from './index.module.scss';
-import { MouseMenuContext } from "./useMouseMenu";
+import { MouseMenuContext, MouseMenuItemContext } from "./useMouseMenu";
 
 
 export const MouseMenu = () => {
@@ -16,17 +16,19 @@ export const MouseMenu = () => {
 
 			}} />}
 			{
-				itemList && itemList.map( ( content, i ) => {
+				itemList && itemList.map( ( item, i ) => {
 
-					const pos = content.pos;
+					const pos = item.pos;
 
-					return <div key={content.id} className={style.menuItem} style={ { left: 0, top: 0, transform: `translate(${pos.x}px, ${pos.y}px)` }}>
-						<div className={style.menuItem_inner}>
-							<div className={style.menuItem_inner_inner} data-direction={content.direction}>
-								{content.elm}
+					return <MouseMenuItemContext.Provider value={item}>
+						<div key={item.id} className={style.menuItem} style={ { left: 0, top: 0, transform: `translate(${pos.x}px, ${pos.y}px)` }}>
+							<div className={style.menuItem_inner}>
+								<div className={style.menuItem_inner_inner} data-direction={item.direction}>
+									{item.elm}
+								</div>
 							</div>
 						</div>
-					</div>;
+					</MouseMenuItemContext.Provider>;
 
 				} )
 			}

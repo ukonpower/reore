@@ -2,7 +2,7 @@
 import * as MXP from 'maxpower';
 import React, { MouseEvent, ReactNode, useCallback, useContext, useState } from 'react';
 
-import { MouseMenuContext } from '../../MouseMenu/useMouseMenu';
+import { MouseMenuContext, MouseMenuItemContext } from '../../MouseMenu/useMouseMenu';
 
 import style from './index.module.scss';
 
@@ -18,6 +18,9 @@ const ComponentDirectory: React.FC<{
 	group: ComponentGroup | ResouceComponentItem;
 	onClickAdd: ( compItem: ResouceComponentItem ) => void;
 }> = ( { group, onClickAdd } ) => {
+
+	const menuContext = useContext( MouseMenuItemContext );
+
 
 	let childItem = null;
 	let onClick = undefined;
@@ -47,7 +50,9 @@ const ComponentDirectory: React.FC<{
 		onPointerLeave={() => setV( false )}
 		onClick={onClick}
 		data-type={type}
+		data-direction={menuContext?.direction}
 	>
+
 		{group.name}
 		{v && <div className={style.subDirectory}>
 			{ childItem}

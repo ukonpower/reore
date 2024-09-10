@@ -4,24 +4,17 @@
 	padding-top: 5px;
 }
 
-.picker {}
-
-.argsInput {
-	position: relative;
-	background-color: $bgColWindow0;
-	border-radius: $radius1;
-	padding: 5px 0;
-}
+$arrowPadding: 20px;
 
 .directory {
 	position: relative;
 	display: block;
-	// width: 80px;
-	background-color: #000;
 
 	padding: $padding;
-	background-color: $bgColWindow0;
-	padding-right: 20px;
+
+	&:hover {
+		background-color: $bgColWindow0_active;
+	}
 
 	&[data-type="item"] {
 		cursor: pointer;
@@ -29,9 +22,7 @@
 
 	&[data-type="dir"] {
 		&::before {
-			content: '>';
 			position: absolute;
-			right: 0;
 			top: 50%;
 			font-size: 12px;
 			padding: 0 5px;
@@ -39,11 +30,69 @@
 		}
 	}
 
+	&[data-direction="left-top"] {
+		padding-left: $arrowPadding;
+
+		.subDirectory {
+			right: 100%;
+			bottom: 0;
+		}
+
+		&[data-type="dir"]::before {
+			content: "<";
+			left: 0;
+		}
+	}
+
+	&[data-direction="left-bottom"] {
+		padding-left: $arrowPadding;
+
+		.subDirectory {
+			right: 100%;
+			top: 0;
+		}
+
+		&[data-type="dir"]::before {
+			content: "<";
+			left: 0;
+		}
+	}
+
+	&[data-direction="right-top"] {
+		padding-right: $arrowPadding;
+
+		.subDirectory {
+			left: 100%;
+			bottom: 0;
+		}
+
+		&[data-type="dir"]::before {
+			content: ">";
+			right: 0;
+		}
+	}
+
+	&[data-direction="right-bottom"] {
+		padding-right: $arrowPadding;
+
+		.subDirectory {
+			left: 100%;
+			bottom: 0;
+		}
+
+		&[data-type="dir"]::before {
+			content: ">";
+			right: 0;
+		}
+	}
+
 }
 
 .subDirectory {
 	position: absolute;
-	left: 100%;
-	top: 0;
+}
 
+.picker,
+.subDirectory {
+	background-color: $bgColWindow0;
 }
