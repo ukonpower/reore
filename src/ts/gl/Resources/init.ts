@@ -1,4 +1,6 @@
 
+import * as MXP from 'maxpower';
+
 import { gl, renderer, resource } from '../GLGlobals';
 import { TexProcedural } from '../ProjectScene/utils/TexProcedural';
 
@@ -8,6 +10,11 @@ import noiseFrag from './Textures/noise.fs';
 
 import { ComponentGroup } from '.';
 
+type ComponentLIst = {
+	[key: string]: ( ComponentLIst | ( typeof MXP.Component ) )
+};
+
+
 export const initResouces = () => {
 
 	/*-------------------------------
@@ -16,40 +23,47 @@ export const initResouces = () => {
 
 	resource.clear();
 
-	// const keys = Object.keys( COMPONENTLIST );
+	const _ = ( list: ComponentLIst, group: ComponentGroup ) => {
 
-	// for ( let i = 0; i < keys.length; i ++ ) {
+		const keys = Object.keys( list );
 
-	// 	const groupName = keys[ i ];
+		for ( let i = 0; i < keys.length; i ++ ) {
 
-	// 	const _ = ( group: ComponentGroup, componentList: any ) => {
+			const name = keys[ i ];
+			const value = list[ name ];
 
-	// 		if ( typeof componentList === 'object' ) {
+			if ( typeof value == "function" ) {
 
-	// 			const newGroup = group.group( groupName );
+				group.addComponent( name, value );
 
-	// 			for ( const key in componentList ) {
+			} else {
 
-	// 				_( newGroup, componentList[ key ] );
+				const newGroup = group.createGroup( name );
 
-	// 			}
+				_( value, newGroup );
 
-	// 			group.add( newGroup );
+			}
 
-	// 		} else {
-
-	// 			group.add( componentList );
-
-	// 		}
-
-	// 	};
-
-	// 	_( resource.addComponentGroup( groupName ), COMPONENTLIST[ groupName ] );
+		}
 
 
-	// }
+	};
 
-	// console.log( resource.componentGroups );
+
+	const rootKeys = Object.keys( COMPONENTLIST );
+
+	for ( let i = 0; i < rootKeys.length; i ++ ) {
+
+		const name = rootKeys[ i ];
+		const value = COMPONENTLIST[ name ];
+
+		const group = resource.addComponentGroup( name );
+
+		_( value, group );
+
+	}
+
+	console.log( resource.componentGroups );
 
 
 	/*-------------------------------

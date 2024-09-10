@@ -1,6 +1,6 @@
 
 import * as MXP from 'maxpower';
-import { MouseEvent, ReactNode, useCallback, useContext } from 'react';
+import React, { MouseEvent, ReactNode, useCallback, useContext, useState } from 'react';
 
 import { MouseMenuContext } from '../../MouseMenu/useMouseMenu';
 
@@ -14,29 +14,46 @@ type ComponentAddProps= {
 	entity: MXP.Entity
 }
 
-type ComponentCategoryGroupProps = {
-	group: ComponentGroup;
+const ComponentDirectory: React.FC<{
+	group: ComponentGroup | ResouceComponentItem;
 	onClickAdd: ( compItem: ResouceComponentItem ) => void;
-}
+}> = ( { group, onClickAdd } ) => {
 
-const ComponentCategoryGroup = ( { group, onClickAdd }: ComponentCategoryGroupProps ) => {
+	let childItem = null;
+	let onClick = undefined;
+	let type = "dir";
 
-	return group.child.map( ( compItem ) => {
+	if ( "child" in group ) {
 
-		if ( "child" in compItem ) {
+		childItem = <>
+			{group.child.map( ( item, index ) => {
 
-			return <div className="">aaa</div>;
+				return <ComponentDirectory key={index} group={item} onClickAdd={onClickAdd} />;
 
-		} else {
+			} )}
+		</>;
 
+	} else {
 
-			return <div className={style.catGroup}>
-				{compItem.component.name}
-			</div>;
+		onClick = () => onClickAdd( group );
+		type = "item";
 
-		}
+	}
 
-	} ) || [];
+	const [ v, setV ] = useState( false );
+
+	return <div className={style.directory}
+		onPointerEnter={()=> setV( true )}
+		onPointerLeave={() => setV( false )}
+		onClick={onClick}
+		data-type={type}
+	>
+		{group.name}
+		{v && <div className={style.subDirectory}>
+			{ childItem}
+		</div>}
+	</div>;
+
 
 };
 
@@ -63,7 +80,7 @@ export const ComponentAdd = ( props: ComponentAddProps ) => {
 		resources.componentGroups.forEach( ( group, catName ) => {
 
 			cagegoryGroupList.push(
-				<ComponentCategoryGroup key={catName} group={group} onClickAdd={onClickComponentItem} />
+				<ComponentDirectory key={catName} group={group} onClickAdd={onClickComponentItem} />
 			);
 
 		} );
