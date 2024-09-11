@@ -6,13 +6,10 @@ import turingMatFrag from './shaders/turingMat.fs';
 
 import { gl, renderer } from '~/ts/gl/GLGlobals';
 
-export class TuringRenderer extends MXP.Component {
+export class TuringTex extends MXP.Component {
 
 	private compute: MXP.GPUCompute;
 	private pass: MXP.GPUComputePass;
-
-	private material: MXP.Material;
-	private geometry: MXP.Geometry;
 
 	constructor() {
 
@@ -36,55 +33,18 @@ export class TuringRenderer extends MXP.Component {
 			},
 		} );
 
-
 		this.compute = new MXP.GPUCompute( {
 			renderer,
 			passes: [ this.pass ]
 		} );
 
-
 		this.reset();
 
-		this.material = new MXP.Material( {
-			name: "turin",
-			frag: MXP.hotGet( "turingMatFrag", turingMatFrag ),
-			uniforms: GLP.UniformsUtils.merge( {
-				uTuringTex: {
-					value: this.pass.renderTarget!.textures[ 0 ],
-					type: '1i'
-				}
-			}, this.pass.outputUniforms )
-		} );
-
-		this.geometry = new MXP.PlaneGeometry();
-
-		if ( import.meta.hot ) {
-
-			import.meta.hot.accept( './shaders/turingMat.fs', ( module ) => {
-
-				if ( module ) {
-
-					this.material.frag = MXP.hotUpdate( 'turingMatFrag', module.default );
-
-					this.material.requestUpdate();
-
-				}
-
-			} );
-
-		}
-
 	}
 
-	protected setEntityImpl( entity: MXP.Entity ): void {
+	public render() {
 
-		entity.addComponent( this.material );
-
-	}
-
-	protected unsetEntityImpl( prevEntity: MXP.Entity ): void {
-
-		prevEntity.removeComponent( this.material );
+		this.compute.compute();
 
 	}
 

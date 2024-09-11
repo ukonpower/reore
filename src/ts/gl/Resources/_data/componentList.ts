@@ -6,7 +6,8 @@ import { Music } from '../Components/Demo3/Music/index.ts';
 import { ParticleFrame } from '../Components/Demo3/Particles/ParticleFrame/index.ts';
 import { Particles } from '../Components/Demo3/Particles/index.ts';
 import { SkyBoxDemo3 } from '../Components/Demo3/SkyBoxDemo3/index.ts';
-import { TuringRenderer } from '../Components/Demo3/Textures/TuringTex/index.ts';
+import { SideTex } from '../Components/Demo3/Textures/SideTex/index.ts';
+import { TuringTex } from '../Components/Demo3/Textures/TuringTex/index.ts';
 import { DashCube } from '../Components/Entities/Effects/DashCube/index.ts';
 import { FlashLine } from '../Components/Entities/Effects/FlashLine/index.ts';
 import { GridCross } from '../Components/Entities/Effects/GridCross/index.ts';
@@ -37,7 +38,8 @@ export const COMPONENTLIST: {[key: string]: any} = {
 		Particles,
 		SkyBoxDemo3,
 		Textures: {
-			TuringRenderer,
+			SideTex,
+			TuringTex,
 		},
 	},
 	Entities: {

@@ -27,6 +27,11 @@ export class GPUCompute extends PostProcess {
 
 	protected updateImpl( event: ComponentUpdateEvent ): void {
 
+	}
+
+
+	public compute() {
+
 		this.renderer.renderPostProcess( this );
 
 	}

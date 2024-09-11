@@ -45,6 +45,14 @@
 							"props": {
 								"enabled": true
 							}
+						},
+						{
+							"name": "TuringTex",
+							"props": {
+								"enabled": true,
+								"f": 0.016,
+								"k": 0.043
+							}
 						}
 					]
 				},
@@ -55,19 +63,6 @@
 							"name": "SkyBoxDemo3",
 							"props": {
 								"enabled": true
-							}
-						}
-					]
-				},
-				{
-					"path": "/root/test",
-					"components": [
-						{
-							"name": "TuringRenderer",
-							"props": {
-								"enabled": true,
-								"f": 0.016,
-								"k": 0.043
 							}
 						}
 					]
@@ -101,9 +96,83 @@
 				1
 			],
 			"name": "New Project",
-			"objectOverride": [],
+			"objectOverride": [
+				{
+					"path": "/root/test",
+					"components": [
+						{
+							"name": "TuringRenderer",
+							"props": {
+								"enabled": true,
+								"f": {
+									"value": {
+										"value": {
+											"value": 0.016
+										}
+									}
+								},
+								"k": {
+									"value": {
+										"value": {
+											"value": 0.043
+										}
+									}
+								}
+							}
+						},
+						{
+							"name": "CubeGeometry",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
+					"path": "/root/Light",
+					"components": [
+						{
+							"name": "Light",
+							"props": {
+								"enabled": true,
+								"lightType": "directional",
+								"color": {
+									"x": 1,
+									"y": 1,
+									"z": 1,
+									"w": 0
+								},
+								"intensity": 1,
+								"angle": 50,
+								"blend": 1,
+								"distance": 30,
+								"decay": 2,
+								"castShadow": false
+							}
+						}
+					]
+				}
+			],
 			"scene": {
-				"name": "root"
+				"name": "root",
+				"childs": [
+					{
+						"name": "test"
+					},
+					{
+						"name": "Light",
+						"pos": [
+							0,
+							3.049999999999999,
+							0
+						],
+						"scale": [
+							0.6999999999999998,
+							1,
+							1
+						]
+					}
+				]
 			},
 			"timeline/duration": 10185,
 			"timeline/fps": 60
@@ -112,10 +181,10 @@
 	"enableRender": true,
 	"projectName": "Demo3",
 	"openedProject": "Demo3",
-	"resolutionScale": 0.125,
+	"resolutionScale": 0.0625,
 	"viewType": "render",
 	"frameLoop/enabled": true,
 	"frameLoop/start": 0,
 	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "262"
+	"selectedEntity": "336"
 }

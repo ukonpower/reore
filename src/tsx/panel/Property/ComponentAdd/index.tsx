@@ -21,7 +21,6 @@ const ComponentDirectory: React.FC<{
 
 	const menuContext = useContext( MouseMenuItemContext );
 
-
 	let childItem = null;
 	let onClick = undefined;
 	let type = "dir";
@@ -55,7 +54,7 @@ const ComponentDirectory: React.FC<{
 
 		{group.name}
 		{v && <div className={style.subDirectory}>
-			{ childItem}
+			{childItem}
 		</div>}
 	</div>;
 
@@ -73,7 +72,6 @@ export const ComponentAdd = ( props: ComponentAddProps ) => {
 
 		const cagegoryGroupList: ReactNode[] = [];
 
-
 		const onClickComponentItem = ( compItem: ResouceComponentItem ) => {
 
 			props.entity.addComponent( new compItem.component() ).initiator = 'user';
@@ -82,10 +80,10 @@ export const ComponentAdd = ( props: ComponentAddProps ) => {
 
 		};
 
-		resources.componentGroups.forEach( ( group, catName ) => {
+		resources.componentGroups.forEach( ( group, index ) => {
 
 			cagegoryGroupList.push(
-				<ComponentDirectory key={catName} group={group} onClickAdd={onClickComponentItem} />
+				<ComponentDirectory key={index} group={group} onClickAdd={onClickComponentItem} />
 			);
 
 		} );

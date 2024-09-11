@@ -20,8 +20,8 @@ export const MouseMenu = () => {
 
 					const pos = item.pos;
 
-					return <MouseMenuItemContext.Provider value={item}>
-						<div key={item.id} className={style.menuItem} style={ { left: 0, top: 0, transform: `translate(${pos.x}px, ${pos.y}px)` }}>
+					return <MouseMenuItemContext.Provider value={item} key={item.id}>
+						<div className={style.menuItem} style={ { left: 0, top: 0, transform: `translate(${pos.x}px, ${pos.y}px)` }}>
 							<div className={style.menuItem_inner}>
 								<div className={style.menuItem_inner_inner} data-direction={item.direction}>
 									{item.elm}
