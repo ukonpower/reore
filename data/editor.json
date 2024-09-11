@@ -58,10 +58,28 @@
 							}
 						}
 					]
+				},
+				{
+					"path": "/root/test",
+					"components": [
+						{
+							"name": "TuringRenderer",
+							"props": {
+								"enabled": true,
+								"f": 0.016,
+								"k": 0.043
+							}
+						}
+					]
 				}
 			],
 			"scene": {
-				"name": "root"
+				"name": "root",
+				"childs": [
+					{
+						"name": "test"
+					}
+				]
 			},
 			"timeline/duration": 10185,
 			"timeline/fps": 60
@@ -99,5 +117,5 @@
 	"frameLoop/enabled": true,
 	"frameLoop/start": 0,
 	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "c0"
+	"selectedEntity": "262"
 }

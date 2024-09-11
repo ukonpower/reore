@@ -6,18 +6,24 @@ import turingMatFrag from './shaders/turingMat.fs';
 
 import { gl, renderer } from '~/ts/gl/GLGlobals';
 
-export class TuringRenderer extends MXP.GPUCompute {
+export class TuringRenderer extends MXP.Component {
+
+	private compute: MXP.GPUCompute;
+	private pass: MXP.GPUComputePass;
 
 	private material: MXP.Material;
+	private geometry: MXP.Geometry;
 
 	constructor() {
+
+		super();
 
 		const f = 0.016;
 		const k = 0.043;
 		const x = 1.5;
 		const y = 1.5;
 
-		const pass = new MXP.GPUComputePass( {
+		this.pass = new MXP.GPUComputePass( {
 			gl: gl,
 			size: new GLP.Vector( 512, 512 ),
 			dataLayerCount: 1,
@@ -30,12 +36,12 @@ export class TuringRenderer extends MXP.GPUCompute {
 			},
 		} );
 
-		super( {
+
+		this.compute = new MXP.GPUCompute( {
 			renderer,
-			passes: [
-				pass
-			]
+			passes: [ this.pass ]
 		} );
+
 
 		this.reset();
 
@@ -44,11 +50,13 @@ export class TuringRenderer extends MXP.GPUCompute {
 			frag: MXP.hotGet( "turingMatFrag", turingMatFrag ),
 			uniforms: GLP.UniformsUtils.merge( {
 				uTuringTex: {
-					value: pass.renderTarget!.textures[ 0 ],
+					value: this.pass.renderTarget!.textures[ 0 ],
 					type: '1i'
 				}
-			}, pass.outputUniforms )
+			}, this.pass.outputUniforms )
 		} );
+
+		this.geometry = new MXP.PlaneGeometry();
 
 		if ( import.meta.hot ) {
 
@@ -83,14 +91,15 @@ export class TuringRenderer extends MXP.GPUCompute {
 	public get props() {
 
 		return {
+			...super.props,
 			f: {
-				value: this.passes[ 0 ].uniforms.uTuringParam.value.x,
+				value: this.compute.passes[ 0 ].uniforms.uTuringParam.value.x,
 				opt: {
 					slideScale: 0.01
 				}
 			},
 			k: {
-				value: this.passes[ 0 ].uniforms.uTuringParam.value.y,
+				value: this.compute.passes[ 0 ].uniforms.uTuringParam.value.y,
 				opt: {
 					slideScale: 0.01
 				}
@@ -108,7 +117,7 @@ export class TuringRenderer extends MXP.GPUCompute {
 
 	private reset(): void {
 
-		this.passes[ 0 ].initTexture( ( layerCnt, x, y ) => {
+		this.compute.passes[ 0 ].initTexture( ( layerCnt, x, y ) => {
 
 			return [
 				Math.random() * Math.sin( x * 0.05 ), Math.random() * Math.sin( y * 0.05 ), Math.random(), Math.random()
@@ -120,8 +129,8 @@ export class TuringRenderer extends MXP.GPUCompute {
 
 	protected deserializer( props: MXP.TypedSerializableProps<this> ): void {
 
-		this.passes[ 0 ].uniforms.uTuringParam.value.x = props.f || 0.05;
-		this.passes[ 0 ].uniforms.uTuringParam.value.y = props.k || 0.059;
+		this.compute.passes[ 0 ].uniforms.uTuringParam.value.x = props.f || 0.05;
+		this.compute.passes[ 0 ].uniforms.uTuringParam.value.y = props.k || 0.059;
 
 	}
 

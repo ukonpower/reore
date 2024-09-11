@@ -63,9 +63,6 @@ export const initResouces = () => {
 
 	}
 
-	console.log( resource.componentGroups );
-
-
 	/*-------------------------------
 		Textures
 	-------------------------------*/

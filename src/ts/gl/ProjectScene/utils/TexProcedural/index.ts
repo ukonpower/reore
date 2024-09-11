@@ -1,9 +1,6 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import { Renderer } from '../../Renderer';
-
-
 interface TexProceduralParam extends MXP.PostProcessPassParam {
 	resolution?: GLP.Vector
 }
@@ -12,7 +9,7 @@ export class TexProcedural extends GLP.GLPowerTexture {
 
 	private frameBuffer: GLP.GLPowerFrameBuffer;
 
-	constructor( renderer: Renderer, param: TexProceduralParam ) {
+	constructor( renderer: MXP.Renderer, param: TexProceduralParam ) {
 
 		const gl = renderer.gl;
 
