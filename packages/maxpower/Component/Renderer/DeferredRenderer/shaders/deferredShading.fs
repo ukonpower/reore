@@ -50,6 +50,12 @@ layout (location = 1) out vec4 glFragOut1;
 // 	vec3 specularColor;
 // };
 
+/*-------------------------------
+	Custom
+-------------------------------*/
+
+uniform sampler2D uSideTex;
+
 void main( void ) {
 
 	//[
@@ -80,6 +86,10 @@ void main( void ) {
 	);
 	vec3 outColor = vec3( 0.0 );
 	//]
+
+	// custom
+
+	mat.diffuseColor *= texture( uSideTex, vUv ).xyz;
 	
 	// output
 

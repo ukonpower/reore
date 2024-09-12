@@ -28,9 +28,10 @@ const ssaoKernel = ( kernelSize: number ) => {
 };
 
 type DeferredRendererParams = {
+	gl: WebGL2RenderingContext;
 	envMap: GLP.GLPowerTexture;
 	envMapCube?: GLP.GLPowerTextureCube
-}
+} & MXP.ComponentParams
 
 export class DeferredRenderer extends MXP.PostProcess {
 
@@ -40,23 +41,25 @@ export class DeferredRenderer extends MXP.PostProcess {
 
 	// light shaft
 
-	private lightShaft: MXP.PostProcessPass;
+	public lightShaft: MXP.PostProcessPass;
 	public rtLightShaft1: GLP.GLPowerFrameBuffer;
 	public rtLightShaft2: GLP.GLPowerFrameBuffer;
 
 	// ssao
 
-	private ssao: MXP.PostProcessPass;
+	public ssao: MXP.PostProcessPass;
 	public rtSSAO1: GLP.GLPowerFrameBuffer;
 	public rtSSAO2: GLP.GLPowerFrameBuffer;
 
-	private ssaoBlur: MXP.PostProcessPass;
+	public ssaoBlur: MXP.PostProcessPass;
 
 	// shading
 
-	private shading: MXP.PostProcessPass;
+	public shading: MXP.PostProcessPass;
 
-	constructor( gl: WebGL2RenderingContext, params: DeferredRendererParams ) {
+	constructor( params: DeferredRendererParams ) {
+
+		const gl = params.gl;
 
 		// uniforms
 

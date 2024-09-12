@@ -11,7 +11,7 @@ export class MainObj extends MXP.Component {
 		super();
 
 		this.wire = new MXP.Entity( { name: "Wire" } );
-		// this.wire.addComponent( new RectWire() );
+		this.wire.addComponent( new RectWire() );
 
 	}
 

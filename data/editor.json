@@ -25,8 +25,10 @@
 							"name": "BLidgeClient",
 							"props": {
 								"enabled": true,
-								"mode": "json",
-								"gltf": false
+								"mode": "websocket",
+								"gltf": false,
+								"websocket/connected": true,
+								"websocket/url": "ws://localhost:3100"
 							}
 						},
 						{
@@ -45,14 +47,6 @@
 							"props": {
 								"enabled": true
 							}
-						},
-						{
-							"name": "TuringTex",
-							"props": {
-								"enabled": true,
-								"f": 0.016,
-								"k": 0.043
-							}
 						}
 					]
 				},
@@ -63,6 +57,29 @@
 							"name": "SkyBoxDemo3",
 							"props": {
 								"enabled": true
+							}
+						}
+					]
+				},
+				{
+					"path": "/root/blidgeRoot/TextureRenderer",
+					"components": [
+						{
+							"name": "SideTex",
+							"props": {
+								"enabled": true
+							}
+						},
+						{
+							"name": "TuringTex",
+							"props": {
+								"enabled": true,
+								"f": {
+									"value": 0.016
+								},
+								"k": {
+									"value": 0.043
+								}
 							}
 						}
 					]
@@ -181,10 +198,10 @@
 	"enableRender": true,
 	"projectName": "Demo3",
 	"openedProject": "Demo3",
-	"resolutionScale": 0.0625,
+	"resolutionScale": 0.25,
 	"viewType": "render",
-	"frameLoop/enabled": true,
+	"frameLoop/enabled": false,
 	"frameLoop/start": 0,
 	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "336"
+	"selectedEntity": "eb"
 }

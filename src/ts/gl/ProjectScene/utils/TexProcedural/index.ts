@@ -7,6 +7,8 @@ interface TexProceduralParam extends MXP.PostProcessPassParam {
 
 export class TexProcedural extends GLP.GLPowerTexture {
 
+	public material: MXP.PostProcessPass;
+
 	private renderer: MXP.Renderer;
 	private resolution: GLP.Vector;
 	private postProcess: MXP.PostProcess;
@@ -31,7 +33,9 @@ export class TexProcedural extends GLP.GLPowerTexture {
 
 		this.frameBuffer = new GLP.GLPowerFrameBuffer( gl ).setTexture( [ this ] ).setSize( this.resolution );
 
-		this.postProcess = new MXP.PostProcess( { passes: [ new MXP.PostProcessPass( gl, { ...param, renderTarget: this.frameBuffer } ) ] } );
+		this.material = new MXP.PostProcessPass( gl, { ...param, renderTarget: this.frameBuffer } );
+
+		this.postProcess = new MXP.PostProcess( { passes: [ this.material ] } );
 
 	}
 

@@ -30,6 +30,7 @@ export * from './Component/PostProcess';
 export * from './Component/PostProcessPass';
 
 export * from './Component/Renderer';
+export * from "./Component/Renderer/DeferredRenderer";
 
 // entity
 

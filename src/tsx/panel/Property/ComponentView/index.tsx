@@ -87,7 +87,6 @@ export const ComponentView = ( { component }: ComponentViewProps ) => {
 
 	}
 
-
 	const onClickDelete = useCallback( ( e: MouseEvent ) => {
 
 		e.stopPropagation();
@@ -119,7 +118,7 @@ export const ComponentView = ( { component }: ComponentViewProps ) => {
 
 	}, [ component, enabled, onClickDelete, setEnabled ] );
 
-	return <div className={style.compoView} data-disable_component={component.disableEdit}>
+	return <div className={style.compoView} data-disable_component={component.disableEdit }>
 		<div className={style.content}>
 			<PropertyBlock label={<Head />} accordion={true} defaultClose={false} bg>
 				{propElms}

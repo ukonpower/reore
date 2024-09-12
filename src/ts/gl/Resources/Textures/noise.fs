@@ -4,7 +4,6 @@
 
 layout (location = 0) out vec4 outColor;
 
-
 void main( void ) {
 
 	vec2 v = vUv * 15.0;

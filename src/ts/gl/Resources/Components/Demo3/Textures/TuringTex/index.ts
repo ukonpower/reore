@@ -2,7 +2,6 @@ import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
 import turingFrag from './shaders/turing.glsl';
-import turingMatFrag from './shaders/turingMat.fs';
 
 import { gl, renderer } from '~/ts/gl/GLGlobals';
 

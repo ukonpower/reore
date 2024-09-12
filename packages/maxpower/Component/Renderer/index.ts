@@ -184,7 +184,8 @@ export class Renderer extends Entity {
 
 		// postprocess
 
-		this.deferredPostProcess = new DeferredRenderer( gl, {
+		this.deferredPostProcess = new DeferredRenderer( {
+			gl,
 			envMap: this.pmremRender.renderTarget.textures[ 0 ] as GLP.GLPowerTexture,
 			envMapCube: envMap as GLP.GLPowerTextureCube,
 		} );
