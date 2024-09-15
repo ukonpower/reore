@@ -177,7 +177,7 @@ export class OrbitControls extends MXP.Component {
 
 		// calc viewmatrix
 
-		const cameraComponent = entity.getComponent( MXP.Camera );
+		const cameraComponent = entity.getComponentByTag<MXP.Camera>( "camera" );
 
 		if ( cameraComponent ) {
 

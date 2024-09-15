@@ -6,8 +6,6 @@ interface ShakeViewerParams extends MXP.ComponentParams {
 
 export class ShakeViewer extends MXP.Component {
 
-	private stop: boolean;
-
 	private shakePower: number;
 	private shakeSpeed: number;
 	private shakeMatrix: GLP.Matrix;
@@ -21,8 +19,6 @@ export class ShakeViewer extends MXP.Component {
 
 		super();
 
-		this.stop = false;
-
 		this.shakePower = 0.15;
 		this.shakeSpeed = 1.0;
 		this.shakeMatrix = new GLP.Matrix();
@@ -30,13 +26,10 @@ export class ShakeViewer extends MXP.Component {
 
 	}
 
-
 	public get props() {
 
 		return {
-			stop: {
-				value: this.stop,
-			},
+			...super.props,
 			power: {
 				value: this.shakePower,
 			},
@@ -46,17 +39,14 @@ export class ShakeViewer extends MXP.Component {
 		};
 
 	}
-	public deserialize( props: MXP.TypedSerializableProps<this> ) {
+	public deserializer( props: MXP.TypedSerializableProps<this> ) {
 
 		this.shakePower = props.power.value;
 		this.shakeSpeed = props.speed.value;
-		this.stop = props.stop.value;
 
 	}
 
 	public finalizeImpl( event: MXP.ComponentUpdateEvent ): void {
-
-		if ( this.stop ) return;
 
 		const entity = event.entity;
 
@@ -76,7 +66,7 @@ export class ShakeViewer extends MXP.Component {
 
 		entity.matrixWorld.multiply( this.shakeMatrix );
 
-		const camera = entity.getComponent( MXP.Camera );
+		const camera = entity.getComponentByTag<MXP.Camera>( "camera" );
 
 		if ( camera ) {
 

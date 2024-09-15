@@ -363,6 +363,7 @@ export class MainCamera extends MXP.Component {
 		entity.addComponent( this.postProcess );
 		entity.addComponent( this.lookAt );
 		entity.addComponent( this.orbitControls );
+		entity.addComponent( this.shakeViewer );
 
 		// events
 		entity.on( 'sceneCreated', ( root: MXP.Entity, ) => {
@@ -371,7 +372,15 @@ export class MainCamera extends MXP.Component {
 
 			const blidger = camera?.getComponent( MXP.BLidger );
 
+			const prevBlidger = entity.getComponent( MXP.BLidger );
+
 			if ( blidger ) {
+
+				if ( prevBlidger ) {
+
+					blidger.transformAutoUpdate = prevBlidger.transformAutoUpdate;
+
+				}
 
 				entity.addComponent( blidger );
 
@@ -383,6 +392,7 @@ export class MainCamera extends MXP.Component {
 			this.dofTarget = root.getEntityByName( 'CamDof' ) || null;
 			this.baseFov = this.cameraComponent.fov;
 			this.updateCameraParams( this.resolution );
+
 
 		} );
 
