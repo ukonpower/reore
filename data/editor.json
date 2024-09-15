@@ -62,6 +62,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/Recollection",
+					"components": [
+						{
+							"name": "Recollection",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/SkyBox",
 					"components": [
 						{
@@ -186,5 +197,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 0,
 	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "10a"
+	"selectedEntity": "34d"
 }

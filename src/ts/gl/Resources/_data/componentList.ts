@@ -4,6 +4,7 @@ import { RectWire } from '../Components/Demo3/MainObject/MainObj/RectWire/index.
 import { MainObj } from '../Components/Demo3/MainObject/MainObj/index.ts';
 import { OreGLTrails } from '../Components/Demo3/MainObject/OreGL/OreGLTrails/index.ts';
 import { OreGL } from '../Components/Demo3/MainObject/OreGL/index.ts';
+import { Recollection } from '../Components/Demo3/MainObject/Recollection/index.ts';
 import { Music } from '../Components/Demo3/Music/index.ts';
 import { ParticleFrame } from '../Components/Demo3/Particles/ParticleFrame/index.ts';
 import { Particles } from '../Components/Demo3/Particles/index.ts';
@@ -38,6 +39,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 		MainObject: {
 			MainObj,
 			OreGL,
+			Recollection,
 		},
 		Music,
 		Particles,
