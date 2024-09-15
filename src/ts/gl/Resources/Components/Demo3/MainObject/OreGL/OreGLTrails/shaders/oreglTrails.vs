@@ -5,8 +5,8 @@ layout (location = 3) in vec2 trailId;
 layout (location = 4) in vec3 id;
 layout (location = 5) in float posY;
 
-uniform sampler2D gpuSampler0;
-uniform sampler2D gpuSampler1;
+uniform sampler2D uGPUSampler0;
+uniform sampler2D uGPUSampler1;
 uniform vec2 uGPUResolution;
 
 #include <rotate>
@@ -17,13 +17,14 @@ void main( void ) {
 
 	float uid = id.x + id.y * 128.0;
 
-	vec4 comPosBuffer = texture( gpuSampler0, vec2( posY * 1.0, trailId ) );
-	vec4 comVelBuffer = texture( gpuSampler1, vec2( posY * 1.0, trailId ) );
-    vec4 nextPosBuffer = texture( gpuSampler0, vec2( posY - 1.0 / uGPUResolution.x, trailId ) );
+	vec4 comPosBuffer = texture( uGPUSampler0, vec2( posY * 1.0, trailId ) );
+	vec4 comVelBuffer = texture( uGPUSampler1, vec2( posY * 1.0, trailId ) );
+    vec4 nextPosBuffer = texture( uGPUSampler0, vec2( posY - 1.0 / uGPUResolution.x, trailId ) );
 
 	vec3 offsetPosition = comPosBuffer.xyz;
 
 	outPos.xz *= sin( trailId * TPI ) * 0.5 + 0.5;
+	outPos.xy *= sin( posY * PI ) * 3.0;
 	
     vec3 delta = ( comPosBuffer.xyz - nextPosBuffer.xyz );
 	vec3 vec = normalize( delta );

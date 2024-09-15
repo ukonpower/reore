@@ -5,12 +5,7 @@ void main( void ) {
 
 	#include <frag_in>
 
-	#ifdef IS_FORWARD
-
-		outColor = vec4( 0.5 );
-	
-	#endif
-
+	outRoughness = 0.2;
 	
 	#include <frag_out>
 

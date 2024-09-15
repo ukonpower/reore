@@ -71,46 +71,10 @@
 							}
 						}
 					]
-				},
-				{
-					"path": "/root/blidgeRoot/TextureRenderer",
-					"components": [
-						{
-							"name": "SideTex",
-							"props": {
-								"enabled": true
-							}
-						},
-						{
-							"name": "TuringTex",
-							"props": {
-								"enabled": true,
-								"f": {
-									"value": {
-										"value": {
-											"value": 0.016
-										}
-									}
-								},
-								"k": {
-									"value": {
-										"value": {
-											"value": 0.043
-										}
-									}
-								}
-							}
-						}
-					]
 				}
 			],
 			"scene": {
-				"name": "root",
-				"childs": [
-					{
-						"name": "test"
-					}
-				]
+				"name": "root"
 			},
 			"timeline/duration": 10185,
 			"timeline/fps": 60
@@ -217,10 +181,10 @@
 	"enableRender": true,
 	"projectName": "Demo3",
 	"openedProject": "Demo3",
-	"resolutionScale": 0.25,
+	"resolutionScale": 0.5,
 	"viewType": "render",
 	"frameLoop/enabled": false,
 	"frameLoop/start": 0,
 	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "f7"
+	"selectedEntity": "10a"
 }

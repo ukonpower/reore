@@ -67,7 +67,7 @@ export const shaderInclude = ( shader: string ) => {
 		[ "sdf", sdf ],
 		[ "rotate", rotate ],
 		[ "random", random ],
-		[ "noise_simple", noiseSimplex ],
+		[ "noise_simplex", noiseSimplex ],
 		[ "noise_cyclic", noiseCyclic ],
 		[ "noise_value", noiseValue ],
 		[ "light", light ],

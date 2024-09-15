@@ -9,6 +9,9 @@ export const gl = canvas.getContext( 'webgl2', { antialias: false } )!;
 export const power = new GLP.Power( gl );
 export const renderer = new MXP.Renderer( power.gl );
 
+console.log( "create" );
+
+
 export const globalUniforms: {[key: string]: GLP.Uniforms} = {
 	time: {
 		uTime: {
