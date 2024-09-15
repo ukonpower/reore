@@ -1,5 +1,6 @@
 import { MainCamera } from '../Components/Camera/MainCamera/index.ts';
 import { EGridDots } from '../Components/Demo3/Effects/EGridDots/index.ts';
+import { Decompty } from '../Components/Demo3/MainObject/Decompty/index.ts';
 import { RectWire } from '../Components/Demo3/MainObject/MainObj/RectWire/index.ts';
 import { MainObj } from '../Components/Demo3/MainObject/MainObj/index.ts';
 import { OreGLTrails } from '../Components/Demo3/MainObject/OreGL/OreGLTrails/index.ts';
@@ -37,6 +38,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 			EGridDots,
 		},
 		MainObject: {
+			Decompty,
 			MainObj,
 			OreGL,
 			Recollection,
