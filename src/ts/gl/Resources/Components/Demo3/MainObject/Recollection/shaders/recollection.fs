@@ -3,10 +3,14 @@
 #include <noise_cyclic>
 #include <sdf>
 #include <rotate>
+#include <light>
+#include <pmrem>
 
 uniform float uTimeE;
 uniform vec3 cameraPosition;
 uniform mat4 modelMatrixInverse;
+uniform vec2 uResolution;
+uniform sampler2D uEnvMap;
 
 vec2 D( vec3 p ) {
 
@@ -19,7 +23,7 @@ vec2 D( vec3 p ) {
 
 	p *= 1.5;
 	
-	float contentNum = fract( uTimeE * 0.1 ) * 10.0;
+	float contentNum = 1.2;
 	
 	p.xz *= rotate(contentNum);
 	vec3 mp = p;
@@ -83,6 +87,31 @@ void main( void ) {
 	outNormal = normalize(modelMatrix * vec4( normal, 0.0 )).xyz;
 
 	if( !hit ) discard;
+
+	#ifdef IS_FORWARD
+
+		vec2 uv = gl_FragCoord.xy / uResolution;
+
+		for( int i = 0; i < 4; i++ ) {
+
+			vec2 v = ( normal.xy ) * float( i + 1 ) / 4.0 * 0.1;
+			outColor.x += texture( uDeferredTexture, uv + v * 1.0 ).x;
+			outColor.y += texture( uDeferredTexture, uv + v * 1.1 ).y;
+			outColor.z += texture( uDeferredTexture, uv + v * 1.2 ).z;
+
+		}
+
+		outColor.xyz /= 4.0;
+
+
+		#include <lighting_forwardIn>		
+		#include <lighting_light>
+		#include <lighting_env>
+
+
+
+	#endif
+	
 	
 	#include <frag_out>
 

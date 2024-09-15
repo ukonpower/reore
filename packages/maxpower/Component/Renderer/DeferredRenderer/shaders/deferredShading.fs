@@ -82,31 +82,19 @@ void main( void ) {
 		tex3.xyz,
 		tex1.w,
 		mix( tex2.xyz, vec3( 0.0, 0.0, 0.0 ), tex3.w ),
-		mix( vec3( 1.0, 1.0, 1.0 ), tex2.xyz, tex3.w )
+		mix( vec3( 1.0, 1.0, 1.0 ), tex2.xyz, tex3.w ),
+		tex4.w
 	);
 	vec3 outColor = vec3( 0.0 );
 	//]
-
-	// custom
-
-	// mat.diffuseColor *= texture( uSideTex, vUv ).xyz;
 	
-	// output
+	// lighting
 
-	#include <lighting>
+	#include <lighting_light>
 
 	// env
 
-	float env = tex4.w;
-
-	vec3 refDir = reflect( -geo.viewDir, geo.normal );
-
-	float dNV = clamp( dot( geo.normal, geo.viewDir ), 0.0, 1.0 );
-
-	float EF = mix( fresnel( dNV ), 1.0, mat.metalic );
-	
-	outColor += mat.specularColor * getPmrem( uEnvMap, refDir, mat.roughness ) * EF * env;
-	outColor += mat.diffuseColor * getPmrem( uEnvMap, geo.normal, 1.0) * env / PI;
+	#include <lighting_env>
 	
 	// light shaft
 	

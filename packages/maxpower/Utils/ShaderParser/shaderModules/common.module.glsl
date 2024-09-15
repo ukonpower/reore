@@ -23,6 +23,7 @@ struct Material {
 	float emissionIntensity;
 	vec3 diffuseColor;
 	vec3 specularColor;
+	float envMapIntensity;
 };
 
 float atan2(in float y, in float x){

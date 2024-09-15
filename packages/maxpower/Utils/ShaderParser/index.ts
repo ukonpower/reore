@@ -14,7 +14,9 @@ import sdf from './shaderModules/sdf.module.glsl';
 import frag_h from './shaderParts/frag_h.part.glsl';
 import frag_in from './shaderParts/frag_in.part.glsl';
 import frag_out from './shaderParts/frag_out.part.glsl';
-import lighting from './shaderParts/lighting.part.glsl';
+import lighting_env from './shaderParts/lighting_env.part.glsl';
+import lighting_forwardIn from './shaderParts/lighting_forwardIn.part.glsl';
+import lighting_light from './shaderParts/lighting_light.part.glsl';
 import raymarch_ray_object from './shaderParts/raymarch_ray_object.part.glsl';
 import uniformTime from './shaderParts/uniform_time.part.glsl';
 import vert_h from './shaderParts/vert_h.part.glsl';
@@ -71,7 +73,9 @@ export const shaderInclude = ( shader: string ) => {
 		[ "noise_cyclic", noiseCyclic ],
 		[ "noise_value", noiseValue ],
 		[ "light", light ],
-		[ "lighting", lighting ],
+		[ "lighting_light", lighting_light ],
+		[ "lighting_env", lighting_env ],
+		[ "lighting_forwardIn", lighting_forwardIn ],
 		[ "vert_h", vert_h ],
 		[ "vert_in", vert_in ],
 		[ "vert_out", vert_out ],
