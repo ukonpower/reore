@@ -40,17 +40,6 @@
 					]
 				},
 				{
-					"path": "/root/blidgeRoot/Decompty",
-					"components": [
-						{
-							"name": "Decompty",
-							"props": {
-								"enabled": true
-							}
-						}
-					]
-				},
-				{
 					"path": "/root/blidgeRoot/MainObj",
 					"components": [
 						{
@@ -62,7 +51,18 @@
 					]
 				},
 				{
-					"path": "/root/blidgeRoot/OreGL",
+					"path": "/root/blidgeRoot/MainObj/Decompty",
+					"components": [
+						{
+							"name": "Decompty",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
+					"path": "/root/blidgeRoot/MainObj/OreGL",
 					"components": [
 						{
 							"name": "OreGL",
@@ -73,7 +73,7 @@
 					]
 				},
 				{
-					"path": "/root/blidgeRoot/Recollection",
+					"path": "/root/blidgeRoot/MainObj/Recollection",
 					"components": [
 						{
 							"name": "Recollection",
@@ -98,8 +98,8 @@
 			"scene": {
 				"name": "root"
 			},
-			"timeline/duration": 10185,
-			"timeline/fps": 60
+			"timeline/duration": 5092,
+			"timeline/fps": 30
 		},
 		{
 			"position": [
@@ -208,5 +208,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 0,
 	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "a1"
+	"selectedEntity": "b4"
 }
