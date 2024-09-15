@@ -21,7 +21,7 @@ layout (location = 0) out vec4 outColor;
 const float MARCH_LENGTH = 50.0;
 const float MARCH = 16.0;
 
-#include <noise>
+#include <random>
 
 void main( void ) {
 

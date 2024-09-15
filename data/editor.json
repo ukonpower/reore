@@ -51,6 +51,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/OreGL",
+					"components": [
+						{
+							"name": "OreGL",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/SkyBox",
 					"components": [
 						{
@@ -75,10 +86,18 @@
 							"props": {
 								"enabled": true,
 								"f": {
-									"value": 0.016
+									"value": {
+										"value": {
+											"value": 0.016
+										}
+									}
 								},
 								"k": {
-									"value": 0.043
+									"value": {
+										"value": {
+											"value": 0.043
+										}
+									}
 								}
 							}
 						}
@@ -203,5 +222,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 0,
 	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "eb"
+	"selectedEntity": "f7"
 }

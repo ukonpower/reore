@@ -1,7 +1,9 @@
 import { MainCamera } from '../Components/Camera/MainCamera/index.ts';
 import { EGridDots } from '../Components/Demo3/Effects/EGridDots/index.ts';
-import { RectWire } from '../Components/Demo3/MainObj/RectWire/index.ts';
-import { MainObj } from '../Components/Demo3/MainObj/index.ts';
+import { RectWire } from '../Components/Demo3/MainObject/MainObj/RectWire/index.ts';
+import { MainObj } from '../Components/Demo3/MainObject/MainObj/index.ts';
+import { OreGLTrails } from '../Components/Demo3/MainObject/OreGL/OreGLTrails/index.ts';
+import { OreGL } from '../Components/Demo3/MainObject/OreGL/index.ts';
 import { Music } from '../Components/Demo3/Music/index.ts';
 import { ParticleFrame } from '../Components/Demo3/Particles/ParticleFrame/index.ts';
 import { Particles } from '../Components/Demo3/Particles/index.ts';
@@ -33,7 +35,10 @@ export const COMPONENTLIST: {[key: string]: any} = {
 		Effects: {
 			EGridDots,
 		},
-		MainObj,
+		MainObject: {
+			MainObj,
+			OreGL,
+		},
 		Music,
 		Particles,
 		SkyBoxDemo3,

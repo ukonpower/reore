@@ -1,38 +1,3 @@
-// https://stackoverflow.com/questions/4200224/random-noise-functions-for-glsl
-
-float random(vec2 p){
-	return fract(sin(dot(p.xy ,vec2(12.9898,78.233))) * 43758.5453);
-}
-
-// https://www.shadertoy.com/view/4djSRW
-
-vec3 hash(vec3 p3)
-{
-	p3 = fract(p3 * vec3(.1031, .1030, .0973));
-  p3 += dot(p3, p3.yxz+33.33);
-  return fract((p3.xxy + p3.yxx)*p3.zyx);
-
-}
-
-// https://www.shadertoy.com/view/3tcyD7
-
-vec3 noiseCyc( vec3 p ){
-
-  vec4 n = vec4(0);
-  float a=1.0;
-
-  for( int i = 0; i < 8; i++ ){
-    p += sin( p.zxy );
-    n += vec4(cross(sin(p.xyz), cos(p.yzx)), 1.0) * a;
-    a *= 0.6;
-    p *= 1.5;
-  }
-
-  n.xyz /= n.w;
-
-  return n.xyz;
-
-}
 
 // https://www.shadertoy.com/view/4dS3Wd
 
@@ -41,7 +6,7 @@ float hashv(vec2 p) {vec3 p3 = fract(vec3(p.xyx) * 0.13); p3 += dot(p3, p3.yzx +
 
 #define NUM_NOISE_OCTAVES 5
 
-float noiseV(vec3 x) {
+float noiseValue(vec3 x) {
     const vec3 step = vec3(110, 241, 171);
 
     vec3 i = floor(x);
@@ -58,21 +23,12 @@ float noiseV(vec3 x) {
                    mix( hashv(n + dot(step, vec3(0, 1, 1))), hashv(n + dot(step, vec3(1, 1, 1))), u.x), u.y), u.z);
 }
 
-float noiseV( float x ) {
-  return noiseV( vec3(x) );
-}
-
-
-vec2 noiseV( vec2 x ) {
-  return vec2( noiseV( x.x ), noiseV( x.y ) );
-}
-
 float fbm(vec3 x) {
 	float v = 0.0;
 	float a = 0.5;
 	vec3 shift = vec3(100);
 	for (int i = 0; i < NUM_NOISE_OCTAVES; ++i) {
-		v += a * noiseV(x);
+		v += a * noiseValue(x);
 		x = x * 2.0 + shift;
 		a *= 0.5;
 	}

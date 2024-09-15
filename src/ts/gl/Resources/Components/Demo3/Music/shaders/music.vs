@@ -1,5 +1,5 @@
 #include <common>
-#include <noise>
+#include <noise_value>
 
 in float aTime;
 
@@ -412,7 +412,7 @@ vec2 shuwaa( float mt, float ft ) {
 	float env = b.z;
 	float ft_ = linearstep(0.3, 1.0, env ) * 1.0;
 
-	float noise = ((noiseV( ft_ * 5500.0 * env) - 0.5) * 1.8 ) * 0.1 * exp(-6.*smoothstep( 1.0,0.3,env)) * smoothstep(1.0,.99,env);
+	float noise = ((noiseValue( ft_ * 5500.0 * env) - 0.5) * 1.8 ) * 0.1 * exp(-6.*smoothstep( 1.0,0.3,env)) * smoothstep(1.0,.99,env);
     v += noise;
 
 	o += v;

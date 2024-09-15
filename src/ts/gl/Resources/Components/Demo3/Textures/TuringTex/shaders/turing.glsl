@@ -1,5 +1,4 @@
 #include <common>
-#include <noise>
 
 uniform sampler2D uGPUSampler0;
 uniform vec2 uGPUResolution;

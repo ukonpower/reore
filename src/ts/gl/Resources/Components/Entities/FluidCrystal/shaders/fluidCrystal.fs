@@ -3,7 +3,7 @@
 #include <frag_h>
 
 #include <sdf>
-#include <noise>
+#include <noise_cyclic>
 #include <rotate>
 
 #include <light>

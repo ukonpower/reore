@@ -1,7 +1,6 @@
 #include <common>
 #include <packing>
 #include <frag_h>
-#include <noise>
 #include <rotate>
 
 uniform float uTimeE;

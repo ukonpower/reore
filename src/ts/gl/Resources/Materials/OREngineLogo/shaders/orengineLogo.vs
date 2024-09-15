@@ -1,6 +1,6 @@
 #include <common>
 #include <vert_h>
-#include <noise>
+#include <noise_value>
 
 uniform float uTimeE;
 
@@ -12,7 +12,7 @@ void main( void ) {
 	#include <vert_in>
 
 	vPosBase = outPos;
-	vNoise = noiseV( vec3( uTimeE * 8.0 ) );
+	vNoise = noiseValue( vec3( uTimeE * 8.0 ) );
 	
 	#include <vert_out>
 	

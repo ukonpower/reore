@@ -1,7 +1,6 @@
 #include <common>
 #include <packing>
 #include <light>
-#include <noise>
 
 uniform sampler2D backbuffer0;
 

@@ -89,7 +89,7 @@ void main( void ) {
 
 	// custom
 
-	mat.diffuseColor *= texture( uSideTex, vUv ).xyz;
+	// mat.diffuseColor *= texture( uSideTex, vUv ).xyz;
 	
 	// output
 

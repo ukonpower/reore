@@ -1,5 +1,5 @@
 #include <common>
-#include <noise>
+#include <noise_cyclic>
 
 layout (location = 0) out vec4 outColor0;
 layout (location = 1) out vec4 outColor1;

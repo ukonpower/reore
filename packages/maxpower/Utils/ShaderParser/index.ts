@@ -3,8 +3,11 @@ import { CollectedLights } from 'packages/maxpower/Component/Renderer';
 
 import common from './shaderModules/common.module.glsl';
 import light from './shaderModules/light.module.glsl';
-import noise from './shaderModules/noise.module.glsl';
+import noiseCyclic from './shaderModules/noiseCyclic.module.glsl';
+import noiseSimplex from './shaderModules/noiseSimplex.module.glsl';
+import noiseValue from './shaderModules/noiseValue.module.glsl';
 import pmrem from './shaderModules/pmrem.module.glsl';
+import random from './shaderModules/random.module.glsl';
 import raymarch_normal from './shaderModules/raymarch_normal.module.glsl';
 import rotate from './shaderModules/rotate.module.glsl';
 import sdf from './shaderModules/sdf.module.glsl';
@@ -63,7 +66,10 @@ export const shaderInclude = ( shader: string ) => {
 		[ "common", common ],
 		[ "sdf", sdf ],
 		[ "rotate", rotate ],
-		[ "noise", noise ],
+		[ "random", random ],
+		[ "noise_simple", noiseSimplex ],
+		[ "noise_cyclic", noiseCyclic ],
+		[ "noise_value", noiseValue ],
 		[ "light", light ],
 		[ "lighting", lighting ],
 		[ "vert_h", vert_h ],

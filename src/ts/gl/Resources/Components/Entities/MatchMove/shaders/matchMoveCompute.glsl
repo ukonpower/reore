@@ -13,7 +13,7 @@ uniform float uTimeE;
 
 in vec2 vUv;
 
-#include <noise>
+#include <random>
 
 void main( void ) {
 
