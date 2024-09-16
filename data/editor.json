@@ -83,6 +83,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/MainObj/SetA",
+					"components": [
+						{
+							"name": "SetA",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/SkyBox",
 					"components": [
 						{
@@ -207,5 +218,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 0,
 	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "ae"
+	"selectedEntity": "82"
 }

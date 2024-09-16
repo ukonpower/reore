@@ -9,6 +9,7 @@ in vec2 vVelocity;
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
+uniform vec3 cameraPosition;
 
 #ifdef IS_DEPTH
 	uniform float cameraNear;

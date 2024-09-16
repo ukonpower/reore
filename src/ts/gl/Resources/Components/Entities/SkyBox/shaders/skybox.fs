@@ -5,7 +5,6 @@
 
 uniform float uTimeE;
 
-uniform vec3 cameraPosition;
 uniform vec2 uResolution;
 uniform float uAspectRatio;
 

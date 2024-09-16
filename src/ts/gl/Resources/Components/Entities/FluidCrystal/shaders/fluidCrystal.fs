@@ -10,7 +10,6 @@
 #include <pmrem>
 
 uniform float uTimeE;
-uniform vec3 cameraPosition;
 uniform mat4 modelMatrixInverse;
 uniform vec2 uResolution;
 uniform float uAspectRatio;

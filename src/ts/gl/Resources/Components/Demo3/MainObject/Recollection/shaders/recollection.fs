@@ -7,7 +7,6 @@
 #include <pmrem>
 
 uniform float uTimeE;
-uniform vec3 cameraPosition;
 uniform mat4 modelMatrixInverse;
 uniform vec2 uResolution;
 uniform sampler2D uEnvMap;
@@ -115,11 +114,8 @@ void main( void ) {
 		outColor.xyz *= 0.3;
 		outColor.w = 1.0;
 
-				
 		#include <lighting_light>
 		#include <lighting_env>
-
-
 
 	#endif
 	
