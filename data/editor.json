@@ -27,7 +27,6 @@
 								"enabled": true,
 								"mode": "websocket",
 								"gltf": false,
-								"websocket/connected": true,
 								"websocket/url": "ws://localhost:3100"
 							}
 						},
@@ -208,5 +207,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 0,
 	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "b4"
+	"selectedEntity": "ae"
 }

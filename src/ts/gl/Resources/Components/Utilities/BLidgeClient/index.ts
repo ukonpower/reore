@@ -90,8 +90,12 @@ export class BLidgeClient extends MXP.Component {
 				value: this.gltfPath,
 			} || undefined,
 			websocket: this.type == "websocket" && {
-				connected: {
-					value: connect,
+				reconnect: {
+					value: () => {
+
+						this.blidge.connect( this.connection.url, this.useGLTF ? this.gltfPath : undefined );
+
+					},
 				},
 				url: {
 					value: this.connection.url,
@@ -109,7 +113,6 @@ export class BLidgeClient extends MXP.Component {
 		super.deserializer( props );
 
 		this.connection.url = ( props.websocket && props.websocket.url.value ) || this.connection.url;
-		this.connection.enabled = ( props.websocket && props.websocket.connected.value ) || false;
 		this.type = props.mode.value;
 		this.useGLTF = props.gltf.value || false;
 		this.gltfPath = ( props.gltfPath && props.gltfPath.value ) || this.gltfPath;

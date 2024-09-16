@@ -48,13 +48,18 @@ vec2 D( vec3 p ) {
 
 	d = sdBox( p, size );
 
-
-
 	return vec2( d, 0.0 );
 
 }
 
 #include <rm_normal>
+
+float fresnel_( float d ) {
+	
+	float f0 = 0.01;
+	return f0 + ( 1.0 - f0 ) * pow( 1.0 - d, 2.0 );
+
+}
 
 void main( void ) {
 
@@ -80,31 +85,37 @@ void main( void ) {
 
 	vec3 normal = N( rayPos, 0.001 );
 
-	outRoughness = 5.0;
+	outRoughness = 0.2;
 	outMetalic = 0.0;
-	outColor.xyz = vec3( 1.0, 1.0, 1.0 );
-
+	outColor.xyz = vec3( 0.0 );
 	outNormal = normalize(modelMatrix * vec4( normal, 0.0 )).xyz;
 
 	if( !hit ) discard;
 
 	#ifdef IS_FORWARD
 
+		#include <lighting_forwardIn>
+
 		vec2 uv = gl_FragCoord.xy / uResolution;
+
+		float dnv = dot( geo.normal, geo.viewDir );
+		float ef = fresnel_( dnv );
+		float nf = smoothstep( 0.03, 0.0, ef);
 
 		for( int i = 0; i < 4; i++ ) {
 
 			vec2 v = ( normal.xy ) * float( i + 1 ) / 4.0 * 0.1;
-			outColor.x += texture( uDeferredTexture, uv + v * 1.0 ).x;
-			outColor.y += texture( uDeferredTexture, uv + v * 1.1 ).y;
-			outColor.z += texture( uDeferredTexture, uv + v * 1.2 ).z;
+			outColor.x += nf * texture( uDeferredTexture, uv + v * 1.0 ).x;
+			outColor.y += nf * texture( uDeferredTexture, uv + v * 1.1 ).y;
+			outColor.z += nf * texture( uDeferredTexture, uv + v * 1.2 ).z;
 
 		}
 
 		outColor.xyz /= 4.0;
+		outColor.xyz *= 0.3;
+		outColor.w = 1.0;
 
-
-		#include <lighting_forwardIn>		
+				
 		#include <lighting_light>
 		#include <lighting_env>
 
