@@ -224,7 +224,7 @@ export class BLidger extends Component {
 
 		// camera
 
-		this.cameraComponent = entity.getComponent( Camera );
+		this.cameraComponent = entity.getComponentByTag<Camera>( "camera" );
 
 		if ( this.node.type == 'camera' && this.cameraComponent ) {
 

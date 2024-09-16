@@ -8,16 +8,11 @@ import { globalUniforms } from '~/ts/gl/GLGlobals';
 
 export class Recollection extends MXP.Component {
 
-	private geometry: MXP.Geometry;
 	private material: MXP.Material;
 
 	constructor() {
 
 		super();
-
-		// geometry
-
-		this.geometry = new MXP.SphereGeometry();
 
 		// material
 
@@ -48,14 +43,12 @@ export class Recollection extends MXP.Component {
 	public setEntityImpl( entity: MXP.Entity ): void {
 
 		entity.addComponent( this.material );
-		entity.addComponent( this.geometry );
 
 	}
 
 	public unsetEntityImpl( entity: MXP.Entity ): void {
 
 		entity.removeComponent( this.material );
-		entity.removeComponent( this.geometry );
 
 	}
 

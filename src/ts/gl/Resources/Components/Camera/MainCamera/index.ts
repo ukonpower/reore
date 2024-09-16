@@ -16,8 +16,6 @@ import { gl, canvas } from '~/ts/gl/GLGlobals';
 
 export class MainCamera extends MXP.Component {
 
-	private baseFov: number;
-
 	private commonUniforms: GLP.Uniforms;
 
 	// camera component
@@ -67,8 +65,6 @@ export class MainCamera extends MXP.Component {
 	constructor() {
 
 		super();
-
-		this.baseFov = 50.0;
 
 		// components
 
@@ -390,7 +386,6 @@ export class MainCamera extends MXP.Component {
 			this.lookAt.setTarget( lookAtTarget );
 
 			this.dofTarget = root.getEntityByName( 'CamDof' ) || null;
-			this.baseFov = this.cameraComponent.fov;
 			this.updateCameraParams( this.resolution );
 
 

@@ -33,8 +33,6 @@ vec2 D( vec3 p ) {
 
 	return d;
 
-	return vec2( d, 0.0 );
-
 }
 
 #include <rm_normal>
