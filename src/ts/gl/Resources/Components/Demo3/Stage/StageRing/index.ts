@@ -17,14 +17,26 @@ export class StageRing extends MXP.Component {
 
 		// geometry
 
-		this.geometry = new MXP.RingGeometry( { innerRadius: 4.0, outerRadius: 4.5, thetaSegments: 64, phiSegments: 5, extrude: 0.1 } );
+		this.geometry = new MXP.RingGeometry( { innerRadius: 0.9, outerRadius: 1.0, thetaSegments: 64, phiSegments: 5, extrude: 0.1 } );
+
+		const instanceArray = [];
+
+		const num = 32;
+
+		for ( let i = 0; i < num; i ++ ) {
+
+			instanceArray.push( i / ( num - 1 ), Math.random(), Math.random(), Math.random() );
+
+		}
+
+		this.geometry.setAttribute( "id", new Float32Array( instanceArray ), 4, { instanceDivisor: 1 } );
 
 		// material
 
 		this.material = new MXP.Material( {
 			frag: MXP.hotGet( 'stageRingFrag', stageRingFrag ),
 			vert: MXP.hotGet( 'stageRingVert', stageRingVert ),
-			phase: [ 'deferred', 'shadowMap' ],
+			phase: [ 'deferred', 'shadowMap', "envMap" ],
 			uniforms: GLP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time ),
 			cullFace: true,
 		} );

@@ -22,7 +22,7 @@ void main( void ) {
 	float w = 0.05;
 
 	float d;
-	float s = 1.0; 
+	float s = 0.98; 
 
 	#pragma loop_start 8
 		d = -float( LOOP_INDEX ) / 8.0 * w;
