@@ -486,7 +486,7 @@ export class GLEditor extends MXP.Serializable {
 
 	public exportCurrentScene() {
 
-		return this.fileSystem.set( "player.json", this.scene.serialize() );
+		return this.fileSystem.set( "player.json", this.scene.serialize( true ) );
 
 	}
 

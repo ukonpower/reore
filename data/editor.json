@@ -25,9 +25,8 @@
 							"name": "BLidgeClient",
 							"props": {
 								"enabled": true,
-								"mode": "websocket",
-								"gltf": false,
-								"websocket/url": "ws://localhost:3100"
+								"mode": "json",
+								"gltf": false
 							}
 						},
 						{
@@ -103,10 +102,26 @@
 							}
 						}
 					]
+				},
+				{
+					"path": "/root/blidgeRoot/Stage/Ring",
+					"components": [
+						{
+							"name": "StageRing",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
 				}
 			],
 			"scene": {
-				"name": "root"
+				"name": "root",
+				"childs": [
+					{
+						"name": "Test"
+					}
+				]
 			},
 			"timeline/duration": 5092,
 			"timeline/fps": 30
@@ -218,5 +233,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 0,
 	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "82"
+	"selectedEntity": "69"
 }

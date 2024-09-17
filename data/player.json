@@ -1,24 +1,20 @@
 {
-	"setting": {
-		"position": [
-			0,
-			0,
-			0
-		],
-		"euler": [
-			0,
-			0,
-			0
-		],
-		"scale": [
-			1,
-			1,
-			1
-		],
-		"name": "Demo3",
-		"timeline/duration": 10185,
-		"timeline/fps": 60
-	},
+	"position": [
+		0,
+		0,
+		0
+	],
+	"euler": [
+		0,
+		0,
+		0
+	],
+	"scale": [
+		1,
+		1,
+		1
+	],
+	"name": "Demo3",
 	"objectOverride": [
 		{
 			"path": "/root",
@@ -51,10 +47,65 @@
 			]
 		},
 		{
+			"path": "/root/blidgeRoot/MainObj/Decompty",
+			"components": [
+				{
+					"name": "Decompty",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/MainObj/OreGL",
+			"components": [
+				{
+					"name": "OreGL",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/MainObj/Recollection",
+			"components": [
+				{
+					"name": "Recollection",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/MainObj/SetA",
+			"components": [
+				{
+					"name": "SetA",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
 			"path": "/root/blidgeRoot/SkyBox",
 			"components": [
 				{
 					"name": "SkyBoxDemo3",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/Stage/Ring",
+			"components": [
+				{
+					"name": "StageRing",
 					"props": {
 						"enabled": true
 					}
@@ -69,5 +120,7 @@
 				"name": "Test"
 			}
 		]
-	}
+	},
+	"timeline/duration": 5092,
+	"timeline/fps": 30
 }

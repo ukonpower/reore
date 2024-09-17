@@ -12,6 +12,7 @@ import { Music } from '../Components/Demo3/Music/index.ts';
 import { ParticleFrame } from '../Components/Demo3/Particles/ParticleFrame/index.ts';
 import { Particles } from '../Components/Demo3/Particles/index.ts';
 import { SkyBoxDemo3 } from '../Components/Demo3/SkyBoxDemo3/index.ts';
+import { StageRing } from '../Components/Demo3/Stage/StageRing/index.ts';
 import { SideTex } from '../Components/Demo3/Textures/SideTex/index.ts';
 import { TuringTex } from '../Components/Demo3/Textures/TuringTex/index.ts';
 import { DashCube } from '../Components/Entities/Effects/DashCube/index.ts';
@@ -49,6 +50,9 @@ export const COMPONENTLIST: {[key: string]: any} = {
 		Music,
 		Particles,
 		SkyBoxDemo3,
+		Stage: {
+			StageRing,
+		},
 		Textures: {
 			SideTex,
 			TuringTex,
