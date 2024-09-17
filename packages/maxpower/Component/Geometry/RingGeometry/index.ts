@@ -123,30 +123,32 @@ export class RingGeometry extends Geometry {
 
 				for ( let i = 0; i < thetaSegments; i ++ ) {
 
-					const innerIndex = startIndex + i + ( thetaSegments * 2 * h );
+					const baseIndex = startIndex + i + ( thetaSegments * 2 * h );
+
+					const offset = i == thetaSegments - 1 ? - thetaSegments : 0;
 
 					if ( h == 0 ) {
 
 						indexArray.push(
-							innerIndex,
-							innerIndex + thetaSegments,
-							innerIndex + thetaSegments + 1,
+							baseIndex,
+							baseIndex + thetaSegments,
+							baseIndex + thetaSegments + 1 + offset,
 
-							innerIndex,
-							innerIndex + thetaSegments + 1,
-							innerIndex + 1,
+							baseIndex,
+							baseIndex + thetaSegments + 1 + offset,
+							baseIndex + 1 + offset,
 						);
 
 					} else {
 
 						indexArray.push(
-							innerIndex,
-							innerIndex + thetaSegments + 1,
-							innerIndex + thetaSegments,
+							baseIndex,
+							baseIndex + thetaSegments + 1 + offset,
+							baseIndex + thetaSegments,
 
-							innerIndex,
-							innerIndex + 1,
-							innerIndex + thetaSegments + 1,
+							baseIndex,
+							baseIndex + 1 + offset,
+							baseIndex + thetaSegments + 1 + offset,
 						);
 
 					}
