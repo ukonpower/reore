@@ -7,24 +7,35 @@ layout(location = 4) in vec4 id;
 
 uniform float uTime;
 
+void rott( mat2 rot, inout vec2 pos, inout vec2 normal ) {
+
+	pos *= rot;
+	normal *= rot;
+
+}
+
 void main( void ) {
 
 	#include <vert_in>
 
 	outPos.y *= 0.0;
-	outPos.x -= 0.5;
 
-	outPos.z += id.x * 10.0;
-
+	float py = (position.y + 0.5);
 
 	mat2 rot;
-	rot = rotate( position.y * TPI);
-	outPos.xy *= rot;
-	outNormal.xy *= rot;
-	
 
-	// outPos.y -= ( 1.0 - id.x ) * 5.0;
+	outPos.xz *= ( 1.0 - py * 0.8 ) * ( 0.07 - id.y * 0.08 );
+
+	rott( rotate( 0.73 ), outPos.yz, outNormal.yz );
+	rott( rotate( -0.3 ), outPos.xy, outNormal.xy );
+
+	outPos.x -= 0.5 + id.y * 3.0 + py * 1.0 * ( 0.5 + id.y * 0.5) ;
 	
+	outPos.z -= py * 2.0 + id.y * 0.9 + id.z * 0.0;
+
+	rott( rotate( py * PI * ( 1.0 - id.y * 0.9 )), outPos.xy, outNormal.xy );
+
+	rott( rotate( id.x * TPI ), outPos.xy, outNormal.xy );
 	
 	#include <vert_out>
 

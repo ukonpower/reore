@@ -17,17 +17,18 @@ export class Tornado extends MXP.Component {
 
 		// geometry
 
-		const r = 0.1;
+		const r = 0.5;
 
 		this.geometry = new MXP.CylinderGeometry( {
 			radiusTop: r,
 			radiusBottom: r,
-			heightSegments: 32,
+			heightSegments: 16,
+			height: 1
 		} );
 
 		const instanceArray = [];
 
-		const num = 32;
+		const num = 512;
 
 		for ( let i = 0; i < num; i ++ ) {
 
