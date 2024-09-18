@@ -31,7 +31,7 @@ void main( void ) {
 		float tOffset = t + id * 0.1;
 
 		vec3 pos = position.xyz;
-		vec3 np = pos * 0.16;
+		vec3 np = pos * 0.13;
 
 		vec3 noise = vec3(
 			noiseSimplex( vec4( np, tOffset) ),

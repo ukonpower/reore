@@ -1,12 +1,12 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import stageRingFrag from './shaders/stageRing.fs';
-import stageRingVert from './shaders/stageRing.vs';
+import tornadoFrag from './shaders/tornado.fs';
+import tornadoVert from './shaders/tornado.vs';
 
 import { globalUniforms } from '~/ts/gl/GLGlobals';
 
-export class StageRing extends MXP.Component {
+export class Tornado extends MXP.Component {
 
 	private geometry: MXP.Geometry;
 	private material: MXP.Material;
@@ -17,7 +17,13 @@ export class StageRing extends MXP.Component {
 
 		// geometry
 
-		this.geometry = new MXP.RingGeometry( { innerRadius: 0.9, outerRadius: 1.0, thetaSegments: 64, phiSegments: 5, extrude: 0.1 } );
+		const r = 0.1;
+
+		this.geometry = new MXP.CylinderGeometry( {
+			radiusTop: r,
+			radiusBottom: r,
+			heightSegments: 32,
+		} );
 
 		const instanceArray = [];
 
@@ -34,8 +40,8 @@ export class StageRing extends MXP.Component {
 		// material
 
 		this.material = new MXP.Material( {
-			frag: MXP.hotGet( 'stageRingFrag', stageRingFrag ),
-			vert: MXP.hotGet( 'stageRingVert', stageRingVert ),
+			frag: MXP.hotGet( 'tornadoFrag', tornadoFrag ),
+			vert: MXP.hotGet( 'tornadoVert', tornadoVert ),
 			phase: [ 'deferred', 'shadowMap', "envMap" ],
 			uniforms: GLP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time ),
 			cullFace: true,
@@ -43,11 +49,11 @@ export class StageRing extends MXP.Component {
 
 		if ( import.meta.hot ) {
 
-			import.meta.hot.accept( './shaders/stageRing.fs', ( module ) => {
+			import.meta.hot.accept( './shaders/tornado.fs', ( module ) => {
 
 				if ( module ) {
 
-					this.material.frag = MXP.hotUpdate( 'stageRingFrag', module.default );
+					this.material.frag = MXP.hotUpdate( 'tornadoFrag', module.default );
 
 					this.material.requestUpdate();
 
@@ -55,11 +61,11 @@ export class StageRing extends MXP.Component {
 
 			} );
 
-			import.meta.hot.accept( './shaders/stageRing.vs', ( module ) => {
+			import.meta.hot.accept( './shaders/tornado.vs', ( module ) => {
 
 				if ( module ) {
 
-					this.material.vert = MXP.hotUpdate( 'stageRingVert', module.default );
+					this.material.vert = MXP.hotUpdate( 'tornadoVert', module.default );
 
 					this.material.requestUpdate();
 

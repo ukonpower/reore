@@ -114,6 +114,7 @@ export class SetA extends MXP.Component {
 		} ) );
 		this.menma.position.set( 0.45, 0.12, 0.0 );
 		this.menma.quaternion.setFromEuler( new GLP.Euler( 0.0, Math.PI / 2, 0.0 ) );
+
 		/*-------------------------------
 			Tamago
 		-------------------------------*/

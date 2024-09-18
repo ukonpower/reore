@@ -357,6 +357,7 @@ export class BLidger extends Component {
 
 		const curveHide = this.animationCurves.get( 'hide' );
 
+
 		if ( curveHide ) {
 
 			entity.visible = curveHide.value.x < 0.5;
