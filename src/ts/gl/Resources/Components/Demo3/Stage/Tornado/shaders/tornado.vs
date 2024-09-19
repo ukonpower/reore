@@ -24,19 +24,24 @@ void main( void ) {
 
 	mat2 rot;
 
-	outPos.xz *= ( 1.0 - py * 0.8 ) * ( 0.07 - id.y * 0.08 );
-	outPos.xy += vec2( sin( uTime * 0.5 + id.x * 0.1 ) * 0.3, cos( uTime * 0.5 + id.x * 0.1 ) * 0.3 );
+	outPos.xz *= ( 1.0 - py * 0.8 ) * mix( 0.08, 0.05, id.x );
+
+	float rt = uTime * -0.5 + id.x * 2.0 + py * HPI;
+	outPos.xy += vec2( sin( rt ) * 0.3, cos( rt ) * 0.3 );
 
 	rott( rotate( 0.73 ), outPos.yz, outNormal.yz );
 	rott( rotate( -0.3 ), outPos.xy, outNormal.xy );
 
-	outPos.x -= 0.5 + id.x * 3.0 + py * 1.0 * ( 0.5 + id.x * 0.5) ;
+	outPos.x -=  id.x * 3.0 + py * (id.x * id.x) * 10.0 ;
 	
-	outPos.z -= py * 2.0 + id.x * 0.9 + id.z * 0.0;
+	outPos.x -= 0.5;
 
-	rott( rotate( py * PI * ( 1.0 - id.y * 0.9 )), outPos.xy, outNormal.xy );
+	outPos.z -= py * 1.0 + id.x * 0.5 + id.z * 0.0;
+	
 
-	rott( rotate( id.x * TPI * 21.0 ), outPos.xy, outNormal.xy );
+	rott( rotate( py * PI * 0.5), outPos.xy, outNormal.xy );
+
+	rott( rotate( pow(id.x, 0.8) * TPI * 20.0 ), outPos.xy, outNormal.xy );
 	
 	#include <vert_out>
 
