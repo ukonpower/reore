@@ -23,7 +23,7 @@ export class OreGL extends MXP.Component {
 			Mesh
 		-------------------------------*/
 
-		this.geometry = new MXP.SphereGeometry( { widthSegments: 32, heightSegments: 32 } );
+		this.geometry = new MXP.SphereGeometry( { radius: 1, widthSegments: 32, heightSegments: 32 } );
 		this.material = new MXP.Material( {
 			phase: [ 'deferred', 'shadowMap' ],
 			uniforms: GLP.UniformsUtils.merge( globalUniforms.time ),

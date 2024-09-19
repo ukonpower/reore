@@ -5,6 +5,7 @@ import { RectWire } from '../Components/Demo3/MainObject/MainObj/RectWire/index.
 import { MainObj } from '../Components/Demo3/MainObject/MainObj/index.ts';
 import { OreGLTrails } from '../Components/Demo3/MainObject/OreGL/OreGLTrails/index.ts';
 import { OreGL } from '../Components/Demo3/MainObject/OreGL/index.ts';
+import { OreGLBG } from '../Components/Demo3/MainObject/OreGLBg/index.ts';
 import { Recollection } from '../Components/Demo3/MainObject/Recollection/index.ts';
 import { Dish } from '../Components/Demo3/MainObject/SetA/Dish/index.ts';
 import { SetA } from '../Components/Demo3/MainObject/SetA/index.ts';
@@ -45,6 +46,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 			Decompty,
 			MainObj,
 			OreGL,
+			OreGLBG,
 			Recollection,
 			SetA,
 		},
