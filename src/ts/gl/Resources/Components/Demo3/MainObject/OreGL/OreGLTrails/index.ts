@@ -18,7 +18,7 @@ export class OreGLTrails extends MXP.Component {
 
 		super();
 
-		const num = new GLP.Vector( 64, 64 );
+		const num = new GLP.Vector( 64, 128 );
 
 		// gpu
 
@@ -39,7 +39,7 @@ export class OreGLTrails extends MXP.Component {
 
 			if ( l == 0.0 ) {
 
-				return [ Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5, Math.random() ];
+				return [ 4, 4, 4, 0 ];
 
 			} else {
 

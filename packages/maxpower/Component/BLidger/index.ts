@@ -27,7 +27,9 @@ export class BLidger extends Component {
 	public transformAutoUpdate: boolean;
 
 	private blidge: BLidge;
+
 	private cameraComponent?: Camera;
+	private lightComponent?: Light;
 
 	constructor( params: BLidgerParams ) {
 
@@ -211,9 +213,9 @@ export class BLidger extends Component {
 		if ( this.node.type == "light" ) {
 
 			const lightParam = this.node.param as BLidgeLightParam;
-			const light = entity.addComponent( new Light( { disableEdit: true } ) );
+			this.lightComponent = entity.addComponent( new Light( { disableEdit: true } ) );
 
-			light.deserialize( {
+			this.lightComponent.deserialize( {
 				...lightParam,
 				lightType: lightParam.type,
 				color: new GLP.Vector().copy( lightParam.color ),
@@ -260,8 +262,9 @@ export class BLidger extends Component {
 
 		} );
 
-		if ( this.transformAutoUpdate ) {
+		// transform
 
+		if ( this.transformAutoUpdate ) {
 
 			const curvePosition = this.animationCurves.get( 'position' );
 
@@ -355,14 +358,17 @@ export class BLidger extends Component {
 
 		}
 
-		const curveHide = this.animationCurves.get( 'hide' );
+		// visibility
 
+		const curveHide = this.animationCurves.get( 'hide' );
 
 		if ( curveHide ) {
 
 			entity.visible = curveHide.value.x < 0.5;
 
 		}
+
+		// camera
 
 		if ( this.cameraComponent ) {
 
@@ -371,6 +377,20 @@ export class BLidger extends Component {
 			if ( curveFov ) {
 
 				this.cameraComponent.fov = 2 * Math.atan( 12 / ( 2 * curveFov.setFrame( frame ).value.x ) ) / Math.PI * 180;
+
+			}
+
+		}
+
+		// light
+
+		if ( this.lightComponent ) {
+
+			const curveColor = this.animationCurves.get( 'color' );
+
+			if ( curveColor ) {
+
+				this.lightComponent.color.copy( curveColor.setFrame( frame ).value );
 
 			}
 

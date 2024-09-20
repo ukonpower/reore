@@ -16,6 +16,7 @@ void main( void ) {
 	outRoughness = 1.0;
 	outColor *= 0.0;
 	outEmission = vec3( 0.0, 0.05, 0.1);
+	
 
 	#ifdef IS_FORWARD
 
