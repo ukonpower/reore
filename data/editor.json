@@ -116,6 +116,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/Stage/Flower",
+					"components": [
+						{
+							"name": "Flower",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/Stage/Ring",
 					"components": [
 						{
@@ -251,10 +262,10 @@
 	"enableRender": true,
 	"projectName": "Demo3",
 	"openedProject": "Demo3",
-	"resolutionScale": 0.5,
+	"resolutionScale": 0.25,
 	"viewType": "render",
 	"frameLoop/enabled": false,
 	"frameLoop/start": 0,
 	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "83"
+	"selectedEntity": "10b"
 }

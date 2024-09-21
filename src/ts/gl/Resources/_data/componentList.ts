@@ -13,6 +13,7 @@ import { Music } from '../Components/Demo3/Music/index.ts';
 import { ParticleFrame } from '../Components/Demo3/Particles/ParticleFrame/index.ts';
 import { Particles } from '../Components/Demo3/Particles/index.ts';
 import { SkyBoxDemo3 } from '../Components/Demo3/SkyBoxDemo3/index.ts';
+import { Flower } from '../Components/Demo3/Stage/Flower/index.ts';
 import { Ring } from '../Components/Demo3/Stage/Ring/index.ts';
 import { Tornado } from '../Components/Demo3/Stage/Tornado/index.ts';
 import { SideTex } from '../Components/Demo3/Textures/SideTex/index.ts';
@@ -54,6 +55,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 		Particles,
 		SkyBoxDemo3,
 		Stage: {
+			Flower,
 			Ring,
 			Tornado,
 		},
