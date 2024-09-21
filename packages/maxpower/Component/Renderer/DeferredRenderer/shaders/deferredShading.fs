@@ -19,7 +19,6 @@ uniform vec3 uColor;
 uniform mat4 viewMatrix;
 uniform mat4 cameraMatrix;
 uniform vec3 cameraPosition;
-uniform vec2 uPPPixelSize;
 
 // varyings
 
@@ -63,22 +62,9 @@ void main( void ) {
 	vec4 tex3 = texture( sampler3, vUv );
 	vec4 tex4 = texture( sampler4, vUv );
 
-	float occlusion = texture( uSSAOTexture, vUv ).x * 0.4;
-	vec3 right = texture( sampler0, vUv + vec2( uPPPixelSize.x, 0.0 ) ).xyz;
-	vec3 top = texture( sampler0, vUv + vec2( 0.0, uPPPixelSize.y ) ).xyz;
-	vec3 left = texture( sampler0, vUv + vec2( -uPPPixelSize.x, 0.0 ) ).xyz;
-	vec3 bottom = texture( sampler0, vUv + vec2( 0.0, -uPPPixelSize.y ) ).xyz;
-	vec3 dx1 = right - tex0.xyz;
-    vec3 dy1 = top - tex0.xyz;
-	vec3 dx2 = -(left - tex0.xyz);
-    vec3 dy2 = -(bottom - tex0.xyz);
+	float occlusion = texture( uSSAOTexture, vUv ).x;
 
-	vec3 calcNormal = normalize(cross(
-		length(dx1) < length(dx2) ? dx1 : dx2,
-		length(dy1) < length(dy2) ? dy1 : dy2
-	));
-
-	vec3 normal = mix( tex1.xyz, calcNormal, tex3.x );
+	vec3 normal = tex1.xyz;
 
 	Geometry geo = Geometry(
 		tex0.xyz,
@@ -108,6 +94,10 @@ void main( void ) {
 	// env
 
 	#include <lighting_env>
+	
+	// occlusion
+
+	outColor.xyz *= max( 0.0, 1.0 - geo.occulusion * 1.5 );
 	
 	// light shaft
 	

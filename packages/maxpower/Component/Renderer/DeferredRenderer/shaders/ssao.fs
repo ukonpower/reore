@@ -43,7 +43,7 @@ void main( void ) {
 	vec3 normal = texture( sampler1, vUv ).xyz;
 	float occlusion = 0.0;
 
-	float dist = 0.25;
+	float dist = 0.5;
 	float objectDepth = 0.2;
 
 	vec2 seed = vUv + uTimeEF;
