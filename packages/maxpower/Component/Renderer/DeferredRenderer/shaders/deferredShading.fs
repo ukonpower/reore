@@ -8,19 +8,18 @@
 uniform sampler2D sampler0; // position, depth
 uniform sampler2D sampler1; // normal, emissionIntensity
 uniform sampler2D sampler2; // albedo, roughness
-uniform sampler2D sampler3; // emission, metalic
+uniform sampler2D sampler3; // ssNormal, null, null, metalic
 uniform sampler2D sampler4; // velocity, env
 
 uniform sampler2D uSSAOTexture;
-
 uniform sampler2D uLightShaftTexture;
-
 uniform sampler2D uEnvMap;
 
 uniform vec3 uColor;
 uniform mat4 viewMatrix;
 uniform mat4 cameraMatrix;
 uniform vec3 cameraPosition;
+uniform vec2 uPPPixelSize;
 
 // varyings
 
@@ -41,10 +40,9 @@ layout (location = 1) out vec4 glFragOut1;
 // };
 
 // struct Material {
-// 	vec3 albedo;
+// 	vec3 color;
 // 	float roughness;
 // 	float metalic;
-// 	vec3 emission;
 // 	float emissionIntensity;
 // 	vec3 diffuseColor;
 // 	vec3 specularColor;
@@ -66,20 +64,35 @@ void main( void ) {
 	vec4 tex4 = texture( sampler4, vUv );
 
 	float occlusion = texture( uSSAOTexture, vUv ).x * 0.4;
+	vec3 right = texture( sampler0, vUv + vec2( uPPPixelSize.x, 0.0 ) ).xyz;
+	vec3 top = texture( sampler0, vUv + vec2( 0.0, uPPPixelSize.y ) ).xyz;
+	vec3 left = texture( sampler0, vUv + vec2( -uPPPixelSize.x, 0.0 ) ).xyz;
+	vec3 bottom = texture( sampler0, vUv + vec2( 0.0, -uPPPixelSize.y ) ).xyz;
+	vec3 dx1 = right - tex0.xyz;
+    vec3 dy1 = top - tex0.xyz;
+	vec3 dx2 = -(left - tex0.xyz);
+    vec3 dy2 = -(bottom - tex0.xyz);
+
+	vec3 calcNormal = normalize(cross(
+		length(dx1) < length(dx2) ? dx1 : dx2,
+		length(dy1) < length(dy2) ? dy1 : dy2
+	));
+
+	vec3 normal = mix( tex1.xyz, calcNormal, tex3.x );
 
 	Geometry geo = Geometry(
 		tex0.xyz,
-		tex1.xyz,
+		normal,
 		0.0,
 		normalize( cameraPosition - tex0.xyz ),
 		vec3( 0.0 ),
 		occlusion
 	);
+	
 	Material mat = Material(
 		tex2.xyz,
 		tex2.w,
 		tex3.w,
-		tex3.xyz,
 		tex1.w,
 		mix( tex2.xyz, vec3( 0.0, 0.0, 0.0 ), tex3.w ),
 		mix( vec3( 1.0, 1.0, 1.0 ), tex2.xyz, tex3.w ),

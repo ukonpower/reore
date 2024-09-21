@@ -11,7 +11,6 @@ Material mat = Material(
 	vec3( 1.0 ),
 	outRoughness,
 	outMetalic,
-	outEmission,
 	outEmissionIntensity,
 	mix( outColor.xyz, vec3( 0.0, 0.0, 0.0 ), outMetalic ),
 	mix( vec3( 1.0, 1.0, 1.0 ), outColor.xyz, outMetalic ),

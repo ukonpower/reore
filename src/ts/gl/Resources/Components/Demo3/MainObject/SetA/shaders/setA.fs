@@ -51,7 +51,8 @@ void main( void ) {
 
 	#endif
 	
-	outEmission += refEmission;
+	outColor.xyz += refEmission;
+	outEmissionIntensity = (1.0 - dnv);
 	
 	#include <frag_out>
 

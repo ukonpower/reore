@@ -3,7 +3,6 @@
 #include <noise_simplex>
 uniform float uTime;
 
-
 void main( void ) {
 
 	#include <frag_in>
@@ -23,9 +22,9 @@ void main( void ) {
 
 	c = mix( vec3( 1.0 ), c, front );
 
-	outColor.xyz *= ( 1.0 - front);
+	outColor.xyz *= mix( vec3( 1.0 ), c, front);
     outEmission = c * front;
-	outEmissionIntensity = 7.0;
+	outEmissionIntensity = 7.0 * ( front );
 	outRoughness = 0.2;
 
 	#include <frag_out>

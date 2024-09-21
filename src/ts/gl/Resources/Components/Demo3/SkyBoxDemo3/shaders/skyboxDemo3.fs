@@ -13,12 +13,12 @@ void main( void ) {
 
 	vec3 normal = normalize( - vNormal );
 	outRoughness = 1.0;
-	outColor *= 0.0;
-	outEmission = vec3( 1.0, 1.0, 1.0 );
-
+	outEmissionIntensity = 1.0;
+	outColor.xyz = vec3( 1.0, 1.0, 1.0 );
+	
 	#ifdef IS_FORWARD
 
-		outColor = vec4( outEmission * outEmissionIntensity, 1.0 );
+		outColor = vec4( outColor.xyz * outEmissionIntensity * 1.0, 1.0 );
 	
 	#endif
 

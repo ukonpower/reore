@@ -6,22 +6,28 @@ layout(location = 4) in vec4 id;
 #include <rotate>
 
 uniform float uTime;
+uniform float uTimeE;
 
 void main( void ) {
 
 	#include <vert_in>
 
-	rotate( PI / 2.0, outPos.yz, outNormal.yz );
+	vec3 p = position;
 
-	outPos.x *= 3.0;
+	p.x += 0.5;
 
-	outPos.z *= sin( uv.x * PI );
-	outPos.y += pow( uv.x, 2.0 ) * 0.4;
+	float t = uTimeE;
+	float r = id.x * TPI + t;
 
-	outPos.x += 5.0;
-
-	rotate( id.x * TPI, outPos.xz, outNormal.xz );
+	// size
+	outPos.x += 0.1 + 0.4 + id.y;
+	// outPos.y += pow( p.x, 2.0 - id.y  );
+	rotate( -p.x * 0.9, outPos.xy, outNormal.xy );
 	
+	outPos.z *= sin( pow(p.x, 0.6) * PI );
+	outPos.xyz *= sinn( ( r ) * 0.9 ) * 4.0 + id.y;
+
+	rotate( r + id.y, outPos.xz, outNormal.xz );
 	
 	#include <vert_out>
 

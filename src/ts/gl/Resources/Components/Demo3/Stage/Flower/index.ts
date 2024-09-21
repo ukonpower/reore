@@ -17,15 +17,23 @@ export class Flower extends MXP.Component {
 
 		// geometry
 
-		this.geometry = new MXP.PlaneGeometry( { width: 1, height: 1, widthSegments: 12, heightSegments: 5 } );
+		this.geometry = new MXP.CubeGeometry( { width: 1, height: 0.05, depth: 1, segmentsWidth: 12, segmentsDepth: 12 } );
 
 		const instanceArray = [];
 
 		const num = 32;
+		const layer = 2;
 
-		for ( let i = 0; i < num; i ++ ) {
+		for ( let i = 0; i < layer; i ++ ) {
 
-			instanceArray.push( i / ( num - 1 ), Math.random(), Math.random(), Math.random() );
+			// const n = ( i + 1.0 ) * 8.0;
+			const n = num;
+
+			for ( let j = 0; j < n; j ++ ) {
+
+				instanceArray.push( j / n, i / ( layer - 1.0 ), Math.random(), Math.random() );
+
+			}
 
 		}
 
@@ -36,7 +44,7 @@ export class Flower extends MXP.Component {
 		this.material = new MXP.Material( {
 			frag: MXP.hotGet( 'flowerFrag', flowerFrag ),
 			vert: MXP.hotGet( 'flowerVert', flowerVert ),
-			phase: [ 'deferred', 'shadowMap', "envMap" ],
+			phase: [ 'deferred', 'shadowMap' ],
 			uniforms: GLP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time ),
 			cullFace: true,
 		} );

@@ -74,6 +74,6 @@ LightCamera lightCamera;
 
 #endif
 
-outColor.xyz += mat.emission * mat.emissionIntensity;
+outColor.xyz += mat.color * mat.emissionIntensity;
 
 //]

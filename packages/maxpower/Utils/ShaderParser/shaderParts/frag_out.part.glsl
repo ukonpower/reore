@@ -43,7 +43,7 @@
 	outColor0 = vec4( outPos, 1.0 );
 	outColor1 = vec4( normalize( outNormal * ( gl_FrontFacing ? 1.0 : -1.0 ) ), outEmissionIntensity );
 	outColor2 = vec4( outColor.xyz, outRoughness);
-	outColor3 = vec4( outEmission, outMetalic );
+	outColor3 = vec4( outSSN, 0.0, 0.0, outMetalic );
 	outColor4 = vec4( vVelocity, 0.0, outEnv );
 #endif
 
