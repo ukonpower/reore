@@ -147,6 +147,17 @@
 							}
 						}
 					]
+				},
+				{
+					"path": "/root/blidgeRoot/Stage/Wave",
+					"components": [
+						{
+							"name": "Wave",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
 				}
 			],
 			"scene": {
@@ -267,5 +278,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 0,
 	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "10b"
+	"selectedEntity": "1880"
 }

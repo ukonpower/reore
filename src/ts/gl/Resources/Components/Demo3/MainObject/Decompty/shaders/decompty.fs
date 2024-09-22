@@ -6,7 +6,7 @@
 #include <light>
 #include <pmrem>
 
-uniform float uTimeE;
+uniform float uTime;
 uniform mat4 modelMatrixInverse;
 uniform vec2 uResolution;
 uniform sampler2D uEnvMap;
@@ -18,11 +18,11 @@ vec2 D( vec3 p ) {
 	float invStateZ = ( 1.0  );
 
 	vec3 r = p;
-	r.xy *= rotate( p.z + uTimeE * 0.1 );
+	r.xy *= rotate( p.z + uTime * 0.1 );
 	r.xy = pmod( r.xy, 24.0 );
 	r.y -= 0.5;
 
-	float wave = sin( r.z * PI * 1.3 + uTimeE * 1.5 );
+	float wave = sin( r.z * PI * 1.3 - uTime * 1.5 );
 
 	vec2 d = vec2( sdSphere( p, 0.75 + wave * 0.1 ), 0.0 );
 
@@ -74,7 +74,7 @@ void main( void ) {
 	} else if( dist.y == 1.0 ) {
 
 		float dnv = dot( normal, -rayDir );
-		outColor.xyz = vec3( 1.0, 0.5, 0.5 );
+		outColor.xyz = vec3( 1.0 );
 		outEmissionIntensity = 8.0 * ( dnv * 0.8 + 0.2 ) * exp( fract(  dnv ) * - 5.0 );
 		
 		

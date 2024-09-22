@@ -50,4 +50,5 @@
 #ifdef IS_FORWARD
 	outColor0 = outColor;
 	outColor1 = vec4(outPos, 1.0);
+	outColor2 = vec4(vVelocity, 0.0, 1.0);
 #endif

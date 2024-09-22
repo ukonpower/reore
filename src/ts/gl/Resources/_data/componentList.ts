@@ -16,6 +16,7 @@ import { SkyBoxDemo3 } from '../Components/Demo3/SkyBoxDemo3/index.ts';
 import { Flower } from '../Components/Demo3/Stage/Flower/index.ts';
 import { Ring } from '../Components/Demo3/Stage/Ring/index.ts';
 import { Tornado } from '../Components/Demo3/Stage/Tornado/index.ts';
+import { Wave } from '../Components/Demo3/Stage/Wave/index.ts';
 import { SideTex } from '../Components/Demo3/Textures/SideTex/index.ts';
 import { TuringTex } from '../Components/Demo3/Textures/TuringTex/index.ts';
 import { DashCube } from '../Components/Entities/Effects/DashCube/index.ts';
@@ -58,6 +59,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 			Flower,
 			Ring,
 			Tornado,
+			Wave,
 		},
 		Textures: {
 			SideTex,

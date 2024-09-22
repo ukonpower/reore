@@ -52,7 +52,8 @@ void main( void ) {
 	#endif
 	
 	outColor.xyz += refEmission;
-	outEmissionIntensity = (1.0 - dnv);
+	outColor.xyz = mix( outColor.xyz, vec3( 1.0 ), 0.4 );
+	// outEmissionIntensity = (1.0 - dnv);
 	
 	#include <frag_out>
 

@@ -30,4 +30,5 @@ uniform vec3 cameraPosition;
 #if defined(IS_FORWARD) || defined(IS_DEPTH)
 	layout (location = 0) out vec4 outColor0;
 	layout (location = 1) out vec4 outColor1;
+	layout (location = 2) out vec4 outColor2;
 #endif

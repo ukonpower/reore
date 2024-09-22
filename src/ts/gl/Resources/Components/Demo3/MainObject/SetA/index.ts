@@ -196,6 +196,10 @@ export class SetA extends MXP.Component {
 
 	}
 
+	protected updateImpl( event: MXP.ComponentUpdateEvent ): void {
+
+	}
+
 	public setEntityImpl( entity: MXP.Entity ): void {
 
 		entity.add( this.sara );

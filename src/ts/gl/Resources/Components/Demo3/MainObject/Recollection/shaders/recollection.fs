@@ -6,7 +6,7 @@
 #include <light>
 #include <pmrem>
 
-uniform float uTimeE;
+uniform float uTime;
 uniform mat4 modelMatrixInverse;
 uniform vec2 uResolution;
 uniform sampler2D uEnvMap;
@@ -27,8 +27,8 @@ vec2 D( vec3 p ) {
 	p.xz *= rotate(contentNum);
 	vec3 mp = p;
 
-	p.xy *= rotate(uTimeE * 0.2);
-	p.xz *= rotate(uTimeE * 0.2);
+	p.xy *= rotate(uTime * 0.2);
+	p.xz *= rotate(uTime * 0.2);
 	
 	for (int i = 0; i < 2; i++) {
 
@@ -117,8 +117,13 @@ void main( void ) {
 		#include <lighting_light>
 		#include <lighting_env>
 
+		vec4 modelPosition = modelMatrix * vec4( rayPos, 1.0 );
+		vec4 mvpPosition = projectionMatrix * viewMatrix * modelPosition;
+
+		outPos = modelPosition.xyz;
+		gl_FragDepth =  ( mvpPosition.z / mvpPosition.w ) * 0.5 + 0.5;
+
 	#endif
-	
 	
 	#include <frag_out>
 

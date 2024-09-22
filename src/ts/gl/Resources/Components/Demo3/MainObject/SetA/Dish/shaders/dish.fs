@@ -79,7 +79,7 @@ void main( void ) {
 		outRoughness = 0.1;
 		outMetalic = 0.0;
 		outColor.xyz = vec3( 1.0, 1.0, 1.0 );
-		outColor.yz *= step(  0.3, length( rayPos.y ) );
+		outColor.yz *= 0.9 + step(  0.3, length( rayPos.y ) );
 		
 	}
 		
