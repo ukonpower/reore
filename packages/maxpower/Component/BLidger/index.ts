@@ -236,16 +236,39 @@ export class BLidger extends Component {
 
 		}
 
-
 		// visibility
 
 		entity.visible = this.node.visible;
+
+		// onAddcomponent
+
+		const onEntityAddComponent = ( component: Component ) => {
+
+			if ( component instanceof Material ) {
+
+				component.uniforms = GLP.UniformsUtils.merge( component.uniforms, this.uniforms );
+
+			}
+
+		};
+
+		entity.on( "add/component", onEntityAddComponent );
+
+		const onUnset = () => {
+
+			entity.off( "add/component", onEntityAddComponent );
+
+		};
+
+		this.once( "unsetEntity", onUnset );
 
 	}
 
 	protected unsetEntityImpl( prevEntity: Entity ): void {
 
 		this.cameraComponent = undefined;
+
+		this.emit( "unsetEntity", [ prevEntity ] );
 
 	}
 

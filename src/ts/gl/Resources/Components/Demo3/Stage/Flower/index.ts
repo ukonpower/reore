@@ -21,8 +21,8 @@ export class Flower extends MXP.Component {
 
 		const instanceArray = [];
 
-		const num = 32;
-		const layer = 2;
+		const num = 24;
+		const layer = 1;
 
 		for ( let i = 0; i < layer; i ++ ) {
 
@@ -31,7 +31,7 @@ export class Flower extends MXP.Component {
 
 			for ( let j = 0; j < n; j ++ ) {
 
-				instanceArray.push( j / n, i / ( layer - 1.0 ), Math.random(), Math.random() );
+				instanceArray.push( j / n, i / ( Math.max( 1, layer - 1.0 ) ), Math.random(), Math.random() );
 
 			}
 

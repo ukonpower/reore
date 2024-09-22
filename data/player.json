@@ -23,8 +23,9 @@
 					"name": "BLidgeClient",
 					"props": {
 						"enabled": true,
-						"mode": "json",
-						"gltf": false
+						"mode": "websocket",
+						"gltf": false,
+						"websocket/url": "ws://localhost:3100"
 					}
 				},
 				{
@@ -69,6 +70,17 @@
 			]
 		},
 		{
+			"path": "/root/blidgeRoot/MainObj/OreGL/OreGLBG",
+			"components": [
+				{
+					"name": "OreGLBG",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
 			"path": "/root/blidgeRoot/MainObj/Recollection",
 			"components": [
 				{
@@ -102,10 +114,32 @@
 			]
 		},
 		{
+			"path": "/root/blidgeRoot/Stage/Flower",
+			"components": [
+				{
+					"name": "Flower",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
 			"path": "/root/blidgeRoot/Stage/Ring",
 			"components": [
 				{
-					"name": "StageRing",
+					"name": "Ring",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/Stage/Tornado",
+			"components": [
+				{
+					"name": "Tornado",
 					"props": {
 						"enabled": true
 					}

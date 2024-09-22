@@ -372,11 +372,7 @@ export class Entity extends Serializable {
 
 		}
 
-		if ( id == "blidger" ) {
-
-			this.appendBlidger( component as unknown as BLidger );
-
-		}
+		this.emit( "add/component", [ component ] );
 
 		this.noticePropsChanged( "components" );
 
@@ -436,24 +432,6 @@ export class Entity extends Serializable {
 		}
 
 		return null;
-
-	}
-
-	/*-------------------------------
-		BLidger
-	-------------------------------*/
-
-	private appendBlidger( blidger: BLidger ) {
-
-		this.blidgeNode = blidger.node;
-
-		this.appendBlidgerImpl( blidger );
-
-	}
-
-	protected appendBlidgerImpl( blidger: BLidger ) {
-
-		this.emit( "appendBlidger", [ blidger ] );
 
 	}
 
