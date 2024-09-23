@@ -127,6 +127,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/Stage/Circles",
+					"components": [
+						{
+							"name": "Circles",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/Stage/Flower",
 					"components": [
 						{
@@ -287,7 +298,7 @@
 	"resolutionScale": 0.5,
 	"viewType": "render",
 	"frameLoop/enabled": false,
-	"frameLoop/start": 0,
-	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "14a"
+	"frameLoop/start": 790.2852421499281,
+	"frameLoop/end": 1141.7863890321116,
+	"selectedEntity": "8db"
 }

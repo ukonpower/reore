@@ -15,6 +15,7 @@ import { Particles } from '../Components/Demo3/Particles/index.ts';
 import { SkyBoxDemo3 } from '../Components/Demo3/SkyBoxDemo3/index.ts';
 import { WireCubeGeometry } from '../Components/Demo3/Stage/Boxes/WireCubeGeometry/index.ts';
 import { Boxes } from '../Components/Demo3/Stage/Boxes/index.ts';
+import { Circles } from '../Components/Demo3/Stage/Circles/index.ts';
 import { Flower } from '../Components/Demo3/Stage/Flower/index.ts';
 import { Ring } from '../Components/Demo3/Stage/Ring/index.ts';
 import { Tornado } from '../Components/Demo3/Stage/Tornado/index.ts';
@@ -59,6 +60,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 		SkyBoxDemo3,
 		Stage: {
 			Boxes,
+			Circles,
 			Flower,
 			Ring,
 			Tornado,
