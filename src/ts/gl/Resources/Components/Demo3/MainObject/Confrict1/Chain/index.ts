@@ -63,17 +63,10 @@ export class Chain extends MXP.Component {
 			segmentsHeight: num.x,
 		} );
 
-		const range = new GLP.Vector( 10.0, 5.0, 10.0 );
-
-		const positionArray = [];
 		const trailIdArray = [];
 		const idArray = [];
 
 		for ( let i = 0; i < num.y; i ++ ) {
-
-			positionArray.push( ( Math.random() - 0.5 ) * range.x * 0.0 );
-			positionArray.push( ( Math.random() - 0.5 ) * range.y * 0.0 );
-			positionArray.push( ( Math.random() - 0.5 ) * range.z * 0.0 );
 
 			trailIdArray.push( i / num.y );
 
@@ -81,7 +74,6 @@ export class Chain extends MXP.Component {
 
 		}
 
-		this.geometry.setAttribute( "offsetPosition", new Float32Array( positionArray ), 3, { instanceDivisor: 1 } );
 		this.geometry.setAttribute( "trailId", new Float32Array( trailIdArray ), 1, { instanceDivisor: 1 } );
 		this.geometry.setAttribute( "id", new Float32Array( idArray ), 3, { instanceDivisor: 1 } );
 

@@ -2,6 +2,7 @@ import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
 import { Chain } from './Chain';
+import { RingFrame } from './RingFrame';
 import confrict1Frag from './shaders/confrict1.fs';
 import confrict1Vert from './shaders/confrict1.vs';
 
@@ -13,6 +14,7 @@ export class Confrict1 extends MXP.Component {
 	private material: MXP.Material;
 
 	private chain: MXP.Entity;
+	private ring: MXP.Entity;
 
 	constructor() {
 
@@ -67,6 +69,13 @@ export class Confrict1 extends MXP.Component {
 		this.chain = new MXP.Entity();
 		this.chain.addComponent( new Chain() );
 
+		// ring
+
+		this.ring = new MXP.Entity();
+		this.ring.scale.set( 2.2, 2.2, 2.2 );
+		this.ring.position.set( 0, 0, - 0.5 );
+		this.ring.addComponent( new RingFrame() );
+
 	}
 
 	public setEntityImpl( entity: MXP.Entity ): void {
@@ -76,6 +85,8 @@ export class Confrict1 extends MXP.Component {
 
 		entity.add( this.chain );
 
+		entity.add( this.ring );
+
 	}
 
 	public unsetEntityImpl( entity: MXP.Entity ): void {
@@ -84,6 +95,8 @@ export class Confrict1 extends MXP.Component {
 		entity.removeComponent( this.geometry );
 
 		entity.remove( this.chain );
+
+		entity.remove( this.ring );
 
 	}
 

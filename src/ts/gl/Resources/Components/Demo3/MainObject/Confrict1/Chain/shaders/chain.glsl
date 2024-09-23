@@ -44,7 +44,7 @@ void main( void ) {
 
 		velocity.xyz += noise;
 		velocity.xyz += smoothstep( 0.0, 6.0, length( gPos ) ) * - gPos * 0.002;
-		velocity.xyz += smoothstep( 2.0, 1.0, length( gPos ) ) * gPos * 0.02;
+		velocity.xy += smoothstep( 1.5, 0.0, length( gPos.xy ) ) * gPos.xy * 0.02;
 		velocity.xyz *= 0.98;
 
 	}
