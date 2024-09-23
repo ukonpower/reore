@@ -16,7 +16,7 @@ void main( void ) {
 
 	#include <frag_in>
 
-	outEmission = vec3( 1.0 );
+	outEmissionIntensity = 1.0;
 
 	#include <frag_out>
 

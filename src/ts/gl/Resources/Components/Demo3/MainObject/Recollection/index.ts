@@ -19,7 +19,7 @@ export class Recollection extends MXP.Component {
 		this.material = new MXP.Material( {
 			frag: MXP.hotGet( 'recollectionFrag', recollectionFrag ),
 			phase: [ 'forward', 'shadowMap' ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time )
+			uniforms: GLP.UniformsUtils.merge( globalUniforms.time )
 		} );
 
 		if ( import.meta.hot ) {

@@ -64,7 +64,7 @@ export class GridCross extends MXP.Component {
 			vert: MXP.hotGet( 'gridCrossVert', gridCrossVert ),
 			phase: [ "deferred" ],
 			drawType: "TRIANGLES",
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time )
+			uniforms: GLP.UniformsUtils.merge( globalUniforms.time )
 		} );
 
 		if ( import.meta.hot ) {

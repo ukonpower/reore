@@ -50,6 +50,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/MainObj/Confrict1",
+					"components": [
+						{
+							"name": "Confrict1",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/MainObj/Decompty",
 					"components": [
 						{
@@ -131,6 +142,17 @@
 					"components": [
 						{
 							"name": "Circles",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
+					"path": "/root/blidgeRoot/Stage/Erode",
+					"components": [
+						{
+							"name": "Erode",
 							"props": {
 								"enabled": true
 							}
@@ -300,5 +322,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 790.2852421499281,
 	"frameLoop/end": 1141.7863890321116,
-	"selectedEntity": "8db"
+	"selectedEntity": "51d"
 }

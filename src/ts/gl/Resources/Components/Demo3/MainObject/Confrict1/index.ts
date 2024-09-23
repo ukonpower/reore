@@ -1,13 +1,12 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import boxesFrag from './shaders/boxes.fs';
-import boxesVert from './shaders/boxes.vs';
-import { WireCubeGeometry } from './WireCubeGeometry';
+import confrict1Frag from './shaders/confrict1.fs';
+import confrict1Vert from './shaders/confrict1.vs';
 
 import { globalUniforms } from '~/ts/gl/GLGlobals';
 
-export class Boxes extends MXP.Component {
+export class Confrict1 extends MXP.Component {
 
 	private geometry: MXP.Geometry;
 	private material: MXP.Material;
@@ -18,34 +17,27 @@ export class Boxes extends MXP.Component {
 
 		// geometry
 
-		this.geometry = new WireCubeGeometry( { frameWidth: 0.032 } );
-		const n = 20;
-		const idArray = [];
-
-		for ( let i = 0; i < n; i ++ ) {
-
-			idArray.push( i / n, Math.random(), Math.random(), Math.random() );
-
-		}
-
-		this.geometry.setAttribute( 'id', new Float32Array( idArray ), 4, { instanceDivisor: 1 } );
+		this.geometry = new MXP.SphereGeometry( {
+			widthSegments: 32,
+			heightSegments: 32,
+		} );
 
 		// material
 
 		this.material = new MXP.Material( {
-			frag: MXP.hotGet( 'boxesFrag', boxesFrag ),
-			vert: MXP.hotGet( 'boxesVert', boxesVert ),
+			frag: MXP.hotGet( 'confrict1Frag', confrict1Frag ),
+			vert: MXP.hotGet( 'confrict1Vert', confrict1Vert ),
 			phase: [ 'deferred', 'shadowMap' ],
 			uniforms: GLP.UniformsUtils.merge( globalUniforms.time )
 		} );
 
 		if ( import.meta.hot ) {
 
-			import.meta.hot.accept( './shaders/boxes.fs', ( module ) => {
+			import.meta.hot.accept( './shaders/confrict1.fs', ( module ) => {
 
 				if ( module ) {
 
-					this.material.frag = MXP.hotUpdate( 'boxesFrag', module.default );
+					this.material.frag = MXP.hotUpdate( 'confrict1Frag', module.default );
 
 					this.material.requestUpdate();
 
@@ -53,11 +45,11 @@ export class Boxes extends MXP.Component {
 
 			} );
 
-			import.meta.hot.accept( './shaders/boxes.vs', ( module ) => {
+			import.meta.hot.accept( './shaders/confrict1.vs', ( module ) => {
 
 				if ( module ) {
 
-					this.material.vert = MXP.hotUpdate( 'boxesVert', module.default );
+					this.material.vert = MXP.hotUpdate( 'confrict1Vert', module.default );
 
 					this.material.requestUpdate();
 

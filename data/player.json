@@ -114,6 +114,28 @@
 			]
 		},
 		{
+			"path": "/root/blidgeRoot/Stage/Boxes",
+			"components": [
+				{
+					"name": "Boxes",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/Stage/Circles",
+			"components": [
+				{
+					"name": "Circles",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
 			"path": "/root/blidgeRoot/Stage/Flower",
 			"components": [
 				{
@@ -140,6 +162,17 @@
 			"components": [
 				{
 					"name": "Tornado",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/Stage/Wave",
+			"components": [
+				{
+					"name": "Wave",
 					"props": {
 						"enabled": true
 					}

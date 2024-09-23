@@ -23,7 +23,6 @@ void main( void ) {
 	c = mix( vec3( 1.0 ), c, front );
 
 	outColor.xyz *= mix( vec3( 1.0 ), c, front);
-    outEmission = c * front;
 	outEmissionIntensity = 7.0 * ( front );
 	outRoughness = 0.2;
 

@@ -45,7 +45,7 @@ export class Flower extends MXP.Component {
 			frag: MXP.hotGet( 'flowerFrag', flowerFrag ),
 			vert: MXP.hotGet( 'flowerVert', flowerVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time ),
+			uniforms: GLP.UniformsUtils.merge( globalUniforms.time ),
 			cullFace: true,
 		} );
 

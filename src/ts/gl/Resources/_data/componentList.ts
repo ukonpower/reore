@@ -1,5 +1,6 @@
 import { MainCamera } from '../Components/Camera/MainCamera/index.ts';
 import { EGridDots } from '../Components/Demo3/Effects/EGridDots/index.ts';
+import { Confrict1 } from '../Components/Demo3/MainObject/Confrict1/index.ts';
 import { Decompty } from '../Components/Demo3/MainObject/Decompty/index.ts';
 import { RectWire } from '../Components/Demo3/MainObject/MainObj/RectWire/index.ts';
 import { MainObj } from '../Components/Demo3/MainObject/MainObj/index.ts';
@@ -16,6 +17,7 @@ import { SkyBoxDemo3 } from '../Components/Demo3/SkyBoxDemo3/index.ts';
 import { WireCubeGeometry } from '../Components/Demo3/Stage/Boxes/WireCubeGeometry/index.ts';
 import { Boxes } from '../Components/Demo3/Stage/Boxes/index.ts';
 import { Circles } from '../Components/Demo3/Stage/Circles/index.ts';
+import { Erode } from '../Components/Demo3/Stage/Erode/index.ts';
 import { Flower } from '../Components/Demo3/Stage/Flower/index.ts';
 import { Ring } from '../Components/Demo3/Stage/Ring/index.ts';
 import { Tornado } from '../Components/Demo3/Stage/Tornado/index.ts';
@@ -48,6 +50,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 			EGridDots,
 		},
 		MainObject: {
+			Confrict1,
 			Decompty,
 			MainObj,
 			OreGL,
@@ -61,6 +64,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 		Stage: {
 			Boxes,
 			Circles,
+			Erode,
 			Flower,
 			Ring,
 			Tornado,
