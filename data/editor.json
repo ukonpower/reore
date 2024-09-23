@@ -116,6 +116,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/Stage/Boxes",
+					"components": [
+						{
+							"name": "Boxes",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/Stage/Flower",
 					"components": [
 						{
@@ -278,5 +289,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 0,
 	"frameLoop/end": 10205.885149016929,
-	"selectedEntity": "1880"
+	"selectedEntity": "14a"
 }

@@ -11,8 +11,8 @@ void main( void ) {
 
 	#include <vert_in>
 
-	outPos.xy *= 1.0 + id.x * 1.;
-	outPos.xy *= mix( 1.0, 1.0 - id.x * 0.05, step( 0.96, length( position.xy ) ) );
+	outPos.xy *= 1.0 + id.x * 1.8;
+	// outPos.xy *= mix( 1.0, 1.0 - id.x * 0.05, step( 0.96, length( position.xy ) ) );
 
 	outPos.xy *= 4.0;
 
