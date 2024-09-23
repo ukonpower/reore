@@ -1,6 +1,7 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
+import { Chain } from './Chain';
 import confrict1Frag from './shaders/confrict1.fs';
 import confrict1Vert from './shaders/confrict1.vs';
 
@@ -10,6 +11,8 @@ export class Confrict1 extends MXP.Component {
 
 	private geometry: MXP.Geometry;
 	private material: MXP.Material;
+
+	private chain: MXP.Entity;
 
 	constructor() {
 
@@ -59,6 +62,11 @@ export class Confrict1 extends MXP.Component {
 
 		}
 
+		// chain
+
+		this.chain = new MXP.Entity();
+		this.chain.addComponent( new Chain() );
+
 	}
 
 	public setEntityImpl( entity: MXP.Entity ): void {
@@ -66,12 +74,16 @@ export class Confrict1 extends MXP.Component {
 		entity.addComponent( this.material );
 		entity.addComponent( this.geometry );
 
+		entity.add( this.chain );
+
 	}
 
 	public unsetEntityImpl( entity: MXP.Entity ): void {
 
 		entity.removeComponent( this.material );
 		entity.removeComponent( this.geometry );
+
+		entity.remove( this.chain );
 
 	}
 

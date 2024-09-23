@@ -24,7 +24,7 @@ void main( void ) {
 	vec3 offsetPosition = comPosBuffer.xyz;
 
 	outPos.xz *= sin( trailId * TPI ) * 0.5 + 0.5;
-	outPos.xz *= sin( posY * PI ) * 3.0;
+	outPos.xz *= sin( posY * PI ) * 1.0;
 	
     vec3 delta = ( comPosBuffer.xyz - nextPosBuffer.xyz );
 	vec3 vec = normalize( delta );

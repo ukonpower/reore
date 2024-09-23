@@ -1,5 +1,6 @@
 import { MainCamera } from '../Components/Camera/MainCamera/index.ts';
 import { EGridDots } from '../Components/Demo3/Effects/EGridDots/index.ts';
+import { Chain } from '../Components/Demo3/MainObject/Confrict1/Chain/index.ts';
 import { Confrict1 } from '../Components/Demo3/MainObject/Confrict1/index.ts';
 import { Decompty } from '../Components/Demo3/MainObject/Decompty/index.ts';
 import { RectWire } from '../Components/Demo3/MainObject/MainObj/RectWire/index.ts';
