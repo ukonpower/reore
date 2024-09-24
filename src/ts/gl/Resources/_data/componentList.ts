@@ -3,6 +3,10 @@ import { EGridDots } from '../Components/Demo3/Effects/EGridDots/index.ts';
 import { Chain } from '../Components/Demo3/MainObject/Confrict1/Chain/index.ts';
 import { RingFrame } from '../Components/Demo3/MainObject/Confrict1/RingFrame/index.ts';
 import { Confrict1 } from '../Components/Demo3/MainObject/Confrict1/index.ts';
+import { Frame } from '../Components/Demo3/MainObject/Confrict2/FramedParticles/Frame/index.ts';
+import { Wire } from '../Components/Demo3/MainObject/Confrict2/FramedParticles/Wire/index.ts';
+import { FramedParticles } from '../Components/Demo3/MainObject/Confrict2/FramedParticles/index.ts';
+import { Confrict2 } from '../Components/Demo3/MainObject/Confrict2/index.ts';
 import { Decompty } from '../Components/Demo3/MainObject/Decompty/index.ts';
 import { OreGLTrails } from '../Components/Demo3/MainObject/OreGL/OreGLTrails/index.ts';
 import { OreGL } from '../Components/Demo3/MainObject/OreGL/index.ts';
@@ -11,8 +15,6 @@ import { Recollection } from '../Components/Demo3/MainObject/Recollection/index.
 import { Dish } from '../Components/Demo3/MainObject/SetA/Dish/index.ts';
 import { SetA } from '../Components/Demo3/MainObject/SetA/index.ts';
 import { Music } from '../Components/Demo3/Music/index.ts';
-import { ParticleFrame } from '../Components/Demo3/Particles/ParticleFrame/index.ts';
-import { Particles } from '../Components/Demo3/Particles/index.ts';
 import { RectWire } from '../Components/Demo3/RectWire/index.ts';
 import { SkyBoxDemo3 } from '../Components/Demo3/SkyBoxDemo3/index.ts';
 import { WireCubeGeometry } from '../Components/Demo3/Stage/Boxes/WireCubeGeometry/index.ts';
@@ -53,6 +55,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 		},
 		MainObject: {
 			Confrict1,
+			Confrict2,
 			Decompty,
 			OreGL,
 			OreGLBG,
@@ -60,7 +63,6 @@ export const COMPONENTLIST: {[key: string]: any} = {
 			SetA,
 		},
 		Music,
-		Particles,
 		RectWire,
 		SkyBoxDemo3,
 		Stage: {

@@ -50,6 +50,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/MainObj/Confrict2",
+					"components": [
+						{
+							"name": "Confrict2",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/MainObj/Decompty",
 					"components": [
 						{
@@ -322,5 +333,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 790.2852421499281,
 	"frameLoop/end": 1141.7863890321116,
-	"selectedEntity": "b04"
+	"selectedEntity": "2b7"
 }

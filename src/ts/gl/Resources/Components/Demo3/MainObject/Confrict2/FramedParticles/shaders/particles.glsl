@@ -29,9 +29,11 @@ void main( void ) {
 
 	vec3 noise = noiseCyc( noisePosition * 9.0 + vec3( 0.0, -t, 0.0 ) + tOffset );
 
-	noise = noise * 0.005;
+	noise = noise * 0.01;
 	velocity.xyz += noise;
-	velocity.y += 0.0005;
+	velocity.xyz *= 0.95;
+	velocity.y += 0.0001;
+	// velocity.z -= 0.004;
 
 	//  position
 

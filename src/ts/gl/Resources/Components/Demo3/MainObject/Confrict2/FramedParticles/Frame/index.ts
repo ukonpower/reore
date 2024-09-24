@@ -4,7 +4,7 @@ import * as MXP from 'maxpower';
 import particleFrameFrag from './shaders/particleFrame.fs';
 import particleFrameVert from './shaders/particleFrame.vs';
 
-export class ParticleFrame extends MXP.Component {
+export class Frame extends MXP.Component {
 
 	private geo: MXP.Geometry;
 	private mat: MXP.Material;
@@ -15,10 +15,9 @@ export class ParticleFrame extends MXP.Component {
 
 		this.geo = new MXP.PlaneGeometry();
 
-
 		const idArray = [];
 
-		const num = 30;
+		const num = 12;
 
 		for ( let i = 0; i < num; i ++ ) {
 
