@@ -28,7 +28,7 @@ export class Erode extends MXP.Component {
 		this.material = new MXP.Material( {
 			frag: MXP.hotGet( 'erodeFrag', erodeFrag ),
 			vert: MXP.hotGet( 'erodeVert', erodeVert ),
-			phase: [ 'deferred', 'shadowMap', "envMap" ],
+			phase: [ 'deferred', 'shadowMap' ],
 			uniforms: GLP.UniformsUtils.merge( globalUniforms.time )
 		} );
 

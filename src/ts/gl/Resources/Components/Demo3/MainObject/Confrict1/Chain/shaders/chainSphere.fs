@@ -7,6 +7,10 @@ void main( void ) {
 
 	outEmissionIntensity = 12.0;
 
+	#ifdef IS_FORWARD
+		outColor = vec4( 1.0 );
+	#endif
+
 	#include <frag_out>
 
 }

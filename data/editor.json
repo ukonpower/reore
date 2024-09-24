@@ -39,17 +39,6 @@
 					]
 				},
 				{
-					"path": "/root/blidgeRoot/MainObj",
-					"components": [
-						{
-							"name": "MainObj",
-							"props": {
-								"enabled": true
-							}
-						}
-					]
-				},
-				{
 					"path": "/root/blidgeRoot/MainObj/Confrict1",
 					"components": [
 						{

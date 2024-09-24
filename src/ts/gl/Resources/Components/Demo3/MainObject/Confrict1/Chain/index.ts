@@ -82,7 +82,7 @@ export class Chain extends MXP.Component {
 		this.material = new MXP.Material( {
 			frag: MXP.hotGet( 'chainFrag', chainFrag ),
 			vert: MXP.hotGet( 'chainVert', chainVert ),
-			phase: [ 'deferred', 'shadowMap', "envMap" ],
+			phase: [ 'deferred', 'shadowMap' ],
 			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, this.gpu.passes[ 0 ].outputUniforms )
 		} );
 

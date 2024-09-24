@@ -15,7 +15,7 @@ in vec2 vUv;
 
 void main( void ) {
 
-	float t = uTimeE * 1.0;
+	float t = uTimeE * 0.4;
 	float id = vUv.y;
 
 	vec4 position = texture( uGPUSampler0, vUv );
