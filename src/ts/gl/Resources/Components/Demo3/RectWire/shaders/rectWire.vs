@@ -14,7 +14,7 @@ void main( void ) {
 
 	vPosX = outPos.x;
 
-	outPos.xz *= rotate( instanceRot.y );
+	outPos.xy *= rotate( instanceRot.z );
 	outPos += instancePos;
 
 	#include <vert_out>

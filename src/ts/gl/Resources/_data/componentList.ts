@@ -4,8 +4,6 @@ import { Chain } from '../Components/Demo3/MainObject/Confrict1/Chain/index.ts';
 import { RingFrame } from '../Components/Demo3/MainObject/Confrict1/RingFrame/index.ts';
 import { Confrict1 } from '../Components/Demo3/MainObject/Confrict1/index.ts';
 import { Decompty } from '../Components/Demo3/MainObject/Decompty/index.ts';
-import { RectWire } from '../Components/Demo3/MainObject/MainObj/RectWire/index.ts';
-import { MainObj } from '../Components/Demo3/MainObject/MainObj/index.ts';
 import { OreGLTrails } from '../Components/Demo3/MainObject/OreGL/OreGLTrails/index.ts';
 import { OreGL } from '../Components/Demo3/MainObject/OreGL/index.ts';
 import { OreGLBG } from '../Components/Demo3/MainObject/OreGLBg/index.ts';
@@ -15,12 +13,14 @@ import { SetA } from '../Components/Demo3/MainObject/SetA/index.ts';
 import { Music } from '../Components/Demo3/Music/index.ts';
 import { ParticleFrame } from '../Components/Demo3/Particles/ParticleFrame/index.ts';
 import { Particles } from '../Components/Demo3/Particles/index.ts';
+import { RectWire } from '../Components/Demo3/RectWire/index.ts';
 import { SkyBoxDemo3 } from '../Components/Demo3/SkyBoxDemo3/index.ts';
 import { WireCubeGeometry } from '../Components/Demo3/Stage/Boxes/WireCubeGeometry/index.ts';
 import { Boxes } from '../Components/Demo3/Stage/Boxes/index.ts';
 import { Circles } from '../Components/Demo3/Stage/Circles/index.ts';
 import { Erode } from '../Components/Demo3/Stage/Erode/index.ts';
 import { Flower } from '../Components/Demo3/Stage/Flower/index.ts';
+import { Grid } from '../Components/Demo3/Stage/Grid/index.ts';
 import { Ring } from '../Components/Demo3/Stage/Ring/index.ts';
 import { Tornado } from '../Components/Demo3/Stage/Tornado/index.ts';
 import { Wave } from '../Components/Demo3/Stage/Wave/index.ts';
@@ -54,7 +54,6 @@ export const COMPONENTLIST: {[key: string]: any} = {
 		MainObject: {
 			Confrict1,
 			Decompty,
-			MainObj,
 			OreGL,
 			OreGLBG,
 			Recollection,
@@ -62,12 +61,14 @@ export const COMPONENTLIST: {[key: string]: any} = {
 		},
 		Music,
 		Particles,
+		RectWire,
 		SkyBoxDemo3,
 		Stage: {
 			Boxes,
 			Circles,
 			Erode,
 			Flower,
+			Grid,
 			Ring,
 			Tornado,
 			Wave,

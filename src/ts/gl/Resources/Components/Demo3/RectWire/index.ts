@@ -15,13 +15,13 @@ export class RectWire extends MXP.Component {
 
 		super();
 
-		const w = 11.0;
+		const w = 1.05;
 		const hw = w / 2.0;
 
 		this.geo = new MXP.CubeGeometry( {
 			width: w,
-			height: 0.015,
-			depth: 0.015
+			height: 0.005,
+			depth: 0.005
 		} );
 
 		const posArray: number[] = [];
@@ -30,8 +30,8 @@ export class RectWire extends MXP.Component {
 		for ( let j = 0; j < 4; j ++ ) {
 
 			const pos = [
-				[ 0, 0.0, hw ],
-				[ 0, 0.0, - hw ],
+				[ 0, hw, 0.0 ],
+				[ 0, - hw, 0.0 ],
 				[ hw, 0.0, 0 ],
 				[ - hw, 0.0, - 0 ],
 			][ j ];
@@ -43,10 +43,10 @@ export class RectWire extends MXP.Component {
 			} );
 
 			const rot = [
-				[ 0, Math.PI, 0 ],
 				[ 0, 0, 0 ],
-				[ 0.0, Math.PI / 2, 0.0 ],
-				[ 0.0, - Math.PI / 2, 0.0 ],
+				[ 0, 0, Math.PI ],
+				[ 0.0, 0.0, Math.PI / 2 ],
+				[ 0.0, 0.0, - Math.PI / 2 ],
 			][ j ];
 
 			rot.forEach( i => {

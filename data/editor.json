@@ -171,6 +171,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/Stage/Grid",
+					"components": [
+						{
+							"name": "Grid",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/Stage/Ring",
 					"components": [
 						{
@@ -322,5 +333,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 790.2852421499281,
 	"frameLoop/end": 1141.7863890321116,
-	"selectedEntity": "51d"
+	"selectedEntity": "b04"
 }

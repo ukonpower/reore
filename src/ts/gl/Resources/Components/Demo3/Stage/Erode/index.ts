@@ -1,6 +1,8 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
+import { RectWire } from '../../RectWire';
+
 import erodeFrag from './shaders/erode.fs';
 import erodeVert from './shaders/erode.vs';
 
@@ -10,6 +12,8 @@ export class Erode extends MXP.Component {
 
 	private geometry: MXP.Geometry;
 	private material: MXP.Material;
+
+	private rectWire: MXP.Entity;
 
 	constructor() {
 
@@ -56,6 +60,9 @@ export class Erode extends MXP.Component {
 
 		}
 
+		this.rectWire = new MXP.Entity();
+		this.rectWire.addComponent( new RectWire() );
+
 	}
 
 	public setEntityImpl( entity: MXP.Entity ): void {
@@ -63,12 +70,18 @@ export class Erode extends MXP.Component {
 		entity.addComponent( this.material );
 		entity.addComponent( this.geometry );
 
+		entity.add( this.rectWire );
+
+
 	}
 
 	public unsetEntityImpl( entity: MXP.Entity ): void {
 
 		entity.removeComponent( this.material );
 		entity.removeComponent( this.geometry );
+
+		entity.remove( this.rectWire );
+
 
 	}
 
