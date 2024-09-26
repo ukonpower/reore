@@ -671,6 +671,9 @@ export class Renderer extends Entity {
 
 		}
 
+
+		this.gl.depthMask( material.depthWrite );
+
 		// program
 
 		let program = material.programCache[ renderType ];

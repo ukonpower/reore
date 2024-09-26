@@ -34,6 +34,7 @@ export class Frame extends MXP.Component {
 			vert: MXP.hotGet( 'particleFrameVert', particleFrameVert ),
 			phase: [ "forward" ],
 			blending: "DIFF",
+			depthWrite: false,
 			uniforms: GLP.UniformsUtils.merge( globalUniforms.gBuffer, {
 			}, parentUniforms ),
 		} );

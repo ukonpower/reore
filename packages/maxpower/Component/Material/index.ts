@@ -23,6 +23,7 @@ export interface MaterialParam extends ComponentParams{
 	defines?: MaterialDefines;
 	uniforms?: GLP.Uniforms;
 	depthTest?: boolean;
+	depthWrite?: boolean;
 	cullFace? :boolean;
 	blending?: Blending,
 	drawType?: DrawType;
@@ -39,6 +40,7 @@ export class Material extends Component {
 
 	public useLight: boolean;
 	public depthTest: boolean;
+	public depthWrite: boolean;
 	public cullFace: boolean;
 	public drawType: DrawType;
 	public blending: Blending;
@@ -60,6 +62,7 @@ export class Material extends Component {
 		this.useLight = true;
 		this.depthTest = true;
 		this.cullFace = false;
+		this.depthWrite = params.depthTest !== undefined ? params.depthTest : true;
 		this.drawType = params.drawType || "TRIANGLES";
 		this.blending = params.blending || "NORMAL";
 

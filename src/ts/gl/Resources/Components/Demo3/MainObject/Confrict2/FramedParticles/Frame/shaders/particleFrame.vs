@@ -25,6 +25,8 @@ void main( void ) {
 	vec4 screenGPUPos2 = projectionMatrix * gpuMVPosition;
 	screenGPUPos2.xyz /= screenGPUPos2.w;
 
+	outPos.z = gpuPos2.z;
+
 	if( uv.x == 0.0 ) {
 
 		outPos.x = screenGPUPos1.x;
