@@ -116,6 +116,10 @@ export class ProjectScene extends MXP.Entity {
 		this.camera.position.set( 0, 0, 5 );
 
 		this.cameraComponent = this.camera.addComponent( new MainCamera() );
+
+		globalUniforms.gBuffer.uGBufferPos.value = this.cameraComponent.renderCamera.gBuffer.textures[ 0 ];
+		globalUniforms.gBuffer.uGBufferNormal.value = this.cameraComponent.renderCamera.gBuffer.textures[ 1 ];
+
 		const orbitControls = this.camera.getComponent( OrbitControls );
 
 		if ( orbitControls ) {

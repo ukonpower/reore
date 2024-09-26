@@ -4,6 +4,8 @@ import * as MXP from 'maxpower';
 import framedParticlesWireFrag from './shaders/framedParticlesWire.fs';
 import framedParticlesWireVert from './shaders/framedParticlesWire.vs';
 
+import { globalUniforms } from '~/ts/gl/GLGlobals';
+
 export class Wire extends MXP.Component {
 
 	private geo: MXP.Geometry;
@@ -37,7 +39,9 @@ export class Wire extends MXP.Component {
 			phase: [ "forward" ],
 			blending: "ADD",
 			drawType: "LINES",
+			depthTest: false,
 			uniforms: GLP.UniformsUtils.merge( {
+
 			}, parentUniforms )
 		} );
 

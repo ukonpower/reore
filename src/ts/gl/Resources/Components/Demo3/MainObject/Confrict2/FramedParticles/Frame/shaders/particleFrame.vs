@@ -4,14 +4,16 @@
 
 uniform sampler2D uGPUSampler0;
 
-layout (location = 3) in float id;
+layout (location = 3) in vec4 id;
+
+out vec4 vId;
 
 void main( void ) {
 
 	#include <vert_in>
 
-	vec4 gpuPos1 = texture(uGPUSampler0, vec2( id ) );
-	vec4 gpuPos2 = texture(uGPUSampler0, vec2( id + 0.01 ) );
+	vec4 gpuPos1 = texture(uGPUSampler0, vec2( id.x ) );
+	vec4 gpuPos2 = texture(uGPUSampler0, vec2( id.x + 0.01 ) );
 
 	vec4 gpuModelPosition = modelMatrix * vec4(gpuPos1.xyz, 1.0);
 	vec4 gpuMVPosition = viewMatrix * gpuModelPosition;
@@ -48,6 +50,8 @@ void main( void ) {
 	}
 
 	#include <vert_out>
+
+	vId = id;
 
 	gl_Position = vec4( outPos.xyz, 1.0 );
 

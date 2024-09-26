@@ -20,7 +20,7 @@ export class MainCamera extends MXP.Component {
 
 	// camera component
 
-	private cameraComponent: MXP.RenderCamera;
+	public renderCamera: MXP.RenderCamera;
 
 	private renderTarget: MXP.RenderCameraTarget;
 
@@ -68,8 +68,8 @@ export class MainCamera extends MXP.Component {
 
 		// components
 
-		this.cameraComponent = new MXP.RenderCamera( { gl } );
-		this.renderTarget = this.cameraComponent.renderTarget;
+		this.renderCamera = new MXP.RenderCamera( { gl } );
+		this.renderTarget = this.renderCamera.renderTarget;
 
 		this.lookAt = new LookAt();
 
@@ -355,7 +355,7 @@ export class MainCamera extends MXP.Component {
 
 	public setEntityImpl( entity: MXP.Entity, ): void {
 
-		entity.addComponent( this.cameraComponent );
+		entity.addComponent( this.renderCamera );
 		entity.addComponent( this.postProcess );
 		entity.addComponent( this.lookAt );
 		entity.addComponent( this.orbitControls );
@@ -448,13 +448,13 @@ export class MainCamera extends MXP.Component {
 
 		}
 
-		this.cameraComponent.dof.focusDistance = this.tmpVector1.sub( this.tmpVector2 ).length();
+		this.renderCamera.dof.focusDistance = this.tmpVector1.sub( this.tmpVector2 ).length();
 
 	}
 
 	public resize( resolution: GLP.Vector ): void {
 
-		this.cameraComponent.resize( resolution );
+		this.renderCamera.resize( resolution );
 
 		if ( this.postProcess ) {
 
@@ -475,8 +475,8 @@ export class MainCamera extends MXP.Component {
 
 	private updateCameraParams( resolution: GLP.Vector ) {
 
-		this.cameraComponent.aspect = resolution.x / resolution.y;
-		this.cameraComponent.needsUpdate = true;
+		this.renderCamera.aspect = resolution.x / resolution.y;
+		this.renderCamera.needsUpdate = true;
 
 	}
 

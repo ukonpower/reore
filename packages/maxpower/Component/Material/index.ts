@@ -13,7 +13,7 @@ import basicVert from './shaders/basic.vs';
 
 
 export type DrawType = 'TRIANGLES' | 'LINES' | 'POINTS';
-export type Blending = 'ADD' | 'NORMAL';
+export type Blending = 'ADD' | 'NORMAL' | "DIFF";
 
 export interface MaterialParam extends ComponentParams{
 	name?: string,

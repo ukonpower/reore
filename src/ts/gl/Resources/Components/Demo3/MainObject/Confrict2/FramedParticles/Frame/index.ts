@@ -4,6 +4,8 @@ import * as MXP from 'maxpower';
 import particleFrameFrag from './shaders/particleFrame.fs';
 import particleFrameVert from './shaders/particleFrame.vs';
 
+import { globalUniforms } from '~/ts/gl/GLGlobals';
+
 export class Frame extends MXP.Component {
 
 	private geo: MXP.Geometry;
@@ -17,24 +19,57 @@ export class Frame extends MXP.Component {
 
 		const idArray = [];
 
-		const num = 12;
+		const num = 32;
 
 		for ( let i = 0; i < num; i ++ ) {
 
-			idArray.push( i / num );
+			idArray.push( i / num, Math.random(), Math.random(), Math.random() );
 
 		}
 
-		this.geo.setAttribute( 'id', new Float32Array( idArray ), 1, { instanceDivisor: 1 } );
+		this.geo.setAttribute( 'id', new Float32Array( idArray ), 4, { instanceDivisor: 1 } );
 
 		this.mat = new MXP.Material( {
-			frag: particleFrameFrag,
-			vert: particleFrameVert,
+			frag: MXP.hotGet( 'particleFrameFrag', particleFrameFrag ),
+			vert: MXP.hotGet( 'particleFrameVert', particleFrameVert ),
 			phase: [ "forward" ],
-			blending: "ADD",
-			uniforms: GLP.UniformsUtils.merge( {
-			}, parentUniforms )
+			blending: "DIFF",
+			uniforms: GLP.UniformsUtils.merge( globalUniforms.gBuffer, {
+			}, parentUniforms ),
 		} );
+
+		if ( process.env.NODE_ENV === 'development' ) {
+
+			if ( import.meta.hot ) {
+
+				import.meta.hot.accept( './shaders/particleFrame.fs', ( module ) => {
+
+					if ( module ) {
+
+						this.mat.frag = MXP.hotUpdate( 'particleFrameFrag', module.default );
+
+						this.mat.requestUpdate();
+
+					}
+
+				} );
+
+				import.meta.hot.accept( './shaders/particleFrame.vs', ( module ) => {
+
+					if ( module ) {
+
+						this.mat.vert = MXP.hotUpdate( 'particleFrameVert', module.default );
+
+						this.mat.requestUpdate();
+
+					}
+
+
+				} );
+
+			}
+
+		}
 
 	}
 
