@@ -14,6 +14,7 @@ import { OreGLBG } from '../Components/Demo3/MainObject/OreGLBg/index.ts';
 import { Recollection } from '../Components/Demo3/MainObject/Recollection/index.ts';
 import { Dish } from '../Components/Demo3/MainObject/SetA/Dish/index.ts';
 import { SetA } from '../Components/Demo3/MainObject/SetA/index.ts';
+import { Tree } from '../Components/Demo3/MainObject/Tree/index.ts';
 import { Music } from '../Components/Demo3/Music/index.ts';
 import { RectWire } from '../Components/Demo3/RectWire/index.ts';
 import { SkyBoxDemo3 } from '../Components/Demo3/SkyBoxDemo3/index.ts';
@@ -61,6 +62,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 			OreGLBG,
 			Recollection,
 			SetA,
+			Tree,
 		},
 		Music,
 		RectWire,

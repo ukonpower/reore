@@ -116,6 +116,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/MainObj/Tree",
+					"components": [
+						{
+							"name": "Tree",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/SkyBox",
 					"components": [
 						{
@@ -333,5 +344,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 790.2852421499281,
 	"frameLoop/end": 1141.7863890321116,
-	"selectedEntity": "2b7"
+	"selectedEntity": "8ad"
 }
