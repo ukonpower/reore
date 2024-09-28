@@ -172,11 +172,11 @@ export class Modeler {
 
 		const _ = ( e: MXP.Entity, matrix: GLP.Matrix ) => {
 
-			let geo = e.getComponent( MXP.Geometry );
+			let geo = e.getComponentByTag<MXP.Geometry>( "geometry" );
 
 			if ( geo ) {
 
-				const mat = e.getComponent( MXP.Material );
+				const mat = e.getComponentByTag<MXP.Material>( "material" );
 
 				if ( mat ) {
 

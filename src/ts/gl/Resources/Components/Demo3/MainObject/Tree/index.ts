@@ -1,37 +1,34 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import treeFrag from './shaders/tree.fs';
-import treeVert from './shaders/tree.vs';
-
-import { globalUniforms, power } from '~/ts/gl/GLGlobals';
+import { power } from '~/ts/gl/GLGlobals';
 import { Modeler } from '~/ts/gl/ProjectScene/utils/Modeler';
 
 const PlantParam = {
 	root: {
-		num: { value: 2, min: 0, max: 10, step: 1 },
+		num: { value: 1, min: 0, max: 10, step: 1 },
 		up: { value: 0.92, min: 0, max: 1, step: 0.01 }
 	},
 	branch: {
-		num: { value: 3, min: 0, max: 10, step: 1 },
-		depth: { value: 3, min: 0, max: 5, step: 1 },
-		start: { value: 0.23, min: 0, max: 1, step: 0.01 },
-		end: { value: 0.48, min: 0, max: 1, step: 0.01 },
+		num: { value: 6, min: 0, max: 10, step: 1 },
+		depth: { value: 5, min: 0, max: 5, step: 1 },
+		start: { value: 0.5, min: 0, max: 1, step: 0.01 },
+		end: { value: 0.8, min: 0, max: 1, step: 0.01 },
 		up: { value: 0.20, min: - 1, max: 1, step: 0.01 },
 		wide: { value: 1.0, min: 0, max: 1, step: 0.01 },
-		curve: { value: 0.91, min: - 1, max: 1, step: 0.01 },
-		lengthMultiplier: { value: 0.48, min: 0, max: 2, step: 0.01 },
+		curve: { value: 0.3, min: - 1, max: 1, step: 0.01 },
+		lengthMultiplier: { value: 0.8, min: 0, max: 2, step: 0.01 },
 		lengthRandom: { value: 0.28, min: 0, max: 1, step: 0.01 },
 	},
 	shape: {
 		length: { value: 0.72, min: 0, max: 2, step: 0.01 },
-		radius: { value: 0.005, min: 0, max: 0.05, step: 0.001 },
+		radius: { value: 0.025, min: 0, max: 0.05, step: 0.001 },
 	},
 	leaf: {
 		size: { value: 0.59, min: 0, max: 1, step: 0.01 },
 		dpeth: { value: 1, min: 0, max: 5, step: 1 },
 	},
-	seed: { value: 4456, min: 0, max: 9999, step: 1 }
+	seed: { value: 0, min: 0, max: 9999, step: 1 }
 };
 
 let random = GLP.MathUtils.randomSeed( PlantParam.seed.value );
@@ -68,7 +65,7 @@ export class Tree extends MXP.Component {
 				z: 0,
 			} );
 
-			const segs = 8;
+			const segs = 4;
 
 			for ( let i = 0; i < segs; i ++ ) {
 
@@ -79,10 +76,12 @@ export class Tree extends MXP.Component {
 
 				const offsetY = ( Math.log2( w + 1 ) - w ) * PlantParam.branch.curve.value * 4.0;
 				p.y += offsetY * length;
+				p.x += random() * 0.03;
+				p.z += random() * 0.03;
 
 				points.push( {
 					x: p.x, y: p.y, z: p.z,
-					weight: 1.0 - w * 0.8
+					weight: 1.0 - w * 0.6
 				} );
 
 			}
@@ -91,21 +90,17 @@ export class Tree extends MXP.Component {
 
 			// branch mesh
 
-			const geo = new MXP.CurveGeometry( curve, radius, 12, 8 );
+			const geo = new MXP.CurveGeometry( { curve, radius, curveSegments: 12, radSegments: 8 } );
 			geo.setAttribute( "materialId", new Float32Array( new Array( geo.vertCount ).fill( 0 ) ), 1 );
-			branchEntity.addComponent( "geometry", geo );
+			branchEntity.addComponent( geo );
 
 			// leaf
 
-			if ( i >= PlantParam.leaf.dpeth.value && this.leaf ) {
+			if ( i >= PlantParam.leaf.dpeth.value ) {
 
 				const point = curve.getPoint( 1 );
 
 				const leafEntity = new MXP.Entity();
-
-				const geo = this.leaf.getComponent<MXP.Geometry>( "geometry" )!;
-				geo.setAttribute( "materialId", new Float32Array( new Array( geo.vertCount ).fill( 1 ) ), 1 );
-				leafEntity.addComponent( "geometry", geo );
 
 				const size = PlantParam.leaf.size.value;
 				leafEntity.scale.set( size );
@@ -142,7 +137,9 @@ export class Tree extends MXP.Component {
 					nd.z += Math.cos( theta ) * PlantParam.branch.wide.value;
 					nd.normalize();
 
-					const dir = new GLP.Vector( 0.0, Math.sin( PlantParam.branch.up.value * Math.PI / 2.0 ), Math.cos( PlantParam.branch.up.value * Math.PI / 2.0 ) ).normalize();
+					const up = ( - 0.2 + random() * 0.8 ) * Math.PI / 2.0;
+
+					const dir = new GLP.Vector( 0.0, Math.sin( up ), Math.cos( up ) ).normalize();
 
 					const child = branch( i + 1, dir, radius * point.weight, length * PlantParam.branch.lengthMultiplier.value * ( 1.0 - random() * PlantParam.branch.lengthRandom.value ) );
 					child.quaternion.setFromEuler( new GLP.Euler( 0.0, Math.atan2( nd.x, nd.z ), 0.0 ) );
@@ -164,12 +161,6 @@ export class Tree extends MXP.Component {
 
 			random = GLP.MathUtils.randomSeed( PlantParam.seed.value );
 
-			// if ( plant ) {
-
-			// 	this.remove( plant );
-
-			// }
-
 			plant = new MXP.Entity();
 
 			const modeler = new Modeler( power );
@@ -184,10 +175,6 @@ export class Tree extends MXP.Component {
 
 				bModel.addComponent( modeler.bakeEntity( b, { materialId: { size: 1, type: Float32Array } } ) );
 				bModel.addComponent( new MXP.Material() );
-				const mat = bModel.addComponent( "material", this.leaf!.getComponent<MXP.Material>( "material" )! );
-				mat.frag = plantFrag;
-				mat.vert = plantVert;
-				mat.cullFace = false;
 
 				plant.add( bModel );
 
@@ -195,34 +182,7 @@ export class Tree extends MXP.Component {
 
 			this.root.add( plant );
 
-			this.root = plant;
-
 		};
-
-		// create();
-
-		// onchange
-
-		// plantFolder.on( "change", ( e ) =>{
-
-		// 	create();
-
-		// 	localStorage.setItem( "plant", JSON.stringify( PlantParam ) );
-
-		// } );
-
-		// assets
-
-		// const loader = new MXP.GLTFLoader();
-
-		// loader.load( BASE_PATH + "/scene.glb" ).then( gltf => {
-
-		// 	const leaf = gltf.scene.getEntityByName( "Leaf" );
-
-		// 	this.leaf = leaf!;
-
-
-		// } );
 
 		create();
 
