@@ -4,7 +4,7 @@ import * as MXP from 'maxpower';
 import treeFrag from './shaders/tree.fs';
 import treeVert from './shaders/tree.vs';
 
-import { power } from '~/ts/gl/GLGlobals';
+import { globalUniforms, power } from '~/ts/gl/GLGlobals';
 import { Modeler } from '~/ts/gl/ProjectScene/utils/Modeler';
 
 
@@ -41,12 +41,11 @@ export class Tree extends MXP.Component {
 
 	private root: MXP.Entity | null;
 	private param: Param;
+	private treeMaterial: MXP.Material;
 
 	constructor() {
 
 		super();
-
-		this.root = null;
 
 		this.param = {
 			root: {
@@ -76,6 +75,53 @@ export class Tree extends MXP.Component {
 			},
 			seed: 0
 		};
+
+		this.treeMaterial = new MXP.Material( {
+			vert: treeVert,
+			frag: treeFrag,
+			phase: [ "deferred", "shadowMap" ],
+			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, {
+				uTreeDepth: {
+					value: this.param.branch.depth,
+					type: "1f"
+				}
+			} )
+		} );
+
+		if ( process.env.NODE_ENV === 'development' ) {
+
+			if ( import.meta.hot ) {
+
+				import.meta.hot.accept( './shaders/tree.fs', ( module ) => {
+
+					if ( module ) {
+
+						this.treeMaterial.frag = MXP.hotUpdate( 'treeFrag', module.default );
+
+						this.treeMaterial.requestUpdate();
+
+					}
+
+				} );
+
+				import.meta.hot.accept( './shaders/tree.vs', ( module ) => {
+
+					if ( module ) {
+
+						this.treeMaterial.vert = MXP.hotUpdate( 'treeVert', module.default );
+
+						this.treeMaterial.requestUpdate();
+
+					}
+
+				} );
+
+			}
+
+		}
+
+		this.root = null;
+
 
 	}
 
@@ -153,7 +199,7 @@ export class Tree extends MXP.Component {
 
 		const random = GLP.MathUtils.randomSeed( this.param.seed );
 
-		const branch = ( depth : number, direction: GLP.Vector, radius: number, length: number ): MXP.Entity => {
+		const branch = ( depth : number, direction: GLP.Vector, radius: number, length: number, curvePos: number, matrix: GLP.Matrix ): MXP.Entity => {
 
 			const branchEntity = new MXP.Entity();
 
@@ -171,7 +217,7 @@ export class Tree extends MXP.Component {
 				z: 0,
 			} );
 
-			const segs = 8;
+			const segs = 12 - depth;
 
 			for ( let i = 0; i < segs; i ++ ) {
 
@@ -197,6 +243,25 @@ export class Tree extends MXP.Component {
 
 			const geo = new MXP.CurveGeometry( { curve, radius: rad, curveSegments: 12, radSegments: 8 } );
 			geo.setAttribute( "materialId", new Float32Array( new Array( geo.vertCount ).fill( 0 ) ), 1 );
+
+			const originPosArray = [];
+			const depthArray = [];
+
+
+			for ( let i = 0; i < geo.vertCount; i ++ ) {
+
+				const gpos = new GLP.Vector().add( curve.getPoint( ( Math.floor( i / 8 ) / 12 ) ).position );
+				gpos.w = 1.0;
+				gpos.applyMatrix4( matrix );
+
+				originPosArray.push( gpos.x, gpos.y, gpos.z );
+				depthArray.push( depth / this.param.branch.depth + 1.0 / this.param.branch.depth * curvePos );
+
+			}
+
+			geo.setAttribute( "originPos", new Float32Array( originPosArray ), 3 );
+			geo.setAttribute( "branchDepth", new Float32Array( depthArray ), 1 );
+
 			branchEntity.addComponent( geo );
 
 			// leaf
@@ -242,14 +307,26 @@ export class Tree extends MXP.Component {
 					nd.z += Math.cos( theta ) * this.param.branch.wide;
 					nd.normalize();
 
-					const up = 1 - random() * 0.7;
+					const rot = new GLP.Euler( 0.0, Math.atan2( nd.x, nd.z ), 0.0 );
+					const rotQua = new GLP.Quaternion().setFromEuler( rot );
 
+					const nextMatrix = matrix.clone();
+					nextMatrix.applyPosition( point.position );
+					nextMatrix.applyQuaternion( rotQua );
+
+					const up = 1 - random() * 0.7;
 					const dir = new GLP.Vector( 0.0, up, 1 ).normalize();
 
-					const child = branch( depth + 1, dir, radius * point.weight, length * this.param.branch.lengthMultiplier * ( 1.0 - random() * this.param.branch.lengthRandom ) );
-					child.quaternion.setFromEuler( new GLP.Euler( 0.0, Math.atan2( nd.x, nd.z ), 0.0 ) );
-
+					const child = branch(
+						depth + 1,
+						dir, radius * point.weight,
+						length * this.param.branch.lengthMultiplier * ( 1.0 - random() * this.param.branch.lengthRandom ),
+						pointPos,
+						nextMatrix
+					);
+					child.quaternion.copy( rotQua );
 					child.position.add( point.position );
+
 					branchEntity.add( child );
 
 				}
@@ -262,22 +339,27 @@ export class Tree extends MXP.Component {
 
 		this.root = new MXP.Entity();
 
+		// bake
+
 		const modeler = new Modeler( power );
 
 		for ( let i = 0; i < this.param.root.num; i ++ ) {
 
 			const dir = new GLP.Vector( 0.0, Math.sin( this.param.root.up * Math.PI / 2.0 ), Math.cos( this.param.root.up * Math.PI / 2.0 ) ).normalize();
-			const b = branch( 0, dir, this.param.shape.radius, this.param.shape.length );
+			const b = branch( 0, dir, this.param.shape.radius, this.param.shape.length, 0, new GLP.Matrix() );
 
 			const bModel = new MXP.Entity();
 			bModel.quaternion.setFromEuler( new GLP.Euler( 0.0, i / this.param.root.num * Math.PI * 2.0, 0.0 ) );
 
-			bModel.addComponent( modeler.bakeEntity( b, { materialId: { size: 1, type: Float32Array } } ) );
-			bModel.addComponent( new MXP.Material( {
-				vert: treeVert,
-				frag: treeFrag,
-				phase: [ "deferred", "shadowMap" ]
+			bModel.addComponent( modeler.bakeEntity( b, {
+				materialId: { size: 1, type: Float32Array },
+				originPos: { size: 3, type: Float32Array },
+				branchDepth: { size: 1, type: Float32Array }
 			} ) );
+
+			bModel.addComponent( this.treeMaterial );
+
+			this.treeMaterial.uniforms.uTreeDepth.value = this.param.branch.depth;
 
 			this.root.add( bModel );
 
@@ -293,6 +375,8 @@ export class Tree extends MXP.Component {
 
 	public setEntityImpl( entity: MXP.Entity ): void {
 
+		entity.addComponent( this.treeMaterial );
+
 		if ( this.root ) {
 
 			entity.add( this.root );
@@ -302,6 +386,8 @@ export class Tree extends MXP.Component {
 	}
 
 	public unsetEntityImpl( entity: MXP.Entity ): void {
+
+		entity.removeComponent( this.treeMaterial );
 
 		if ( this.root ) {
 
