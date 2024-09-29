@@ -12,9 +12,11 @@ export type ValueType = number | boolean | string | Array<String> | ( () => void
 
 export type ValueOpt = {
 	readOnly?: boolean,
-	precision?: number,
 	selectList?: string[]
-	slideScale?: number,
+	step?: number,
+	precision?: number,
+	min?: number;
+	max?: number;
 }
 
 export type ValueProps<T extends ValueType> = {

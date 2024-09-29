@@ -121,7 +121,25 @@
 						{
 							"name": "Tree",
 							"props": {
-								"enabled": true
+								"enabled": true,
+								"root/num": 1,
+								"root/up": 0.92,
+								"branch/num": 6,
+								"branch/depth": 5,
+								"branch/start": 0.2,
+								"branch/end": 0.93,
+								"branch/up": 0.2,
+								"branch/wide": 1,
+								"branch/curve": 0.3,
+								"branch/lengthMultiplier": 0.87,
+								"branch/lengthRandom": 0.38,
+								"shape/length": 1.03,
+								"shape/radius": 0.05,
+								"shape/rootlenghRatio": 1.8,
+								"shape/rootRadiusRatio": 1.6,
+								"leaf/size": 0.59,
+								"leaf/dpeth": 0,
+								"seed": 11
 							}
 						}
 					]
@@ -344,5 +362,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 790.2852421499281,
 	"frameLoop/end": 1141.7863890321116,
-	"selectedEntity": "8ad"
+	"selectedEntity": "a10da"
 }

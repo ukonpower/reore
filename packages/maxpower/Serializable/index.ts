@@ -4,7 +4,7 @@ export type SerializablePropsOpt = {
 	readOnly?: boolean,
 	precision?: number,
 	selectList?: string[]
-	slideScale?: number,
+	step?: number,
 	noExport?: boolean
 }
 

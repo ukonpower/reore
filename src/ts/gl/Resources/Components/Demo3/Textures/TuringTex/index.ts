@@ -54,13 +54,13 @@ export class TuringTex extends MXP.Component {
 			f: {
 				value: this.compute.passes[ 0 ].uniforms.uTuringParam.value.x,
 				opt: {
-					slideScale: 0.01
+					step: 0.01
 				}
 			},
 			k: {
 				value: this.compute.passes[ 0 ].uniforms.uTuringParam.value.y,
 				opt: {
-					slideScale: 0.01
+					step: 0.01
 				}
 			},
 			reset: {

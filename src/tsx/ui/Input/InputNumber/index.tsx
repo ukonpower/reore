@@ -1,28 +1,24 @@
 
 import { useRef, useCallback, MouseEvent } from 'react';
 
-import { ValueType } from '../../Property/Value';
+import { ValueProps, ValueType } from '../../Property/Value';
 
 import style from './index.module.scss';
 
-interface InputNumberProps {
-	value: number;
-	slideScale?: number;
-	onChange?: ( value: number ) => void;
-	precision?: number;
-	disabled?: boolean;
-	readOnly?: boolean;
-}
 
-export const InputNumber = ( { onChange, value, slideScale, ...props }: InputNumberProps ) => {
+type Props = ValueProps<number> & {
+	onChange: ( value: number ) => void;
+};
+
+export const InputNumber = ( props: Props ) => {
 
 	const pointerDownRef = useRef( false );
 
 	const onChangeRef = useRef<( value: number ) => void>();
-	onChangeRef.current = onChange;
+	onChangeRef.current = props.onChange;
 
 	const valueRef = useRef<ValueType>();
-	valueRef.current = value;
+	valueRef.current = props.value;
 
 	const onPointerMoveNumber = useCallback( ( e: PointerEvent ) => {
 
@@ -34,7 +30,7 @@ export const InputNumber = ( { onChange, value, slideScale, ...props }: InputNum
 
 		if ( typeof value == "number" ) {
 
-			const deltaValue = delta * 0.05 * ( slideScale || 1 );
+			const deltaValue = delta * 0.05 * ( props.step || 1 );
 
 			if ( onChangeRef.current ) {
 
@@ -49,7 +45,7 @@ export const InputNumber = ( { onChange, value, slideScale, ...props }: InputNum
 		e.preventDefault();
 
 
-	}, [ slideScale ] );
+	}, [ props.step ] );
 
 	const onPointerDown = useCallback( ( e: MouseEvent ) => {
 
@@ -69,13 +65,16 @@ export const InputNumber = ( { onChange, value, slideScale, ...props }: InputNum
 
 	}, [ onPointerMoveNumber ] );
 
-	const v = Number( value.toFixed( props.precision ?? 3 ) );
+	const v = Number( ( props.value || 0 ).toFixed( props.precision ?? 3 ) );
 
 	return <div className={style.inputNumber}>
 		<input className={style.input} type="number" value={v} disabled={props.disabled} readOnly={props.readOnly} data-lo={props.readOnly }
+			step={props.step || 1}
+			min={props.min}
+			max={props.max}
 			onChange={( e ) => {
 
-				onChange && onChange( Number( e.target.value ) );
+				props.onChange && props.onChange( Number( e.target.value ) );
 
 			}}
 			onPointerDown={onPointerDown}

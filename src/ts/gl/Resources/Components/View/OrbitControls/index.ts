@@ -144,9 +144,11 @@ export class OrbitControls extends MXP.Component {
 
 	private calc( entity: MXP.Entity ) {
 
+		const hpi = Math.PI / 2 - 0.001;
+
 		this.eye.set( 0, 0, 0 );
 		this.eye.z += this.distance;
-		this.eye.applyMatrix3( new GLP.Matrix().makeRotationAxis( { x: 1, y: 0, z: 0 }, this.orbit.x ) );
+		this.eye.applyMatrix3( new GLP.Matrix().makeRotationAxis( { x: 1, y: 0, z: 0 }, Math.min( hpi, Math.max( - hpi, this.orbit.x ) ) ) );
 		this.eye.applyMatrix3( new GLP.Matrix().makeRotationAxis( { x: 0, y: 1, z: 0 }, this.orbit.y ) );
 
 		this.eye.add( this.target );

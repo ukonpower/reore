@@ -48,7 +48,7 @@ export const Property = () => {
 					}}/>
 				</PropertyBlock>
 				<PropertyBlock label={"Rotation"} >
-					<Vector type='vec3' disabled={disabled} value={ new GLP.Vector().setFromArray( euler || [] ).multiply( 1.0 / Math.PI * 180 )} slideScale={50} onChange={( value ) => {
+					<Vector type='vec3' disabled={disabled} value={ new GLP.Vector().setFromArray( euler || [] ).multiply( 1.0 / Math.PI * 180 )} step={50} onChange={( value ) => {
 
 						setEuler && setEuler( new GLP.Vector().copy( value ).multiply( 1.0 / 180 * Math.PI ).getElm( 'vec3' ) );
 
