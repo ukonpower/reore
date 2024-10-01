@@ -37,10 +37,10 @@
 			]
 		},
 		{
-			"path": "/root/blidgeRoot/MainObj",
+			"path": "/root/blidgeRoot/MainObj/Confrict1",
 			"components": [
 				{
-					"name": "MainObj",
+					"name": "Confrict1",
 					"props": {
 						"enabled": true
 					}
@@ -48,10 +48,10 @@
 			]
 		},
 		{
-			"path": "/root/blidgeRoot/MainObj/Confrict1",
+			"path": "/root/blidgeRoot/MainObj/Confrict2",
 			"components": [
 				{
-					"name": "Confrict1",
+					"name": "Confrict2",
 					"props": {
 						"enabled": true
 					}
@@ -114,6 +114,35 @@
 			]
 		},
 		{
+			"path": "/root/blidgeRoot/MainObj/Tree",
+			"components": [
+				{
+					"name": "Tree",
+					"props": {
+						"enabled": true,
+						"root/num": 1,
+						"root/up": 0.92,
+						"branch/num": 6,
+						"branch/depth": 5,
+						"branch/start": 0.2,
+						"branch/end": 0.93,
+						"branch/up": 0.2,
+						"branch/wide": 1,
+						"branch/curve": 0.3,
+						"branch/lengthMultiplier": 0.87,
+						"branch/lengthRandom": 0.38,
+						"shape/length": 1.03,
+						"shape/radius": 0.05,
+						"shape/rootlenghRatio": 1.8,
+						"shape/rootRadiusRatio": 1.6,
+						"leaf/size": 0.59,
+						"leaf/dpeth": 0,
+						"seed": 11
+					}
+				}
+			]
+		},
+		{
 			"path": "/root/blidgeRoot/SkyBox",
 			"components": [
 				{
@@ -162,6 +191,17 @@
 			"components": [
 				{
 					"name": "Flower",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/Stage/Grid",
+			"components": [
+				{
+					"name": "Grid",
 					"props": {
 						"enabled": true
 					}

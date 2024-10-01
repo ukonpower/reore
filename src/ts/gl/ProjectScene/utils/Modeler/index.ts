@@ -3,7 +3,7 @@ import * as MXP from 'maxpower';
 
 
 type BakeAttribute = {
-	[key: string]: {size: number, type: Float32ArrayConstructor | Uint16ArrayConstructor | Uint8ArrayConstructor}
+	[key: string]: {size: number, type: Float32ArrayConstructor | Uint16ArrayConstructor | Uint8ArrayConstructor | Int8ArrayConstructor | Int16ArrayConstructor}
 }
 
 export class Modeler {
@@ -287,7 +287,7 @@ export class Modeler {
 
 			e.children.forEach( c => {
 
-				c.updateMatrix( );
+				c.updateMatrix();
 
 				_( c, matrix.clone().multiply( c.matrix ) );
 

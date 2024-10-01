@@ -234,7 +234,7 @@ export class Tree extends MXP.Component {
 
 				points.push( {
 					x: p.x, y: p.y, z: p.z,
-					weight: 1.0 - w
+					weight: 1.0 - w * 0.9
 				} );
 
 			}
@@ -242,11 +242,10 @@ export class Tree extends MXP.Component {
 			curve.setPoints( points );
 
 			const geo = new MXP.CurveGeometry( { curve, radius: rad, curveSegments: 12, radSegments: 8 } );
-			geo.setAttribute( "materialId", new Float32Array( new Array( geo.vertCount ).fill( 0 ) ), 1 );
+			geo.setAttribute( "mid", new Int16Array( new Array( geo.vertCount ).fill( 0 ) ), 1 );
 
 			const originPosArray = [];
 			const depthArray = [];
-
 
 			for ( let i = 0; i < geo.vertCount; i ++ ) {
 
@@ -255,7 +254,7 @@ export class Tree extends MXP.Component {
 				gpos.applyMatrix4( matrix );
 
 				originPosArray.push( gpos.x, gpos.y, gpos.z );
-				depthArray.push( depth / this.param.branch.depth + 1.0 / this.param.branch.depth * curvePos );
+				depthArray.push( depth / this.param.branch.depth );
 
 			}
 
@@ -266,24 +265,52 @@ export class Tree extends MXP.Component {
 
 			// leaf
 
-			if ( depth >= this.param.leaf.dpeth ) {
+			if ( depth >= this.param.leaf.dpeth - 1 ) {
 
-				const point = curve.getPoint( 1 );
+				const leafNum = 4;
 
-				const leafEntity = new MXP.Entity();
+				for ( let j = 0; j < leafNum; j ++ ) {
 
-				const size = this.param.leaf.size;
-				leafEntity.scale.set( size );
 
-				leafEntity.position.copy( point.position );
-				leafEntity.quaternion.multiply( new GLP.Quaternion().setFromMatrix( point.matrix ).multiply( new GLP.Quaternion().setFromEuler( new GLP.Euler( 0.0, 0.0, - Math.PI / 2 ) ) ) );
+					const point = curve.getPoint( j / ( leafNum - 1.0 ) );
 
-				const pos = new GLP.Vector( 0, 0.0, 0.0 );
-				pos.applyMatrix3( point.matrix );
 
-				leafEntity.position.add( pos );
+					const leafEntity = new MXP.Entity();
 
-				branchEntity.add( leafEntity );
+					const leafGeometry = new MXP.PlaneGeometry( {
+						width: this.param.leaf.size,
+						height: this.param.leaf.size,
+					} );
+
+					const leafPosArray = [];
+					const leafDepthArray = [];
+
+					for ( let i = 0; i < leafGeometry.vertCount; i ++ ) {
+
+						const gpos = new GLP.Vector().add( point.position );
+						gpos.w = 1.0;
+						gpos.applyMatrix4( matrix );
+
+						leafPosArray.push( ...gpos.getElm( "vec3" ) );
+						leafDepthArray.push( depth / this.param.branch.depth );
+
+					}
+
+					leafGeometry.setAttribute( "originPos", new Float32Array( leafPosArray ), 3 );
+					leafGeometry.setAttribute( "branchDepth", new Float32Array( leafDepthArray ), 1 );
+					leafGeometry.setAttribute( "mid", new Int16Array( new Array( leafGeometry.vertCount ).fill( 1 ) ), 1 );
+					leafEntity.addComponent( leafGeometry );
+
+					const pos = new GLP.Vector( 0, 0.0, 0.0 );
+					pos.applyMatrix3( point.matrix );
+
+					leafEntity.position.copy( point.position );
+					leafEntity.position.add( pos );
+					leafEntity.quaternion.multiply( new GLP.Quaternion().setFromMatrix( point.matrix ).multiply( new GLP.Quaternion().setFromEuler( new GLP.Euler( 0, 0.0, - Math.PI / 2 ) ) ) );
+
+					branchEntity.add( leafEntity );
+
+				}
 
 			}
 
@@ -351,8 +378,8 @@ export class Tree extends MXP.Component {
 			const bModel = new MXP.Entity();
 			bModel.quaternion.setFromEuler( new GLP.Euler( 0.0, i / this.param.root.num * Math.PI * 2.0, 0.0 ) );
 
-			bModel.addComponent( modeler.bakeEntity( b, {
-				materialId: { size: 1, type: Float32Array },
+			const geo = bModel.addComponent( modeler.bakeEntity( b, {
+				mid: { size: 1, type: Int16Array },
 				originPos: { size: 3, type: Float32Array },
 				branchDepth: { size: 1, type: Float32Array }
 			} ) );

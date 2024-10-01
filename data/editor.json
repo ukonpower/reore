@@ -137,8 +137,8 @@
 								"shape/radius": 0.05,
 								"shape/rootlenghRatio": 1.8,
 								"shape/rootRadiusRatio": 1.6,
-								"leaf/size": 0.59,
-								"leaf/dpeth": 0,
+								"leaf/size": 0.1,
+								"leaf/dpeth": 5,
 								"seed": 11
 							}
 						}
@@ -362,5 +362,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 790.2852421499281,
 	"frameLoop/end": 1141.7863890321116,
-	"selectedEntity": "a10da"
+	"selectedEntity": "5ad"
 }
