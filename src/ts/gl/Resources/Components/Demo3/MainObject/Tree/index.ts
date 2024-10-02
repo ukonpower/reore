@@ -1,8 +1,11 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
+import leafFrag from './shaders/leaf.fs';
+import leafVert from './shaders/leaf.vs';
 import treeFrag from './shaders/tree.fs';
 import treeVert from './shaders/tree.vs';
+
 
 import { globalUniforms, power } from '~/ts/gl/GLGlobals';
 import { Modeler } from '~/ts/gl/ProjectScene/utils/Modeler';
@@ -199,6 +202,9 @@ export class Tree extends MXP.Component {
 
 		const random = GLP.MathUtils.randomSeed( this.param.seed );
 
+		const leafGeo = new MXP.PlaneGeometry( { width: this.param.leaf.size, height: this.param.leaf.size, heightSegments: 8.0 } );
+		const leafMatrixArray: number[] = [];
+
 		const branch = ( depth : number, direction: GLP.Vector, radius: number, length: number, curvePos: number, matrix: GLP.Matrix ): MXP.Entity => {
 
 			const branchEntity = new MXP.Entity();
@@ -314,7 +320,8 @@ export class Tree extends MXP.Component {
 					leafEntity.position.add( pos );
 					leafEntity.quaternion.multiply( new GLP.Quaternion().setFromMatrix( point.matrix ).multiply( new GLP.Quaternion().setFromEuler( new GLP.Euler( 0.0, 0.0, - Math.PI / 2 + side * Math.PI / 2 ) ) ) );
 
-					branchEntity.add( leafEntity );
+					leafEntity.updateMatrix();
+					leafMatrixArray.push( ...matrix.clone().multiply( leafEntity.matrix ).elm );
 
 				}
 
@@ -372,6 +379,7 @@ export class Tree extends MXP.Component {
 
 		this.root = new MXP.Entity();
 
+
 		// bake
 
 		const modeler = new Modeler( power );
@@ -397,6 +405,19 @@ export class Tree extends MXP.Component {
 			this.root.add( bModel );
 
 		}
+
+		leafGeo.setAttribute( "instanceMatrix", new Float32Array( leafMatrixArray ), 16, {
+			instanceDivisor: 1
+		} );
+
+		const leafEntity = new MXP.Entity();
+		leafEntity.addComponent( leafGeo );
+		leafEntity.addComponent( new MXP.Material( {
+			frag: leafFrag,
+			vert: leafVert,
+			phase: [ "deferred", "shadowMap" ],
+		} ) );
+		this.root.add( leafEntity );
 
 		if ( this.entity ) {
 
