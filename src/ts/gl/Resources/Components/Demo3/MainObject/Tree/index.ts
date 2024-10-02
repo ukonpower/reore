@@ -6,10 +6,8 @@ import leafVert from './shaders/leaf.vs';
 import treeFrag from './shaders/tree.fs';
 import treeVert from './shaders/tree.vs';
 
-
 import { globalUniforms, power } from '~/ts/gl/GLGlobals';
 import { Modeler } from '~/ts/gl/ProjectScene/utils/Modeler';
-
 
 type Param = {
 	root: {
@@ -44,7 +42,9 @@ export class Tree extends MXP.Component {
 
 	private root: MXP.Entity | null;
 	private param: Param;
+
 	private treeMaterial: MXP.Material;
+	private leafMaterial: MXP.Material;
 
 	constructor() {
 
@@ -91,6 +91,14 @@ export class Tree extends MXP.Component {
 			} )
 		} );
 
+		this.leafMaterial = new MXP.Material( {
+			frag: leafFrag,
+			vert: leafVert,
+			phase: [ "deferred", "shadowMap" ],
+			uniforms: this.treeMaterial.uniforms
+		} );
+
+
 		if ( process.env.NODE_ENV === 'development' ) {
 
 			if ( import.meta.hot ) {
@@ -114,6 +122,30 @@ export class Tree extends MXP.Component {
 						this.treeMaterial.vert = MXP.hotUpdate( 'treeVert', module.default );
 
 						this.treeMaterial.requestUpdate();
+
+					}
+
+				} );
+
+				import.meta.hot.accept( './shaders/leaf.fs', ( module ) => {
+
+					if ( module ) {
+
+						this.leafMaterial.frag = MXP.hotUpdate( 'leafFrag', module.default );
+
+						this.leafMaterial.requestUpdate();
+
+					}
+
+				} );
+
+				import.meta.hot.accept( './shaders/leaf.vs', ( module ) => {
+
+					if ( module ) {
+
+						this.leafMaterial.vert = MXP.hotUpdate( 'leafVert', module.default );
+
+						this.leafMaterial.requestUpdate();
 
 					}
 
@@ -202,10 +234,11 @@ export class Tree extends MXP.Component {
 
 		const random = GLP.MathUtils.randomSeed( this.param.seed );
 
-		const leafGeo = new MXP.PlaneGeometry( { width: this.param.leaf.size, height: this.param.leaf.size, heightSegments: 8.0 } );
+		const leafGeo = new MXP.PlaneGeometry( { width: this.param.leaf.size, height: this.param.leaf.size, heightSegments: 8.0, widthSegments: 5 } );
 		const leafMatrixArray: number[] = [];
+		const leafDepthArray: number[] = [];
 
-		const branch = ( depth : number, direction: GLP.Vector, radius: number, length: number, curvePos: number, matrix: GLP.Matrix ): MXP.Entity => {
+		const branch = ( depth : number, direction: GLP.Vector, radius: number, length: number, matrix: GLP.Matrix ): MXP.Entity => {
 
 			const branchEntity = new MXP.Entity();
 
@@ -273,55 +306,26 @@ export class Tree extends MXP.Component {
 
 			if ( depth >= this.param.leaf.dpeth - 1 ) {
 
-				const leafNum = 4;
+				const leafNum = 10;
 
 				for ( let j = 0; j < leafNum; j ++ ) {
 
 					const point = curve.getPoint( ( j + 1 ) / ( leafNum ) );
 
-					const leafEntity = new MXP.Entity();
-
-					const leafGeometry = new MXP.PlaneGeometry( {
-						width: this.param.leaf.size,
-						height: this.param.leaf.size,
-						heightSegments: 8.0,
-					} );
-
-					const leafPosArray = [];
-					const leafDepthArray = [];
-
-					for ( let i = 0; i < leafGeometry.vertCount; i ++ ) {
-
-						const gpos = new GLP.Vector().add( point.position );
-						gpos.w = 1.0;
-						gpos.applyMatrix4( matrix );
-
-						leafPosArray.push( ...gpos.getElm( "vec3" ) );
-						leafDepthArray.push( depth / this.param.branch.depth );
-
-					}
-
-					leafGeometry.setAttribute( "instancePos", new Float32Array( leafPosArray ), 3 );
-					leafGeometry.setAttribute( "branchDepth", new Float32Array( leafDepthArray ), 1 );
-					leafGeometry.setAttribute( "mid", new Int16Array( new Array( leafGeometry.vertCount ).fill( 1 ) ), 1 );
-					leafEntity.addComponent( leafGeometry );
-
 					const side = Math.pow( - 1.0, j );
-
-					const pos = new GLP.Vector( 0, 0.0, 0.0 );
-					pos.applyMatrix3( point.matrix );
 
 					const offsetPos = new GLP.Vector( 0.0, 0.05 * side, 0.0 );
 					offsetPos.applyMatrix3( point.matrix );
 
-					pos.add( offsetPos );
+					const leafEntity = new MXP.Entity();
 
 					leafEntity.position.copy( point.position );
-					leafEntity.position.add( pos );
-					leafEntity.quaternion.multiply( new GLP.Quaternion().setFromMatrix( point.matrix ).multiply( new GLP.Quaternion().setFromEuler( new GLP.Euler( 0.0, 0.0, - Math.PI / 2 + side * Math.PI / 2 ) ) ) );
-
+					leafEntity.position.add( offsetPos );
+					leafEntity.quaternion.multiply( new GLP.Quaternion().setFromMatrix( point.matrix ).multiply( new GLP.Quaternion().setFromEuler( new GLP.Euler( 0.0, 0.0, - Math.PI / 2 + side * Math.PI / 4 ) ) ) );
 					leafEntity.updateMatrix();
+
 					leafMatrixArray.push( ...matrix.clone().multiply( leafEntity.matrix ).elm );
+					leafDepthArray.push( depth / this.param.branch.depth );
 
 				}
 
@@ -361,7 +365,6 @@ export class Tree extends MXP.Component {
 						depth + 1,
 						dir, radius * point.weight,
 						length * this.param.branch.lengthMultiplier * ( 1.0 - random() * this.param.branch.lengthRandom ),
-						pointPos,
 						nextMatrix
 					);
 					child.quaternion.copy( rotQua );
@@ -387,22 +390,22 @@ export class Tree extends MXP.Component {
 		for ( let i = 0; i < this.param.root.num; i ++ ) {
 
 			const dir = new GLP.Vector( 0.0, Math.sin( this.param.root.up * Math.PI / 2.0 ), Math.cos( this.param.root.up * Math.PI / 2.0 ) ).normalize();
-			const b = branch( 0, dir, this.param.shape.radius, this.param.shape.length, 0, new GLP.Matrix() );
+			const branchEntity = branch( 0, dir, this.param.shape.radius, this.param.shape.length, new GLP.Matrix() );
 
-			const bModel = new MXP.Entity();
-			bModel.quaternion.setFromEuler( new GLP.Euler( 0.0, i / this.param.root.num * Math.PI * 2.0, 0.0 ) );
+			const tree = new MXP.Entity();
+			tree.quaternion.setFromEuler( new GLP.Euler( 0.0, i / this.param.root.num * Math.PI * 2.0, 0.0 ) );
 
-			const geo = bModel.addComponent( modeler.bakeEntity( b, {
+			tree.addComponent( modeler.bakeEntity( branchEntity, {
 				mid: { size: 1, type: Int16Array },
 				instancePos: { size: 3, type: Float32Array },
 				branchDepth: { size: 1, type: Float32Array }
 			} ) );
 
-			bModel.addComponent( this.treeMaterial );
+			tree.addComponent( this.treeMaterial );
 
 			this.treeMaterial.uniforms.uTreeDepth.value = this.param.branch.depth;
 
-			this.root.add( bModel );
+			this.root.add( tree );
 
 		}
 
@@ -410,13 +413,14 @@ export class Tree extends MXP.Component {
 			instanceDivisor: 1
 		} );
 
+		leafGeo.setAttribute( "instanceDepth", new Float32Array( leafDepthArray ), 1, {
+			instanceDivisor: 1
+		} );
+
 		const leafEntity = new MXP.Entity();
 		leafEntity.addComponent( leafGeo );
-		leafEntity.addComponent( new MXP.Material( {
-			frag: leafFrag,
-			vert: leafVert,
-			phase: [ "deferred", "shadowMap" ],
-		} ) );
+		leafEntity.addComponent( this.leafMaterial );
+
 		this.root.add( leafEntity );
 
 		if ( this.entity ) {
