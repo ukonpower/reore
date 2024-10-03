@@ -16,11 +16,10 @@ void main( void ) {
 
 	float branchVis = smoothstep( 0.0, 1.0, (uState.x - instanceDepth) * uTreeDepth );
 
-	outPos *= smoothstep( 0.0, 1.0, - uv.y + branchVis * 2.0 );
-
 	outPos.x *= sin( uv.y * PI ) * 0.5;
 	outPos.z += sin( uv.y * PI ) * 0.01;
 	outPos.z -= sin( uv.x * PI ) * 0.005;
+	outPos *= smoothstep( 0.0, 1.0, branchVis * 1.0 );
 
 	outPos = ( instanceMatrix * vec4( outPos, 1.0 ) ).xyz;
 	outNormal = ( instanceMatrix * vec4( outNormal, 0.0 ) ).xyz;

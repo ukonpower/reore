@@ -200,7 +200,7 @@ export class BLidger extends Component {
 
 		if ( mat ) {
 
-			mat.uniforms = GLP.UniformsUtils.merge( mat.uniforms, this.uniforms );
+			this.assignUniforms( mat.uniforms );
 
 		} else if ( entity.getComponentByTag<Geometry>( "geometry" ) ) {
 
@@ -246,7 +246,7 @@ export class BLidger extends Component {
 
 			if ( component instanceof Material ) {
 
-				component.uniforms = GLP.UniformsUtils.merge( component.uniforms, this.uniforms );
+				this.assignUniforms( component.uniforms );
 
 			}
 
@@ -424,6 +424,16 @@ export class BLidger extends Component {
 		this.uniformCurves.forEach( ( curve, name ) => {
 
 			this.uniforms[ name ].value = curve.setFrame( frame ).value;
+
+		} );
+
+	}
+
+	private assignUniforms( targetUniforms: GLP.Uniforms ) {
+
+		Object.keys( this.uniforms ).forEach( ( name ) => {
+
+			targetUniforms[ name ] = this.uniforms[ name ];
 
 		} );
 
