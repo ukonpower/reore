@@ -37,6 +37,7 @@ export const Property = () => {
 		<div className={style.content}>
 			<PropertyBlock label={"Info"}>
 				<Value label="Name" value={selectedEntity.name} readOnly/>
+				<Value label="UUID" value={selectedEntity.uuid} readOnly/>
 				<Value label="Initiator" value={selectedEntity.initiator } readOnly/>
 			</PropertyBlock>
 			<PropertyBlock label={"Transform"} accordion={true}>

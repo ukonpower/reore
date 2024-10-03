@@ -15,7 +15,6 @@ import { PipelinePostProcess } from './PipelinePostProcess';
 import { PMREMRender } from './PMREMRender';
 import { ProgramManager } from './ProgramManager';
 
-
 // render stack
 
 export type RenderStack = {
@@ -64,7 +63,7 @@ type CameraOverride = {
 	uniforms?: GLP.Uniforms,
 }
 
-type DrawParam = CameraOverride & { modelMatrixWorld?: GLP.Matrix, modelMatrixWorldPrev?: GLP.Matrix }
+type DrawParam = CameraOverride & { modelMatrixWorld?: GLP.Matrix, modelMatrixWorldPrev?: GLP.Matrix, label?: string }
 
 // state
 
@@ -80,6 +79,7 @@ export class Renderer extends Entity {
 
 	public gl: WebGL2RenderingContext;
 	private renderCanvasSize: GLP.Vector;
+	private extDisJointTimerQuery: any;
 
 	// program
 
@@ -130,6 +130,7 @@ export class Renderer extends Entity {
 
 		this.programManager = new ProgramManager( this.gl );
 		this.renderCanvasSize = new GLP.Vector();
+		this.extDisJointTimerQuery = this.gl.getExtension( "EXT_disjoint_timer_query_webgl2" );
 
 		// lights
 
@@ -221,6 +222,55 @@ export class Renderer extends Entity {
 	}
 
 	public render( stack: RenderStack ) {
+
+		if ( process.env.NODE_ENV == 'development' ) {
+
+			const disjoint = this.gl.getParameter( this.extDisJointTimerQuery.GPU_DISJOINT_EXT );
+
+			if ( disjoint ) {
+
+				this.queryList.forEach( q => this.gl.deleteQuery( q ) );
+
+				this.queryList.length = 0;
+
+			} else {
+
+				const updatedList = [];
+
+				if ( this.queryListQueued.length > 0 ) {
+
+					const l = this.queryListQueued.length;
+
+					for ( let i = l - 1; i >= 0; i -- ) {
+
+						const q = this.queryListQueued[ i ];
+
+						const resultAvailable = this.gl.getQueryParameter( q.query, this.gl.QUERY_RESULT_AVAILABLE );
+
+						if ( resultAvailable ) {
+
+							const result = this.gl.getQueryParameter( q.query, this.gl.QUERY_RESULT );
+
+							updatedList.push( {
+								name: q.name,
+								duration: result / 1000 / 1000
+							} );
+
+							this.queryList.push( q.query );
+
+							this.queryListQueued.splice( i, 1 );
+
+						}
+
+					}
+
+				}
+
+				this.emit( "timer", [ updatedList ] );
+
+			}
+
+		}
 
 		// light
 
@@ -500,8 +550,9 @@ export class Renderer extends Entity {
 
 			drawParam.modelMatrixWorld = entity.matrixWorld;
 			drawParam.modelMatrixWorldPrev = entity.matrixWorldPrev;
+			drawParam.label = `cam[${camera.uuid}]/${entity.name || material.name || "_"}`;
 
-			this.draw( entity.uuid.toString(), renderType, geometry, material, drawParam );
+			this.draw( entity.uuid, renderType, geometry, material, drawParam );
 
 		}
 
@@ -627,7 +678,11 @@ export class Renderer extends Entity {
 
 			}
 
-			this.draw( postprocess.uuid.toString(), "postprocess", this.quad, pass, renderOption && renderOption.cameraOverride );
+			const opt: DrawParam = renderOption && renderOption.cameraOverride || {};
+
+			opt.label = pass.name;
+
+			this.draw( pass.uuid, "postprocess", this.quad, pass, opt );
 
 			pass.onAfterRender();
 
@@ -902,6 +957,30 @@ export class Renderer extends Entity {
 
 				const drawType = this.gl[ material.drawType ];
 
+				// query ------------------------
+
+				let query: WebGLQuery | null = null;
+
+				if ( process.env.NODE_ENV == 'development' ) {
+
+					query = this.queryList.pop() || null;
+
+					if ( query == null ) {
+
+						query = this.gl.createQuery();
+
+					}
+
+					if ( query ) {
+
+						this.gl.beginQuery( this.extDisJointTimerQuery.TIME_ELAPSED_EXT, query );
+
+					}
+
+				}
+
+				// -----------------------------
+
 				if ( vao.instanceCount > 0 ) {
 
 					if ( indexBuffer ) {
@@ -930,26 +1009,29 @@ export class Renderer extends Entity {
 
 				// query ------------------------
 
-				// if ( process.env.NODE_ENV == 'development' && gpuState ) {
+				if ( process.env.NODE_ENV == 'development' ) {
 
-				// 	if ( query ) {
+					if ( query ) {
 
-				// 		this.gl.endQuery( this.power.extDisJointTimerQuery.TIME_ELAPSED_EXT );
+						this.gl.endQuery( this.extDisJointTimerQuery.TIME_ELAPSED_EXT );
 
-				// 		this.queryListQueued.push( {
-				// 			name: `${renderType}/${material.name}[${drawId}]`,
-				// 			query: query
-				// 		} );
+						const label = param && param.label || "_";
 
-				// 	}
+						this.queryListQueued.push( {
+							name: `${renderType}/${label}/ [${drawId}]`,
+							query: query
+						} );
 
-				// }
+					}
+
+				}
 
 				// ----------------------------
 
 				this.gl.bindVertexArray( null );
 
 			} );
+
 
 		}
 
@@ -958,7 +1040,6 @@ export class Renderer extends Entity {
 	public resize( resolution: GLP.Vector ) {
 
 		this.renderCanvasSize.copy( resolution );
-
 		this.deferredPostProcess.resize( resolution );
 		this.pipelinePostProcess.resize( resolution );
 
@@ -971,7 +1052,6 @@ export const setUniforms = ( program: GLP.GLPowerProgram, uniforms: GLP.Uniforms
 	const keys = Object.keys( uniforms );
 
 	for ( let i = 0; i < keys.length; i ++ ) {
-
 
 		const name = keys[ i ];
 		const uni = uniforms[ name ];

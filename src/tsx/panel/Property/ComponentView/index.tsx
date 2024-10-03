@@ -23,7 +23,7 @@ export const ComponentView = ( { component }: ComponentViewProps ) => {
 	const [ enabled, setEnabled ] = useSerializableProps<boolean>( component, "enabled" );
 
 	const propElms: JSX.Element[] = [
-		<Value key='-2' label={"tag"} value={component.tag} readOnly />
+		<Value key='-2' label={"tag"} value={component.tag} readOnly />,
 	];
 
 	const compoProps = component.props;

@@ -80,7 +80,7 @@ export class Music extends MXP.Component {
 
 		// samples
 
-		this.blockLength = Math.min( 512 * 128, this.bufferLength );
+		this.blockLength = Math.min( 512 * 256, this.bufferLength );
 		this.numSampleBlocks = Math.ceil( ( this.audioContext.sampleRate * MUSIC_DURATION ) / this.blockLength );
 
 		// tmpOutPut

@@ -97,8 +97,6 @@ export class Tree extends MXP.Component {
 			phase: [ "deferred", "shadowMap" ],
 			uniforms: this.treeMaterial.uniforms
 		} );
-		console.log( this.treeMaterial.uniforms );
-
 
 		if ( process.env.NODE_ENV === 'development' ) {
 
