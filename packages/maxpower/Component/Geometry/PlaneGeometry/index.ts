@@ -6,7 +6,7 @@ interface PlaneGeometryParams extends ComponentParams{
 	height?: number,
 	widthSegments?: number,
 	heightSegments?: number,
-	floor: boolean,
+	floor?: boolean,
 }
 
 export class PlaneGeometry extends Geometry {

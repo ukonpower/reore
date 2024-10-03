@@ -6,7 +6,7 @@ import leafVert from './shaders/leaf.vs';
 import treeFrag from './shaders/tree.fs';
 import treeVert from './shaders/tree.vs';
 
-import { globalUniforms, power } from '~/ts/gl/GLGlobals';
+import { globalUniforms, power, resource } from '~/ts/gl/GLGlobals';
 import { Modeler } from '~/ts/gl/ProjectScene/utils/Modeler';
 
 type Param = {
@@ -99,6 +99,10 @@ export class Tree extends MXP.Component {
 				uTreeDepthScale: {
 					value: 1.0,
 					type: "1f"
+				},
+				uNoiseTex: {
+					value: resource.getTexture( "noise" ),
+					type: "1i"
 				}
 			} )
 		} );
@@ -299,14 +303,14 @@ export class Tree extends MXP.Component {
 
 			const branchDepath = depth / this.param.branch.depth + 1.0 / this.param.branch.depth / this.param.branch.num * branchIndex;
 
-			const geo = new MXP.CurveGeometry( { curve, radius: rad, curveSegments: 12, radSegments: 8 } );
+			const geo = new MXP.CurveGeometry( { curve, radius: rad, curveSegments: 12, radSegments: 12 } );
 
 			const instancePosArray = [];
 			const depthArray = [];
 
 			for ( let i = 0; i < geo.vertCount; i ++ ) {
 
-				const gpos = new GLP.Vector().add( curve.getPoint( ( Math.floor( i / 8 ) / 12 ) ).position );
+				const gpos = new GLP.Vector().add( curve.getPoint( ( Math.floor( i / 12 ) / 12 ) ).position );
 				gpos.w = 1.0;
 				gpos.applyMatrix4( matrix );
 

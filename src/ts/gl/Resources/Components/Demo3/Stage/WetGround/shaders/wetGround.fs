@@ -11,7 +11,7 @@ uniform float uTimeE;
 vec2 D( vec3 p ) {
 
 	vec3 n = noiseCyc( p.xyz * 3.5 + 11.0 );
-	p.y += (n.x * 0.5 + 0.5) * 0.15;
+	p.y += (n.x * 0.5 + 0.5) * 0.15 * smoothstep( 0.0, .3, length( p.xz ) );
 	p.y += 1.0;
 
 	vec2 d = vec2( sdBox( p, vec3( 1.0 ) ), 1.0 );
@@ -58,7 +58,7 @@ void main( void ) {
 	vec4 modelPosition = modelMatrix * vec4( rayPos, 1.0 );
 	vec4 mvpPosition = projectionMatrix * viewMatrix * modelPosition;
 
-	outPos = modelPosition.xyz;
+	// outPos = modelPosition.xyz;
 	gl_FragDepth = ( mvpPosition.z / mvpPosition.w ) * 0.5 + 0.5;
 
 	
