@@ -27,6 +27,7 @@ import { Grid } from '../Components/Demo3/Stage/Grid/index.ts';
 import { Ring } from '../Components/Demo3/Stage/Ring/index.ts';
 import { Tornado } from '../Components/Demo3/Stage/Tornado/index.ts';
 import { Wave } from '../Components/Demo3/Stage/Wave/index.ts';
+import { WetGround } from '../Components/Demo3/Stage/WetGround/index.ts';
 import { SideTex } from '../Components/Demo3/Textures/SideTex/index.ts';
 import { TuringTex } from '../Components/Demo3/Textures/TuringTex/index.ts';
 import { DashCube } from '../Components/Entities/Effects/DashCube/index.ts';
@@ -76,6 +77,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 			Ring,
 			Tornado,
 			Wave,
+			WetGround,
 		},
 		Textures: {
 			SideTex,
