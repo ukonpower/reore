@@ -32,8 +32,10 @@ type Param = {
 		rootRadiusRatio: number,
 	},
 	leaf: {
+		num: number,
 		size: number,
 		dpeth:number,
+		start: number,
 	},
 	seed:number,
 }
@@ -73,8 +75,10 @@ export class Tree extends MXP.Component {
 				rootRadiusRatio: 1.0,
 			},
 			leaf: {
+				num: 10,
 				size: 0.59,
 				dpeth: 1,
+				start: 0.1
 			},
 			seed: 0
 		};
@@ -86,6 +90,14 @@ export class Tree extends MXP.Component {
 			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, {
 				uTreeDepth: {
 					value: this.param.branch.depth,
+					type: "1f"
+				},
+				uLeafSize: {
+					value: this.param.leaf.size,
+					type: "1f"
+				},
+				uTreeDepthScale: {
+					value: 1.0,
 					type: "1f"
 				}
 			} )
@@ -169,7 +181,7 @@ export class Tree extends MXP.Component {
 			},
 			branch: {
 				num: { value: this.param.branch.num, min: 0, max: 10, precision: 3, step: 1 },
-				depth: { value: this.param.branch.depth, in: 0, max: 8, precision: 3, step: 1 },
+				depth: { value: this.param.branch.depth, in: 0, max: 10, precision: 3, step: 1 },
 				start: { value: this.param.branch.start, min: 0, max: 1, precision: 3, step: 0.01 },
 				end: { value: this.param.branch.end, min: 0, max: 1, precision: 3, step: 0.01 },
 				up: { value: this.param.branch.up, min: - 1, max: 1, precision: 3, step: 0.01 },
@@ -186,8 +198,10 @@ export class Tree extends MXP.Component {
 				rootRadiusRatio: { value: this.param.shape.rootRadiusRatio, min: 0, max: 999, precision: 3, step: 0.1 },
 			},
 			leaf: {
+				num: { value: this.param.leaf.num, min: 0, max: 20, precision: 3, step: 1 },
 				size: { value: this.param.leaf.size, min: 0, max: 1, precision: 3, step: 0.01 },
-				dpeth: { value: this.param.leaf.dpeth, min: 0, max: 5, precision: 3, step: 1 },
+				dpeth: { value: this.param.leaf.dpeth, min: 0, max: 10, precision: 3, step: 1 },
+				start: { value: this.param.leaf.start, min: 0, max: 1, precision: 3, step: 0.1 }
 			},
 			seed: { value: this.param.seed, min: 0, max: 9999, step: 1 }
 		};
@@ -214,6 +228,9 @@ export class Tree extends MXP.Component {
 		this.param.shape.rootLengthRatio = props.shape.rootlenghRatio.value;
 		this.param.shape.rootRadiusRatio = props.shape.rootRadiusRatio.value;
 
+
+		this.param.leaf.num = props.leaf.num.value;
+		this.param.leaf.start = props.leaf.start.value;
 		this.param.leaf.size = props.leaf.size.value;
 		this.param.leaf.dpeth = props.leaf.dpeth.value;
 
@@ -233,11 +250,12 @@ export class Tree extends MXP.Component {
 
 		const random = GLP.MathUtils.randomSeed( this.param.seed );
 
-		const leafGeo = new MXP.PlaneGeometry( { width: this.param.leaf.size, height: this.param.leaf.size, heightSegments: 8.0, widthSegments: 5 } );
+		const leafGeo = new MXP.PlaneGeometry( { width: 1.0, height: 1.0, heightSegments: 8.0, widthSegments: 5 } );
 		const leafMatrixArray: number[] = [];
 		const leafDepthArray: number[] = [];
+		const leafIdArray: number[] = [];
 
-		const branch = ( depth : number, direction: GLP.Vector, radius: number, length: number, matrix: GLP.Matrix ): MXP.Entity => {
+		const branch = ( depth : number, branchIndex: number, direction: GLP.Vector, radius: number, length: number, matrix: GLP.Matrix ): MXP.Entity => {
 
 			const branchEntity = new MXP.Entity();
 
@@ -279,8 +297,9 @@ export class Tree extends MXP.Component {
 
 			curve.setPoints( points );
 
+			const branchDepath = depth / this.param.branch.depth + 1.0 / this.param.branch.depth / this.param.branch.num * branchIndex;
+
 			const geo = new MXP.CurveGeometry( { curve, radius: rad, curveSegments: 12, radSegments: 8 } );
-			geo.setAttribute( "mid", new Int16Array( new Array( geo.vertCount ).fill( 0 ) ), 1 );
 
 			const instancePosArray = [];
 			const depthArray = [];
@@ -292,7 +311,7 @@ export class Tree extends MXP.Component {
 				gpos.applyMatrix4( matrix );
 
 				instancePosArray.push( gpos.x, gpos.y, gpos.z );
-				depthArray.push( depth / this.param.branch.depth );
+				depthArray.push( branchDepath );
 
 			}
 
@@ -305,15 +324,15 @@ export class Tree extends MXP.Component {
 
 			if ( depth >= this.param.leaf.dpeth - 1 ) {
 
-				const leafNum = 10;
+				for ( let j = 0; j < this.param.leaf.num; j ++ ) {
 
-				for ( let j = 0; j < leafNum; j ++ ) {
+					const p = ( j + 1 ) / ( this.param.leaf.num ) * ( 1.0 - this.param.leaf.start ) + this.param.leaf.start;
 
-					const point = curve.getPoint( ( j + 1 ) / ( leafNum ) );
+					const point = curve.getPoint( p );
 
 					const side = Math.pow( - 1.0, j );
 
-					const offsetPos = new GLP.Vector( 0.0, 0.05 * side, 0.0 );
+					const offsetPos = new GLP.Vector( 0.0, this.param.leaf.size / 2 * side, 0.0 );
 					offsetPos.applyMatrix3( point.matrix );
 
 					const leafEntity = new MXP.Entity();
@@ -324,7 +343,8 @@ export class Tree extends MXP.Component {
 					leafEntity.updateMatrix();
 
 					leafMatrixArray.push( ...matrix.clone().multiply( leafEntity.matrix ).elm );
-					leafDepthArray.push( depth / this.param.branch.depth );
+					leafDepthArray.push( branchDepath, j / this.param.leaf.num );
+					leafIdArray.push( Math.random(), Math.random(), Math.random(), Math.random() );
 
 				}
 
@@ -362,6 +382,7 @@ export class Tree extends MXP.Component {
 
 					const child = branch(
 						depth + 1,
+						j,
 						dir, radius * point.weight,
 						length * this.param.branch.lengthMultiplier * ( 1.0 - random() * this.param.branch.lengthRandom ),
 						nextMatrix
@@ -381,7 +402,6 @@ export class Tree extends MXP.Component {
 
 		this.root = new MXP.Entity();
 
-
 		// bake
 
 		const modeler = new Modeler( power );
@@ -389,30 +409,36 @@ export class Tree extends MXP.Component {
 		for ( let i = 0; i < this.param.root.num; i ++ ) {
 
 			const dir = new GLP.Vector( 0.0, Math.sin( this.param.root.up * Math.PI / 2.0 ), Math.cos( this.param.root.up * Math.PI / 2.0 ) ).normalize();
-			const branchEntity = branch( 0, dir, this.param.shape.radius, this.param.shape.length, new GLP.Matrix() );
+			const branchEntity = branch( 0, i, dir, this.param.shape.radius, this.param.shape.length, new GLP.Matrix() );
 
 			const tree = new MXP.Entity();
 			tree.quaternion.setFromEuler( new GLP.Euler( 0.0, i / this.param.root.num * Math.PI * 2.0, 0.0 ) );
 
 			tree.addComponent( modeler.bakeEntity( branchEntity, {
-				mid: { size: 1, type: Int16Array },
 				instancePos: { size: 3, type: Float32Array },
 				branchDepth: { size: 1, type: Float32Array }
 			} ) );
 
 			tree.addComponent( this.treeMaterial );
 
-			this.treeMaterial.uniforms.uTreeDepth.value = this.param.branch.depth;
 
 			this.root.add( tree );
 
 		}
 
+		this.treeMaterial.uniforms.uTreeDepth.value = this.param.branch.depth;
+		this.treeMaterial.uniforms.uLeafSize.value = this.param.leaf.size;
+		this.treeMaterial.uniforms.uTreeDepthScale.value = 1.0 + 1.0 / this.param.branch.depth;
+
 		leafGeo.setAttribute( "instanceMatrix", new Float32Array( leafMatrixArray ), 16, {
 			instanceDivisor: 1
 		} );
 
-		leafGeo.setAttribute( "instanceDepth", new Float32Array( leafDepthArray ), 1, {
+		leafGeo.setAttribute( "instanceDepth", new Float32Array( leafDepthArray ), 2, {
+			instanceDivisor: 1
+		} );
+
+		leafGeo.setAttribute( "id", new Float32Array( leafIdArray ), 4, {
 			instanceDivisor: 1
 		} );
 
