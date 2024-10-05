@@ -3,6 +3,8 @@
 
 layout(location = 3) in vec3 instancePos;
 
+uniform vec4 uState;
+
 #ifdef IS_PASS
 
 	layout (location = 4) in float instanceLength;
@@ -24,9 +26,9 @@ void main( void ) {
 
 	#ifdef IS_PASS
 
-		outPos.x *= ( instanceLength );
+		outPos.x *= smoothstep( 0.5, 1.0, uState.x ) * (1.0 + instanceLength * 0.49);
 		outPos.x += 0.5;
-		outPos.x *= (instanceLength);
+		outPos.x *= instanceLength;
 		outPos.xy *= rotate( -instanceRot );
 	
 	#endif

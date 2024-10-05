@@ -243,7 +243,7 @@ export class Entity extends Serializable {
 
 		const light = this.getComponent( Light );
 
-		if ( light && light.enabled ) {
+		if ( light && light.enabled && visibility ) {
 
 			event.renderStack.light.push( this );
 

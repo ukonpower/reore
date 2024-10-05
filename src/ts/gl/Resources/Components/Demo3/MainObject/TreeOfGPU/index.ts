@@ -30,6 +30,9 @@ export class TreeOfGPU extends MXP.Component {
 			1: [ 2 ]
 		};
 
+		const uniformReceiver = new MXP.BLidgerUniformReceiver();
+		this.addChild( uniformReceiver );
+
 		/*-------------------------------
 			Sefirot
 		-------------------------------*/
@@ -59,7 +62,7 @@ export class TreeOfGPU extends MXP.Component {
 			frag: MXP.hotGet( 'treeOfGPUFrag', treeOfGPUFrag ),
 			vert: MXP.hotGet( 'treeOfGPUVert', treeOfGPUVert ),
 			phase: [ 'deferred', 'shadowMap', "envMap" ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time ),
+			uniforms: uniformReceiver.register( GLP.UniformsUtils.merge( globalUniforms.time ) ),
 			defines: {
 				"IS_SEFIROT": ""
 			}
@@ -83,7 +86,7 @@ export class TreeOfGPU extends MXP.Component {
 			frag: MXP.hotGet( 'treeOfGPUFrag', treeOfGPUFrag ),
 			vert: MXP.hotGet( 'treeOfGPUVert', treeOfGPUVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time ),
+			uniforms: uniformReceiver.register( GLP.UniformsUtils.merge( globalUniforms.time ) ),
 			defines: {
 				"IS_PASS": ""
 			}
