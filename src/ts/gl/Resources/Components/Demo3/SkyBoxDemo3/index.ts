@@ -10,20 +10,23 @@ interface SkyBoxParams extends MXP.ComponentParams {
 
 export class SkyBoxDemo3 extends MXP.Component {
 
-	private geometry: MXP.Geometry;
-	private material: MXP.Material;
-
 	constructor( params: SkyBoxParams ) {
 
 		super( params );
 
-		this.geometry = new MXP.SphereGeometry( { radius: 500, widthSegments: 32, heightSegments: 32 } );
-		this.material = new MXP.Material( {
+		const uniformReceiver = new MXP.BLidgerUniformReceiver();
+		this.addChild( uniformReceiver );
+
+		const geo = new MXP.SphereGeometry( { radius: 500, widthSegments: 32, heightSegments: 32 } );
+		this.addChild( geo );
+
+		const mat = new MXP.Material( {
 			phase: [ "deferred", "envMap" ],
 			frag: MXP.hotGet( "skybox", skyboxFrag ),
 			cullFace: false,
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, globalUniforms.music )
+			uniforms: uniformReceiver.register( GLP.UniformsUtils.merge( globalUniforms.time, globalUniforms.music ) )
 		} );
+		this.addChild( mat );
 
 		if ( import.meta.hot ) {
 
@@ -31,9 +34,9 @@ export class SkyBoxDemo3 extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.frag = MXP.hotUpdate( 'skybox', module.default );
+					mat.frag = MXP.hotUpdate( 'skybox', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
@@ -41,12 +44,6 @@ export class SkyBoxDemo3 extends MXP.Component {
 
 		}
 
-	}
-
-	protected setEntityImpl( entity: MXP.Entity ): void {
-
-		entity.addComponent( this.geometry );
-		entity.addComponent( this.material );
 
 	}
 

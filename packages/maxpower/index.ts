@@ -8,6 +8,7 @@ export * from './BLidge';
 export * from './Component';
 
 export * from './Component/BLidger';
+export * from './Component/BLidgerUniformReceiver';
 export * from './Component/Camera';
 
 export * from './Component/GPUCompute';

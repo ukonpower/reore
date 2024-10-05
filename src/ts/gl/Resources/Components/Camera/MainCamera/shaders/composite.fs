@@ -33,7 +33,7 @@ void main( void ) {
 	col.xyz /= 8.0;
 
 	#pragma loop_start 4
-		col += texture( uBloomTexture[ LOOP_INDEX ], cuv * s + 0.5 ).xyz * pow( (float(LOOP_INDEX) + 1.0) / 4.0, 1.0 ) * 1.0;
+		col += texture( uBloomTexture[ LOOP_INDEX ], cuv * s + 0.5 ).xyz * ((float(LOOP_INDEX) + 1.0) / 4.0 * 0.7 + 0.3);
 	#pragma loop_end
 
 	float len = length(cuv);

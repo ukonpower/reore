@@ -147,6 +147,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/MainObj/TreeOfGPU",
+					"components": [
+						{
+							"name": "TreeOfGPU",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/SkyBox",
 					"components": [
 						{
@@ -375,5 +386,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 3501.109604519774,
 	"frameLoop/end": 4375.630081288137,
-	"selectedEntity": "3af5"
+	"selectedEntity": "758e"
 }

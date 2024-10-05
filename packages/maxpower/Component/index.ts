@@ -19,7 +19,8 @@ export class Component extends Serializable {
 	public entity: Entity | null;
 	public disableEdit: boolean;
 
-	protected enabled_: boolean;
+	public children: Component[];	protected enabled_: boolean;
+
 
 	constructor( params?: ComponentParams ) {
 
@@ -31,8 +32,8 @@ export class Component extends Serializable {
 		this.uuid = GLP.ID.genUUID();
 		this.entity = null;
 		this.disableEdit = params.disableEdit || false;
+		this.children = [];
 		this.enabled_ = true;
-
 
 	}
 
@@ -76,11 +77,41 @@ export class Component extends Serializable {
 
 	}
 
+	public addChild( component: Component ) {
+
+		this.children.push( component );
+
+		if ( this.entity ) {
+
+			this.entity.addComponent( component );
+
+		}
+
+	}
+
+	public remove( component: Component ) {
+
+		this.children = this.children.filter( ( c ) => c !== component );
+
+		if ( this.entity ) {
+
+			this.entity.removeComponent( component );
+
+		}
+
+	}
+
 	public setEntity( entity: Entity ) {
 
 		this.entity = entity;
 
 		this.setEntityImpl( this.entity );
+
+		this.children.forEach( ( c ) => {
+
+			entity.addComponent( c );
+
+		} );
 
 	}
 
@@ -93,6 +124,12 @@ export class Component extends Serializable {
 		this.entity = null;
 
 		this.unsetEntityImpl( beforeEntity );
+
+		this.children.forEach( ( c ) => {
+
+			beforeEntity.removeComponent( c );
+
+		} );
 
 	}
 

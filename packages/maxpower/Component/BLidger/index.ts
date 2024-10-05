@@ -1,5 +1,5 @@
 import * as GLP from 'glpower';
-import { Camera, SerializableProps } from 'maxpower';
+import { BLidgerUniformReceiver, Camera, SerializableProps } from 'maxpower';
 
 import { Component, ComponentParams, ComponentUpdateEvent } from "..";
 import { BLidge, BLidgeEntity, BLidgeLightParam, BLidgeCameraParam } from "../../BLidge";
@@ -198,11 +198,7 @@ export class BLidger extends Component {
 
 		const mat = entity.getComponentByTag<Material>( "material" );
 
-		if ( mat ) {
-
-			this.assignUniforms( mat.uniforms );
-
-		} else if ( entity.getComponentByTag<Geometry>( "geometry" ) ) {
+		if ( ! mat && entity.getComponentByTag<Geometry>( "geometry" ) ) {
 
 			entity.addComponent( new Material( { disableEdit: true, name: entity.name, phase: [ "deferred", "shadowMap" ] } ) );
 
@@ -240,35 +236,11 @@ export class BLidger extends Component {
 
 		entity.visible = this.node.visible;
 
-		// onAddcomponent
-
-		const onEntityAddComponent = ( component: Component ) => {
-
-			if ( component instanceof Material ) {
-
-				this.assignUniforms( component.uniforms );
-
-			}
-
-		};
-
-		entity.on( "add/component", onEntityAddComponent );
-
-		const onUnset = () => {
-
-			entity.off( "add/component", onEntityAddComponent );
-
-		};
-
-		this.once( "unsetEntity", onUnset );
-
 	}
 
 	protected unsetEntityImpl( prevEntity: Entity ): void {
 
 		this.cameraComponent = undefined;
-
-		this.emit( "unsetEntity", [ prevEntity ] );
 
 	}
 

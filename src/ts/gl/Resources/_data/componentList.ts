@@ -15,6 +15,7 @@ import { Recollection } from '../Components/Demo3/MainObject/Recollection/index.
 import { Dish } from '../Components/Demo3/MainObject/SetA/Dish/index.ts';
 import { SetA } from '../Components/Demo3/MainObject/SetA/index.ts';
 import { Tree } from '../Components/Demo3/MainObject/Tree/index.ts';
+import { TreeOfGPU } from '../Components/Demo3/MainObject/TreeOfGPU/index.ts';
 import { Music } from '../Components/Demo3/Music/index.ts';
 import { RectWire } from '../Components/Demo3/RectWire/index.ts';
 import { SkyBoxDemo3 } from '../Components/Demo3/SkyBoxDemo3/index.ts';
@@ -64,6 +65,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 			Recollection,
 			SetA,
 			Tree,
+			TreeOfGPU,
 		},
 		Music,
 		RectWire,

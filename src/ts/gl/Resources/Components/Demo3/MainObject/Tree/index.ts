@@ -83,11 +83,14 @@ export class Tree extends MXP.Component {
 			seed: 0
 		};
 
+		const receiver = new MXP.BLidgerUniformReceiver();
+		this.addChild( receiver );
+
 		this.treeMaterial = new MXP.Material( {
 			vert: treeVert,
 			frag: treeFrag,
 			phase: [ "deferred", "shadowMap" ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, {
+			uniforms: receiver.register( GLP.UniformsUtils.merge( globalUniforms.time, {
 				uTreeDepth: {
 					value: this.param.branch.depth,
 					type: "1f"
@@ -104,7 +107,7 @@ export class Tree extends MXP.Component {
 					value: resource.getTexture( "noise" ),
 					type: "1i"
 				}
-			} )
+			} ) )
 		} );
 
 		this.leafMaterial = new MXP.Material( {
