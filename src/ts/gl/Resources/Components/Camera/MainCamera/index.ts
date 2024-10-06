@@ -6,17 +6,23 @@ import { LookAt } from '../../View/LookAt';
 import { OrbitControls } from '../../View/OrbitControls';
 import { ShakeViewer } from '../../View/ShakeViewer';
 
-import bloomBlurFrag from './shaders/bloomBlur.fs';
 import bloomBrightFrag from './shaders/bloomBright.fs';
 import compositeFrag from './shaders/composite.fs';
 import fxaaFrag from './shaders/fxaa.fs';
+import gaussBlur from './shaders/gaussBlur.fs';
 
 import { gl, canvas } from '~/ts/gl/GLGlobals';
 
 
 export class MainCamera extends MXP.Component {
 
+	// uniforms
+
 	private commonUniforms: GLP.Uniforms;
+
+	// receiver
+
+	private animateReceiver: MXP.BLidgerAnimationReceiver;
 
 	// camera component
 
@@ -39,6 +45,11 @@ export class MainCamera extends MXP.Component {
 	// composite
 
 	private composite: MXP.PostProcessPass;
+
+	// bokeh
+
+	private bokehV: MXP.PostProcessPass;
+	private bokehH: MXP.PostProcessPass;
 
 	// resolutions
 
@@ -67,6 +78,9 @@ export class MainCamera extends MXP.Component {
 		super();
 
 		// components
+
+		this.animateReceiver = new MXP.BLidgerAnimationReceiver();
+		this.add( this.animateReceiver );
 
 		this.renderCamera = new MXP.RenderCamera( { gl } );
 		this.renderTarget = this.renderCamera.renderTarget;
@@ -155,10 +169,10 @@ export class MainCamera extends MXP.Component {
 
 			const guassSamples = 8.0;
 
-			this.bloomBlur.push( new MXP.PostProcessPass( gl, {
+			const blurParam: MXP.PostProcessPassParam = {
 				name: 'bloom/blur/' + i + '/v',
 				renderTarget: rtVertical,
-				frag: bloomBlurFrag,
+				frag: gaussBlur,
 				uniforms: {
 					uBackBlurTex: {
 						value: bloomInput,
@@ -172,19 +186,27 @@ export class MainCamera extends MXP.Component {
 						type: '1fv',
 						value: this.guassWeight( guassSamples )
 					},
+					uBlurRange: {
+						value: 2.0,
+						type: '1f'
+					}
 				},
 				defines: {
-					GAUSS_WEIGHTS: guassSamples.toString()
+					GAUSS_WEIGHTS: guassSamples.toString(),
+					USE_BACKBLURTEX: "",
 				},
 				passThrough: true,
 				resolutionRatio: 1.0 / bloomScale
-			} ) );
+			};
+
+			this.bloomBlur.push( new MXP.PostProcessPass( gl, blurParam ) );
 
 			this.bloomBlur.push( new MXP.PostProcessPass( gl, {
-				name: 'bloom/blur/' + i + '/w',
+				...blurParam,
+				name: 'bloom/blur/' + i + '/h',
 				renderTarget: rtHorizonal,
-				frag: bloomBlurFrag,
 				uniforms: {
+					...blurParam.uniforms,
 					uBackBlurTex: {
 						value: rtVertical.textures[ 0 ],
 						type: '1i'
@@ -193,20 +215,7 @@ export class MainCamera extends MXP.Component {
 						type: '1i',
 						value: false
 					},
-					uWeights: {
-						type: '1fv',
-						value: this.guassWeight( guassSamples )
-					},
-					uResolution: {
-						type: '2fv',
-						value: resolution,
-					}
 				},
-				defines: {
-					GAUSS_WEIGHTS: guassSamples.toString()
-				},
-				passThrough: true,
-				resolutionRatio: 1.0 / bloomScale
 			} ) );
 
 			bloomInput = rtHorizonal.textures;
@@ -233,9 +242,15 @@ export class MainCamera extends MXP.Component {
 					value: 0,
 					type: "1f"
 				},
+				uOutPut: {
+					value: 0,
+					type: "1f"
+				},
+
 			} ),
 			defines: {
-				BLOOM_COUNT: this.bloomRenderCount.toString()
+				BLOOM_COUNT: this.bloomRenderCount.toString(),
+				USE_BACKBLURTEX: "",
 			},
 		} );
 
@@ -255,6 +270,46 @@ export class MainCamera extends MXP.Component {
 
 		}
 
+		// bokeh
+
+		const bSample = 8;
+
+		const bokehParam: MXP.PostProcessPassParam = {
+			name: 'bokeh/h',
+			frag: gaussBlur,
+			uniforms: {
+				uIsVertical: {
+					type: '1i',
+					value: true
+				},
+				uWeights: {
+					type: '1fv',
+					value: this.guassWeight( bSample )
+				},
+				uBlurRange: {
+					value: 6.0,
+					type: '1f'
+				}
+			},
+			defines: {
+				GAUSS_WEIGHTS: bSample.toString(),
+				IS_BOKEH: "",
+			},
+			resolutionRatio: 1.0,
+		};
+
+		this.bokehV = new MXP.PostProcessPass( gl, bokehParam );
+		this.bokehH = new MXP.PostProcessPass( gl, {
+			...bokehParam,
+			uniforms: {
+				...bokehParam.uniforms,
+				uIsVertical: {
+					type: '1i',
+					value: false
+				},
+			},
+		} );
+
 		this.postProcess = new MXP.PostProcess( {
 			input: this.renderTarget.uiBuffer.textures,
 			passes: [
@@ -262,8 +317,11 @@ export class MainCamera extends MXP.Component {
 				...this.bloomBlur,
 				this.fxaa,
 				this.composite,
+				this.bokehV,
+				this.bokehH,
 			]
 		} );
+
 
 		// dof
 
@@ -344,12 +402,6 @@ export class MainCamera extends MXP.Component {
 			this.once( "dispose", onDispose );
 
 		}
-
-	}
-
-	public static get key() {
-
-		return 'mainCamera';
 
 	}
 
@@ -437,6 +489,19 @@ export class MainCamera extends MXP.Component {
 	protected updateImpl( event: MXP.ComponentUpdateEvent ): void {
 
 		this.updateCameraParams( this.resolution );
+
+		// effect
+
+		const cameraEffect = this.animateReceiver.animations.get( 'cameraEffect' );
+
+		if ( cameraEffect ) {
+
+			this.composite.uniforms.uOutPut.value = cameraEffect.value.x;
+
+			this.bokehV.uniforms.uBlurRange.value = cameraEffect.value.y;
+			this.bokehH.enabled = this.bokehV.enabled = cameraEffect.value.y > 0.0;
+
+		}
 
 		// dof params
 

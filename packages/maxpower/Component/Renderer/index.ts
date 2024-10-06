@@ -602,8 +602,6 @@ export class Renderer extends Entity {
 
 			const pass = postprocess.passes[ i ];
 
-			if ( ! pass.enabled ) continue;
-
 			const renderTarget = pass.renderTarget;
 
 			if ( pass.viewPort ) {

@@ -1,5 +1,5 @@
 import * as GLP from 'glpower';
-import { BLidgerUniformReceiver, Camera, SerializableProps } from 'maxpower';
+import { BLidgerAnimationReceiver, Camera, SerializableProps } from 'maxpower';
 
 import { Component, ComponentParams, ComponentUpdateEvent } from "..";
 import { BLidge, BLidgeEntity, BLidgeLightParam, BLidgeCameraParam } from "../../BLidge";
@@ -21,7 +21,7 @@ export class BLidger extends Component {
 
 	public node: BLidgeEntity;
 	public rotationOffsetX: number;
-	public animationCurves: Map<string, GLP.FCurveGroup>;
+	public animations: Map<string, GLP.FCurveGroup>;
 	public uniforms: GLP.Uniforms;
 	public uniformCurves: Map<string, GLP.FCurveGroup>;
 	public transformAutoUpdate: boolean;
@@ -50,7 +50,7 @@ export class BLidger extends Component {
 
 		// animations
 
-		this.animationCurves = new Map();
+		this.animations = new Map();
 
 		const animationCurveKeys = Object.keys( this.node.animations );
 
@@ -58,7 +58,7 @@ export class BLidger extends Component {
 
 			const name = animationCurveKeys[ i ];
 
-			this.animationCurves.set( name, this.blidge.getCurveGroup( this.node.animations[ name ] ) );
+			this.animations.set( name, this.blidge.getCurveGroup( this.node.animations[ name ] ) );
 
 		}
 
@@ -251,9 +251,9 @@ export class BLidger extends Component {
 
 		// animations
 
-		this.animationCurves.forEach( ( curve ) => {
+		this.animations.forEach( ( anim ) => {
 
-			curve.setFrame( frame );
+			anim.setFrame( frame );
 
 		} );
 
@@ -261,7 +261,7 @@ export class BLidger extends Component {
 
 		if ( this.transformAutoUpdate ) {
 
-			const curvePosition = this.animationCurves.get( 'position' );
+			const curvePosition = this.animations.get( 'position' );
 
 			if ( curvePosition ) {
 
@@ -287,7 +287,7 @@ export class BLidger extends Component {
 
 			}
 
-			const curveRotation = this.animationCurves.get( 'rotation' );
+			const curveRotation = this.animations.get( 'rotation' );
 
 			if ( curveRotation ) {
 
@@ -325,7 +325,7 @@ export class BLidger extends Component {
 
 			}
 
-			const curveScale = this.animationCurves.get( 'scale' );
+			const curveScale = this.animations.get( 'scale' );
 
 			if ( curveScale ) {
 
@@ -355,7 +355,7 @@ export class BLidger extends Component {
 
 		// visibility
 
-		const curveHide = this.animationCurves.get( 'hide' );
+		const curveHide = this.animations.get( 'hide' );
 
 		if ( curveHide ) {
 
@@ -367,7 +367,7 @@ export class BLidger extends Component {
 
 		if ( this.cameraComponent ) {
 
-			const curveFov = this.animationCurves.get( 'fov' );
+			const curveFov = this.animations.get( 'fov' );
 
 			if ( curveFov ) {
 
@@ -381,7 +381,7 @@ export class BLidger extends Component {
 
 		if ( this.lightComponent ) {
 
-			const curveColor = this.animationCurves.get( 'color' );
+			const curveColor = this.animations.get( 'color' );
 
 			if ( curveColor ) {
 

@@ -8,7 +8,7 @@ import { globalUniforms, resource } from '~/ts/gl/GLGlobals';
 
 export class IntroTunnel extends MXP.Component {
 
-	private receiver: MXP.BLidgerUniformReceiver;
+	private receiver: MXP.BLidgerAnimationReceiver;
 
 	constructor() {
 
@@ -16,7 +16,7 @@ export class IntroTunnel extends MXP.Component {
 
 		// uniforms
 
-		this.receiver = new MXP.BLidgerUniformReceiver();
+		this.receiver = new MXP.BLidgerAnimationReceiver();
 		this.add( this.receiver );
 
 		// geometry
@@ -43,7 +43,7 @@ export class IntroTunnel extends MXP.Component {
 			frag: MXP.hotGet( 'introTunnelFrag', introTunnelFrag ),
 			vert: MXP.hotGet( 'introTunnelVert', introTunnelVert ),
 			phase: [ 'deferred', 'shadowMap', "envMap" ],
-			uniforms: this.receiver.register( GLP.UniformsUtils.merge( globalUniforms.time, {
+			uniforms: this.receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time, {
 				uNoiseTex: {
 					value: resource.getTexture( "noise" ),
 					type: "1i"

@@ -1,25 +1,27 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-export class BLidgerUniformReceiver extends MXP.Component {
+export class BLidgerAnimationReceiver extends MXP.Component {
+
+	public animations: Map<string, GLP.FCurveGroup>;
 
 	public uniforms: GLP.Uniforms;
-
 	private registeredUniforms: GLP.Uniforms[];
 
 	constructor() {
 
 		super();
 
-		this.uniforms = {};
+		this.animations = new Map();
 
+		this.uniforms = {};
 		this.registeredUniforms = [];
 
 	}
 
-	public register( uniforms: GLP.Uniforms ) {
+	public registerUniforms( uniforms: GLP.Uniforms ) {
 
-		this.unregister( uniforms );
+		this.unregisterUniforms( uniforms );
 
 		this.registeredUniforms.push( uniforms );
 
@@ -29,7 +31,7 @@ export class BLidgerUniformReceiver extends MXP.Component {
 
 	}
 
-	public unregister( uniforms: GLP.Uniforms ) {
+	public unregisterUniforms( uniforms: GLP.Uniforms ) {
 
 		const index = this.registeredUniforms.indexOf( uniforms );
 
@@ -54,6 +56,8 @@ export class BLidgerUniformReceiver extends MXP.Component {
 	public setEntityImpl( entity: MXP.Entity ): void {
 
 		const onAddBlidger = ( blidger: MXP.BLidger ) => {
+
+			this.animations = blidger.animations;
 
 			this.uniforms = blidger.uniforms;
 

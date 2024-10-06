@@ -68,7 +68,7 @@ export class RenderCamera extends Camera {
 
 		this.dof = {
 			focusDistance: 0.5,
-			kFilmHeight: 0.002,
+			kFilmHeight: 0.008,
 		};
 
 	}
