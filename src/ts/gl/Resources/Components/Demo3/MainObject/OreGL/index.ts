@@ -1,4 +1,5 @@
 
+
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
@@ -6,30 +7,40 @@ import { OreGLTrails } from './OreGLTrails';
 import oreglFrag from './shaders/oregl.fs';
 import oreglVert from './shaders/oregl.vs';
 
-import { globalUniforms } from '~/ts/gl/GLGlobals';
+import { globalUniforms, resource } from '~/ts/gl/GLGlobals';
 
 export class OreGL extends MXP.Component {
 
 	private trails: MXP.Entity;
 
-	private geometry: MXP.SphereGeometry;
-	private material: MXP.Material;
-
 	constructor() {
 
 		super();
+
+		const receiver = new MXP.BLidgerAnimationReceiver();
+		this.add( receiver );
 
 		/*-------------------------------
 			Mesh
 		-------------------------------*/
 
-		this.geometry = new MXP.SphereGeometry( { radius: 1, widthSegments: 32, heightSegments: 32 } );
-		this.material = new MXP.Material( {
+		const geo = new MXP.SphereGeometry( { radius: 1, widthSegments: 32, heightSegments: 32 } );
+
+		this.add( geo );
+
+		const mat = new MXP.Material( {
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time ),
+			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time, {
+				uNoiseTex: {
+					value: resource.getTexture( "noise" ),
+					type: "1i"
+				}
+			} ) ),
 			vert: MXP.hotGet( "oreglVert", oreglVert ),
 			frag: MXP.hotGet( "oreglFrag", oreglFrag ),
 		} );
+
+		this.add( mat );
 
 		if ( process.env.NODE_ENV === 'development' ) {
 
@@ -39,9 +50,9 @@ export class OreGL extends MXP.Component {
 
 					if ( module ) {
 
-						this.material.frag = MXP.hotUpdate( 'oreglFrag', module.default );
+						mat.frag = MXP.hotUpdate( 'oreglFrag', module.default );
 
-						this.material.requestUpdate();
+						mat.requestUpdate();
 
 					}
 
@@ -51,9 +62,9 @@ export class OreGL extends MXP.Component {
 
 					if ( module ) {
 
-						this.material.vert = MXP.hotUpdate( 'oreglVert', module.default );
+						mat.vert = MXP.hotUpdate( 'oreglVert', module.default );
 
-						this.material.requestUpdate();
+						mat.requestUpdate();
 
 					}
 
@@ -69,23 +80,19 @@ export class OreGL extends MXP.Component {
 		-------------------------------*/
 
 		this.trails = new MXP.Entity();
-		this.trails.addComponent( new OreGLTrails() );
+		const trailComponent = this.trails.addComponent( new OreGLTrails() );
+		const trailMat = trailComponent.findChild( MXP.Material )!;
+		trailMat.uniforms = receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time, trailComponent.gpu.passes[ 0 ].outputUniforms ) );
 
 	}
 
 	public setEntityImpl( entity: MXP.Entity ): void {
-
-		entity.addComponent( this.material );
-		entity.addComponent( this.geometry );
 
 		entity.add( this.trails );
 
 	}
 
 	public unsetEntityImpl( entity: MXP.Entity ): void {
-
-		entity.removeComponent( this.material );
-		entity.removeComponent( this.geometry );
 
 		entity.remove( this.trails );
 

@@ -1,7 +1,11 @@
 #include <common>
 #include <frag_h>
 #include <noise_simplex>
+
 uniform float uTime;
+
+in float vFront;
+in float vVis;
 
 void main( void ) {
 
@@ -18,12 +22,14 @@ void main( void ) {
     c.y -= n * 2.0;
     c.z -= n;
 
-	float front = max( 0.0, dot( outNormal, vec3( 0.0, 0.0, 1.0  ) ) );
+	c = mix( vec3( 1.0 ), c, vFront );
 
-	c = mix( vec3( 1.0 ), c, front );
+    float emit = step( 0.5, sin(smoothstep( 0.90, 0.95, vVis ) * PI * 4.5 ) );
+    
+    c = mix( vec3( 1.0 ), c, emit );
 
-	outColor.xyz *= mix( vec3( 1.0 ), c, front);
-	outEmissionIntensity = 7.0 * ( front );
+	outColor.xyz *= mix( vec3( 1.0 ), c, vFront);
+	outEmissionIntensity = 7.0 * ( vFront ) * emit;
 	outRoughness = 0.2;
 
 	#include <frag_out>

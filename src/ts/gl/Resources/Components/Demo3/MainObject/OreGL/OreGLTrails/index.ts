@@ -11,8 +11,6 @@ import { gl, globalUniforms, renderer } from '~/ts/gl/GLGlobals';
 export class OreGLTrails extends MXP.Component {
 
 	private gpu: MXP.GPUCompute;
-	private geometry: MXP.Geometry;
-	private material: MXP.Material;
 
 	constructor() {
 
@@ -51,7 +49,7 @@ export class OreGLTrails extends MXP.Component {
 
 		// geometry
 
-		this.geometry = new MXP.CubeGeometry( {
+		const geo = new MXP.CubeGeometry( {
 			width: 0.05,
 			height: 0.05,
 			depth: 0.05,
@@ -76,18 +74,22 @@ export class OreGLTrails extends MXP.Component {
 
 		}
 
-		this.geometry.setAttribute( "offsetPosition", new Float32Array( positionArray ), 3, { instanceDivisor: 1 } );
-		this.geometry.setAttribute( "trailId", new Float32Array( trailIdArray ), 1, { instanceDivisor: 1 } );
-		this.geometry.setAttribute( "id", new Float32Array( idArray ), 3, { instanceDivisor: 1 } );
+		geo.setAttribute( "offsetPosition", new Float32Array( positionArray ), 3, { instanceDivisor: 1 } );
+		geo.setAttribute( "trailId", new Float32Array( trailIdArray ), 1, { instanceDivisor: 1 } );
+		geo.setAttribute( "id", new Float32Array( idArray ), 3, { instanceDivisor: 1 } );
+
+		this.add( geo );
 
 		// material
 
-		this.material = new MXP.Material( {
+		const mat = new MXP.Material( {
 			frag: MXP.hotGet( 'oreglTrailsFrag', oreglTrailsFrag ),
 			vert: MXP.hotGet( 'oreglTrailsVert', oreglTrailsVert ),
 			phase: [ 'deferred', 'shadowMap', "envMap" ],
 			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, this.gpu.passes[ 0 ].outputUniforms )
 		} );
+
+		this.add( mat );
 
 		if ( import.meta.hot ) {
 
@@ -107,9 +109,9 @@ export class OreGLTrails extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.frag = MXP.hotUpdate( 'oreglTrailsFrag', module.default );
+					mat.frag = MXP.hotUpdate( 'oreglTrailsFrag', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
@@ -119,9 +121,9 @@ export class OreGLTrails extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.vert = MXP.hotUpdate( 'oreglTrailsVert', module.default );
+					mat.vert = MXP.hotUpdate( 'oreglTrailsVert', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
@@ -140,16 +142,12 @@ export class OreGLTrails extends MXP.Component {
 	public setEntityImpl( entity: MXP.Entity ): void {
 
 		entity.addComponent( this.gpu );
-		entity.addComponent( this.material );
-		entity.addComponent( this.geometry );
 
 	}
 
 	public unsetEntityImpl( entity: MXP.Entity ): void {
 
 		entity.removeComponent( this.gpu );
-		entity.removeComponent( this.material );
-		entity.removeComponent( this.geometry );
 
 	}
 

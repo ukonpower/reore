@@ -8,26 +8,17 @@ import { globalUniforms } from '~/ts/gl/GLGlobals';
 
 export class OreGLBG extends MXP.Component {
 
-	private geometry: MXP.Geometry;
-	private material: MXP.Material;
-
 	constructor() {
 
 		super();
 
-		// geometry
+		const receiver = new MXP.BLidgerAnimationReceiver();
+		this.add( receiver );
 
-		// this.geometry = new MXP.CylinderGeometry( {
-		// 	radiusTop: 3.0,
-		// 	radiusBottom: 3.0,
-		// 	height: 0.1,
-		// 	radSegments: 32
-		// } );
-
-		this.geometry = new MXP.CubeGeometry( {
+		const geo = new MXP.CubeGeometry( {
 			width: 1.1,
-			height: 0.5,
-			depth: 6.0
+			height: 6.0,
+			depth: 0.5
 		} );
 
 		const idArray = [];
@@ -38,18 +29,22 @@ export class OreGLBG extends MXP.Component {
 
 		}
 
-		this.geometry.setAttribute( 'id', new Float32Array( idArray ), 1, {
+		geo.setAttribute( 'id', new Float32Array( idArray ), 1, {
 			instanceDivisor: 1
 		} );
 
+		this.add( geo );
+
 		// material
 
-		this.material = new MXP.Material( {
+		const mat = new MXP.Material( {
 			frag: MXP.hotGet( 'oreglBgFrag', oreglBgFrag ),
 			vert: MXP.hotGet( 'oreglBgVert', oreglBgVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time )
+			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time ) )
 		} );
+
+		this.add( mat );
 
 		if ( import.meta.hot ) {
 
@@ -57,9 +52,9 @@ export class OreGLBG extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.frag = MXP.hotUpdate( 'oreglBgFrag', module.default );
+					mat.frag = MXP.hotUpdate( 'oreglBgFrag', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
@@ -69,29 +64,15 @@ export class OreGLBG extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.vert = MXP.hotUpdate( 'oreglBgVert', module.default );
+					mat.vert = MXP.hotUpdate( 'oreglBgVert', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
 			} );
 
 		}
-
-	}
-
-	public setEntityImpl( entity: MXP.Entity ): void {
-
-		entity.addComponent( this.material );
-		entity.addComponent( this.geometry );
-
-	}
-
-	public unsetEntityImpl( entity: MXP.Entity ): void {
-
-		entity.removeComponent( this.material );
-		entity.removeComponent( this.geometry );
 
 	}
 

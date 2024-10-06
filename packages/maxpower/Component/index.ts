@@ -21,7 +21,6 @@ export class Component extends Serializable {
 
 	public children: Component[];	protected enabled_: boolean;
 
-
 	constructor( params?: ComponentParams ) {
 
 		super();
@@ -86,6 +85,12 @@ export class Component extends Serializable {
 			this.entity.addComponent( component );
 
 		}
+
+	}
+
+	public findChild<T extends typeof Component>( component: T ): InstanceType<T> | undefined {
+
+		return this.children.find( ( c ) => c instanceof component ) as InstanceType<T> | undefined;
 
 	}
 

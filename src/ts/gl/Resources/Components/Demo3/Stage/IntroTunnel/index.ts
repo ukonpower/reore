@@ -87,7 +87,7 @@ export class IntroTunnel extends MXP.Component {
 	public updateImpl( event: MXP.ComponentUpdateEvent ): void {
 
 
-		event.entity.position.z = - ( 1.0 - this.receiver.uniforms.uState.value.x ) * ( 10.5 * event.entity.scale.x );
+		event.entity.position.z = - ( 1.0 - this.receiver.uniforms.uState.value.x ) * ( 10.5 * event.entity.scale.x ) + 7.0;
 
 	}
 
