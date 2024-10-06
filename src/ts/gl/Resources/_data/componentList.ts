@@ -25,6 +25,7 @@ import { Circles } from '../Components/Demo3/Stage/Circles/index.ts';
 import { Erode } from '../Components/Demo3/Stage/Erode/index.ts';
 import { Flower } from '../Components/Demo3/Stage/Flower/index.ts';
 import { Grid } from '../Components/Demo3/Stage/Grid/index.ts';
+import { IntroTunnel } from '../Components/Demo3/Stage/IntroTunnel/index.ts';
 import { Ring } from '../Components/Demo3/Stage/Ring/index.ts';
 import { Tornado } from '../Components/Demo3/Stage/Tornado/index.ts';
 import { Wave } from '../Components/Demo3/Stage/Wave/index.ts';
@@ -76,6 +77,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 			Erode,
 			Flower,
 			Grid,
+			IntroTunnel,
 			Ring,
 			Tornado,
 			Wave,

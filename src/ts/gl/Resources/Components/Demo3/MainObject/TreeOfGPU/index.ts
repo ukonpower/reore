@@ -31,7 +31,7 @@ export class TreeOfGPU extends MXP.Component {
 		};
 
 		const uniformReceiver = new MXP.BLidgerUniformReceiver();
-		this.addChild( uniformReceiver );
+		this.add( uniformReceiver );
 
 		/*-------------------------------
 			Sefirot

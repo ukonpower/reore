@@ -77,7 +77,7 @@ export class Component extends Serializable {
 
 	}
 
-	public addChild( component: Component ) {
+	public add( component: Component ) {
 
 		this.children.push( component );
 

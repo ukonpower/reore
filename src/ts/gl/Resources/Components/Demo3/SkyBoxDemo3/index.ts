@@ -15,10 +15,10 @@ export class SkyBoxDemo3 extends MXP.Component {
 		super( params );
 
 		const uniformReceiver = new MXP.BLidgerUniformReceiver();
-		this.addChild( uniformReceiver );
+		this.add( uniformReceiver );
 
 		const geo = new MXP.SphereGeometry( { radius: 500, widthSegments: 32, heightSegments: 32 } );
-		this.addChild( geo );
+		this.add( geo );
 
 		const mat = new MXP.Material( {
 			phase: [ "deferred", "envMap" ],
@@ -26,7 +26,7 @@ export class SkyBoxDemo3 extends MXP.Component {
 			cullFace: false,
 			uniforms: uniformReceiver.register( GLP.UniformsUtils.merge( globalUniforms.time, globalUniforms.music ) )
 		} );
-		this.addChild( mat );
+		this.add( mat );
 
 		if ( import.meta.hot ) {
 

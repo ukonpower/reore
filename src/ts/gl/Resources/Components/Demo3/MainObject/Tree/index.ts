@@ -84,7 +84,7 @@ export class Tree extends MXP.Component {
 		};
 
 		const receiver = new MXP.BLidgerUniformReceiver();
-		this.addChild( receiver );
+		this.add( receiver );
 
 		this.treeMaterial = new MXP.Material( {
 			vert: treeVert,

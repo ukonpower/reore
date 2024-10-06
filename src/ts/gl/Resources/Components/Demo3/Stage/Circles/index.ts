@@ -17,13 +17,15 @@ export class Circles extends MXP.Component {
 
 		// geometry
 
+		const random = GLP.MathUtils.randomSeed( 3 );
+
 		this.geometry = new MXP.CubeGeometry( { segmentsHeight: 32 } );
 		const n = 32;
 		const idArray = [];
 
 		for ( let i = 0; i < n; i ++ ) {
 
-			idArray.push( i / n, Math.random(), Math.random(), Math.random() );
+			idArray.push( i / n, random(), random(), random() );
 
 		}
 
