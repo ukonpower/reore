@@ -84,13 +84,17 @@ export class MainCamera extends MXP.Component {
 
 		this.renderCamera = new MXP.RenderCamera( { gl } );
 		this.renderTarget = this.renderCamera.renderTarget;
+		this.add( this.renderCamera );
 
 		this.lookAt = new LookAt();
+		this.add( this.lookAt );
 
 		this.orbitControls = new OrbitControls( { elm: canvas } );
 		this.orbitControls.enabled = false;
+		this.add( this.orbitControls );
 
 		this.shakeViewer = new ShakeViewer();
+		this.add( this.shakeViewer );
 
 		// resolution
 
@@ -184,7 +188,7 @@ export class MainCamera extends MXP.Component {
 					},
 					uWeights: {
 						type: '1fv',
-						value: this.guassWeight( guassSamples )
+						value: GLP.MathUtils.gaussWeights( guassSamples )
 					},
 					uBlurRange: {
 						value: 2.0,
@@ -284,7 +288,7 @@ export class MainCamera extends MXP.Component {
 				},
 				uWeights: {
 					type: '1fv',
-					value: this.guassWeight( bSample )
+					value: GLP.MathUtils.gaussWeights( bSample )
 				},
 				uBlurRange: {
 					value: 6.0,
@@ -321,7 +325,7 @@ export class MainCamera extends MXP.Component {
 				this.bokehH,
 			]
 		} );
-
+		this.add( this.postProcess );
 
 		// dof
 
@@ -331,6 +335,8 @@ export class MainCamera extends MXP.Component {
 
 		this.tmpVector1 = new GLP.Vector();
 		this.tmpVector2 = new GLP.Vector();
+
+		console.log( GLP.MathUtils.gaussWeights( 8 ).reduce( ( a, b ) => a + b, 0 ) );
 
 		// dev
 
@@ -407,12 +413,6 @@ export class MainCamera extends MXP.Component {
 
 	public setEntityImpl( entity: MXP.Entity, ): void {
 
-		entity.addComponent( this.renderCamera );
-		entity.addComponent( this.postProcess );
-		entity.addComponent( this.lookAt );
-		entity.addComponent( this.orbitControls );
-		entity.addComponent( this.shakeViewer );
-
 		// events
 		entity.on( 'sceneCreated', ( root: MXP.Entity, ) => {
 
@@ -440,7 +440,6 @@ export class MainCamera extends MXP.Component {
 			this.dofTarget = root.getEntityByName( 'CamDof' ) || null;
 			this.updateCameraParams( this.resolution );
 
-
 		} );
 
 	}
@@ -448,41 +447,6 @@ export class MainCamera extends MXP.Component {
 	public unsetEntityImpl( prevEntity: MXP.Entity ): void {
 
 		prevEntity.off( 'sceneCreated' );
-
-	}
-
-	private guassWeight( num: number ) {
-
-		const weight = new Array( num );
-
-		// https://wgld.org/d/webgl/w057.html
-
-		let t = 0.0;
-		const d = 100;
-
-		for ( let i = 0; i < weight.length; i ++ ) {
-
-			const r = 1.0 + 2.0 * i;
-			let w = Math.exp( - 0.5 * ( r * r ) / d );
-			weight[ i ] = w;
-
-			if ( i > 0 ) {
-
-				w *= 2.0;
-
-			}
-
-			t += w;
-
-		}
-
-		for ( let i = 0; i < weight.length; i ++ ) {
-
-			weight[ i ] /= t;
-
-		}
-
-		return weight;
 
 	}
 

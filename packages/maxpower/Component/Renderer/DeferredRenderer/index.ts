@@ -171,6 +171,8 @@ export class DeferredRenderer extends MXP.PostProcess {
 
 		}
 
+		const SSAOSAMPLE = 8;
+
 		const ssaoBlurUni = GLP.UniformsUtils.merge( timeUniforms, {
 			uSSAOTexture: {
 				value: rtSSAO2.textures[ 0 ],
@@ -186,7 +188,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 			},
 			uWeights: {
 				type: '1fv',
-				value: GLP.MathUtils.gaussWeights( 16 )
+				value: GLP.MathUtils.gaussWeights( SSAOSAMPLE )
 			},
 		} );
 
@@ -196,6 +198,9 @@ export class DeferredRenderer extends MXP.PostProcess {
 			uniforms: ssaoBlurUni,
 			resolutionRatio: 1.0,
 			passThrough: true,
+			defines: {
+				SSAOSAMPLE
+			}
 		} );
 
 		const ssaoBlurV = new MXP.PostProcessPass( gl, {
@@ -208,6 +213,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 				},
 			} ),
 			defines: {
+				SSAOSAMPLE,
 				IS_VIRT: ''
 			},
 			resolutionRatio: 1.0,
