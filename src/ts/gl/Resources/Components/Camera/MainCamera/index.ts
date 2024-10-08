@@ -13,7 +13,6 @@ import gaussBlur from './shaders/gaussBlur.fs';
 
 import { gl, canvas } from '~/ts/gl/GLGlobals';
 
-
 export class MainCamera extends MXP.Component {
 
 	// uniforms
@@ -453,6 +452,22 @@ export class MainCamera extends MXP.Component {
 	protected updateImpl( event: MXP.ComponentUpdateEvent ): void {
 
 		this.updateCameraParams( this.resolution );
+
+		// state
+
+		const cameraState = this.animateReceiver.animations.get( 'cameraState' );
+
+		if ( cameraState ) {
+
+			// fov
+
+			this.renderCamera.fov = 2 * Math.atan( 12 / ( 2 * cameraState.value.x ) ) / Math.PI * 180;
+
+			// lookat
+
+			this.lookAt.enabled = cameraState.value.y > 0.5;
+
+		}
 
 		// effect
 

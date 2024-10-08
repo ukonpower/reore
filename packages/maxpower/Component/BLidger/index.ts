@@ -363,20 +363,6 @@ export class BLidger extends Component {
 
 		}
 
-		// camera
-
-		if ( this.cameraComponent ) {
-
-			const curveFov = this.animations.get( 'fov' );
-
-			if ( curveFov ) {
-
-				this.cameraComponent.fov = 2 * Math.atan( 12 / ( 2 * curveFov.setFrame( frame ).value.x ) ) / Math.PI * 180;
-
-			}
-
-		}
-
 		// light
 
 		if ( this.lightComponent ) {
