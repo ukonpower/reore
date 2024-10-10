@@ -5,7 +5,6 @@ import { router } from './router';
 import { gl } from '~/ts/gl/GLGlobals';
 import SceneData from '~/ts/gl/Resources/scene.json';
 
-
 export class BLidgeClient extends MXP.Component {
 
 	private blidge: MXP.BLidge;

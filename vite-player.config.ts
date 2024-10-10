@@ -26,7 +26,6 @@ export default defineConfig( {
 				properties: {
 					regex: /^(?!(u[A-Z]|[A-Z_]+$)).*$/,
 					reserved: [
-						// "comListCats"
 					]
 				}
 			},

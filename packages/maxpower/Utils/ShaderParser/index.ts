@@ -29,34 +29,17 @@ export const shaderInsertDefines = ( shader: string, defines: Defines ) => {
 
 	if ( ! defines ) return shader;
 
-
-	const splited = shader.split( '\n' );
-
-	let insertIndex = splited.findIndex( item => item.indexOf( 'precision' ) > - 1 );
-
-	if ( insertIndex == - 1 ) {
-
-		insertIndex = splited.findIndex( item => item.indexOf( '#version' ) > - 1 );
-
-	}
-
-	if ( insertIndex == - 1 ) insertIndex = 0;
-
 	const keys = Object.keys( defines );
+
+	let res = "";
 
 	for ( let i = 0; i < keys.length; i ++ ) {
 
-		splited.splice( insertIndex + 1, 0, "#define " + keys[ i ] + ' ' + defines[ keys[ i ] ] );
+		res += "#define " + keys[ i ] + ' ' + defines[ keys[ i ] ] + "\n";
 
 	}
 
-	let res = '';
-
-	splited.forEach( item => {
-
-		res += item + '\n';
-
-	} );
+	res = res + shader;
 
 	return res;
 
@@ -136,9 +119,11 @@ const shaderUnrollLoop = ( shader: string ) => {
 
 export const shaderParse = ( shader: string, defines?: Defines, lights?: CollectedLights ) => {
 
+	shader = shaderInsertDefines( shader, defines );
+	shader = "#version 300 es\nprecision highp float;\n" + shader;
+
 	shader = shaderInclude( shader );
 	shader = shaderInsertLights( shader, lights );
-	shader = shaderInsertDefines( shader, defines );
 	shader = shaderUnrollLoop( shader );
 	shader = shader.replace( /#define GLSLIFY .*\n/g, "" );
 

@@ -50,7 +50,7 @@ export class Modeler {
 
 		tf.bind( () => {
 
-			program.setShader( MXP.shaderParse( vertexShader, { ...defines, "TF_MODELER": "" } ), "#version 300 es\n void main(){ discard; }", { transformFeedbackVaryings: [ 'o_position', 'o_normal' ] } );
+			program.setShader( MXP.shaderParse( vertexShader, { ...defines, "TF_MODELER": "" } ), "void main(){ discard; }", { transformFeedbackVaryings: [ 'o_position', 'o_normal' ] } );
 
 		} );
 

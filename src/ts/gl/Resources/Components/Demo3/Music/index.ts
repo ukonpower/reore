@@ -185,7 +185,7 @@ export class Music extends MXP.Component {
 
 		tf.bind( () => {
 
-			program.setShader( MXP.shaderParse( MXP.hotGet( "music", musicVert ) ), musicFrag, { transformFeedbackVaryings: [ 'o_left', 'o_right' ] } );
+			program.setShader( MXP.shaderParse( MXP.hotGet( "music", musicVert ) ), MXP.shaderParse( musicFrag ), { transformFeedbackVaryings: [ 'o_left', 'o_right' ] } );
 
 		} );
 

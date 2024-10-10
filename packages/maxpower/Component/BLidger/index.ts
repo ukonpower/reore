@@ -1,5 +1,5 @@
 import * as GLP from 'glpower';
-import { BLidgerAnimationReceiver, Camera, SerializableProps } from 'maxpower';
+import { Camera, SerializableProps } from 'maxpower';
 
 import { Component, ComponentParams, ComponentUpdateEvent } from "..";
 import { BLidge, BLidgeEntity, BLidgeLightParam, BLidgeCameraParam } from "../../BLidge";

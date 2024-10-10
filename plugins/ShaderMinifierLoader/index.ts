@@ -7,6 +7,39 @@ import { Plugin } from 'vite';
 
 const exec = util.promisify( childProcess.exec );
 
+const cleanup = ( shader: string ) => {
+
+	const splitedCode = shader.split( "\n" );
+
+	let res = "";
+
+	for ( let i = 0; i < splitedCode.length; i ++ ) {
+
+		const line = splitedCode[ i ];
+
+		const hasHash = line.includes( "#" );
+		if ( hasHash ) {
+
+			res += "\n";
+
+		}
+
+		res += line;
+
+		if ( hasHash ) {
+
+			res += "\n";
+
+		}
+
+	}
+
+	res = res.replaceAll( /[\t]+/g, "" );
+
+	return res;
+
+};
+
 export const ShaderMinifierLoader = (): Plugin => {
 
 	const options = Object.assign(
@@ -56,7 +89,7 @@ export const ShaderMinifierLoader = (): Plugin => {
 			if ( isPart ) {
 
 				return {
-					code: `export default ${JSON.stringify( code.replaceAll( /[\n]+/g, "" ) )};`,
+					code: `export default ${JSON.stringify( cleanup( code ) )};`,
 					map: { mappings: '' }
 				};
 
@@ -139,7 +172,7 @@ export const ShaderMinifierLoader = (): Plugin => {
 
 			}
 
-			const compiledCode = await fs.promises.readFile( outputFilePath, 'utf-8' );
+			const compiledCode = cleanup( await fs.promises.readFile( outputFilePath, 'utf-8' ) );
 
 			fs.unlinkSync( inputFilePath );
 			fs.unlinkSync( outputFilePath );

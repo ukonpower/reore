@@ -1,6 +1,3 @@
-#version 300 es
-precision highp float;
-
 // https://qiita.com/aa_debdeb/items/26ab808de6745611df53
 
 in vec2 vUv;
