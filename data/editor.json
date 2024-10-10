@@ -25,9 +25,8 @@
 							"name": "BLidgeClient",
 							"props": {
 								"enabled": true,
-								"mode": "websocket",
-								"gltf": false,
-								"websocket/url": "ws://localhost:3100"
+								"mode": "json",
+								"gltf": false
 							}
 						},
 						{
@@ -397,5 +396,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 3501.109604519774,
 	"frameLoop/end": 4375.630081288137,
-	"selectedEntity": "3b64"
+	"selectedEntity": "6e"
 }

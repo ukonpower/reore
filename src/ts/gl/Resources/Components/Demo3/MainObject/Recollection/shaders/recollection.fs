@@ -6,6 +6,8 @@
 #include <light>
 #include <pmrem>
 
+uniform vec4 uState;
+
 uniform float uTime;
 uniform mat4 modelMatrixInverse;
 uniform vec2 uResolution;
@@ -22,13 +24,13 @@ vec2 D( vec3 p ) {
 
 	p *= 1.5;
 	
-	float contentNum = 1.2;
+	float contentNum = uState.x;
 	
 	p.xz *= rotate(contentNum);
 	vec3 mp = p;
 
-	p.xy *= rotate(uTime * 0.2);
-	p.xz *= rotate(uTime * 0.2);
+	p.xy *= rotate(uTime * 0.2 + uState.x + 0.4);
+	p.xz *= rotate(uTime * 0.2 + uState.x);
 	
 	for (int i = 0; i < 2; i++) {
 

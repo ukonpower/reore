@@ -23,9 +23,8 @@
 					"name": "BLidgeClient",
 					"props": {
 						"enabled": true,
-						"mode": "websocket",
-						"gltf": false,
-						"websocket/url": "ws://localhost:3100"
+						"mode": "json",
+						"gltf": false
 					}
 				},
 				{
@@ -124,20 +123,33 @@
 						"root/up": 0.92,
 						"branch/num": 6,
 						"branch/depth": 5,
-						"branch/start": 0.2,
+						"branch/start": 0.26,
 						"branch/end": 0.93,
 						"branch/up": 0.2,
 						"branch/wide": 1,
-						"branch/curve": 0.3,
-						"branch/lengthMultiplier": 0.87,
-						"branch/lengthRandom": 0.38,
-						"shape/length": 1.03,
+						"branch/curve": 0.26,
+						"branch/lengthMultiplier": 1.01,
+						"branch/lengthRandom": 0.5,
+						"shape/length": 1.02,
 						"shape/radius": 0.05,
-						"shape/rootlenghRatio": 1.8,
+						"shape/rootlenghRatio": 1.6,
 						"shape/rootRadiusRatio": 1.6,
-						"leaf/size": 0.59,
-						"leaf/dpeth": 0,
-						"seed": 11
+						"leaf/num": 9,
+						"leaf/size": 0.11,
+						"leaf/dpeth": 5,
+						"leaf/start": 0.1,
+						"seed": 14
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/MainObj/TreeOfGPU",
+			"components": [
+				{
+					"name": "TreeOfGPU",
+					"props": {
+						"enabled": true
 					}
 				}
 			]
@@ -209,6 +221,17 @@
 			]
 		},
 		{
+			"path": "/root/blidgeRoot/Stage/IntroTunnel",
+			"components": [
+				{
+					"name": "IntroTunnel",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
 			"path": "/root/blidgeRoot/Stage/Ring",
 			"components": [
 				{
@@ -235,6 +258,17 @@
 			"components": [
 				{
 					"name": "Wave",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/Stage/WetGround",
+			"components": [
+				{
+					"name": "WetGround",
 					"props": {
 						"enabled": true
 					}

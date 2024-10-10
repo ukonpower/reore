@@ -103,8 +103,6 @@ class App {
 
 		this.scene.init( SceneData );
 
-		this.resize();
-
 		/*-------------------------------
 			Event
 		-------------------------------*/
@@ -131,20 +129,6 @@ class App {
 	private animate() {
 
 		this.scene.update();
-
-		// loop --------------------
-
-		if ( this.scene.frame.playing ) {
-
-			if ( this.scene.frame.current > this.scene.frameSetting.duration ) {
-
-				this.scene.frame.current = 0;
-
-			}
-
-		}
-
-		// -------------------------
 
 		window.requestAnimationFrame( this.animate.bind( this ) );
 

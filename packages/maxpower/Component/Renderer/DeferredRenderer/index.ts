@@ -339,7 +339,13 @@ export class DeferredRenderer extends MXP.PostProcess {
 
 		for ( let i = 0; i < renderTarget.gBuffer.textures.length; i ++ ) {
 
-			const tex = renderTarget.gBuffer.textures[ i ];
+			let tex = renderTarget.gBuffer.textures[ i ];
+
+			if ( i === 1 ) {
+
+				tex = renderTarget.normalBuffer.textures[ 0 ];
+
+			}
 
 			this.shading.uniforms[ "sampler" + i ] = this.ssao.uniforms[ "sampler" + i ] = {
 				type: '1i',
@@ -357,7 +363,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 		this.normalSelector.uniforms.uPosTexture.value = renderTarget.gBuffer.textures[ 0 ];
 		this.normalSelector.uniforms.uSelectorTexture.value = renderTarget.gBuffer.textures[ 3 ];
 
-		this.ssaoBlurUni.uNormalTexture.value = this.ssao.uniforms[ "sampler1" ].value = this.shading.uniforms[ "sampler1" ].value = renderTarget.normalBuffer.textures[ 0 ];
+		this.ssaoBlurUni.uNormalTexture.value = renderTarget.normalBuffer.textures[ 0 ];
 
 	}
 

@@ -76,12 +76,10 @@ export class BLidgeClient extends MXP.Component {
 			...super.props,
 			mode: {
 				value: this.type,
-				opt: {
-					selectList: [
-						"json",
-						"websocket"
-					]
-				}
+				selectList: [
+					"json",
+					"websocket"
+				]
 			},
 			gltf: {
 				value: this.useGLTF,
@@ -99,9 +97,7 @@ export class BLidgeClient extends MXP.Component {
 				},
 				url: {
 					value: this.connection.url,
-					opt: {
-						readOnly: connect
-					}
+					readOnly: connect
 				},
 			} || undefined,
 		};

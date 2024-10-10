@@ -8,19 +8,20 @@ import { globalUniforms } from '~/ts/gl/GLGlobals';
 
 export class Recollection extends MXP.Component {
 
-	private material: MXP.Material;
-
 	constructor() {
 
 		super();
 
-		// material
+		const receiver = new MXP.BLidgerAnimationReceiver();
+		this.add( receiver );
 
-		this.material = new MXP.Material( {
+		const mat = new MXP.Material( {
 			frag: MXP.hotGet( 'recollectionFrag', recollectionFrag ),
 			phase: [ 'forward', 'shadowMap' ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time )
+			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time ) )
 		} );
+
+		this.add( mat );
 
 		if ( import.meta.hot ) {
 
@@ -28,27 +29,15 @@ export class Recollection extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.frag = MXP.hotUpdate( 'recollectionFrag', module.default );
+					mat.frag = MXP.hotUpdate( 'recollectionFrag', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
 			} );
 
 		}
-
-	}
-
-	public setEntityImpl( entity: MXP.Entity ): void {
-
-		entity.addComponent( this.material );
-
-	}
-
-	public unsetEntityImpl( entity: MXP.Entity ): void {
-
-		entity.removeComponent( this.material );
 
 	}
 

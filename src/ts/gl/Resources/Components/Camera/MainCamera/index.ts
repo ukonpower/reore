@@ -335,8 +335,6 @@ export class MainCamera extends MXP.Component {
 		this.tmpVector1 = new GLP.Vector();
 		this.tmpVector2 = new GLP.Vector();
 
-		console.log( GLP.MathUtils.gaussWeights( 8 ).reduce( ( a, b ) => a + b, 0 ) );
-
 		// dev
 
 		if ( process.env.NODE_ENV === 'development' ) {
