@@ -9,7 +9,7 @@ const exec = util.promisify( childProcess.exec );
 
 const cleanup = ( shader: string ) => {
 
-	const splitedCode = shader.split( "\n" );
+	const splitedCode = shader.split( /[\n|\r]+/g );
 
 	let res = "";
 
