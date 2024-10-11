@@ -9,7 +9,7 @@ const exec = util.promisify( childProcess.exec );
 
 const cleanup = ( shader: string ) => {
 
-	const splitedCode = shader.split( /[\n|\r]+/g );
+	const splitedCode = shader.split( /[\n\r]+/g ).map( line => line.split( "//" )[ 0 ].trim() );
 
 	let res = "";
 
@@ -18,6 +18,7 @@ const cleanup = ( shader: string ) => {
 		const line = splitedCode[ i ];
 
 		const hasHash = line.includes( "#" );
+
 		if ( hasHash ) {
 
 			res += "\n";
@@ -97,7 +98,6 @@ export const ShaderMinifierLoader = (): Plugin => {
 
 			code = code.replaceAll( "\\n", "\n" );
 			code = code.replaceAll( "\\t", "\t" );
-			code = code.replaceAll( "precision highp float;", "//[\nprecision highp float;\n//]\n" );
 
 			const fileName = id.replaceAll( '/', "_" ) + new Date().getTime();
 			const inputFilePath = `./tmp/${fileName}_in.txt`;
