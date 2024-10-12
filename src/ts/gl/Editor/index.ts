@@ -501,7 +501,7 @@ export class GLEditor extends MXP.Serializable {
 		const wrapAspect = wrapWidth / wrapHeight;
 
 		const canvasPixelWidth = 1920;
-		const canvasPixelHeight = 1080;
+		const canvasPixelHeight = canvasPixelWidth / ( 16 / 7 );
 		const canvasPixelAspect = canvasPixelWidth / canvasPixelHeight;
 
 		let canvasWidth = wrapWidth;

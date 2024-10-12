@@ -69,16 +69,23 @@ void main( void ) {
 	
 	if( dist.y == 0.0 ) {
 
-		outEmissionIntensity += length( N( rayPos, 0.01 ) - normal) * 4.0;
+		// outEmissionIntensity += length( N( rayPos, 0.01 ) - normal) * 4.0;
 
 	} else if( dist.y == 1.0 ) {
 
 		float dnv = dot( normal, -rayDir );
-		outColor.xyz = vec3( 1.0 );
-		outEmissionIntensity = 8.0 * ( dnv * 0.8 + 0.2 ) * exp( fract(  dnv ) * - 5.0 );
+		outColor.xyz = vec3( 1.0, 0.5, 0.5 );
+		outEmissionIntensity = exp( fract(uTime / 3.0 + dnv ) * -5.0 ) * 5.0;
 		
 		
 	}
+
+	vec4 modelPosition = modelMatrix * vec4( rayPos, 1.0 );
+	vec4 mvpPosition = projectionMatrix * viewMatrix * modelPosition;
+
+	outPos = modelPosition.xyz;
+	gl_FragDepth =  ( mvpPosition.z / mvpPosition.w ) * 0.5 + 0.5;
+
 	
 	#include <frag_out>
 

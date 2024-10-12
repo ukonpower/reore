@@ -126,7 +126,7 @@ void main( void ) {
 		outColor.xyz /= 16.0;
 		outColor.xyz *= mix( 1.0, 0.3, visibility );
 		outColor.w = 1.0;
-		outColor.xyz += smoothstep( 0.0, 0.3, length( N( rayPos, 0.02 ) - normal)) * 50.0 * max( uState.y - 1.0, 0.0) * vec3( 1.0, 0.75, 0.7 );
+		outColor.xyz += smoothstep( 0.0, 0.3, length( N( rayPos, 0.02 ) - normal)) * 50.0 * max( uState.y - 1.0, 0.0) * vec3( 1.0, 0.8, 0.8 );
 
 		#include <lighting_light>
 		#include <lighting_env>

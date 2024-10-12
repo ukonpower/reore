@@ -224,6 +224,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/Stage/GridCross",
+					"components": [
+						{
+							"name": "GridCross",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/Stage/IntroTunnel",
 					"components": [
 						{
@@ -397,5 +408,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 3501.109604519774,
 	"frameLoop/end": 4375.630081288137,
-	"selectedEntity": "6e"
+	"selectedEntity": "a8"
 }

@@ -1,5 +1,4 @@
 import { MainCamera } from '../Components/Camera/MainCamera/index.ts';
-import { EGridDots } from '../Components/Demo3/Effects/EGridDots/index.ts';
 import { Chain } from '../Components/Demo3/MainObject/Confrict1/Chain/index.ts';
 import { RingFrame } from '../Components/Demo3/MainObject/Confrict1/RingFrame/index.ts';
 import { Confrict1 } from '../Components/Demo3/MainObject/Confrict1/index.ts';
@@ -25,6 +24,7 @@ import { Circles } from '../Components/Demo3/Stage/Circles/index.ts';
 import { Erode } from '../Components/Demo3/Stage/Erode/index.ts';
 import { Flower } from '../Components/Demo3/Stage/Flower/index.ts';
 import { Grid } from '../Components/Demo3/Stage/Grid/index.ts';
+import { GridCross } from '../Components/Demo3/Stage/GridCross/index.ts';
 import { IntroTunnel } from '../Components/Demo3/Stage/IntroTunnel/index.ts';
 import { Ring } from '../Components/Demo3/Stage/Ring/index.ts';
 import { Tornado } from '../Components/Demo3/Stage/Tornado/index.ts';
@@ -43,9 +43,6 @@ export const COMPONENTLIST: {[key: string]: any} = {
 		MainCamera,
 	},
 	Demo3: {
-		Effects: {
-			EGridDots,
-		},
 		MainObject: {
 			Confrict1,
 			Confrict2,
@@ -66,6 +63,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 			Erode,
 			Flower,
 			Grid,
+			GridCross,
 			IntroTunnel,
 			Ring,
 			Tornado,
