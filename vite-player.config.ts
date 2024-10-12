@@ -24,7 +24,8 @@ export default defineConfig( {
 			},
 			mangle: {
 				properties: {
-					regex: /^(?!(u[A-Z]|[A-Z_]+$)).*$/,
+					keep_quoted: "strict",
+					regex: /^(?!(u[A-Z]|a[A-Z]|[A-Z_]+$|_)).*$/,
 					reserved: [
 					]
 				}

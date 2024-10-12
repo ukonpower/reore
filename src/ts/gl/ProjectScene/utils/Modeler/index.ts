@@ -164,9 +164,10 @@ export class Modeler {
 		const indexArray: number[] = [];
 
 		const customAttributes: BakeAttribute = {
-			uv: { size: 2, type: Float32Array },
 			...attrs,
 		};
+
+		customAttributes[ "uv" ] = { size: 2, type: Float32Array };
 
 		const bakedAttributes: {[key: string]: number[]} = {};
 

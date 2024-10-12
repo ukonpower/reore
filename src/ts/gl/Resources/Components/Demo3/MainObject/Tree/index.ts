@@ -182,66 +182,65 @@ export class Tree extends MXP.Component {
 
 		return {
 			...super.props,
-			root: {
-				num: { value: this.param.root.num, min: 0, max: 10, precision: 3, step: 1 },
-				up: { value: this.param.root.up, min: 0, max: 1, precision: 3, step: 0.01 },
+			_root: {
+				_num: { value: this.param.root.num, min: 0, max: 10, precision: 3, step: 1 },
+				_up: { value: this.param.root.up, min: 0, max: 1, precision: 3, step: 0.01 },
 			},
-			branch: {
-				num: { value: this.param.branch.num, min: 0, max: 10, precision: 3, step: 1 },
-				depth: { value: this.param.branch.depth, in: 0, max: 10, precision: 3, step: 1 },
-				start: { value: this.param.branch.start, min: 0, max: 1, precision: 3, step: 0.01 },
-				end: { value: this.param.branch.end, min: 0, max: 1, precision: 3, step: 0.01 },
-				up: { value: this.param.branch.up, min: - 1, max: 1, precision: 3, step: 0.01 },
-				wide: { value: this.param.branch.wide, min: 0, max: 1, precision: 3, step: 0.02 },
-				curve: { value: this.param.branch.curve, min: - 1, max: 1, precision: 3, step: 0.01 },
-				lengthMultiplier: { value: this.param.branch.lengthMultiplier, min: 0, max: 2, precision: 3, step: 0.01 },
-				lengthRandom: { value: this.param.branch.lengthRandom, min: 0, max: 1, precision: 3, step: 0.01 },
+			_branch: {
+				_num: { value: this.param.branch.num, min: 0, max: 10, precision: 3, step: 1 },
+				_depth: { value: this.param.branch.depth, in: 0, max: 10, precision: 3, step: 1 },
+				_start: { value: this.param.branch.start, min: 0, max: 1, precision: 3, step: 0.01 },
+				_end: { value: this.param.branch.end, min: 0, max: 1, precision: 3, step: 0.01 },
+				_up: { value: this.param.branch.up, min: - 1, max: 1, precision: 3, step: 0.01 },
+				_wide: { value: this.param.branch.wide, min: 0, max: 1, precision: 3, step: 0.02 },
+				_curve: { value: this.param.branch.curve, min: - 1, max: 1, precision: 3, step: 0.01 },
+				_lengthMultiplier: { value: this.param.branch.lengthMultiplier, min: 0, max: 2, precision: 3, step: 0.01 },
+				_lengthRandom: { value: this.param.branch.lengthRandom, min: 0, max: 1, precision: 3, step: 0.01 },
 			},
-			shape: {
-				length: { value: this.param.shape.length, min: 0, max: 2, precision: 3, step: 0.01 },
-				radius: { value: this.param.shape.radius, min: 0, max: 0.05, precision: 3, step: 0.001 },
+			_shape: {
+				_length: { value: this.param.shape.length, min: 0, max: 2, precision: 3, step: 0.01 },
+				_radius: { value: this.param.shape.radius, min: 0, max: 0.05, precision: 3, step: 0.001 },
 
-				rootlenghRatio: { value: this.param.shape.rootLengthRatio, min: 0, max: 999, precision: 3, step: 0.1 },
-				rootRadiusRatio: { value: this.param.shape.rootRadiusRatio, min: 0, max: 999, precision: 3, step: 0.1 },
+				_rootlenghRatio: { value: this.param.shape.rootLengthRatio, min: 0, max: 999, precision: 3, step: 0.1 },
+				_rootRadiusRatio: { value: this.param.shape.rootRadiusRatio, min: 0, max: 999, precision: 3, step: 0.1 },
 			},
-			leaf: {
-				num: { value: this.param.leaf.num, min: 0, max: 20, precision: 3, step: 1 },
-				size: { value: this.param.leaf.size, min: 0, max: 1, precision: 3, step: 0.01 },
-				dpeth: { value: this.param.leaf.dpeth, min: 0, max: 10, precision: 3, step: 1 },
-				start: { value: this.param.leaf.start, min: 0, max: 1, precision: 3, step: 0.1 }
+			_leaf: {
+				_num: { value: this.param.leaf.num, min: 0, max: 20, precision: 3, step: 1 },
+				_size: { value: this.param.leaf.size, min: 0, max: 1, precision: 3, step: 0.01 },
+				_dpeth: { value: this.param.leaf.dpeth, min: 0, max: 10, precision: 3, step: 1 },
+				_start: { value: this.param.leaf.start, min: 0, max: 1, precision: 3, step: 0.1 }
 			},
-			seed: { value: this.param.seed, min: 0, max: 9999, step: 1 }
+			_seed: { value: this.param.seed, min: 0, max: 9999, step: 1 }
 		};
 
 	}
 
 	public deserializer( props: MXP.TypedSerializableProps<this> ): void {
 
-		this.param.root.num = props.root.num.value;
-		this.param.root.up = props.root.up.value;
+		this.param.root.num = props._root._num.value;
+		this.param.root.up = props._root._up.value;
 
-		this.param.branch.num = props.branch.num.value;
-		this.param.branch.depth = props.branch.depth.value;
-		this.param.branch.start = props.branch.start.value;
-		this.param.branch.end = props.branch.end.value;
-		this.param.branch.up = props.branch.up.value;
-		this.param.branch.wide = props.branch.wide.value;
-		this.param.branch.curve = props.branch.curve.value;
-		this.param.branch.lengthMultiplier = props.branch.lengthMultiplier.value;
-		this.param.branch.lengthRandom = props.branch.lengthRandom.value;
+		this.param.branch.num = props._branch._num.value;
+		this.param.branch.depth = props._branch._depth.value;
+		this.param.branch.start = props._branch._start.value;
+		this.param.branch.end = props._branch._end.value;
+		this.param.branch.up = props._branch._up.value;
+		this.param.branch.wide = props._branch._wide.value;
+		this.param.branch.curve = props._branch._curve.value;
+		this.param.branch.lengthMultiplier = props._branch._lengthMultiplier.value;
+		this.param.branch.lengthRandom = props._branch._lengthRandom.value;
 
-		this.param.shape.length = props.shape.length.value;
-		this.param.shape.radius = props.shape.radius.value;
-		this.param.shape.rootLengthRatio = props.shape.rootlenghRatio.value;
-		this.param.shape.rootRadiusRatio = props.shape.rootRadiusRatio.value;
+		this.param.shape.length = props._shape._length.value;
+		this.param.shape.radius = props._shape._radius.value;
+		this.param.shape.rootLengthRatio = props._shape._rootlenghRatio.value;
+		this.param.shape.rootRadiusRatio = props._shape._rootRadiusRatio.value;
 
+		this.param.leaf.num = props._leaf._num.value;
+		this.param.leaf.start = props._leaf._start.value;
+		this.param.leaf.size = props._leaf._size.value;
+		this.param.leaf.dpeth = props._leaf._dpeth.value;
 
-		this.param.leaf.num = props.leaf.num.value;
-		this.param.leaf.start = props.leaf.start.value;
-		this.param.leaf.size = props.leaf.size.value;
-		this.param.leaf.dpeth = props.leaf.dpeth.value;
-
-		this.param.seed = props.seed.value;
+		this.param.seed = props._seed.value;
 
 		this.calc();
 
@@ -322,8 +321,8 @@ export class Tree extends MXP.Component {
 
 			}
 
-			geo.setAttribute( "instancePos", new Float32Array( instancePosArray ), 3 );
-			geo.setAttribute( "branchDepth", new Float32Array( depthArray ), 1 );
+			geo.setAttribute( "_instancePos", new Float32Array( instancePosArray ), 3 );
+			geo.setAttribute( "_branchDepth", new Float32Array( depthArray ), 1 );
 
 			branchEntity.addComponent( geo );
 
@@ -422,12 +421,11 @@ export class Tree extends MXP.Component {
 			tree.quaternion.setFromEuler( new GLP.Euler( 0.0, i / this.param.root.num * Math.PI * 2.0, 0.0 ) );
 
 			tree.addComponent( modeler.bakeEntity( branchEntity, {
-				instancePos: { size: 3, type: Float32Array },
-				branchDepth: { size: 1, type: Float32Array }
+				_instancePos: { size: 3, type: Float32Array },
+				_branchDepth: { size: 1, type: Float32Array }
 			} ) );
 
 			tree.addComponent( this.treeMaterial );
-
 
 			this.root.add( tree );
 

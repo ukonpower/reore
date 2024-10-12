@@ -453,7 +453,7 @@ export class MainCamera extends MXP.Component {
 
 		// state
 
-		const cameraState = this.animateReceiver.animations.get( 'cameraState' );
+		const cameraState = this.animateReceiver.animations.get( '_cameraState' );
 
 		if ( cameraState ) {
 
@@ -469,7 +469,7 @@ export class MainCamera extends MXP.Component {
 
 		// effect
 
-		const cameraEffect = this.animateReceiver.animations.get( 'cameraEffect' );
+		const cameraEffect = this.animateReceiver.animations.get( '_cameraEffect' );
 
 		if ( cameraEffect ) {
 

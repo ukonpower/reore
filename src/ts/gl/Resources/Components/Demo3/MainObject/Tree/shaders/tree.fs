@@ -7,8 +7,6 @@ void main( void ) {
 
 	#include <frag_in>
 
-	// outColor.xyz = vec3( vUv, 0.0 );
-
 	vec4 n = texture( uNoiseTex, vUv * 8.0 );
 	outRoughness = n.x * 1.5;
 
