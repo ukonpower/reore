@@ -11,14 +11,14 @@ import { globalUniforms } from '~/ts/gl/GLGlobals';
 
 export class Wave extends MXP.Component {
 
-	private bgGeo: MXP.Geometry;
-	private bgMat: MXP.Material;
-
 	private planes: MXP.Entity;
 
 	constructor() {
 
 		super();
+
+		const receiver = new MXP.BLidgerAnimationReceiver();
+		this.add( receiver );
 
 		const width = 4.0;
 
@@ -31,26 +31,32 @@ export class Wave extends MXP.Component {
 
 		// bg
 
-		this.bgGeo = new MXP.CubeGeometry( {
-			width,
+		const geo = new MXP.CubeGeometry( {
+			width: width * 2.0,
 			height: 1,
-			depth: 0.05
+			depth: 0.05,
+			segmentsWidth: 16,
+			segmentsHeight: 16
 		} );
 
-		this.bgMat = new MXP.Material( {
+		this.add( geo );
+
+		const mat = new MXP.Material( {
 			frag: MXP.hotGet( 'bgFrag', bgFrag ),
 			vert: MXP.hotGet( 'bgVert', bgVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, commonUniforms )
+			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time, commonUniforms ) )
 		} );
+
+		this.add( mat );
 
 		// planes
 
 		const planesGeo = new MXP.CubeGeometry( {
-			width: 0.015,
+			width: 0.02,
 			height: 1,
 			depth: 1,
-			segmentsHeight: 64
+			segmentsHeight: 128
 		} );
 
 		const instanceArray = [];
@@ -69,7 +75,7 @@ export class Wave extends MXP.Component {
 			frag: MXP.hotGet( 'waveFrag', waveFrag ),
 			vert: MXP.hotGet( 'waveVert', waveVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, commonUniforms )
+			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time, commonUniforms ) )
 		} );
 
 		this.planes = new MXP.Entity();
@@ -82,8 +88,8 @@ export class Wave extends MXP.Component {
 
 				if ( module ) {
 
-					this.bgMat.frag = MXP.hotUpdate( 'bgFrag', module.default );
-					this.bgMat.requestUpdate();
+					mat.frag = MXP.hotUpdate( 'bgFrag', module.default );
+					mat.requestUpdate();
 
 				}
 
@@ -93,8 +99,8 @@ export class Wave extends MXP.Component {
 
 				if ( module ) {
 
-					this.bgMat.vert = MXP.hotUpdate( 'bgVert', module.default );
-					this.bgMat.requestUpdate();
+					mat.vert = MXP.hotUpdate( 'bgVert', module.default );
+					mat.requestUpdate();
 
 				}
 
@@ -128,17 +134,11 @@ export class Wave extends MXP.Component {
 
 	public setEntityImpl( entity: MXP.Entity ): void {
 
-		// entity.addComponent( this.bgMat );
-		entity.addComponent( this.bgGeo );
-
 		entity.add( this.planes );
 
 	}
 
 	public unsetEntityImpl( entity: MXP.Entity ): void {
-
-		entity.removeComponent( this.bgMat );
-		entity.removeComponent( this.bgGeo );
 
 		entity.remove( this.planes );
 

@@ -29,7 +29,7 @@ void main( void ) {
     c = mix( vec3( 1.0 ), c, emit );
 
 	outColor.xyz *= mix( vec3( 1.0 ), c, vFront);
-	outEmissionIntensity = 7.0 * ( vFront ) * emit;
+	outEmissionIntensity = 6.0 * ( vFront ) * emit;
 	outRoughness = 0.2;
 
 	#include <frag_out>

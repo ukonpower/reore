@@ -4,7 +4,7 @@ import * as MXP from 'maxpower';
 import recollectionFrag from './shaders/recollection.fs';
 import recollectionVert from './shaders/recollection.vs';
 
-import { globalUniforms } from '~/ts/gl/GLGlobals';
+import { globalUniforms, resource } from '~/ts/gl/GLGlobals';
 
 export class Recollection extends MXP.Component {
 
@@ -18,7 +18,12 @@ export class Recollection extends MXP.Component {
 		const mat = new MXP.Material( {
 			frag: MXP.hotGet( 'recollectionFrag', recollectionFrag ),
 			phase: [ 'forward', 'shadowMap' ],
-			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time ) )
+			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time, {
+				uNoiseTex: {
+					value: resource.getTexture( 'noise' ),
+					type: '1i'
+				}
+			} ) )
 		} );
 
 		this.add( mat );

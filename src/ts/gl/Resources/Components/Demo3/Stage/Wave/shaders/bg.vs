@@ -10,6 +10,9 @@ void main( void ) {
 
 	#include <vert_in>
 
+	// outPos.z += - 0.05;
+	outPos.y *= 1.5;
+
 	#include <vert_out>
 
 }

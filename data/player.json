@@ -23,8 +23,9 @@
 					"name": "BLidgeClient",
 					"props": {
 						"enabled": true,
-						"mode": "json",
-						"gltf": false
+						"mode": "websocket",
+						"gltf": false,
+						"websocket/url": "ws://localhost:3100"
 					}
 				},
 				{
