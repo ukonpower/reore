@@ -17,6 +17,7 @@ import frag_out from './shaderParts/frag_out.part.glsl';
 import lighting_env from './shaderParts/lighting_env.part.glsl';
 import lighting_forwardIn from './shaderParts/lighting_forwardIn.part.glsl';
 import lighting_light from './shaderParts/lighting_light.part.glsl';
+import raymarch_out_pos from './shaderParts/raymarch_out_pos.part.glsl';
 import raymarch_ray_object from './shaderParts/raymarch_ray_object.part.glsl';
 import uniformTime from './shaderParts/uniform_time.part.glsl';
 import vert_h from './shaderParts/vert_h.part.glsl';
@@ -67,6 +68,7 @@ export const shaderInclude = ( shader: string ) => {
 		[ "frag_out", frag_out ],
 		[ "rm_normal", raymarch_normal ],
 		[ "rm_ray_obj", raymarch_ray_object ],
+		[ "rm_out_pos", raymarch_out_pos ],
 		[ "uni_time", uniformTime ],
 		[ "pmrem", pmrem ],
 	] );

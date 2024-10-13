@@ -158,6 +158,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/MainObj/Yashima",
+					"components": [
+						{
+							"name": "Yashima",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/SkyBox",
 					"components": [
 						{
@@ -288,6 +299,17 @@
 							}
 						}
 					]
+				},
+				{
+					"path": "/root/blidgeRoot/SubObj/Sessions",
+					"components": [
+						{
+							"name": "Sessions",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
 				}
 			],
 			"scene": {
@@ -408,5 +430,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 3501.109604519774,
 	"frameLoop/end": 4375.630081288137,
-	"selectedEntity": "a8"
+	"selectedEntity": "3b6f"
 }

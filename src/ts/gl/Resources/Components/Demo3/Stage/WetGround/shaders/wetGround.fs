@@ -7,7 +7,6 @@
 uniform mat4 modelMatrixInverse;
 uniform float uTimeE;
 
-
 vec2 D( vec3 p ) {
 
 	vec3 n = noiseCyc( p.xyz * 3.5 + 11.0 );
@@ -55,13 +54,8 @@ void main( void ) {
 	outColor.xyz = vec3( 1.0, 1.0, 1.0 );
 	outNormal = normalize(modelMatrix * vec4( normal, 0.0 )).xyz;
 	
-	vec4 modelPosition = modelMatrix * vec4( rayPos, 1.0 );
-	vec4 mvpPosition = projectionMatrix * viewMatrix * modelPosition;
-
-	// outPos = modelPosition.xyz;
-	gl_FragDepth = ( mvpPosition.z / mvpPosition.w ) * 0.5 + 0.5;
-
-	
+	#include <rm_out_pos>
+	outPos = vPos;
 	
 	#include <frag_out>
 

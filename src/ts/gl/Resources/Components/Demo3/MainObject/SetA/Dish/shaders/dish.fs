@@ -86,7 +86,7 @@ void main( void ) {
 	if( !hit ) discard;
 
 	outNormal = normalize(modelMatrix * vec4( normal, 0.0 )).xyz;
-	outPos = ( modelMatrix * vec4( rayPos, 1.0 ) ).xyz;
+	#include <rm_out_pos>
 
 	#include <frag_out>
 

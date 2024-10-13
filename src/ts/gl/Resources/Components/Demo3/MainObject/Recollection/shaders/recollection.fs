@@ -98,7 +98,10 @@ void main( void ) {
 	outRoughness = n.x;
 	outMetalic = 0.0;
 	outColor.xyz = vec3( 0.0 );
-	outNormal = normalize(modelMatrix * vec4( normal, 0.0 )).xyz;
+
+	vec4 worldNormal = normalize(modelMatrix * vec4( normal, 0.0 ));
+	vec4 viewNormal = normalize(viewMatrix * worldNormal);
+	outNormal = worldNormal.xyz;
 
 	if( !hit ) discard;
 
@@ -116,10 +119,10 @@ void main( void ) {
 
 		for( int i = 0; i < 16; i++ ) {
 
-			vec2 v = ( normal.xy ) * float( i + 1 ) / 4.0 * 0.01 * n.x;
+			vec2 v = ( viewNormal.xy ) * (float( i + 1 ) / 4.0 * 0.01 * n.x + 0.04);
 			outColor.x += nf * texture( uDeferredTexture, uv + v * 1.0 ).x;
-			outColor.y += nf * texture( uDeferredTexture, uv + v * 2.0 ).y;
-			outColor.z += nf * texture( uDeferredTexture, uv + v * 4.0 ).z;
+			outColor.y += nf * texture( uDeferredTexture, uv + v * 1.5 ).y;
+			outColor.z += nf * texture( uDeferredTexture, uv + v * 2.0 ).z;
 
 		}
 
@@ -131,14 +134,9 @@ void main( void ) {
 		#include <lighting_light>
 		#include <lighting_env>
 
-		vec4 modelPosition = modelMatrix * vec4( rayPos, 1.0 );
-		vec4 mvpPosition = projectionMatrix * viewMatrix * modelPosition;
-
-		outPos = modelPosition.xyz;
-		gl_FragDepth =  ( mvpPosition.z / mvpPosition.w ) * 0.5 + 0.5;
-
 	#endif
 	
+	#include <rm_out_pos>
 	#include <frag_out>
 
 }
