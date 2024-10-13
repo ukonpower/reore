@@ -33,14 +33,41 @@ vec2 D( vec3 p ) {
 	vec3 pp = p;
 	vec2 d = vec2( 99999.0, 0.0 );
 		
-	float h = 0.4;
-	float r = 0.45 + linearstep( -h * 0.85, h, pp.y ) * 0.5;
-	
-	d = opAdd( d, vec2( sdCappedCylinder( pp, h, r ), 0.0 ) );
-	d = opSub( d, vec2( sdCappedCylinder( pp + vec3( 0.0, -0.1, 0.0 ), h, r * 0.95 ), 0.0 ) );
-	d = max( d, pp.y - h * 0.8 );
+	#ifdef RAMEN
 
-	d *= 0.9;
+		float h = 0.4;
+		float r = 0.45 + linearstep( -h * 0.85, h, pp.y ) * 0.5;
+		
+		d = opAdd( d, vec2( sdCappedCylinder( pp, h, r ), 0.0 ) );
+		d = opSub( d, vec2( sdCappedCylinder( pp + vec3( 0.0, -0.1, 0.0 ), h, r * 0.95 ), 0.0 ) );
+		d = max( d, pp.y - h * 0.8 );
+
+		d *= 0.9;
+		
+	#endif
+
+	#ifdef GYOZA
+
+		pp *= 0.8;
+		pp.x *= 0.6;
+
+		float v = 1.0;
+
+		pp.y += ( 1.0 - v ) * 0.5;
+
+		float o = -0.3 + 0.8 * v;
+		vec2 q = vec2( length(pp.xz) - o, pp.y );
+
+		vec2 q1 = q;
+		q1.xy *= rotate( -1.1 );
+		d = opAdd( d, vec2( sdBox( vec3( q1, 0.0 ), vec3( 0.01, 0.18, 1.0 )), 0.0 ) );
+
+		vec2 q2 = q;
+		q2.x += 0.4;
+		q2.y += 0.11;
+		d = opAdd( d, vec2( sdBox( vec3( q2, 0.0 ), vec3( 0.3, 0.04, 0.1  )), 0.0 ) );
+
+	#endif
 
 	return d;
 

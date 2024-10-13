@@ -2,7 +2,7 @@ import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
 
-import { LookAt } from '../LookAt';
+import { LookAt } from '../../../View/LookAt';
 
 import { Keyboard } from '~/ts/gl/ProjectScene/utils/Keyboard';
 import { Pointer, PointerEventArgs } from '~/ts/gl/ProjectScene/utils/Pointer';

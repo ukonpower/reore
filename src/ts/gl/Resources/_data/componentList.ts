@@ -1,3 +1,4 @@
+import { OrbitControls } from '../Components/Camera/MainCamera/OrbitControls/index.ts';
 import { MainCamera } from '../Components/Camera/MainCamera/index.ts';
 import { Chain } from '../Components/Demo3/MainObject/Confrict1/Chain/index.ts';
 import { RingFrame } from '../Components/Demo3/MainObject/Confrict1/RingFrame/index.ts';
@@ -12,7 +13,8 @@ import { OreGL } from '../Components/Demo3/MainObject/OreGL/index.ts';
 import { OreGLBG } from '../Components/Demo3/MainObject/OreGLBg/index.ts';
 import { Recollection } from '../Components/Demo3/MainObject/Recollection/index.ts';
 import { Dish } from '../Components/Demo3/MainObject/SetA/Dish/index.ts';
-import { SetA } from '../Components/Demo3/MainObject/SetA/index.ts';
+import { Gyoza } from '../Components/Demo3/MainObject/SetA/Gyoza/index.ts';
+import { Ramen } from '../Components/Demo3/MainObject/SetA/Ramen/index.ts';
 import { Tree } from '../Components/Demo3/MainObject/Tree/index.ts';
 import { TreeOfGPU } from '../Components/Demo3/MainObject/TreeOfGPU/index.ts';
 import { Yashima } from '../Components/Demo3/MainObject/Yashima/index.ts';
@@ -37,7 +39,6 @@ import { TuringTex } from '../Components/Demo3/Textures/TuringTex/index.ts';
 import { BLidgeClient } from '../Components/Utilities/BLidgeClient/index.ts';
 import { Text } from '../Components/Utilities/Text/index.ts';
 import { LookAt } from '../Components/View/LookAt/index.ts';
-import { OrbitControls } from '../Components/View/OrbitControls/index.ts';
 import { ShakeViewer } from '../Components/View/ShakeViewer/index.ts';
 
 export const COMPONENTLIST: {[key: string]: any} = {
@@ -52,7 +53,11 @@ export const COMPONENTLIST: {[key: string]: any} = {
 			OreGL,
 			OreGLBG,
 			Recollection,
-			SetA,
+			SetA: {
+				Dish,
+				Gyoza,
+				Ramen,
+			},
 			Tree,
 			TreeOfGPU,
 			Yashima,
@@ -87,7 +92,6 @@ export const COMPONENTLIST: {[key: string]: any} = {
 	},
 	View: {
 		LookAt,
-		OrbitControls,
 		ShakeViewer,
 	},
 };

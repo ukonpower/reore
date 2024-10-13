@@ -72,6 +72,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/MainObj/Gyoza",
+					"components": [
+						{
+							"name": "Gyoza",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/MainObj/OreGL",
 					"components": [
 						{
@@ -94,10 +105,10 @@
 					]
 				},
 				{
-					"path": "/root/blidgeRoot/MainObj/Recollection",
+					"path": "/root/blidgeRoot/MainObj/Ramen",
 					"components": [
 						{
-							"name": "Recollection",
+							"name": "Ramen",
 							"props": {
 								"enabled": true
 							}
@@ -105,10 +116,10 @@
 					]
 				},
 				{
-					"path": "/root/blidgeRoot/MainObj/SetA",
+					"path": "/root/blidgeRoot/MainObj/Recollection",
 					"components": [
 						{
-							"name": "SetA",
+							"name": "Recollection",
 							"props": {
 								"enabled": true
 							}
@@ -430,5 +441,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 3501.109604519774,
 	"frameLoop/end": 4375.630081288137,
-	"selectedEntity": "3b6f"
+	"selectedEntity": "36f1d"
 }

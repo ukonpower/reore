@@ -3,9 +3,9 @@ import * as MXP from 'maxpower';
 
 
 import { LookAt } from '../../View/LookAt';
-import { OrbitControls } from '../../View/OrbitControls';
 import { ShakeViewer } from '../../View/ShakeViewer';
 
+import { OrbitControls } from './OrbitControls';
 import bloomBrightFrag from './shaders/bloomBright.fs';
 import compositeFrag from './shaders/composite.fs';
 import fxaaFrag from './shaders/fxaa.fs';
@@ -64,7 +64,7 @@ export class MainCamera extends MXP.Component {
 	// components
 
 	private lookAt: LookAt;
-	private orbitControls: OrbitControls;
+	private orbitControls?: OrbitControls;
 	private shakeViewer: MXP.Component;
 	private postProcess: MXP.PostProcess;
 
@@ -93,12 +93,16 @@ export class MainCamera extends MXP.Component {
 		this.lookAt = new LookAt();
 		this.add( this.lookAt );
 
-		this.orbitControls = new OrbitControls( { elm: canvas } );
-		this.orbitControls.enabled = false;
-		this.add( this.orbitControls );
-
 		this.shakeViewer = new ShakeViewer();
 		this.add( this.shakeViewer );
+
+		if ( process.env.NODE_ENV === 'development' ) {
+
+			this.orbitControls = new OrbitControls( { elm: canvas } );
+			this.orbitControls.enabled = false;
+			this.add( this.orbitControls );
+
+		}
 
 		// resolution
 
@@ -377,7 +381,11 @@ export class MainCamera extends MXP.Component {
 
 			const activeOrbitControls = ( activeOrbitcontrols: boolean ) => {
 
-				this.orbitControls.enabled = activeOrbitcontrols;
+				if ( this.orbitControls ) {
+
+					this.orbitControls.enabled = activeOrbitcontrols;
+
+				}
 
 				const blidger = this.entity && this.entity.getComponent( MXP.BLidger );
 				const lookat = this.entity && this.entity.getComponent( LookAt );
@@ -398,7 +406,7 @@ export class MainCamera extends MXP.Component {
 
 			const onMouseDown = ( e: PointerEvent ) => {
 
-				if ( this.orbitControls.enabled ) return;
+				if ( this.orbitControls && this.orbitControls.enabled ) return;
 
 				const elm = e.target as HTMLElement;
 
@@ -410,7 +418,7 @@ export class MainCamera extends MXP.Component {
 
 			const onWheel = () => {
 
-				if ( this.orbitControls.enabled ) return;
+				if ( this.orbitControls && this.orbitControls.enabled ) return;
 
 				activeOrbitControls( true );
 

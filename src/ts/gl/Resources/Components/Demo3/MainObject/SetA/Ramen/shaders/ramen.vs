@@ -20,6 +20,12 @@ void main( void ) {
 
 	vec4 n = texture( uNoiseTex, uv * 1.0 );
 
+	#ifdef TAMAGO
+
+	outPos *= vec3( 1.0, 1.3, 1.0 );
+	
+	#endif
+	
 	#ifdef NEGI
 
 		outPos.x += cos( outPos.z * 10.0 + rnd.w ) * 0.01;

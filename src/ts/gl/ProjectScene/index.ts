@@ -3,7 +3,7 @@ import * as MXP from 'maxpower';
 
 import { canvas, globalUniforms, renderer } from '../GLGlobals';
 import { MainCamera } from '../Resources/Components/Camera/MainCamera';
-import { OrbitControls } from '../Resources/Components/View/OrbitControls';
+import { OrbitControls } from '../Resources/Components/Camera/MainCamera/OrbitControls';
 import { initResouces } from '../Resources/init';
 
 import { OREngineProjectData, SceneSerializer, OREngineProjectFrame } from './IO/ProjectSerializer';
@@ -120,11 +120,15 @@ export class ProjectScene extends MXP.Entity {
 		globalUniforms.gBuffer.uGBufferPos.value = this.cameraComponent.renderCamera.gBuffer.textures[ 0 ];
 		globalUniforms.gBuffer.uGBufferNormal.value = this.cameraComponent.renderCamera.gBuffer.textures[ 1 ];
 
-		const orbitControls = this.camera.getComponent( OrbitControls );
+		if ( process.env.NODE_ENV === 'development' ) {
 
-		if ( orbitControls ) {
+			const orbitControls = this.camera.getComponent( OrbitControls );
 
-			orbitControls.setPosition( new GLP.Vector( 0, 0, 0 ), new GLP.Vector( 0, 0, 5 ) );
+			if ( orbitControls ) {
+
+				orbitControls.setPosition( new GLP.Vector( 0, 0, 0 ), new GLP.Vector( 0, 0, 5 ) );
+
+			}
 
 		}
 

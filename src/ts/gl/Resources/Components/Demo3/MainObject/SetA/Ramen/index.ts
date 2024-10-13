@@ -1,13 +1,14 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import { Dish } from './Dish';
-import ramenFrag from './shaders/setA.fs';
-import ramenVert from './shaders/setA.vs';
+import { Dish } from '../Dish';
+
+import ramenFrag from './shaders/ramen.fs';
+import ramenVert from './shaders/ramen.vs';
 
 import { globalUniforms, resource } from '~/ts/gl/GLGlobals';
 
-export class SetA extends MXP.Component {
+export class Ramen extends MXP.Component {
 
 	private sara: Dish;
 	private soup: MXP.Entity;
@@ -120,15 +121,14 @@ export class SetA extends MXP.Component {
 		-------------------------------*/
 
 		this.tamago = new MXP.Entity();
-		this.tamago.addComponent( new MXP.SphereGeometry( { radius: 0.25 } ) );
+		this.tamago.addComponent( new MXP.SphereGeometry( { radius: 0.16, widthSegments: 16, heightSegments: 16 } ) );
 		this.tamago.addComponent( new MXP.Material( {
 			vert: ramenVert,
-			// frag: tamagoFrag,
 			defines: { 'TAMAGO': '' },
 			uniforms,
 		} ) );
-		this.tamago.position.set( 0.1, 0.18, 0.45 );
-		this.tamago.quaternion.setFromEuler( new GLP.Euler( - Math.PI / 2 * 0.1, Math.PI / 2 * 0.2, 0.0 ), "YZX" );
+		this.tamago.position.set( 0.1, 0.0, 0.40 );
+		this.tamago.quaternion.setFromEuler( new GLP.Euler( Math.PI / 2 * - 0.8, Math.PI / 2 * - 0.6, 0.0 ), "YZX" );
 
 		/*-------------------------------
 			Chashu
