@@ -156,6 +156,17 @@
 			]
 		},
 		{
+			"path": "/root/blidgeRoot/MainObj/Yashima",
+			"components": [
+				{
+					"name": "Yashima",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
 			"path": "/root/blidgeRoot/SkyBox",
 			"components": [
 				{
@@ -281,6 +292,17 @@
 			"components": [
 				{
 					"name": "WetGround",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/SubObj/Sessions",
+			"components": [
+				{
+					"name": "Sessions",
 					"props": {
 						"enabled": true
 					}

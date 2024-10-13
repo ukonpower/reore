@@ -7,19 +7,22 @@ import { globalUniforms } from '~/ts/gl/GLGlobals';
 
 export class Decompty extends MXP.Component {
 
-	private material: MXP.Material;
-
 	constructor() {
 
 		super();
 
+		const receiver = new MXP.BLidgerAnimationReceiver();
+		this.add( receiver );
+
 		// material
 
-		this.material = new MXP.Material( {
+		const mat = new MXP.Material( {
 			frag: MXP.hotGet( 'decomptyFrag', decomptyFrag ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time )
+			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time ) )
 		} );
+
+		this.add( mat );
 
 		if ( import.meta.hot ) {
 
@@ -27,27 +30,15 @@ export class Decompty extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.frag = MXP.hotUpdate( 'decomptyFrag', module.default );
+					mat.frag = MXP.hotUpdate( 'decomptyFrag', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
 			} );
 
 		}
-
-	}
-
-	public setEntityImpl( entity: MXP.Entity ): void {
-
-		entity.addComponent( this.material );
-
-	}
-
-	public unsetEntityImpl( entity: MXP.Entity ): void {
-
-		entity.removeComponent( this.material );
 
 	}
 

@@ -18,17 +18,19 @@ vec2 D( vec3 p ) {
 
 	vec2 d = vec2( sdSphere( pp, 0.03 ), 0.0 );
 
-	float b4 = 0.0;
-	float b = ( floor( b4 ) + ( 1.0 - exp( fract( b4 ) * -5.0 ) ) );
+	float b = uState.x + -2.0;
 	
-	for( int i = 0; i < 8; i++ ) {
+	pp.yz *= rotate( b * HPI );
 
-		pp.x = abs( pp.x );
+	for( int i = 0; i < 4; i++ ) {
 
-		pp.xy *= rotate( b * PI  / 4.0);
-		pp.xz *= rotate( b * 0.1);
+		pp.z = abs( pp.z );
+		pp.zy *= rotate( b * PI / 4.0 );
+		pp.xz *= rotate( b * PI / 2.0 );
 
 	}
+
+
 
 	pp.y = abs( pp.y );
 	pp.y -= 0.03;
@@ -50,13 +52,12 @@ void main( void ) {
 	vec2 dist = vec2( 0.0 );
 	bool hit = false;
 	
-	for( int i = 0; i < 128; i++ ) { 
+	for( int i = 0; i < 64; i++ ) { 
 
 		dist = D( rayPos );		
-		rayPos += dist.x * rayDir;
+		rayPos += dist.x * rayDir * 0.7;
 
 		if( dist.x < 0.01 ) {
-
 
 			hit = true;
 			break;
@@ -107,6 +108,8 @@ void main( void ) {
 		#include <lighting_env>
 
 	#endif
+
+	outColor.xyz *= 1.0 + uState.y * 100.0;
 
 	#include <rm_out_pos>
 	#include <frag_out>

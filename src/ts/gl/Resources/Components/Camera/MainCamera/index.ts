@@ -10,8 +10,9 @@ import bloomBrightFrag from './shaders/bloomBright.fs';
 import compositeFrag from './shaders/composite.fs';
 import fxaaFrag from './shaders/fxaa.fs';
 import gaussBlur from './shaders/gaussBlur.fs';
+import glitchFrag from './shaders/glitch.fs';
 
-import { gl, canvas } from '~/ts/gl/GLGlobals';
+import { gl, canvas, globalUniforms } from '~/ts/gl/GLGlobals';
 
 export class MainCamera extends MXP.Component {
 
@@ -49,6 +50,10 @@ export class MainCamera extends MXP.Component {
 
 	private bokehV: MXP.PostProcessPass;
 	private bokehH: MXP.PostProcessPass;
+
+	// glitch
+
+	private glitch: MXP.PostProcessPass;
 
 	// resolutions
 
@@ -313,6 +318,36 @@ export class MainCamera extends MXP.Component {
 			},
 		} );
 
+		// glitch
+
+		this.glitch = new MXP.PostProcessPass( gl, {
+			name: 'glitch',
+			frag: glitchFrag,
+			uniforms: this.animateReceiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time, {
+				uGlitch: {
+					value: 0,
+					type: '1f'
+				}
+			} ) ),
+			resolutionRatio: 1.0,
+		} );
+
+		if ( import.meta.hot ) {
+
+			import.meta.hot.accept( "./shaders/glitch.fs", ( module ) => {
+
+				if ( module ) {
+
+					this.glitch.frag = module.default;
+
+				}
+
+				this.glitch.requestUpdate();
+
+			} );
+
+		}
+
 		this.postProcess = new MXP.PostProcess( {
 			input: this.renderTarget.uiBuffer.textures,
 			passes: [
@@ -322,6 +357,7 @@ export class MainCamera extends MXP.Component {
 				this.composite,
 				this.bokehV,
 				this.bokehH,
+				this.glitch,
 			]
 		} );
 		this.add( this.postProcess );
@@ -477,6 +513,9 @@ export class MainCamera extends MXP.Component {
 
 			this.bokehV.uniforms.uBlurRange.value = cameraEffect.value.y;
 			this.bokehH.enabled = this.bokehV.enabled = cameraEffect.value.y > 0.0;
+
+			this.glitch.uniforms.uGlitch.value = cameraEffect.value.z;
+			this.glitch.enabled = cameraEffect.value.z > 0.0;
 
 		}
 
