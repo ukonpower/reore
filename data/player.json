@@ -103,10 +103,32 @@
 			]
 		},
 		{
-			"path": "/root/blidgeRoot/MainObj/SetA",
+			"path": "/root/blidgeRoot/MainObj/SetA/Chahan",
 			"components": [
 				{
-					"name": "SetA",
+					"name": "Chahan",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/MainObj/SetA/Gyoza",
+			"components": [
+				{
+					"name": "Gyoza",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/MainObj/SetA/Ramen",
+			"components": [
+				{
+					"name": "Ramen",
 					"props": {
 						"enabled": true
 					}
@@ -119,27 +141,7 @@
 				{
 					"name": "Tree",
 					"props": {
-						"enabled": true,
-						"_root/_num": 1,
-						"_root/_up": 0.92,
-						"_branch/_num": 6,
-						"_branch/_depth": 5,
-						"_branch/_start": 0.26,
-						"_branch/_end": 0.93,
-						"_branch/_up": 0.2,
-						"_branch/_wide": 1,
-						"_branch/_curve": 0.26,
-						"_branch/_lengthMultiplier": 1.01,
-						"_branch/_lengthRandom": 0.5,
-						"_shape/_length": 1.02,
-						"_shape/_radius": 0.05,
-						"_shape/_rootlenghRatio": 1.6,
-						"_shape/_rootRadiusRatio": 1.6,
-						"_leaf/_num": 9,
-						"_leaf/_size": 0.11,
-						"_leaf/_dpeth": 5,
-						"_leaf/_start": 0.1,
-						"_seed": 14
+						"enabled": true
 					}
 				}
 			]

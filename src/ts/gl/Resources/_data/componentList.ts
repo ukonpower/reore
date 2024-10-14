@@ -12,9 +12,11 @@ import { OreGLTrails } from '../Components/Demo3/MainObject/OreGL/OreGLTrails/in
 import { OreGL } from '../Components/Demo3/MainObject/OreGL/index.ts';
 import { OreGLBG } from '../Components/Demo3/MainObject/OreGLBg/index.ts';
 import { Recollection } from '../Components/Demo3/MainObject/Recollection/index.ts';
+import { Chahan } from '../Components/Demo3/MainObject/SetA/Chahan/index.ts';
 import { Dish } from '../Components/Demo3/MainObject/SetA/Dish/index.ts';
 import { Gyoza } from '../Components/Demo3/MainObject/SetA/Gyoza/index.ts';
 import { Ramen } from '../Components/Demo3/MainObject/SetA/Ramen/index.ts';
+import { RotateIn } from '../Components/Demo3/MainObject/SetA/RotateIn/index.ts';
 import { Tree } from '../Components/Demo3/MainObject/Tree/index.ts';
 import { TreeOfGPU } from '../Components/Demo3/MainObject/TreeOfGPU/index.ts';
 import { Yashima } from '../Components/Demo3/MainObject/Yashima/index.ts';
@@ -54,9 +56,11 @@ export const COMPONENTLIST: {[key: string]: any} = {
 			OreGLBG,
 			Recollection,
 			SetA: {
+				Chahan,
 				Dish,
 				Gyoza,
 				Ramen,
+				RotateIn,
 			},
 			Tree,
 			TreeOfGPU,

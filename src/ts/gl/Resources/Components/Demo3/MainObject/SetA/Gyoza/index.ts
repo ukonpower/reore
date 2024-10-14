@@ -2,6 +2,7 @@ import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
 import { Dish } from '../Dish';
+import { RotateIn } from '../RotateIn';
 
 import gyozaFrag from './shaders/gyoza.fs';
 import gyozaVert from './shaders/gyoza.vs';
@@ -21,6 +22,10 @@ export class Gyoza extends MXP.Component {
 
 		const receiver = new MXP.BLidgerAnimationReceiver();
 		this.add( receiver );
+
+		// rotatein
+
+		this.add( new RotateIn() );
 
 		/*-------------------------------
 			gyoza

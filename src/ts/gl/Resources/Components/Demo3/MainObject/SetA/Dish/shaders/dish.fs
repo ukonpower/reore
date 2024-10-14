@@ -33,6 +33,30 @@ vec2 D( vec3 p ) {
 	vec3 pp = p;
 	vec2 d = vec2( 99999.0, 0.0 );
 		
+		
+	#ifdef CHAHAN
+
+		pp.xz *= rotate( PI / 8.0 );
+
+		float n = 8.0;
+		float h=floor(log2(n));
+		float a =TPI*exp2(h)/n;
+
+		for( int i = 0; i < int( h ) + 2; i++ ) {
+
+			vec2 v = vec2( -cos( a ), sin( a ) );  
+			float g = dot( pp.xz, v );
+			pp.xz -= ( g - smoothAbs( g ) ) * v;
+			a *= 0.5;
+			
+		}
+
+		pp.y -= -0.15 + ( 1.0 - pow( 1.0 - linearstep( 0.5, 1.0, length( pp.xz ) ), 2.0 ) ) * 0.3;
+		
+		d = opAdd( d, vec2( opRound( sdBox( pp, vec3( 0.85, 0.015, 0.85 ) ), 0.01 ), 0.0 ) );
+
+	#endif
+		
 	#ifdef RAMEN
 
 		float h = 0.4;
@@ -86,7 +110,7 @@ void main( void ) {
 	for( int i = 0; i < MARCH; i++ ) { 
 
 		dist = D( rayPos );		
-		rayPos += dist.x * rayDir;
+		rayPos += dist.x * rayDir * 0.7;
 
 		if( dist.x < 0.001 ) {
 

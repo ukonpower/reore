@@ -26,6 +26,9 @@ export class Dish extends MXP.Entity {
 				radSegments: 8.0
 			} );
 
+		} else if ( type == "CHAHAN" ) {
+
+			geo = new MXP.CylinderGeometry( { radiusTop: 1.0, radiusBottom: 1.0, height: 0.45, radSegments: 8.0 } );
 
 		}
 

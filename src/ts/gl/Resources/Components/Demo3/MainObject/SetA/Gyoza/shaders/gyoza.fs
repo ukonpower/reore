@@ -12,6 +12,8 @@ vec2 D( vec3 p ) {
 	p *= 0.9;
 
 	p.x -= ( vNum.x - 0.5 ) * 1.3;
+	p.y -= abs( vNum.x - 0.5 ) * 0.1 + 0.02;
+
 	p.xz *= rotate( PI * 0.5 );
 	p.zy *= rotate( PI );
 
@@ -80,7 +82,7 @@ void main( void ) {
 
 	vec3 yakeCol = vec3( 0.3, 0.1, 0.0 );
 	
-	outColor.xyz = mix( outColor.xyz, yakeCol, n.x * smoothstep( 0.05, 0.15, rayPos.y ) );
+	outColor.xyz = mix( outColor.xyz, yakeCol, n.x * smoothstep( 0.1, 0.25, rayPos.y ) );
 
 	float dnv = dot( -rayDir, normal );
 	outColor.xyz *= mix( outColor.xyz, vec3( 1.0, 0.5, 0.0 ), (1.0 - dnv * dnv) * 0.5 );
