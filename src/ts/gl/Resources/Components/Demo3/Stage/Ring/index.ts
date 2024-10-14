@@ -8,38 +8,44 @@ import { globalUniforms } from '~/ts/gl/GLGlobals';
 
 export class Ring extends MXP.Component {
 
-	private geometry: MXP.Geometry;
-	private material: MXP.Material;
-
 	constructor() {
 
 		super();
 
+		const receiver = new MXP.BLidgerAnimationReceiver();
+		this.add( receiver );
+
 		// geometry
 
-		this.geometry = new MXP.RingGeometry( { innerRadius: 0.90, outerRadius: 1.0, thetaSegments: 64, phiSegments: 1, extrude: 0.08 } );
+		const geo = new MXP.RingGeometry( { innerRadius: 1.0, outerRadius: 2.0, thetaSegments: 64, phiSegments: 1, extrude: 0.08 } );
 
 		const instanceArray = [];
 
 		const num = 32;
 
+		const random = GLP.MathUtils.randomSeed( 3.0 );
+
 		for ( let i = 0; i < num; i ++ ) {
 
-			instanceArray.push( i / ( num - 1 ), Math.random(), Math.random(), Math.random() );
+			instanceArray.push( i / ( num - 1 ), random(), random(), random() );
 
 		}
 
-		this.geometry.setAttribute( "id", new Float32Array( instanceArray ), 4, { instanceDivisor: 1 } );
+		geo.setAttribute( "id", new Float32Array( instanceArray ), 4, { instanceDivisor: 1 } );
+
+		this.add( geo );
 
 		// material
 
-		this.material = new MXP.Material( {
+		const mat = new MXP.Material( {
 			frag: MXP.hotGet( 'ringFrag', ringFrag ),
 			vert: MXP.hotGet( 'ringVert', ringVert ),
 			phase: [ 'deferred', 'shadowMap', "envMap" ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time ),
+			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time ) ),
 			cullFace: true,
 		} );
+
+		this.add( mat );
 
 		if ( import.meta.hot ) {
 
@@ -47,9 +53,9 @@ export class Ring extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.frag = MXP.hotUpdate( 'ringFrag', module.default );
+					mat.frag = MXP.hotUpdate( 'ringFrag', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
@@ -59,29 +65,15 @@ export class Ring extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.vert = MXP.hotUpdate( 'ringVert', module.default );
+					mat.vert = MXP.hotUpdate( 'ringVert', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
 			} );
 
 		}
-
-	}
-
-	public setEntityImpl( entity: MXP.Entity ): void {
-
-		entity.addComponent( this.material );
-		entity.addComponent( this.geometry );
-
-	}
-
-	public unsetEntityImpl( entity: MXP.Entity ): void {
-
-		entity.removeComponent( this.material );
-		entity.removeComponent( this.geometry );
 
 	}
 

@@ -5,20 +5,34 @@ layout(location = 4) in vec4 id;
 
 #include <rotate>
 
+out vec4 vId;
+
+uniform vec4 uState;
 uniform float uTime;
 
 void main( void ) {
 
 	#include <vert_in>
 
-	outPos.xy *= 1.0 + id.x * 1.8;
-	// outPos.xy *= mix( 1.0, 1.0 - id.x * 0.05, step( 0.96, length( position.xy ) ) );
+	float v = smoothstep( 0.0, 1.0, -(id.x) * 1.0 + uState.x * 2.0 );
+	v = easeOut( v, 5.0 );
+	float invV = 1.0 - v;
 
-	outPos.xy *= 4.0;
+	float l = step( 1.5, length( outPos.xy ) );
+
+	float s = (4.0 + 6.0 * uState.x ) + 1.0 + id.x * 31.0;
+
+	outPos.xy *= s;
+	outPos.xy *= mix( 1.0, (1.0 + 1.0 / s * 0.75 * v) * .5 ,l );
+
+	outPos.z *= 2.0 * v;
+	outPos.xy *= 0.3;
 
 	mat2 rot;
 	
-	float t = uTime * 0.1 + id.x * PI / 2.0;
+	float r = ( -1.0 + v ) * 1.0;
+	
+	float t = uTime * 0.1 + id.x * PI / 2.0 + r + 0.0;
 	
 	rot = rotate( 0.0 );
 	outPos.zy *= rot;
@@ -28,14 +42,12 @@ void main( void ) {
 	outPos.yz *= rot;
 	outNormal.yz *= rot;
 
-	
 	rot = rotate( t );
 	outPos.xz *= rot;
 	outNormal.xz *= rot;
-
-	// outPos.y -= ( 1.0 - id.x ) * 5.0;
-	
 	
 	#include <vert_out>
+
+	vId = id;
 
 }
