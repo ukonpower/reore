@@ -41,7 +41,7 @@ export class OreGLBG extends MXP.Component {
 			frag: MXP.hotGet( 'oreglBgFrag', oreglBgFrag ),
 			vert: MXP.hotGet( 'oreglBgVert', oreglBgVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time ) )
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) )
 		} );
 
 		this.add( mat );

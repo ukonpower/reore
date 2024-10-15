@@ -41,7 +41,7 @@ export class Ring extends MXP.Component {
 			frag: MXP.hotGet( 'ringFrag', ringFrag ),
 			vert: MXP.hotGet( 'ringVert', ringVert ),
 			phase: [ 'deferred', 'shadowMap', "envMap" ],
-			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time ) ),
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) ),
 			cullFace: true,
 		} );
 

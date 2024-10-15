@@ -89,11 +89,11 @@ export class BLidgerAnimationReceiver extends MXP.Component {
 
 		};
 
-		entity.on( "add/component", onEntityAddComponent );
+		entity.on( "component/add", onEntityAddComponent );
 
 		const onUnset = () => {
 
-			entity.off( "add/component", onEntityAddComponent );
+			entity.off( "component/add", onEntityAddComponent );
 
 		};
 

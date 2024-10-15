@@ -16,7 +16,7 @@ export class SideTex extends MXP.Component {
 
 		this.texutre = new TexProcedural( renderer, {
 			frag: MXP.hotGet( "sideFrag", sideFrag ),
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time )
+			uniforms: MXP.UniformsUtils.merge( globalUniforms.time )
 		} );
 
 		if ( process.env.NODE_ENV === 'development' ) {

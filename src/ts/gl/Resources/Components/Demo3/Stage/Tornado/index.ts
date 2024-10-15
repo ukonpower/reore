@@ -44,7 +44,7 @@ export class Tornado extends MXP.Component {
 			frag: MXP.hotGet( 'tornadoFrag', tornadoFrag ),
 			vert: MXP.hotGet( 'tornadoVert', tornadoVert ),
 			phase: [ 'deferred', 'shadowMap', "envMap" ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time ),
+			uniforms: MXP.UniformsUtils.merge( globalUniforms.time ),
 			cullFace: true,
 		} );
 

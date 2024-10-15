@@ -23,7 +23,7 @@ export class TuringTex extends MXP.Component {
 			gl: gl,
 			size: new GLP.Vector( 512, 512 ),
 			dataLayerCount: 1,
-			frag: turingFrag,
+			frag: MXP.hotGet( 'turingFrag', turingFrag ),
 			uniforms: {
 				uTuringParam: {
 					value: new GLP.Vector( f, k, x, y ),
@@ -32,12 +32,34 @@ export class TuringTex extends MXP.Component {
 			},
 		} );
 
+		if ( import.meta.hot ) {
+
+			import.meta.hot.accept( './shaders/turing.glsl', ( module ) => {
+
+				if ( module ) {
+
+					this.pass.frag = MXP.hotUpdate( 'turingFrag', module.default );
+
+					this.pass.requestUpdate();
+
+				}
+
+			} );
+
+		}
+
 		this.compute = new MXP.GPUCompute( {
 			renderer,
 			passes: [ this.pass ]
 		} );
 
 		this.reset();
+
+	}
+
+	public get output() {
+
+		return this.pass.outputUniforms;
 
 	}
 
@@ -53,15 +75,11 @@ export class TuringTex extends MXP.Component {
 			...super.props,
 			f: {
 				value: this.compute.passes[ 0 ].uniforms.uTuringParam.value.x,
-				opt: {
-					step: 0.01
-				}
+				step: 0.001
 			},
 			k: {
 				value: this.compute.passes[ 0 ].uniforms.uTuringParam.value.y,
-				opt: {
-					step: 0.01
-				}
+				step: 0.001
 			},
 			reset: {
 				value: () => {
@@ -79,7 +97,7 @@ export class TuringTex extends MXP.Component {
 		this.compute.passes[ 0 ].initTexture( ( layerCnt, x, y ) => {
 
 			return [
-				Math.random() * Math.sin( x * 0.05 ), Math.random() * Math.sin( y * 0.05 ), Math.random(), Math.random()
+				Math.random() * Math.sin( x * 0.1 + Math.random() ), Math.random() * Math.sin( y * 3.5 ), Math.random(), Math.random()
 			];
 
 		} );
@@ -88,8 +106,8 @@ export class TuringTex extends MXP.Component {
 
 	protected deserializer( props: MXP.TypedSerializableProps<this> ): void {
 
-		this.compute.passes[ 0 ].uniforms.uTuringParam.value.x = props.f || 0.05;
-		this.compute.passes[ 0 ].uniforms.uTuringParam.value.y = props.k || 0.059;
+		this.compute.passes[ 0 ].uniforms.uTuringParam.value.x = props.f.value || 0.05;
+		this.compute.passes[ 0 ].uniforms.uTuringParam.value.y = props.k.value || 0.059;
 
 	}
 

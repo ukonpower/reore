@@ -19,7 +19,7 @@ export class Decompty extends MXP.Component {
 		const mat = new MXP.Material( {
 			frag: MXP.hotGet( 'decomptyFrag', decomptyFrag ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time ) )
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) )
 		} );
 
 		this.add( mat );

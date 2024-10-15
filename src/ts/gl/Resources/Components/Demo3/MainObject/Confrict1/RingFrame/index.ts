@@ -29,7 +29,7 @@ export class RingFrame extends MXP.Component {
 			frag: MXP.hotGet( 'ringFrameFrag', ringFrameFrag ),
 			vert: MXP.hotGet( 'ringFrameVert', ringFrameVert ),
 			phase: [ 'deferred' ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time )
+			uniforms: MXP.UniformsUtils.merge( globalUniforms.time )
 		} );
 
 		if ( import.meta.hot ) {

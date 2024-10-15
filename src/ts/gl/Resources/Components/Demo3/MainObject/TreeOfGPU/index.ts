@@ -62,7 +62,7 @@ export class TreeOfGPU extends MXP.Component {
 			frag: MXP.hotGet( 'treeOfGPUFrag', treeOfGPUFrag ),
 			vert: MXP.hotGet( 'treeOfGPUVert', treeOfGPUVert ),
 			phase: [ 'deferred', 'shadowMap', "envMap" ],
-			uniforms: uniformReceiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time ) ),
+			uniforms: uniformReceiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) ),
 			defines: {
 				"IS_SEFIROT": ""
 			}
@@ -86,7 +86,7 @@ export class TreeOfGPU extends MXP.Component {
 			frag: MXP.hotGet( 'treeOfGPUFrag', treeOfGPUFrag ),
 			vert: MXP.hotGet( 'treeOfGPUVert', treeOfGPUVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: uniformReceiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time ) ),
+			uniforms: uniformReceiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) ),
 			defines: {
 				"IS_PASS": ""
 			}

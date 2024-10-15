@@ -21,7 +21,7 @@ export class Ramen extends MXP.Component {
 
 		this.root.scale.setScalar( 1.2 );
 
-		const uniforms = GLP.UniformsUtils.merge( globalUniforms.uniforms, {
+		const uniforms = MXP.UniformsUtils.merge( globalUniforms.uniforms, {
 			uNoiseTex: {
 				value: resource.getTexture( "noise" ),
 				type: "1i"

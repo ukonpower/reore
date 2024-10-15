@@ -64,7 +64,7 @@ export class RectWire extends MXP.Component {
 			vert: rectWireVert,
 			frag: rectWireFrag,
 			phase: [ "forward" ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time )
+			uniforms: MXP.UniformsUtils.merge( globalUniforms.time )
 		} );
 
 		if ( process.env.NODE_ENV === 'development' ) {

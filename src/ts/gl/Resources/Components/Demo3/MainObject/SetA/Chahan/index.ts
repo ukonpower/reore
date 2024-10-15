@@ -76,7 +76,7 @@ export class Chahan extends MXP.Component {
 				name: "para" + i,
 				vert: chahanVert,
 				frag: MXP.hotGet( "chahanFrag", chahanFrag ),
-				uniforms: GLP.UniformsUtils.merge( { uNoiseTex: {
+				uniforms: MXP.UniformsUtils.merge( { uNoiseTex: {
 					value: resource.getTexture( "noise" ),
 					type: "1i"
 				} } ),

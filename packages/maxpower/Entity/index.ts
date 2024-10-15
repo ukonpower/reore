@@ -372,7 +372,7 @@ export class Entity extends Serializable {
 
 		}
 
-		this.emit( "add/component", [ component ] );
+		this.emit( "component/add", [ component ] );
 
 		this.noticePropsChanged( "components" );
 
@@ -414,6 +414,8 @@ export class Entity extends Serializable {
 			}
 
 		}
+
+		this.emit( "component/remove", [ currentComponent ] );
 
 		this.noticePropsChanged( "components" );
 

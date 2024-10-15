@@ -1,6 +1,7 @@
 
 import * as GLP from 'glpower';
 
+import { UniformsUtils } from '../../Utils/Uniforms';
 import { PostProcessPass, PostProcessPassParam } from '../PostProcessPass';
 
 import quadVert from './shaders/quad.vs';
@@ -48,7 +49,7 @@ export class GPUComputePass extends PostProcessPass {
 
 		}
 
-		super( gl, { ...param, vert: param.vert || quadVert, renderTarget: rt1, uniforms: GLP.UniformsUtils.merge( param.uniforms, outputUniforms ) } );
+		super( gl, { ...param, vert: param.vert || quadVert, renderTarget: rt1, uniforms: UniformsUtils.merge( param.uniforms, outputUniforms ) } );
 
 		this.gl = gl;
 

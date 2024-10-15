@@ -1,7 +1,7 @@
-import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
 import { RectWire } from '../../RectWire';
+import { TuringTex } from '../../Textures/TuringTex';
 
 import erodeFrag from './shaders/erode.fs';
 import erodeVert from './shaders/erode.vs';
@@ -10,27 +10,43 @@ import { globalUniforms } from '~/ts/gl/GLGlobals';
 
 export class Erode extends MXP.Component {
 
-	private geometry: MXP.Geometry;
-	private material: MXP.Material;
-
 	private rectWire: MXP.Entity;
+	private turingTex?: TuringTex;
 
 	constructor() {
 
 		super();
 
+		// turing tex
+
+		this.add( new MXP.ComponentCatcher( TuringTex, ( turintTex ) => {
+
+			MXP.UniformsUtils.assign( mat.uniforms, turintTex.output );
+
+			this.turingTex = turintTex;
+
+		} ) );
+
+		// receiver
+
+		const receiver = new MXP.BLidgerAnimationReceiver();
+		this.add( receiver );
+
 		// geometry
 
-		this.geometry = new MXP.CubeGeometry( { depth: 0.1 } );
+		const geo = new MXP.CubeGeometry( { depth: 0.1 } );
+		this.add( geo );
 
 		// material
 
-		this.material = new MXP.Material( {
+		const mat = new MXP.Material( {
 			frag: MXP.hotGet( 'erodeFrag', erodeFrag ),
 			vert: MXP.hotGet( 'erodeVert', erodeVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time )
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) )
 		} );
+
+		this.add( mat );
 
 		if ( import.meta.hot ) {
 
@@ -38,9 +54,9 @@ export class Erode extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.frag = MXP.hotUpdate( 'erodeFrag', module.default );
+					mat.frag = MXP.hotUpdate( 'erodeFrag', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
@@ -50,9 +66,9 @@ export class Erode extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.vert = MXP.hotUpdate( 'erodeVert', module.default );
+					mat.vert = MXP.hotUpdate( 'erodeVert', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
@@ -65,10 +81,21 @@ export class Erode extends MXP.Component {
 
 	}
 
-	public setEntityImpl( entity: MXP.Entity ): void {
+	protected updateImpl( event: MXP.ComponentUpdateEvent ): void {
 
-		entity.addComponent( this.material );
-		entity.addComponent( this.geometry );
+		if ( this.turingTex ) {
+
+			for ( let i = 0; i < 8; i ++ ) {
+
+				this.turingTex.render();
+
+			}
+
+		}
+
+	}
+
+	public setEntityImpl( entity: MXP.Entity ): void {
 
 		entity.add( this.rectWire );
 
@@ -76,9 +103,6 @@ export class Erode extends MXP.Component {
 	}
 
 	public unsetEntityImpl( entity: MXP.Entity ): void {
-
-		entity.removeComponent( this.material );
-		entity.removeComponent( this.geometry );
 
 		entity.remove( this.rectWire );
 

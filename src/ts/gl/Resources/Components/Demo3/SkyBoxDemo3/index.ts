@@ -24,7 +24,7 @@ export class SkyBoxDemo3 extends MXP.Component {
 			phase: [ "deferred", "envMap" ],
 			frag: MXP.hotGet( "skybox", skyboxFrag ),
 			cullFace: false,
-			uniforms: uniformReceiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time, globalUniforms.music ) )
+			uniforms: uniformReceiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time, globalUniforms.music ) )
 		} );
 		this.add( mat );
 

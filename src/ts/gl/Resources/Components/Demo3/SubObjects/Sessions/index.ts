@@ -21,7 +21,7 @@ export class Sessions extends MXP.Component {
 			frag: MXP.hotGet( 'sessionsFrag', sessionsFrag ),
 			vert: MXP.hotGet( 'sessionsVert', sessionsVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time ) )
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) )
 		} );
 
 		this.add( mat );

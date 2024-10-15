@@ -211,6 +211,14 @@
 							"props": {
 								"enabled": true
 							}
+						},
+						{
+							"name": "TuringTex",
+							"props": {
+								"enabled": true,
+								"f": 0.033500000000000016,
+								"k": 0.056499999999999995
+							}
 						}
 					]
 				},
@@ -432,5 +440,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 3501.109604519774,
 	"frameLoop/end": 4375.630081288137,
-	"selectedEntity": "95"
+	"selectedEntity": "3bc0"
 }

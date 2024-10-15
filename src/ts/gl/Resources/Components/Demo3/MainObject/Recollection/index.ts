@@ -18,7 +18,7 @@ export class Recollection extends MXP.Component {
 		const mat = new MXP.Material( {
 			frag: MXP.hotGet( 'recollectionFrag', recollectionFrag ),
 			phase: [ 'forward', 'shadowMap' ],
-			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time, {
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time, {
 				uNoiseTex: {
 					value: resource.getTexture( 'noise' ),
 					type: '1i'

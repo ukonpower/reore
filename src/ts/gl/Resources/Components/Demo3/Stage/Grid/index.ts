@@ -50,7 +50,7 @@ export class Grid extends MXP.Component {
 			frag: MXP.hotGet( 'gridFrag', gridFrag ),
 			vert: MXP.hotGet( 'gridVert', gridVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time )
+			uniforms: MXP.UniformsUtils.merge( globalUniforms.time )
 		} );
 
 		if ( import.meta.hot ) {

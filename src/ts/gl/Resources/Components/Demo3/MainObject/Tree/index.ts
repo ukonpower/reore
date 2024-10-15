@@ -90,7 +90,7 @@ export class Tree extends MXP.Component {
 			vert: treeVert,
 			frag: treeFrag,
 			phase: [ "deferred", "shadowMap" ],
-			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time, {
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time, {
 				uTreeDepth: {
 					value: this.param.branch.depth,
 					type: "1f"

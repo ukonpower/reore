@@ -45,7 +45,7 @@ export class Wave extends MXP.Component {
 			frag: MXP.hotGet( 'bgFrag', bgFrag ),
 			vert: MXP.hotGet( 'bgVert', bgVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time, commonUniforms ) )
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time, commonUniforms ) )
 		} );
 
 		this.add( mat );
@@ -75,7 +75,7 @@ export class Wave extends MXP.Component {
 			frag: MXP.hotGet( 'waveFrag', waveFrag ),
 			vert: MXP.hotGet( 'waveVert', waveVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time, commonUniforms ) )
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time, commonUniforms ) )
 		} );
 
 		this.planes = new MXP.Entity();

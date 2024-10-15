@@ -34,7 +34,7 @@ export class FramedParticles extends MXP.Component {
 					size,
 					dataLayerCount: 2,
 					frag: particlesCompute,
-					uniforms: GLP.UniformsUtils.merge( {
+					uniforms: MXP.UniformsUtils.merge( {
 					}, globalUniforms.time ),
 				} )
 			]
@@ -69,7 +69,7 @@ export class FramedParticles extends MXP.Component {
 			phase: [ "deferred", "shadowMap" ],
 			frag: particlesFrag,
 			vert: particlesVert,
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, this.gpu.passes[ 0 ].outputUniforms ),
+			uniforms: MXP.UniformsUtils.merge( globalUniforms.time, this.gpu.passes[ 0 ].outputUniforms ),
 		} );
 
 		if ( process.env.NODE_ENV === 'development' ) {

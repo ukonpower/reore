@@ -112,7 +112,7 @@ export class MainCamera extends MXP.Component {
 
 		// uniforms
 
-		this.commonUniforms = GLP.UniformsUtils.merge( {
+		this.commonUniforms = MXP.UniformsUtils.merge( {
 			uResolution: {
 				type: "2f",
 				value: this.resolution
@@ -241,7 +241,7 @@ export class MainCamera extends MXP.Component {
 		this.composite = new MXP.PostProcessPass( gl, {
 			name: 'composite',
 			frag: MXP.hotUpdate( "composite", compositeFrag ),
-			uniforms: GLP.UniformsUtils.merge( this.commonUniforms, {
+			uniforms: MXP.UniformsUtils.merge( this.commonUniforms, {
 				uBloomTexture: {
 					value: this.rtBloomHorizonal.map( rt => rt.textures[ 0 ] ),
 					type: '1iv'
@@ -327,7 +327,7 @@ export class MainCamera extends MXP.Component {
 		this.glitch = new MXP.PostProcessPass( gl, {
 			name: 'glitch',
 			frag: glitchFrag,
-			uniforms: this.animateReceiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time, {
+			uniforms: this.animateReceiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time, {
 				uGlitch: {
 					value: 0,
 					type: '1f'

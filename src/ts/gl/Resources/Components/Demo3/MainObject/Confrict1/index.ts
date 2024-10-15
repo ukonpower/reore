@@ -33,7 +33,7 @@ export class Confrict1 extends MXP.Component {
 			frag: MXP.hotGet( 'confrict1Frag', confrict1Frag ),
 			vert: MXP.hotGet( 'confrict1Vert', confrict1Vert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time )
+			uniforms: MXP.UniformsUtils.merge( globalUniforms.time )
 		} );
 
 		if ( import.meta.hot ) {

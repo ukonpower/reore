@@ -30,7 +30,7 @@ export class OreGL extends MXP.Component {
 
 		const mat = new MXP.Material( {
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time, {
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time, {
 				uNoiseTex: {
 					value: resource.getTexture( "noise" ),
 					type: "1i"
@@ -82,7 +82,7 @@ export class OreGL extends MXP.Component {
 		this.trails = new MXP.Entity();
 		const trailComponent = this.trails.addComponent( new OreGLTrails() );
 		const trailMat = trailComponent.findChild( MXP.Material )!;
-		trailMat.uniforms = receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time, trailComponent.gpu.passes[ 0 ].outputUniforms ) );
+		trailMat.uniforms = receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time, trailComponent.gpu.passes[ 0 ].outputUniforms ) );
 
 	}
 

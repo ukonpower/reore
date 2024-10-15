@@ -39,7 +39,7 @@ export class Circles extends MXP.Component {
 			frag: MXP.hotGet( 'circlesFrag', circlesFrag ),
 			vert: MXP.hotGet( 'circlesVert', circlesVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time ) )
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) )
 		} );
 
 		this.add( mat );

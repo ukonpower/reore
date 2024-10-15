@@ -40,7 +40,7 @@ export class Wire extends MXP.Component {
 			blending: "ADD",
 			drawType: "LINES",
 			depthTest: false,
-			uniforms: GLP.UniformsUtils.merge( {
+			uniforms: MXP.UniformsUtils.merge( {
 
 			}, parentUniforms )
 		} );

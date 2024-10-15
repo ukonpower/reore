@@ -62,7 +62,7 @@ export class GridCross extends MXP.Component {
 			frag: MXP.hotGet( 'gridCrossFrag', gridCrossFrag ),
 			vert: MXP.hotGet( 'gridCrossVert', gridCrossVert ),
 			phase: [ "deferred", "shadowMap" ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time )
+			uniforms: MXP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time )
 		} );
 
 		this.add( mat );

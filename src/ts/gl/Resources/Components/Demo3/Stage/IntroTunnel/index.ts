@@ -43,7 +43,7 @@ export class IntroTunnel extends MXP.Component {
 			frag: MXP.hotGet( 'introTunnelFrag', introTunnelFrag ),
 			vert: MXP.hotGet( 'introTunnelVert', introTunnelVert ),
 			phase: [ 'deferred', 'shadowMap', "envMap" ],
-			uniforms: this.receiver.registerUniforms( GLP.UniformsUtils.merge( globalUniforms.time, {
+			uniforms: this.receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time, {
 				uNoiseTex: {
 					value: resource.getTexture( "noise" ),
 					type: "1i"

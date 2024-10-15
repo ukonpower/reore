@@ -56,7 +56,7 @@ export class Gyoza extends MXP.Component {
 			vert: MXP.hotGet( "gyozaVert", gyozaVert ),
 			frag: MXP.hotGet( "gyozaFrag", gyozaFrag ),
 			phase: [ "deferred", "shadowMap" ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, {
+			uniforms: MXP.UniformsUtils.merge( globalUniforms.time, {
 				uNoiseTex: {
 					value: resource.getTexture( "noise" ),
 					type: "1i"

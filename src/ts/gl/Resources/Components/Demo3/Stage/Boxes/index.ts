@@ -36,7 +36,7 @@ export class Boxes extends MXP.Component {
 			frag: MXP.hotGet( 'boxesFrag', boxesFrag ),
 			vert: MXP.hotGet( 'boxesVert', boxesVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time )
+			uniforms: MXP.UniformsUtils.merge( globalUniforms.time )
 		} );
 
 		if ( import.meta.hot ) {

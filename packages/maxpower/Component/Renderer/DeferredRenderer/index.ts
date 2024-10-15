@@ -82,7 +82,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 			name: 'normalSelector',
 			frag: normalSelectorFrag,
 			renderTarget: null,
-			uniforms: GLP.UniformsUtils.merge( {
+			uniforms: MXP.UniformsUtils.merge( {
 				uNormalTexture: {
 					value: null,
 					type: '1i'
@@ -113,7 +113,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 			name: 'lightShaft',
 			frag: lightShaftFrag,
 			renderTarget: rtLightShaft1,
-			uniforms: GLP.UniformsUtils.merge( timeUniforms, {
+			uniforms: MXP.UniformsUtils.merge( timeUniforms, {
 				uLightShaftBackBuffer: {
 					value: rtLightShaft2.textures[ 0 ],
 					type: '1i'
@@ -141,7 +141,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 			name: 'ssao',
 			frag: ssaoFrag,
 			renderTarget: MXP.hotGet( "ssao", rtSSAO1 ),
-			uniforms: GLP.UniformsUtils.merge( timeUniforms, {
+			uniforms: MXP.UniformsUtils.merge( timeUniforms, {
 				uSSAOBackBuffer: {
 					value: rtSSAO2.textures[ 0 ],
 					type: '1i'
@@ -173,7 +173,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 
 		const SSAOSAMPLE = 8;
 
-		const ssaoBlurUni = GLP.UniformsUtils.merge( timeUniforms, {
+		const ssaoBlurUni = MXP.UniformsUtils.merge( timeUniforms, {
 			uSSAOTexture: {
 				value: rtSSAO2.textures[ 0 ],
 				type: '1i'
@@ -206,7 +206,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 		const ssaoBlurV = new MXP.PostProcessPass( gl, {
 			name: 'ssaoBlur/v',
 			frag: MXP.hotGet( "ssaoBlur", ssaoBlurFrag ),
-			uniforms: GLP.UniformsUtils.merge( ssaoBlurUni, {
+			uniforms: MXP.UniformsUtils.merge( ssaoBlurUni, {
 				uSSAOTexture: {
 					value: ssaoBlurH.renderTarget!.textures[ 0 ],
 					type: '1i'
@@ -242,7 +242,7 @@ export class DeferredRenderer extends MXP.PostProcess {
 		const shading = new MXP.PostProcessPass( gl, {
 			name: "deferredShading",
 			frag: MXP.hotGet( "deferredShading", deferredShadingFrag ),
-			uniforms: GLP.UniformsUtils.merge( {
+			uniforms: MXP.UniformsUtils.merge( {
 				uLightShaftTexture: {
 					value: null,
 					type: '1i'

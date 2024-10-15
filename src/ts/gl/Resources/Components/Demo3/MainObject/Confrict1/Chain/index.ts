@@ -83,7 +83,7 @@ export class Chain extends MXP.Component {
 			frag: MXP.hotGet( 'chainFrag', chainFrag ),
 			vert: MXP.hotGet( 'chainVert', chainVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, this.gpu.passes[ 0 ].outputUniforms )
+			uniforms: MXP.UniformsUtils.merge( globalUniforms.time, this.gpu.passes[ 0 ].outputUniforms )
 		} );
 
 		if ( import.meta.hot ) {
@@ -146,7 +146,7 @@ export class Chain extends MXP.Component {
 			vert: MXP.hotGet( 'chainSphereVert', chainSphereVert ),
 			frag: MXP.hotGet( 'chainSphereFrag', chainSphereFrag ),
 			phase: [ 'deferred', 'shadowMap', "envMap" ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, this.gpu.passes[ 0 ].outputUniforms )
+			uniforms: MXP.UniformsUtils.merge( globalUniforms.time, this.gpu.passes[ 0 ].outputUniforms )
 		} );
 
 		if ( process.env.NODE_ENV === 'development' ) {

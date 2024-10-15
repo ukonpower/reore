@@ -35,7 +35,7 @@ export class Frame extends MXP.Component {
 			phase: [ "forward" ],
 			blending: "DIFF",
 			depthWrite: false,
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.gBuffer, {
+			uniforms: MXP.UniformsUtils.merge( globalUniforms.gBuffer, {
 			}, parentUniforms ),
 		} );
 

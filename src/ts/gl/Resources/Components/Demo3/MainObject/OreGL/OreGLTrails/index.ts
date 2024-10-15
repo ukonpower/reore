@@ -86,7 +86,7 @@ export class OreGLTrails extends MXP.Component {
 			frag: MXP.hotGet( 'oreglTrailsFrag', oreglTrailsFrag ),
 			vert: MXP.hotGet( 'oreglTrailsVert', oreglTrailsVert ),
 			phase: [ 'deferred', 'shadowMap', "envMap" ],
-			uniforms: GLP.UniformsUtils.merge( globalUniforms.time, this.gpu.passes[ 0 ].outputUniforms )
+			uniforms: MXP.UniformsUtils.merge( globalUniforms.time, this.gpu.passes[ 0 ].outputUniforms )
 		} );
 
 		this.add( mat );
