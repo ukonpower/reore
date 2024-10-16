@@ -23,7 +23,7 @@ export class Chain extends MXP.Component {
 
 		super();
 
-		const num = new GLP.Vector( 64, 256 );
+		const num = new GLP.Vector( 64, 512 );
 
 		// gpu
 
@@ -130,7 +130,7 @@ export class Chain extends MXP.Component {
 
 		this.chainSphere = new MXP.Entity();
 
-		const sphereGeo = new MXP.SphereGeometry( {} );
+		const sphereGeo = new MXP.SphereGeometry();
 
 		const sphereTrailId = [];
 

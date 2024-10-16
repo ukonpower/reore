@@ -77,7 +77,7 @@ export class Erode extends MXP.Component {
 		}
 
 		this.rectWire = new MXP.Entity();
-		this.rectWire.addComponent( new RectWire() );
+		// this.rectWire.addComponent( new RectWire() );
 
 	}
 
@@ -85,7 +85,7 @@ export class Erode extends MXP.Component {
 
 		if ( this.turingTex ) {
 
-			for ( let i = 0; i < 8; i ++ ) {
+			for ( let i = 0; i < 4; i ++ ) {
 
 				this.turingTex.render();
 

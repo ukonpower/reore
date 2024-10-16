@@ -30,6 +30,10 @@ export class TuringTex extends MXP.Component {
 					type: '4f'
 				}
 			},
+			textureParam: {
+				magFilter: gl.LINEAR,
+				minFilter: gl.LINEAR
+			}
 		} );
 
 		if ( import.meta.hot ) {

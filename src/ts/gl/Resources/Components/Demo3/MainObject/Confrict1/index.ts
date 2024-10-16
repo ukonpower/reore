@@ -25,6 +25,7 @@ export class Confrict1 extends MXP.Component {
 		this.geometry = new MXP.SphereGeometry( {
 			widthSegments: 32,
 			heightSegments: 32,
+			radius: 0.3
 		} );
 
 		// material
