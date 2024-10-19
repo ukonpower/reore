@@ -17,6 +17,7 @@ import { Dish } from '../Components/Demo3/MainObject/SetA/Dish/index.ts';
 import { Gyoza } from '../Components/Demo3/MainObject/SetA/Gyoza/index.ts';
 import { Ramen } from '../Components/Demo3/MainObject/SetA/Ramen/index.ts';
 import { RotateIn } from '../Components/Demo3/MainObject/SetA/RotateIn/index.ts';
+import { Silhouette } from '../Components/Demo3/MainObject/Silhouette/index.ts';
 import { Tree } from '../Components/Demo3/MainObject/Tree/index.ts';
 import { TreeOfGPU } from '../Components/Demo3/MainObject/TreeOfGPU/index.ts';
 import { Yashima } from '../Components/Demo3/MainObject/Yashima/index.ts';
@@ -62,6 +63,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 				Ramen,
 				RotateIn,
 			},
+			Silhouette,
 			Tree,
 			TreeOfGPU,
 			Yashima,

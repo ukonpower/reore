@@ -267,6 +267,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/Stage/IntroTunnel/Silhouette",
+					"components": [
+						{
+							"name": "Silhouette",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/Stage/Ring",
 					"components": [
 						{
@@ -440,5 +451,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 3501.109604519774,
 	"frameLoop/end": 4375.630081288137,
-	"selectedEntity": "3bc0"
+	"selectedEntity": "b5"
 }
