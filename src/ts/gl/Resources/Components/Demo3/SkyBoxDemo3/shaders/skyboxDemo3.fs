@@ -20,7 +20,7 @@ void main( void ) {
 
 		// white
 		outColor.xyz = vec3( 1.0, 1.0, 1.0 );
-		outEmissionIntensity = 2.0;
+		outEmissionIntensity = 1.7;
 
 	} else if( uState.x == 1.0 ) {
 

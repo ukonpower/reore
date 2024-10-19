@@ -7,7 +7,8 @@ import silhouetteFrag from './shaders/silhouette.fs';
 import silhouetteVert from './shaders/silhouette.vs';
 
 
-import { globalUniforms } from '~/ts/gl/GLGlobals';
+import { globalUniforms, power } from '~/ts/gl/GLGlobals';
+import { Modeler } from '~/ts/gl/ProjectScene/utils/Modeler';
 
 export class Silhouette extends MXP.Component {
 
@@ -21,25 +22,117 @@ export class Silhouette extends MXP.Component {
 		// receiver
 
 		const receiver = new MXP.BLidgerAnimationReceiver();
-
 		this.add( receiver );
 
 		// geometry
 
-		const geo = new MXP.SphereGeometry();
+		const geo = new MXP.SphereGeometry( { widthSegments: 32, heightSegments: 16 } );
 
 		this.add( geo );
 
 		// material
 
-		const mat = new MXP.Material( {
+		const sphereMat = new MXP.Material( {
 			frag: MXP.hotGet( 'silhouetteFrag', silhouetteFrag ),
 			vert: MXP.hotGet( 'silhouetteVert', silhouetteVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: MXP.UniformsUtils.merge( globalUniforms.time )
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) )
 		} );
 
-		this.add( mat );
+		this.add( sphereMat );
+
+		// trails
+
+		this.trails = new MXP.Entity();
+		this.trails.scale.setScalar( 1.1 );
+		this.trails.position.set( - 0.2, - 0.2, 0 );
+
+		const modeler = new Modeler( power );
+
+		const trailsRoot = new MXP.Entity();
+
+		const num = 16;
+
+
+		for ( let i = 0; i < num; i ++ ) {
+
+			const trail = new MXP.Entity();
+
+			const points: MXP.CurvePoint[] = [];
+
+			const len = 3;
+			const tRandom = GLP.MathUtils.randomSeed( i + 10.0 );
+			const rnd = GLP.MathUtils.randomSeed( i )();
+
+			for ( let j = 0; j < len; j ++ ) {
+
+				const t = j / ( len - 1.0 );
+				const ti = 1.0 - t;
+
+				const p = new GLP.Vector( 0, 0, 0 );
+
+				p.x = ti;
+				p.y = ti;
+				p.z = ( tRandom() - 0.5 ) * 0.1;
+
+				if ( i < num / 2 ) {
+
+					p.x += ( t * t ) * 0.5;
+					p.x += ( tRandom() - 0.5 ) * 0.5 * t;
+
+
+				} else {
+
+					p.y += ( t * t * t ) * 0.8;
+					p.y += ( tRandom() - 0.5 ) * 0.5 * t;
+
+				}
+
+				p.x = p.x * 2.0 - 1.0;
+				p.y = p.y * 2.0 - 1.0;
+
+				points.push( {
+					weight: ti,
+					...p
+				} );
+
+
+			}
+
+			const curve = new MXP.Curve();
+			curve.setPoints( points );
+
+			const geo = new MXP.CurveGeometry( {
+				curve,
+				radius: 0.05
+			} );
+
+			geo.setAttribute( "_rnd", new Float32Array( geo.getAttribute( "position" )!.array.length / 3 ).map( () => ( rnd ) ), 1 );
+
+			trail.addComponent( geo );
+			trailsRoot.add( trail );
+
+		}
+
+		const trailsGeo = modeler.bakeEntity( trailsRoot, {
+			"_rnd": {
+				type: Float32Array,
+				size: 1
+			}
+		} );
+
+		const trailsMat = new MXP.Material( {
+			frag: MXP.hotGet( 'silhouetteFrag', silhouetteFrag ),
+			vert: MXP.hotGet( 'silhouetteVert', silhouetteVert ),
+			phase: [ 'deferred', 'shadowMap' ],
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) ),
+			defines: {
+				"IS_TRAILS": ""
+			}
+		} );
+
+		this.trails.addComponent( trailsGeo );
+		this.trails.addComponent( trailsMat );
 
 		if ( import.meta.hot ) {
 
@@ -47,9 +140,11 @@ export class Silhouette extends MXP.Component {
 
 				if ( module ) {
 
-					mat.frag = MXP.hotUpdate( 'silhouetteFrag', module.default );
+					sphereMat.frag = MXP.hotUpdate( 'silhouetteFrag', module.default );
+					trailsMat.frag = MXP.hotUpdate( 'silhouetteFrag', module.default );
 
-					mat.requestUpdate();
+					sphereMat.requestUpdate();
+					trailsMat.requestUpdate();
 
 				}
 
@@ -59,19 +154,17 @@ export class Silhouette extends MXP.Component {
 
 				if ( module ) {
 
-					mat.vert = MXP.hotUpdate( 'silhouetteVert', module.default );
+					sphereMat.vert = MXP.hotUpdate( 'silhouetteVert', module.default );
+					trailsMat.vert = MXP.hotUpdate( 'silhouetteVert', module.default );
 
-					mat.requestUpdate();
+					sphereMat.requestUpdate();
+					trailsMat.requestUpdate();
 
 				}
 
 			} );
 
 		}
-
-		// trails
-
-		this.trails = new MXP.Entity();
 
 		// flash
 
@@ -85,8 +178,8 @@ export class Silhouette extends MXP.Component {
 			phase: [ 'forward' ],
 			blending: "ADD",
 			depthWrite: false,
-			uniforms: MXP.UniformsUtils.merge( globalUniforms.time, {
-			} )
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time, {
+			} ) )
 		} );
 
 		this.flash.addComponent( flashMat );
