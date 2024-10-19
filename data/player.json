@@ -23,7 +23,7 @@
 					"name": "BLidgeClient",
 					"props": {
 						"enabled": true,
-						"mode": "json",
+						"mode": "websocket",
 						"gltf": false,
 						"websocket/url": "ws://localhost:3100"
 					}
@@ -209,6 +209,14 @@
 					"props": {
 						"enabled": true
 					}
+				},
+				{
+					"name": "TuringTex",
+					"props": {
+						"enabled": true,
+						"f": 0.024,
+						"k": 0.05
+					}
 				}
 			]
 		},
@@ -250,6 +258,17 @@
 			"components": [
 				{
 					"name": "IntroTunnel",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/Stage/IntroTunnel/Silhouette",
+			"components": [
+				{
+					"name": "Silhouette",
 					"props": {
 						"enabled": true
 					}
