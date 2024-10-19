@@ -55,6 +55,6 @@ void main( void ) {
 
 	vId = id;
 
-	gl_Position = vec4( outPos.xyz, 1.0 );
+	gl_Position = vec4( outPos.xy, screenGPUPos1.z, 1.0 );
 
 }

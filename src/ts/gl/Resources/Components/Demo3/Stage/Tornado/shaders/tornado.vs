@@ -19,7 +19,7 @@ void main( void ) {
 
 	outPos.xz *= ( 1.0 - py * 0.8 ) * mix( 0.08, 0.05, id.x );
 
-	float rt = uTime * -0.5 + id.x * 2.0 + py * HPI;
+	float rt = uTime * -0.3 + id.x * 2.0 + py * HPI * 0.7 + 3.0;
 	outPos.xy += vec2( sin( rt ) * 0.3, cos( rt ) * 0.3 );
 
 	rotate( 0.73, outPos.yz, outNormal.yz );
@@ -31,7 +31,6 @@ void main( void ) {
 
 	outPos.z -= py * 1.0 + id.x * 0.5 + id.z * 0.0;
 	
-
 	rotate( py * PI * 0.5, outPos.xy, outNormal.xy );
 
 	rotate( pow(id.x, 0.8) * TPI * 20.0, outPos.xy, outNormal.xy );
