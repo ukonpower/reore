@@ -247,7 +247,7 @@ export class BLidger extends Component {
 	protected preUpdateImpl( event: ComponentUpdateEvent ): void {
 
 		const entity = event.entity;
-		const frame = event.timeCode * this.blidge.frame.fps;
+		const frame = ( event.timeCode * this.blidge.frame.fps );
 
 		// animations
 

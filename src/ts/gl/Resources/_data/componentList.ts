@@ -36,6 +36,7 @@ import { Ring } from '../Components/Demo3/Stage/Ring/index.ts';
 import { Tornado } from '../Components/Demo3/Stage/Tornado/index.ts';
 import { Wave } from '../Components/Demo3/Stage/Wave/index.ts';
 import { WetGround } from '../Components/Demo3/Stage/WetGround/index.ts';
+import { Greeting } from '../Components/Demo3/SubObjects/Greeting/index.ts';
 import { Sessions } from '../Components/Demo3/SubObjects/Sessions/index.ts';
 import { SideTex } from '../Components/Demo3/Textures/SideTex/index.ts';
 import { TuringTex } from '../Components/Demo3/Textures/TuringTex/index.ts';
@@ -85,6 +86,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 			WetGround,
 		},
 		SubObjects: {
+			Greeting,
 			Sessions,
 		},
 		Textures: {

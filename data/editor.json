@@ -322,6 +322,28 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/SubObj/Greeting",
+					"components": [
+						{
+							"name": "Greeting",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
+					"path": "/root/blidgeRoot/SubObj/Greeting.001",
+					"components": [
+						{
+							"name": "Greeting",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/SubObj/Sessions",
 					"components": [
 						{
@@ -451,5 +473,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 3501.109604519774,
 	"frameLoop/end": 4375.630081288137,
-	"selectedEntity": "b5"
+	"selectedEntity": "1b55d"
 }

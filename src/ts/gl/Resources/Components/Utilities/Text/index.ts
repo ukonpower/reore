@@ -21,13 +21,15 @@ export class Text extends MXP.Component {
 
 		// geometry
 
-		this.geometry = new MXP.PlaneGeometry();
+		this.geometry = new MXP.PlaneGeometry( { width: 1, height: 1, widthSegments: 1, heightSegments: 1 } );
+		this.add( this.geometry );
 
 		// material
 
 		this.material = new MXP.Material( {
 			frag: MXP.hotGet( 'textFrag', textFrag ),
 			vert: MXP.hotGet( 'textVert', textVert ),
+			phase: [ "ui" ],
 			uniforms: MXP.UniformsUtils.merge( globalUniforms.time, {
 				uTex: {
 					value: font.texture,
@@ -35,6 +37,8 @@ export class Text extends MXP.Component {
 				}
 			} )
 		} );
+
+		this.add( this.material );
 
 		if ( import.meta.hot ) {
 
@@ -81,7 +85,7 @@ export class Text extends MXP.Component {
 
 			if ( uvMatrix ) {
 
-				geoMatrixArray.push( ...uvMatrix.geo.clone().applyScale( new GLP.Vector( 0.2 ) ).applyPosition( new GLP.Vector( i - ( align == 'center' ? text.length / 2 : 0 ), 0, 0 ) ).elm );
+				geoMatrixArray.push( ...uvMatrix.geo.clone().applyScale( new GLP.Vector().setScalar( 0.2 ) ).applyPosition( new GLP.Vector( i - ( align == 'center' ? text.length / 2 : 0 ), 0, 0 ) ).elm );
 				uvMatrixArray.push( ...uvMatrix.uv.elm );
 
 			}
@@ -99,20 +103,6 @@ export class Text extends MXP.Component {
 		} );
 
 		this.geometry.requestUpdate();
-
-	}
-
-	public setEntityImpl( entity: MXP.Entity ): void {
-
-		entity.addComponent( this.material );
-		entity.addComponent( this.geometry );
-
-	}
-
-	public unsetEntityImpl( entity: MXP.Entity ): void {
-
-		entity.removeComponent( this.material );
-		entity.removeComponent( this.geometry );
 
 	}
 
