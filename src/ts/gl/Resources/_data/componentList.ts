@@ -8,9 +8,9 @@ import { Wire } from '../Components/Demo3/MainObject/Confrict2/FramedParticles/W
 import { FramedParticles } from '../Components/Demo3/MainObject/Confrict2/FramedParticles/index.ts';
 import { Confrict2 } from '../Components/Demo3/MainObject/Confrict2/index.ts';
 import { Decompty } from '../Components/Demo3/MainObject/Decompty/index.ts';
-import { OreGLTrails } from '../Components/Demo3/MainObject/OreGL/OreGLTrails/index.ts';
 import { OreGL } from '../Components/Demo3/MainObject/OreGL/index.ts';
 import { OreGLBG } from '../Components/Demo3/MainObject/OreGLBg/index.ts';
+import { OreGLTrails } from '../Components/Demo3/MainObject/OreGLTrails/index.ts';
 import { Recollection } from '../Components/Demo3/MainObject/Recollection/index.ts';
 import { Chahan } from '../Components/Demo3/MainObject/SetA/Chahan/index.ts';
 import { Dish } from '../Components/Demo3/MainObject/SetA/Dish/index.ts';
@@ -56,6 +56,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 			Decompty,
 			OreGL,
 			OreGLBG,
+			OreGLTrails,
 			Recollection,
 			SetA: {
 				Chahan,

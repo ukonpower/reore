@@ -92,6 +92,17 @@
 			]
 		},
 		{
+			"path": "/root/blidgeRoot/MainObj/OreGL/OreGLTrails",
+			"components": [
+				{
+					"name": "OreGLTrails",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
 			"path": "/root/blidgeRoot/MainObj/Recollection",
 			"components": [
 				{

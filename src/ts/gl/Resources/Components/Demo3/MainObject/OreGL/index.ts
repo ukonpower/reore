@@ -3,15 +3,14 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import { OreGLTrails } from './OreGLTrails';
+import { OreGLTrails } from '../OreGLTrails';
+
 import oreglFrag from './shaders/oregl.fs';
 import oreglVert from './shaders/oregl.vs';
 
 import { globalUniforms, resource } from '~/ts/gl/GLGlobals';
 
 export class OreGL extends MXP.Component {
-
-	private trails: MXP.Entity;
 
 	constructor() {
 
@@ -74,27 +73,6 @@ export class OreGL extends MXP.Component {
 			}
 
 		}
-
-		/*-------------------------------
-			Trails
-		-------------------------------*/
-
-		this.trails = new MXP.Entity();
-		const trailComponent = this.trails.addComponent( new OreGLTrails() );
-		const trailMat = trailComponent.findChild( MXP.Material )!;
-		trailMat.uniforms = receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time, trailComponent.gpu.passes[ 0 ].outputUniforms ) );
-
-	}
-
-	public setEntityImpl( entity: MXP.Entity ): void {
-
-		entity.add( this.trails );
-
-	}
-
-	public unsetEntityImpl( entity: MXP.Entity ): void {
-
-		entity.remove( this.trails );
 
 	}
 

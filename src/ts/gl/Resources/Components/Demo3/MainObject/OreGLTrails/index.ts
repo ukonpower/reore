@@ -10,11 +10,14 @@ import { gl, globalUniforms, renderer } from '~/ts/gl/GLGlobals';
 
 export class OreGLTrails extends MXP.Component {
 
-	private gpu: MXP.GPUCompute;
+	public gpu: MXP.GPUCompute;
 
 	constructor() {
 
 		super();
+
+		const receiver = new MXP.BLidgerAnimationReceiver();
+		this.add( receiver );
 
 		const num = new GLP.Vector( 64, 128 );
 
@@ -86,10 +89,11 @@ export class OreGLTrails extends MXP.Component {
 			frag: MXP.hotGet( 'oreglTrailsFrag', oreglTrailsFrag ),
 			vert: MXP.hotGet( 'oreglTrailsVert', oreglTrailsVert ),
 			phase: [ 'deferred', 'shadowMap', "envMap" ],
-			uniforms: MXP.UniformsUtils.merge( globalUniforms.time, this.gpu.passes[ 0 ].outputUniforms )
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time, this.gpu.passes[ 0 ].outputUniforms ) )
 		} );
 
 		this.add( mat );
+
 
 		if ( import.meta.hot ) {
 
