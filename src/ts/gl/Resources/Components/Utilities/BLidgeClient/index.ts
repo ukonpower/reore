@@ -52,7 +52,7 @@ export class BLidgeClient extends MXP.Component {
 
 			if ( this.entity ) {
 
-				this.entity.noticeParent( "update/blidge/frame", [ frame ] );
+				this.entity.noticeEventParent( "update/blidge/frame", [ frame ] );
 
 			}
 
@@ -238,11 +238,11 @@ export class BLidgeClient extends MXP.Component {
 
 		if ( this.entity ) {
 
-			this.entity.notice( "sceneCreated", [ this.blidgeRoot ] );
+			this.entity.noticeEventChilds( "sceneCreated", [ this.blidgeRoot ] );
 
-			this.entity.noticeParent( "update/graph", [ "scenechange" ] );
+			this.entity.noticeEventParent( "update/graph", [ "scenechange" ] );
 
-			this.entity.noticeParent( "update/blidge/scene", [ this.blidgeRoot ] );
+			this.entity.noticeEventParent( "update/blidge/scene", [ this.blidgeRoot ] );
 
 		}
 

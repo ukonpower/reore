@@ -3,13 +3,12 @@ import * as GLP from 'glpower';
 
 import { BLidgeEntity } from "../BLidge";
 import { Component, ComponentUpdateEvent } from "../Component";
-import { BLidger } from '../Component/BLidger';
 import { RenderCamera } from '../Component/Camera/RenderCamera';
 import { Geometry } from '../Component/Geometry';
 import { Light } from '../Component/Light';
 import { Material } from '../Component/Material';
 import { RenderStack } from '../Component/Renderer';
-import { Serializable, SerializableProps, TypedSerializableProps } from '../Serializable';
+import { Serializable, TypedSerializableProps } from '../Serializable';
 
 export type EntityUpdateEvent = {
 	timElapsed: number;
@@ -438,7 +437,7 @@ export class Entity extends Serializable {
 	}
 
 	/*-------------------------------
-		API
+		Entity
 	-------------------------------*/
 
 	public getEntityByName( name: string ) : Entity | undefined {
@@ -493,26 +492,6 @@ export class Entity extends Serializable {
 
 	}
 
-	public getPath( root? : Entity ) {
-
-		let path = "/" + this.name;
-
-		if ( root && ( root.uuid == this.uuid ) ) {
-
-			return path;
-
-		}
-
-		if ( this.parent ) {
-
-			path = this.parent.getPath( root ) + path;
-
-		}
-
-		return path;
-
-	}
-
 	public getRootEntity(): Entity {
 
 		if ( this.parent ) {
@@ -526,10 +505,34 @@ export class Entity extends Serializable {
 	}
 
 	/*-------------------------------
+		Path
+	-------------------------------*/
+
+	public getScenePath( root? : Entity ) {
+
+		let path = "/" + this.name;
+
+		if ( root && ( root.uuid == this.uuid ) ) {
+
+			return path;
+
+		}
+
+		if ( this.parent ) {
+
+			path = this.parent.getScenePath( root ) + path;
+
+		}
+
+		return path;
+
+	}
+
+	/*-------------------------------
 		Event
 	-------------------------------*/
 
-	public notice( eventName: string, opt: any ) {
+	public noticeEventChilds( eventName: string, opt: any ) {
 
 		this.emit( eventName, opt );
 
@@ -537,19 +540,19 @@ export class Entity extends Serializable {
 
 			const c = this.children[ i ];
 
-			c.notice( eventName, opt );
+			c.noticeEventChilds( eventName, opt );
 
 		}
 
 	}
 
-	public noticeParent( eventName: string, opt?: any ) {
+	public noticeEventParent( eventName: string, opt?: any ) {
 
 		this.emit( eventName, opt );
 
 		if ( this.parent ) {
 
-			this.parent.noticeParent( eventName, opt );
+			this.parent.noticeEventParent( eventName, opt );
 
 		}
 

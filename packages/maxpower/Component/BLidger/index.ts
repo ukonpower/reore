@@ -188,7 +188,7 @@ export class BLidger extends Component {
 
 				}
 
-				entity.noticeParent( "update/blidge/scene", [ entity ] );
+				entity.noticeEventParent( "update/blidge/scene", [ entity ] );
 
 			} );
 

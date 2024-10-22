@@ -1,8 +1,6 @@
-import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
 import recollectionFrag from './shaders/recollection.fs';
-import recollectionVert from './shaders/recollection.vs';
 
 import { globalUniforms, resource } from '~/ts/gl/GLGlobals';
 

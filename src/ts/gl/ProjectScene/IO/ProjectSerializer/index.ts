@@ -42,7 +42,7 @@ export class SceneSerializer extends GLP.EventEmitter {
 
 		targetRoot.traverse( e => {
 
-			const path = e.getPath( projectRoot );
+			const path = e.getScenePath( projectRoot );
 
 			const overrideData = override.find( o => o.path == path );
 
@@ -155,7 +155,7 @@ export class SceneSerializer extends GLP.EventEmitter {
 
 		sceneRoot.traverse( ( e ) => {
 
-			const path_ = e.getPath( sceneRoot );
+			const path_ = e.getScenePath( sceneRoot );
 
 			const nodeOverrideData: OREngineNodeOverride = {
 				path: path_,
