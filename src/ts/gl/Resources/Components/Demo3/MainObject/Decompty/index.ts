@@ -42,4 +42,24 @@ export class Decompty extends MXP.Component {
 
 	}
 
+	public setEntityImpl( entity: MXP.Entity ): void {
+
+		const mainObj = entity.getRootEntity().findEntityByName( "MainObj" );
+
+		if ( mainObj ) {
+
+			const receiver = mainObj.getComponent( MXP.BLidgerAnimationReceiver );
+			const material = entity.getComponent( MXP.Material );
+
+			if ( receiver && material ) {
+
+				receiver.registerUniforms( material.uniforms );
+
+			}
+
+
+		}
+
+	}
+
 }

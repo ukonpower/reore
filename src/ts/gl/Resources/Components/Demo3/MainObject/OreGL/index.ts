@@ -1,9 +1,6 @@
 
 
-import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
-
-import { OreGLTrails } from '../OreGLTrails';
 
 import oreglFrag from './shaders/oregl.fs';
 import oreglVert from './shaders/oregl.vs';
@@ -24,7 +21,6 @@ export class OreGL extends MXP.Component {
 		-------------------------------*/
 
 		const geo = new MXP.SphereGeometry( { radius: 1, widthSegments: 32, heightSegments: 32 } );
-
 		this.add( geo );
 
 		const mat = new MXP.Material( {
@@ -38,7 +34,6 @@ export class OreGL extends MXP.Component {
 			vert: MXP.hotGet( "oreglVert", oreglVert ),
 			frag: MXP.hotGet( "oreglFrag", oreglFrag ),
 		} );
-
 		this.add( mat );
 
 		if ( process.env.NODE_ENV === 'development' ) {
@@ -67,10 +62,29 @@ export class OreGL extends MXP.Component {
 
 					}
 
-
 				} );
 
 			}
+
+		}
+
+	}
+
+	public setEntityImpl( entity: MXP.Entity ): void {
+
+		const mainObj = entity.getRootEntity().findEntityByName( "MainObj" );
+
+		if ( mainObj ) {
+
+			const receiver = mainObj.getComponent( MXP.BLidgerAnimationReceiver );
+			const material = entity.getComponent( MXP.Material );
+
+			if ( receiver && material ) {
+
+				receiver.registerUniforms( material.uniforms );
+
+			}
+
 
 		}
 

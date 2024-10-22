@@ -22,7 +22,7 @@ export const Property = () => {
 	// select entity
 
 	const [ selectedEntityId ] = useSerializableProps<string>( glEditor, "selectedEntity" );
-	const selectedEntity = selectedEntityId !== undefined ? glEditor?.scene.getEntityById( selectedEntityId ) : undefined;
+	const selectedEntity = selectedEntityId !== undefined ? glEditor?.scene.findEntityById( selectedEntityId ) : undefined;
 
 	const [ position, setPosition ] = useSerializableProps<number[]>( selectedEntity, "position" );
 	const [ euler, setEuler ] = useSerializableProps<number[]>( selectedEntity, "euler" );

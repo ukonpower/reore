@@ -12,6 +12,8 @@ import { globalUniforms, resource } from '~/ts/gl/GLGlobals';
 export class Ramen extends MXP.Component {
 
 	private root: MXP.Entity;
+	private uniforms: GLP.Uniforms;
+	private dishUniforms: GLP.Uniforms;
 
 	constructor() {
 
@@ -28,6 +30,8 @@ export class Ramen extends MXP.Component {
 			}
 		} );
 
+		this.uniforms = uniforms;
+
 		// rotatein
 
 		this.add( new RotateIn() );
@@ -38,6 +42,8 @@ export class Ramen extends MXP.Component {
 
 		const sara = new Dish( "RAMEN" );
 		sara.position.set( 0.0, - 0.08, 0.0 );
+
+		this.dishUniforms = sara.material.uniforms;
 
 		this.root.add( sara );
 
@@ -213,9 +219,26 @@ export class Ramen extends MXP.Component {
 
 	}
 
+
 	protected setEntityImpl( entity: MXP.Entity ): void {
 
 		entity.add( this.root );
+
+		const mainObj = entity.getRootEntity().findEntityByName( "MainObj" );
+
+		if ( mainObj ) {
+
+			const receiver = mainObj.getComponent( MXP.BLidgerAnimationReceiver );
+
+			if ( receiver ) {
+
+				receiver.registerUniforms( this.uniforms );
+				receiver.registerUniforms( this.dishUniforms );
+
+			}
+
+
+		}
 
 	}
 

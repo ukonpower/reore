@@ -164,7 +164,7 @@ export class BLidger extends Component {
 
 			this.blidge.gltfPrm.then( gltf => {
 
-				const gltfEntity = gltf.scene.getEntityByName( this.node.name );
+				const gltfEntity = gltf.scene.findEntityByName( this.node.name );
 
 				if ( gltfEntity ) {
 

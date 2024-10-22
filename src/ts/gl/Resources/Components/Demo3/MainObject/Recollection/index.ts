@@ -6,6 +6,8 @@ import { globalUniforms, resource } from '~/ts/gl/GLGlobals';
 
 export class Recollection extends MXP.Component {
 
+	private material: MXP.Material;
+
 	constructor() {
 
 		super();
@@ -13,7 +15,7 @@ export class Recollection extends MXP.Component {
 		const receiver = new MXP.BLidgerAnimationReceiver();
 		this.add( receiver );
 
-		const mat = new MXP.Material( {
+		this.material = new MXP.Material( {
 			frag: MXP.hotGet( 'recollectionFrag', recollectionFrag ),
 			phase: [ 'forward', 'shadowMap' ],
 			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.resolution, globalUniforms.time, {
@@ -24,7 +26,7 @@ export class Recollection extends MXP.Component {
 			} ) )
 		} );
 
-		this.add( mat );
+		this.add( this.material );
 
 		if ( import.meta.hot ) {
 
@@ -32,13 +34,33 @@ export class Recollection extends MXP.Component {
 
 				if ( module ) {
 
-					mat.frag = MXP.hotUpdate( 'recollectionFrag', module.default );
+					this.material.frag = MXP.hotUpdate( 'recollectionFrag', module.default );
 
-					mat.requestUpdate();
+					this.material.requestUpdate();
 
 				}
 
 			} );
+
+		}
+
+	}
+
+	public setEntityImpl( entity: MXP.Entity ): void {
+
+		const mainObj = entity.getRootEntity().findEntityByName( "MainObj" );
+
+		if ( mainObj ) {
+
+			const receiver = mainObj.getComponent( MXP.BLidgerAnimationReceiver );
+			const material = entity.getComponent( MXP.Material );
+
+			if ( receiver && material ) {
+
+				receiver.registerUniforms( material.uniforms );
+
+			}
+
 
 		}
 

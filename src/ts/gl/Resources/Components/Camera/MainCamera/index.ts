@@ -457,7 +457,7 @@ export class MainCamera extends MXP.Component {
 		// events
 		entity.on( 'sceneCreated', ( root: MXP.Entity, ) => {
 
-			const camera = root.getEntityByName( "Camera" ) || null;
+			const camera = root.findEntityByName( "Camera" ) || null;
 
 			const blidger = camera?.getComponent( MXP.BLidger );
 
@@ -475,10 +475,10 @@ export class MainCamera extends MXP.Component {
 
 			}
 
-			const lookAtTarget = root.getEntityByName( "CamLook" ) || null;
+			const lookAtTarget = root.findEntityByName( "CamLook" ) || null;
 			this.lookAt.setTarget( lookAtTarget );
 
-			this.dofTarget = root.getEntityByName( 'CamDof' ) || null;
+			this.dofTarget = root.findEntityByName( 'CamDof' ) || null;
 			this.updateCameraParams( this.resolution );
 
 		} );

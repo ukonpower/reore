@@ -3,6 +3,7 @@
 #include <light>
 
 uniform sampler2D uNoiseTex;
+uniform vec4 uEnding;
 
 void main( void ) {
 
@@ -54,6 +55,17 @@ void main( void ) {
 	outColor.xyz += refEmission;
 	outColor.xyz = mix( outColor.xyz, vec3( 1.0 ), 0.0 );
 	// outEmissionIntensity = (1.0 - dnv);
+
+	if( uEnding.x > 0.5 ) {
+
+		float w = uEnding.y;
+
+		outColor.xyz *= 0.0;
+		outEmissionIntensity *= 0.0;
+		outColor.xyz += w;
+		outEmissionIntensity += w;
+		
+	}
 	
 	#include <frag_out>
 

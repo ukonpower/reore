@@ -56,7 +56,7 @@ export class SideTex extends MXP.Component {
 
 	protected setEntityImpl( entity: MXP.Entity ): void {
 
-		const renderer = entity.getRootEntity().getEntityByName( "Renderer" );
+		const renderer = entity.getRootEntity().findEntityByName( "Renderer" );
 
 		if ( renderer ) {
 

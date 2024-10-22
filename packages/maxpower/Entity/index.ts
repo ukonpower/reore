@@ -50,10 +50,9 @@ export class Entity extends Serializable {
 
 	public parent: Entity | null;
 	public children: Entity[];
+
 	public components: Map<string, Component>;
 	private componentsByTag: Map<string, Component>;
-
-	protected blidgeNode?: BLidgeEntity;
 
 	public visible: boolean;
 	public userData: any;
@@ -82,11 +81,9 @@ export class Entity extends Serializable {
 		this.componentsByTag = new Map();
 
 		this.visible = true;
-
 		this.userData = {};
 
 	}
-
 
 	public get props() {
 
@@ -139,7 +136,6 @@ export class Entity extends Serializable {
 		// update components
 
 		// pre
-
 
 		this.preUpdateImpl( event );
 
@@ -315,6 +311,8 @@ export class Entity extends Serializable {
 
 		this.matrixWorldPrev.copy( this.matrixWorld );
 
+		// quaternion to euler
+
 		if ( this.quaternion.updated ) {
 
 			this.euler.setFromQuaternion( this.quaternion );
@@ -349,6 +347,8 @@ export class Entity extends Serializable {
 		Components
 	-------------------------------*/
 
+	// add
+
 	public addComponent<T extends Component>( component: T ) {
 
 		const id = component.resourceId;
@@ -379,6 +379,8 @@ export class Entity extends Serializable {
 
 	}
 
+	// get
+
 	public getComponentByTag<T extends Component>( tag: string ): T | undefined {
 
 		return this.componentsByTag.get( tag ) as T;
@@ -397,13 +399,15 @@ export class Entity extends Serializable {
 
 	}
 
-	public removeComponent( component: Component | typeof Component ) {
+	// remove
 
-		const currentComponent = this.components.get( component.resourceId );
+	public removeComponentByResourceId( resourceId: string ) {
+
+		const currentComponent = this.components.get( resourceId );
 
 		if ( currentComponent ) {
 
-			this.components.delete( currentComponent.resourceId );
+			this.components.delete( resourceId );
 			currentComponent.unsetEntity();
 
 			if ( currentComponent.tag !== "" ) {
@@ -422,17 +426,9 @@ export class Entity extends Serializable {
 
 	}
 
-	public removeComponentByKey( key: string ) {
+	public removeComponent( component: Component | typeof Component ) {
 
-		const component = this.components.get( key );
-
-		if ( component ) {
-
-			return this.removeComponent( component );
-
-		}
-
-		return null;
+		this.removeComponentByResourceId( component.resourceId );
 
 	}
 
@@ -440,7 +436,7 @@ export class Entity extends Serializable {
 		Entity
 	-------------------------------*/
 
-	public getEntityByName( name: string ) : Entity | undefined {
+	public findEntityByName( name: string ) : Entity | undefined {
 
 		if ( this.name == name ) {
 
@@ -452,7 +448,7 @@ export class Entity extends Serializable {
 
 			const c = this.children[ i ];
 
-			const entity = c.getEntityByName( name );
+			const entity = c.findEntityByName( name );
 
 			if ( entity ) {
 
@@ -466,7 +462,7 @@ export class Entity extends Serializable {
 
 	}
 
-	public getEntityById( id: string ) : Entity | undefined {
+	public findEntityById( id: string ) : Entity | undefined {
 
 		if ( this.uuid == id ) {
 
@@ -478,7 +474,7 @@ export class Entity extends Serializable {
 
 			const c = this.children[ i ];
 
-			const entity = c.getEntityById( id );
+			const entity = c.findEntityById( id );
 
 			if ( entity ) {
 

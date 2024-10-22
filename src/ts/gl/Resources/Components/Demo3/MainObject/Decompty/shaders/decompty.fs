@@ -10,6 +10,7 @@ uniform float uTime;
 uniform mat4 modelMatrixInverse;
 uniform vec2 uResolution;
 uniform sampler2D uEnvMap;
+uniform vec4 uEnding;
 
 uniform vec4 uState;
 
@@ -86,6 +87,17 @@ void main( void ) {
 	}
 
 	outEmissionIntensity += uState.z * 10.0;
+
+	if( uEnding.x > 0.5 ) {
+
+		float w = uEnding.y;
+
+		outColor.xyz *= 0.0;
+		outEmissionIntensity *= 0.0;
+		outColor.xyz += w;
+		outEmissionIntensity += w;
+		
+	}
 
 	#include <rm_out_pos>	
 	#include <frag_out>

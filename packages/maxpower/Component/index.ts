@@ -110,13 +110,13 @@ export class Component extends Serializable {
 
 		this.entity = entity;
 
-		this.setEntityImpl( this.entity );
-
 		this.children.forEach( ( c ) => {
 
 			entity.addComponent( c );
 
 		} );
+
+		this.setEntityImpl( this.entity );
 
 	}
 
@@ -128,13 +128,13 @@ export class Component extends Serializable {
 
 		this.entity = null;
 
-		this.unsetEntityImpl( beforeEntity );
-
 		this.children.forEach( ( c ) => {
 
 			beforeEntity.removeComponent( c );
 
 		} );
+
+		this.unsetEntityImpl( beforeEntity );
 
 	}
 

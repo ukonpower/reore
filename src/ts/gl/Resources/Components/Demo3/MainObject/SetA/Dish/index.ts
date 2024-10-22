@@ -4,6 +4,8 @@ import safaFrag from './shaders/dish.fs';
 
 export class Dish extends MXP.Entity {
 
+	public material: MXP.Material;
+
 	constructor( type: string = "RAMEN" ) {
 
 		super();
@@ -42,6 +44,8 @@ export class Dish extends MXP.Entity {
 			frag: MXP.hotGet( "dishFrag", safaFrag ),
 			defines,
 		} ) );
+
+		this.material = mat;
 
 		this.position.set( 0.0, - 0.08, 0.0 );
 		this.add( this );

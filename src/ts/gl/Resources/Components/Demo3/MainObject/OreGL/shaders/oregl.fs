@@ -2,6 +2,7 @@
 #include <frag_h>
 
 uniform sampler2D uNoiseTex;	
+uniform vec4 uEnding;
 uniform vec4 uState;
 
 void main( void ) {
@@ -20,6 +21,16 @@ void main( void ) {
 	outMetalic = 0.2;
 	
 	outEmissionIntensity += max( 0.0, dot( outNormal, vec3( 0.0, 0.5, 1.0 ) ) ) * 0.5 + emit * 10.0;
+
+	if( uEnding.x > 0.5 ) {
+
+		float w = uEnding.y;
+
+		outColor.xyz *= 0.0;
+		outColor.xyz += w;
+		outEmissionIntensity += w;
+		
+	}
 	
 	#include <frag_out>
 

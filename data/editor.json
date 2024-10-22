@@ -39,6 +39,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/MainObj",
+					"components": [
+						{
+							"name": "BLidgerAnimationReceiver",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/MainObj/Confrict1",
 					"components": [
 						{
@@ -462,5 +473,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 3501.109604519774,
 	"frameLoop/end": 4375.630081288137,
-	"selectedEntity": "8b"
+	"selectedEntity": "b282"
 }

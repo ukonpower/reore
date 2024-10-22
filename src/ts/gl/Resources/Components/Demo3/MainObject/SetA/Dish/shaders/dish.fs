@@ -21,6 +21,7 @@
 uniform mat4 modelMatrixInverse;
 uniform float uTime;
 uniform float uTimeSeq;
+uniform vec4 uEnding;
 
 float smoothAbs(float x)
 {
@@ -131,6 +132,17 @@ void main( void ) {
 		outMetalic = 0.0;
 		outColor.xyz = vec3( 1.0, 1.0, 1.0 );
 		outColor.yz *= 0.9 + step(  0.3, length( rayPos.y ) );
+
+		if( uEnding.x > 0.5 ) {
+
+			float w = uEnding.y;
+
+			outColor.xyz *= 0.0;
+			outEmissionIntensity *= 0.0;
+			outColor.xyz += w;
+			outEmissionIntensity += w;
+			
+		}
 		
 	}
 		

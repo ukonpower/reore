@@ -6,6 +6,7 @@
 #include <light>
 #include <pmrem>
 
+uniform vec4 uEnding;
 uniform vec4 uState;
 uniform sampler2D uNoiseTex;
 
@@ -130,6 +131,13 @@ void main( void ) {
 		outColor.xyz *= mix( 1.0, 0.3, visibility );
 		outColor.w = 1.0;
 		outColor.xyz += smoothstep( 0.0, 0.3, length( N( rayPos, 0.02 ) - normal)) * 50.0 * max( uState.y - 1.0, 0.0) * vec3( 1.0, 0.8, 0.8 );
+
+		if( uEnding.x > 0.5 ) {
+
+			outColor.xyz *= 0.0;
+			outColor.xyz += (1.0 - dnv) * uEnding.y * 2.0;
+			
+		}
 
 		#include <lighting_light>
 		#include <lighting_env>
