@@ -24,11 +24,14 @@ void main( void ) {
 
 	if( uEnding.x > 0.5 ) {
 
-		float w = uEnding.y;
+		float dnv = 1.0 - dot( normalize( vViewNormal ), normalize( -vMVPosition ) );
+
+		float w = uEnding.y * dnv;
+
 
 		outColor.xyz *= 0.0;
 		outColor.xyz += w;
-		outEmissionIntensity += w;
+		outEmissionIntensity += w * 1.0;
 		
 	}
 	

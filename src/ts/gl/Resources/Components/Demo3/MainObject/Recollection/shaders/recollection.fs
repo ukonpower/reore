@@ -135,7 +135,7 @@ void main( void ) {
 		if( uEnding.x > 0.5 ) {
 
 			outColor.xyz *= 0.0;
-			outColor.xyz += (1.0 - dnv) * uEnding.y * 2.0;
+			outColor.xyz += (1.0 - dnv) * uEnding.y * 1.0;
 			
 		}
 

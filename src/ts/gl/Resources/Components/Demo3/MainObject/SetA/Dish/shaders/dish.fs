@@ -126,6 +126,7 @@ void main( void ) {
 
 	vec3 normal = N( rayPos, 0.001 );
 
+
 	if( dist.y == 0.0 ) {
 		
 		outRoughness = 0.1;
@@ -135,12 +136,14 @@ void main( void ) {
 
 		if( uEnding.x > 0.5 ) {
 
-			float w = uEnding.y;
+			float dnv = dot( normal, -rayDir );
+
+			float w = uEnding.y * ( 1.0 - dnv );
 
 			outColor.xyz *= 0.0;
 			outEmissionIntensity *= 0.0;
 			outColor.xyz += w;
-			outEmissionIntensity += w;
+			outEmissionIntensity += w * 1.0;
 			
 		}
 		

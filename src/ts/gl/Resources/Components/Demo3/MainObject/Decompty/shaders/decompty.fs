@@ -69,6 +69,8 @@ void main( void ) {
 	outNormal = normalize(modelMatrix * vec4( normal, 0.0 )).xyz;
 
 	if( !hit ) discard;
+
+	float dnv = dot( normal, -rayDir );
 	
 	if( dist.y == 0.0 ) {
 
@@ -76,7 +78,6 @@ void main( void ) {
 
 	} else if( dist.y == 1.0 ) {
 
-		float dnv = dot( normal, -rayDir );
 		outColor.xyz = vec3( 1.0, 0.5, 0.5 );
 		outEmissionIntensity = exp( fract(uTime / 3.0 + dnv ) * -5.0 ) * 4.0;
 
@@ -90,12 +91,12 @@ void main( void ) {
 
 	if( uEnding.x > 0.5 ) {
 
-		float w = uEnding.y;
+		float w = uEnding.y * ( 1.0 - dnv );
 
 		outColor.xyz *= 0.0;
 		outEmissionIntensity *= 0.0;
 		outColor.xyz += w;
-		outEmissionIntensity += w;
+		outEmissionIntensity += w * 2.0;
 		
 	}
 

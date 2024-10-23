@@ -23,13 +23,24 @@
 					"name": "BLidgeClient",
 					"props": {
 						"enabled": true,
-						"mode": "websocket",
+						"mode": "json",
 						"gltf": false,
 						"websocket/url": "ws://localhost:3100"
 					}
 				},
 				{
 					"name": "Music",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/MainObj",
+			"components": [
+				{
+					"name": "BLidgerAnimationReceiver",
 					"props": {
 						"enabled": true
 					}
