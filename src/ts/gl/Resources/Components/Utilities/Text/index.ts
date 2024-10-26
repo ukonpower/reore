@@ -13,6 +13,8 @@ export class Text extends MXP.Component {
 	public geometry: MXP.Geometry;
 	public material: MXP.Material;
 
+	public letterSpacing: number = 0.0;
+
 	constructor( params?: {materialParam: MXP.MaterialParam} ) {
 
 		super();
@@ -72,6 +74,8 @@ export class Text extends MXP.Component {
 
 		}
 
+		this.letterSpacing = 0.0;
+
 	}
 
 	public setText( text: string, align?: string ): void {
@@ -81,6 +85,15 @@ export class Text extends MXP.Component {
 		const uvMatrixArray = [];
 		const geoMatrixArray = [];
 
+		const offset = 0.0;
+		let textWidth = text.length * ( 1.0 + this.letterSpacing );
+
+		if ( align === "center" ) {
+
+			textWidth -= textWidth / 2;
+
+		}
+
 		for ( let i = 0; i < text.length; i ++ ) {
 
 			const c = text[ i ];
@@ -89,7 +102,7 @@ export class Text extends MXP.Component {
 
 			if ( uvMatrix ) {
 
-				geoMatrixArray.push( ...uvMatrix.geo.clone().applyScale( new GLP.Vector().setScalar( 0.2 ) ).applyPosition( new GLP.Vector( i - ( align == 'center' ? text.length / 2 : 0 ), 0, 0 ) ).elm );
+				geoMatrixArray.push( ...uvMatrix.geo.clone().applyScale( new GLP.Vector().setScalar( 0.2 ) ).applyPosition( new GLP.Vector( i * ( 1.0 + this.letterSpacing ) - offset, 0, 0 ) ).elm );
 				uvMatrixArray.push( ...uvMatrix.uv.elm );
 
 			}

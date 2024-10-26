@@ -27,10 +27,11 @@ export class HUDFrame extends MXP.Component {
 			frag: MXP.hotGet( 'frameFrag', frameFrag ),
 			vert: MXP.hotGet( 'frameVert', frameVert ),
 			phase: [ 'ui' ],
+			drawType: "LINES",
 			uniforms: MXP.UniformsUtils.merge( globalUniforms.time )
 		} );
 
-		this.add( mat );
+		// this.add( mat );
 
 		if ( import.meta.hot ) {
 

@@ -11,10 +11,7 @@ void main( void ) {
 
 	float font = texture( uTex, uv ).x;
 
-	if( font < 0.5 ) discard;
-
-	outColor.xyz = vec3( 0.8 );
-	// outEmissionIntensity = font * 10.0;
+	outColor = vec4( vec3( 1.0 ), font );
 	
 	
 	#include <frag_out>

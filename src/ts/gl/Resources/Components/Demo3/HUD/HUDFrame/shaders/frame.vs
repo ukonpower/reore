@@ -5,7 +5,7 @@ void main( void ) {
 
 	#include <vert_in>
 
-	outPos.y *= 0.005;
+	outPos.y *= 0.01;
 
 	outPos.y -= 0.85;
 
@@ -14,6 +14,7 @@ void main( void ) {
 	outPos.x -= 1.0;
 
 	gl_Position = vec4( outPos.xy, 0.0, 1.0 );
+	vUv = outUv;
 	
 
 }

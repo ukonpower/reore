@@ -25,8 +25,9 @@
 							"name": "BLidgeClient",
 							"props": {
 								"enabled": true,
-								"mode": "json",
-								"gltf": false
+								"mode": "websocket",
+								"gltf": false,
+								"websocket/url": "ws://localhost:3100"
 							}
 						},
 						{
@@ -511,10 +512,10 @@
 	"enableRender": true,
 	"projectName": "Demo3",
 	"openedProject": "Demo3",
-	"resolutionScale": 0.5,
+	"resolutionScale": 1,
 	"viewType": "render",
 	"frameLoop/enabled": false,
 	"frameLoop/start": 3501.109604519774,
 	"frameLoop/end": 4375.630081288137,
-	"selectedEntity": "3051a"
+	"selectedEntity": "3c34"
 }

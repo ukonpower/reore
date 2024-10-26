@@ -108,7 +108,7 @@ export class Font1 extends Font {
 
 		const data = decodeFont( FONT_DATA );
 
-		const scale = 2.0;
+		const scale = 0.5;
 
 		const charCanvas = document.createElement( 'canvas' );
 		charCanvas.width = 64 * scale;
@@ -158,6 +158,13 @@ export class Font1 extends Font {
 			} );
 
 		}
+
+		this.texture.setting( {
+			minFilter: gl.LINEAR_MIPMAP_LINEAR,
+			magFilter: gl.LINEAR,
+			generateMipmap: true,
+		} );
+
 
 		this.texture.attach( texCanvas );
 

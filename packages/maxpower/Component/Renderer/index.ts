@@ -409,12 +409,36 @@ export class Renderer extends Entity {
 				cameraFar: cameraComponent.far,
 			} } );
 
-			if ( this.pipelinePostProcess.output ) {
+			let backBuffer = this.pipelinePostProcess.output ? this.pipelinePostProcess.output : null;
 
-				this.gl.bindFramebuffer( this.gl.READ_FRAMEBUFFER, this.pipelinePostProcess.output.getFrameBuffer() );
+			// postprocess
+
+			const postProcess = cameraEntity.getComponent( PostProcess );
+
+			if ( postProcess && postProcess.enabled ) {
+
+				postProcess.input = backBuffer ? backBuffer.textures : [];
+
+				this.renderPostProcess( postProcess, this.renderCanvasSize, { cameraOverride: {
+					viewMatrix: cameraComponent.viewMatrix,
+					projectionMatrix: cameraComponent.projectionMatrix,
+					cameraMatrixWorld: cameraEntity.matrixWorld,
+					cameraNear: cameraComponent.near,
+					cameraFar: cameraComponent.far,
+				} } );
+
+				backBuffer = postProcess.output;
+
+			}
+
+			// ui
+
+			if ( backBuffer ) {
+
+				this.gl.bindFramebuffer( this.gl.READ_FRAMEBUFFER, backBuffer.getFrameBuffer() );
 				this.gl.bindFramebuffer( this.gl.DRAW_FRAMEBUFFER, cameraComponent.renderTarget.uiBuffer.getFrameBuffer() );
 
-				const size = this.pipelinePostProcess.output.size;
+				const size = backBuffer.size;
 
 				this.gl.blitFramebuffer(
 					0, 0, size.x, size.y,
@@ -423,7 +447,6 @@ export class Renderer extends Entity {
 
 			}
 
-			// ui
 
 			this.gl.enable( this.gl.BLEND );
 
@@ -436,25 +459,10 @@ export class Renderer extends Entity {
 
 			this.gl.disable( this.gl.BLEND );
 
-			// postprocess
-
-			const postProcess = cameraEntity.getComponent( PostProcess );
-
-			if ( postProcess && postProcess.enabled ) {
-
-				this.renderPostProcess( postProcess, this.renderCanvasSize, { cameraOverride: {
-					viewMatrix: cameraComponent.viewMatrix,
-					projectionMatrix: cameraComponent.projectionMatrix,
-					cameraMatrixWorld: cameraEntity.matrixWorld,
-					cameraNear: cameraComponent.near,
-					cameraFar: cameraComponent.far,
-				} } );
-
-			}
 
 			if ( cameraComponent.displayOut ) {
 
-				const outBuffer = postProcess ? postProcess.output : cameraComponent.renderTarget.uiBuffer;
+				const outBuffer = cameraComponent.renderTarget.uiBuffer;
 
 				this.gl.bindFramebuffer( this.gl.READ_FRAMEBUFFER, outBuffer === null ? null : outBuffer.getFrameBuffer() );
 				this.gl.bindFramebuffer( this.gl.DRAW_FRAMEBUFFER, null );

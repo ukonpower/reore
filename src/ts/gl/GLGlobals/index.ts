@@ -6,6 +6,7 @@ import { OREngineResource } from '../Resources';
 
 export const screenElm = document.createElement( 'div' );
 screenElm.id = "screen";
+screenElm.style.position = "absolute";
 screenElm.style.left = "50%";
 screenElm.style.top = "50%";
 screenElm.style.transform = "translate(-50%,-50%)";

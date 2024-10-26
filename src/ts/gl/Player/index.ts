@@ -138,7 +138,7 @@ class App {
 
 	private resize() {
 
-		const aspect = 16 / 7;
+		const aspect = 16 / 9;
 
 		// screen size
 

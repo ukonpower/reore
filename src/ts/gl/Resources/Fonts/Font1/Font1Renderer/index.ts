@@ -14,7 +14,7 @@ export class Font1Renderer {
 
 		context.fillStyle = '#fff';
 		context.strokeStyle = '#fff';
-		context.lineWidth = 16;
+		context.lineWidth = 1;
 
 		let currentType = - 1;
 

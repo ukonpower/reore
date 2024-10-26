@@ -37,8 +37,15 @@ void main( void ) {
 		col += texture( uBloomTexture[ LOOP_INDEX ], cuv * s + 0.5 ).xyz * ((float(LOOP_INDEX) + 1.0) / 4.0 * 0.95 + 0.05);
 	#pragma loop_end
 
+	// col.xyz = col.xyz * 0.95 + 0.05;
+	// col.xyz *= vec3( 1.0, 0.97, 0.95 );
+	
+	// col.xyz *= 
+
+
 	float len = length(cuv);
-	col *= smoothstep( 1.2, 0.3, len );
+	col *= smoothstep( 1.05, 0.3, len );
+
 
 	col.xyz *= uOutPut;
 	

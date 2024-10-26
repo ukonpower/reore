@@ -16,8 +16,8 @@ void main( void ) {
 
 	vec3 p = outPos.xyz;
 	p.x *= 0.5;
-	p.y -= modelMatrix[3][1];
-	p *= 0.3;
+	p.y -= modelMatrix[3][1] * 1.3;
+	p *= 0.24;
 	p.xy += vec2( -0.9, -0.2 );
 
 	gl_Position = vec4( p.xy, 0.9, 1.0 );

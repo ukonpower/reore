@@ -175,7 +175,7 @@ export class Silhouette extends MXP.Component {
 		const flashMat = new MXP.Material( {
 			frag: MXP.hotGet( 'flashFrag', flashFrag ),
 			vert: MXP.hotGet( 'flashVert', flashVert ),
-			phase: [ 'ui' ],
+			phase: [ 'forward' ],
 			blending: "ADD",
 			depthWrite: false,
 			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time, {

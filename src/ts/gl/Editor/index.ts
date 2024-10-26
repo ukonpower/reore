@@ -498,7 +498,7 @@ export class GLEditor extends MXP.Serializable {
 
 	private resize() {
 
-		const aspect = 16 / 7;
+		const aspect = 16 / 9;
 
 		// wrap size
 
