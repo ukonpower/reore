@@ -83,6 +83,17 @@
 					]
 				},
 				{
+					"path": "/root/blidgeRoot/MainObj/Logo",
+					"components": [
+						{
+							"name": "Logo",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/root/blidgeRoot/MainObj/OreGL",
 					"components": [
 						{
@@ -473,5 +484,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 3501.109604519774,
 	"frameLoop/end": 4375.630081288137,
-	"selectedEntity": "b282"
+	"selectedEntity": "2c743"
 }

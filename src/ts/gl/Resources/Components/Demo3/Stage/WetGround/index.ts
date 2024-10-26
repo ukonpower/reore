@@ -30,6 +30,7 @@ export class WetGround extends MXP.Component {
 			name: 'wetGround',
 			frag: MXP.hotGet( 'wetGroundFrag', wetGroundFrag ),
 			phase: [ 'deferred', 'shadowMap' ],
+			depthTest: false,
 			uniforms: MXP.UniformsUtils.merge( globalUniforms.time )
 		} );
 

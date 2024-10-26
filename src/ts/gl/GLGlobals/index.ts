@@ -4,7 +4,21 @@ import * as MXP from 'maxpower';
 import { GPUState } from '../ProjectScene/utils/GPUState';
 import { OREngineResource } from '../Resources';
 
+export const screenElm = document.createElement( 'div' );
+screenElm.id = "screen";
+screenElm.style.left = "50%";
+screenElm.style.top = "50%";
+screenElm.style.transform = "translate(-50%,-50%)";
+screenElm.style.position = "relative";
+
 export const canvas = document.createElement( "canvas" );
+canvas.style.position = "absolute";
+canvas.style.top = "0";
+canvas.style.left = "0";
+canvas.style.width = "100%";
+canvas.style.height = "100%";
+screenElm.appendChild( canvas );
+
 export const gl = canvas.getContext( 'webgl2', { antialias: false } )!;
 export const power = new GLP.Power( gl );
 export const renderer = new MXP.Renderer( power.gl );

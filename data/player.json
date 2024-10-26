@@ -24,8 +24,7 @@
 					"props": {
 						"enabled": true,
 						"mode": "json",
-						"gltf": false,
-						"websocket/url": "ws://localhost:3100"
+						"gltf": false
 					}
 				},
 				{
@@ -74,6 +73,17 @@
 			"components": [
 				{
 					"name": "Decompty",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/MainObj/Logo",
+			"components": [
+				{
+					"name": "Logo",
 					"props": {
 						"enabled": true
 					}

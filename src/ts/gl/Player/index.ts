@@ -1,7 +1,7 @@
 import * as GLP from 'glpower';
 
 import SceneData from '../../../../data/player.json';
-import { canvas } from '../GLGlobals';
+import { canvas, screenElm } from '../GLGlobals';
 import { ProjectScene } from '../ProjectScene';
 
 class App {
@@ -10,7 +10,8 @@ class App {
 
 	private startElm: HTMLElement;
 	private rootElm: HTMLElement;
-	private canvasWrapElm: HTMLElement;
+	private screenWrapElm: HTMLElement;
+	private screenElm: HTMLElement;
 	private canvas: HTMLCanvasElement;
 
 	private scene: ProjectScene;
@@ -25,7 +26,6 @@ class App {
 			<style>
 				body{margin:0;}
 				button{display:block;width:200px;margin:0 auto 10px auto;padding:10px;border:1px solid #fff;background:none;color:#fff;cursor:pointer;}
-				canvas{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
 				.r{width:100%;height:100%;position:relative;overflow:hidden;display:flex;background:#000;}
 				.cw{position:relative;flex:1 1 100%;display:none;}
 				.s{width:100vw;height:100vh;display:flex;flex-direction:column;justify-content:center;}
@@ -42,12 +42,14 @@ class App {
 			Canvas
 		-------------------------------*/
 
-		this.canvasWrapElm = document.createElement( 'div' );
-		this.canvasWrapElm.classList.add( 'cw' );
-		this.rootElm.appendChild( this.canvasWrapElm );
+		this.screenWrapElm = document.createElement( 'div' );
+		this.screenWrapElm.classList.add( 'cw' );
+		this.rootElm.appendChild( this.screenWrapElm );
+
+		this.screenElm = screenElm;
 
 		this.canvas = canvas;
-		this.canvasWrapElm.appendChild( this.canvas );
+		this.screenWrapElm.appendChild( this.screenElm );
 
 		/*-------------------------------
 			StartElm
@@ -116,8 +118,8 @@ class App {
 	private play() {
 
 		this.startElm.style.display = "none";
-		this.canvasWrapElm.style.display = 'block';
-		this.canvasWrapElm.style.cursor = 'none';
+		this.screenWrapElm.style.display = 'block';
+		this.screenWrapElm.style.cursor = 'none';
 
 		this.scene.play();
 
@@ -137,22 +139,25 @@ class App {
 	private resize() {
 
 		const aspect = 16 / 7;
-		const scale = 1.0;
 
-		this.canvas.width = 1920 * scale;
-		this.canvas.height = this.canvas.width / aspect;
+		// screen size
 
 		if ( window.innerWidth / window.innerHeight < aspect ) {
 
-			this.canvas.style.width = window.innerWidth + 'px';
-			this.canvas.style.height = window.innerWidth / aspect + 'px';
+			this.screenElm.style.width = window.innerWidth + 'px';
+			this.screenElm.style.height = window.innerWidth / aspect + 'px';
 
 		} else {
 
-			this.canvas.style.height = window.innerHeight + 'px';
-			this.canvas.style.width = window.innerHeight * aspect + 'px';
+			this.screenElm.style.height = window.innerHeight + 'px';
+			this.screenElm.style.width = window.innerHeight * aspect + 'px';
 
 		}
+
+		// canvas size
+
+		this.canvas.width = 1920;
+		this.canvas.height = this.canvas.width / aspect;
 
 		this.scene.resize( new GLP.Vector( this.canvas.width, this.canvas.height ) );
 

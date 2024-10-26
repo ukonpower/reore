@@ -8,6 +8,7 @@ import { Wire } from '../Components/Demo3/MainObject/Confrict2/FramedParticles/W
 import { FramedParticles } from '../Components/Demo3/MainObject/Confrict2/FramedParticles/index.ts';
 import { Confrict2 } from '../Components/Demo3/MainObject/Confrict2/index.ts';
 import { Decompty } from '../Components/Demo3/MainObject/Decompty/index.ts';
+import { Logo } from '../Components/Demo3/MainObject/Logo/index.ts';
 import { OreGL } from '../Components/Demo3/MainObject/OreGL/index.ts';
 import { OreGLBG } from '../Components/Demo3/MainObject/OreGLBg/index.ts';
 import { OreGLTrails } from '../Components/Demo3/MainObject/OreGLTrails/index.ts';
@@ -54,6 +55,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 			Confrict1,
 			Confrict2,
 			Decompty,
+			Logo,
 			OreGL,
 			OreGLBG,
 			OreGLTrails,
