@@ -10,10 +10,10 @@ import { gl, globalUniforms, resource } from '~/ts/gl/GLGlobals';
 
 export class Text extends MXP.Component {
 
-	private geometry: MXP.Geometry;
-	private material: MXP.Material;
+	public geometry: MXP.Geometry;
+	public material: MXP.Material;
 
-	constructor() {
+	constructor( params?: {materialParam: MXP.MaterialParam} ) {
 
 		super();
 
@@ -26,16 +26,20 @@ export class Text extends MXP.Component {
 
 		// material
 
+		const materialParam = params && params.materialParam;
+
 		this.material = new MXP.Material( {
 			frag: MXP.hotGet( 'textFrag', textFrag ),
 			vert: MXP.hotGet( 'textVert', textVert ),
 			phase: [ "ui" ],
+			...( materialParam ),
 			uniforms: MXP.UniformsUtils.merge( globalUniforms.time, {
 				uTex: {
 					value: font.texture,
 					type: '1i'
 				}
-			} )
+			}, materialParam && materialParam.uniforms ),
+
 		} );
 
 		this.add( this.material );

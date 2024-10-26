@@ -25,13 +25,45 @@
 							"name": "BLidgeClient",
 							"props": {
 								"enabled": true,
-								"mode": "websocket",
-								"gltf": false,
-								"websocket/url": "ws://localhost:3100"
+								"mode": "json",
+								"gltf": false
 							}
 						},
 						{
 							"name": "Music",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
+					"path": "/root/blidgeRoot/HUD",
+					"components": [
+						{
+							"name": "HUDFrame",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
+					"path": "/root/blidgeRoot/HUD/HUDFrame",
+					"components": [
+						{
+							"name": "HUDFrame",
+							"props": {
+								"enabled": true
+							}
+						}
+					]
+				},
+				{
+					"path": "/root/blidgeRoot/HUD/HUDSubtitle",
+					"components": [
+						{
+							"name": "HUDSubtitle",
 							"props": {
 								"enabled": true
 							}
@@ -479,10 +511,10 @@
 	"enableRender": true,
 	"projectName": "Demo3",
 	"openedProject": "Demo3",
-	"resolutionScale": 1,
+	"resolutionScale": 0.5,
 	"viewType": "render",
 	"frameLoop/enabled": false,
 	"frameLoop/start": 3501.109604519774,
 	"frameLoop/end": 4375.630081288137,
-	"selectedEntity": "2c743"
+	"selectedEntity": "3051a"
 }
