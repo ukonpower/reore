@@ -18,6 +18,7 @@ import { Recollection } from '../Components/Demo3/MainObject/Recollection/index.
 import { Chahan } from '../Components/Demo3/MainObject/SetA/Chahan/index.ts';
 import { Dish } from '../Components/Demo3/MainObject/SetA/Dish/index.ts';
 import { Gyoza } from '../Components/Demo3/MainObject/SetA/Gyoza/index.ts';
+import { Ice } from '../Components/Demo3/MainObject/SetA/Ice/index.ts';
 import { Ramen } from '../Components/Demo3/MainObject/SetA/Ramen/index.ts';
 import { RotateIn } from '../Components/Demo3/MainObject/SetA/RotateIn/index.ts';
 import { Silhouette } from '../Components/Demo3/MainObject/Silhouette/index.ts';
@@ -70,6 +71,7 @@ export const COMPONENTLIST: {[key: string]: any} = {
 				Chahan,
 				Dish,
 				Gyoza,
+				Ice,
 				Ramen,
 				RotateIn,
 			},

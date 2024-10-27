@@ -23,7 +23,7 @@ void main( void ) {
 	float s = (4.0 + 6.0 * uState.x ) + 1.0 + id.x * 31.0;
 
 	outPos.xy *= s;
-	outPos.xy *= mix( 1.0, (1.0 + 1.0 / s * 0.75 * v) * .5 ,l );
+	outPos.xy *= mix( 1.0, (1.0 + 1.0 / s * 0.35 * v) * .5 ,l );
 
 	outPos.z *= 2.0 * v;
 	outPos.xy *= 0.3;

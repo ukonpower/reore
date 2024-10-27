@@ -20,10 +20,6 @@ export class Chahan extends MXP.Component {
 		this.root = new MXP.Entity();
 		this.root.scale.setScalar( 1.2 );
 
-		// rotatein
-
-		this.add( new RotateIn() );
-
 		/*-------------------------------
 			Sara
 		-------------------------------*/

@@ -9,6 +9,8 @@ layout(location = 4) in vec4 id;
 uniform float uTime;
 uniform vec4 uState;
 
+out vec4 vId;
+
 void main( void ) {
 
 	#include <vert_in>	
@@ -33,10 +35,10 @@ void main( void ) {
 	float r = y * TPI * id.w + uTime * id.z * 0.1 - invV * 1.0;
 	rotate( -r, op.xy, outNormal.xy);
 
+	outPos = op;	
 
-	outPos = op;
-	
-	
 	#include <vert_out>
+
+	vId = id;
 
 }

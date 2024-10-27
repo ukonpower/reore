@@ -4,7 +4,7 @@ import * as MXP from 'maxpower';
 import circlesFrag from './shaders/circles.fs';
 import circlesVert from './shaders/circles.vs';
 
-import { globalUniforms } from '~/ts/gl/GLGlobals';
+import { globalUniforms, resource } from '~/ts/gl/GLGlobals';
 
 export class Circles extends MXP.Component {
 
@@ -39,7 +39,12 @@ export class Circles extends MXP.Component {
 			frag: MXP.hotGet( 'circlesFrag', circlesFrag ),
 			vert: MXP.hotGet( 'circlesVert', circlesVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) )
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time, {
+				uNoiseTex: {
+					value: resource.getTexture( 'noise' ),
+					type: '1i'
+				}
+			} ) )
 		} );
 
 		this.add( mat );

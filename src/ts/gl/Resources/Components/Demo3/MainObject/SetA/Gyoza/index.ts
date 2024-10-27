@@ -23,10 +23,6 @@ export class Gyoza extends MXP.Component {
 		const receiver = new MXP.BLidgerAnimationReceiver();
 		this.add( receiver );
 
-		// rotatein
-
-		this.add( new RotateIn() );
-
 		/*-------------------------------
 			gyoza
 		-------------------------------*/

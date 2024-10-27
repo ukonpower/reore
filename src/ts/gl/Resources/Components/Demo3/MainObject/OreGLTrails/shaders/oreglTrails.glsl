@@ -28,7 +28,7 @@ void main( void ) {
 	if( vUv.x < pixelX ) {
 	
 		float posOffset = id;
-		float tOffset = t + id * 0.8;
+		float tOffset = t + id * 0.9;
 
 		vec3 pos = position.xyz;
 		vec3 np = pos * 0.05;
@@ -41,9 +41,9 @@ void main( void ) {
 		noise = normalize( noise ) * ( 0.004 + id * 0.001 );
 
 		velocity.xyz += noise;
-		velocity.xyz += smoothstep( 0.0, 10.0, length( pos ) ) * - pos * 0.002;
-		velocity.xyz += smoothstep( 3.0, 2.0, length( pos + vec3( 0.0, 0.0, 0.0 )) ) * pos * 0.02;
-		velocity.xyz *= 0.98;
+		velocity.xyz += smoothstep( 0.0, 10.0, length( pos ) ) * - pos * 0.005;
+		velocity.xyz += smoothstep( 2.0, 1.0, length( pos + vec3( 0.0, 0.0, 0.0 )) ) * pos * 0.2;
+		velocity.xyz *= 0.982;
 
 	}
 	

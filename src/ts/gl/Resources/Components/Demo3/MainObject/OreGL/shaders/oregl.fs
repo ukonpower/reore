@@ -16,18 +16,20 @@ void main( void ) {
 
 	float emit = smoothstep( 0.03, 0.025, v );
 	
-
 	outRoughness = 0.1;
 	outMetalic = 0.2;
 	
-	outEmissionIntensity += max( 0.0, dot( outNormal, vec3( 0.0, 0.5, 1.0 ) ) ) * 0.5 + emit * 10.0;
+	outEmissionIntensity += max( 0.0, dot( outNormal, vec3( 0.0, 0.5, 1.0 ) ) ) * 0.5 + emit * 10.0 + 0.2;
+	
+	outColor.xyz = vec3( 0.7 );
+	outColor.x += clamp( dot( vNormal, vec3( 1.0, 0.0, -0.2 ) ), 0.0, 1.0 );
+	outColor.z += clamp( dot( vNormal, vec3( -1.0, 0.0, 0.2 ) ), 0.0, 1.0 );
 
 	if( uEnding.x > 0.5 ) {
 
 		float dnv = 1.0 - dot( normalize( vViewNormal ), normalize( -vMVPosition ) );
 
 		float w = uEnding.y * dnv;
-
 
 		outColor.xyz *= 0.0;
 		outColor.xyz += w;

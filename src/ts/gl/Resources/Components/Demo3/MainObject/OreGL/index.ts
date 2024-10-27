@@ -20,7 +20,7 @@ export class OreGL extends MXP.Component {
 			Mesh
 		-------------------------------*/
 
-		const geo = new MXP.SphereGeometry( { radius: 1, widthSegments: 32, heightSegments: 32 } );
+		const geo = new MXP.SphereGeometry( { radius: 1, widthSegments: 64, heightSegments: 64 } );
 		this.add( geo );
 
 		const mat = new MXP.Material( {

@@ -12,7 +12,7 @@ void main( void ) {
 	// outColor.z -= smoothstep( 0.1, 0.9, vId.w ) * 1.0;
 	// outColor.xyz *= 1.0 - vId.x;
 
-	outColor.xyz *= 1.0 - vId.y * 1.0;
+	// outColor.xyz *= 1.0 - vId.y * 1.0;
 
 	outSSN = 1.0;
 

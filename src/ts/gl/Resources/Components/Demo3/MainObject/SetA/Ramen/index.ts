@@ -21,7 +21,7 @@ export class Ramen extends MXP.Component {
 
 		this.root = new MXP.Entity();
 
-		this.root.scale.setScalar( 1.2 );
+		this.root.scale.setScalar( 0.8 );
 
 		const uniforms = MXP.UniformsUtils.merge( globalUniforms.uniforms, {
 			uNoiseTex: {
@@ -31,10 +31,6 @@ export class Ramen extends MXP.Component {
 		} );
 
 		this.uniforms = uniforms;
-
-		// rotatein
-
-		this.add( new RotateIn() );
 
 		/*-------------------------------
 			Sara
