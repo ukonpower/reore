@@ -75,13 +75,6 @@ export class ProjectScene extends MXP.Entity {
 
 		} );
 
-		this.on( "update/music", ( buffer: AudioBuffer, freqTex: GLP.GLPowerTexture, domainTex: GLP.GLPowerTexture ) => {
-
-			globalUniforms.music.uMusicFreqTex.value = freqTex;
-			globalUniforms.music.uMusicDomainTex.value = domainTex;
-
-		} );
-
 		// canvas
 
 		this.canvas = canvas;

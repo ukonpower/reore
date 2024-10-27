@@ -1,8 +1,6 @@
-import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
 import { Dish } from '../Dish';
-import { RotateIn } from '../RotateIn';
 
 import chahanFrag from './shaders/chahan.fs';
 import chahanVert from './shaders/chahan.vs';

@@ -44,15 +44,6 @@ export class Music extends MXP.Component {
 	private playStartTime: number;
 	private forcePlay: boolean;
 
-	// texture
-
-	public realtimeAnalyzer: AnalyserNode;
-	public realtimeDataSize: number;
-	public timeDomainArray: Uint8Array;
-	public timeDomainTexture: GLP.GLPowerTexture;
-	public frequencyArray: Uint8Array;
-	public frequencyTexture: GLP.GLPowerTexture;
-
 	// render
 
 	private currentRender: ReturnType<typeof this.render> | null;
@@ -141,26 +132,6 @@ export class Music extends MXP.Component {
 
 		this.gainNode = this.audioContext.createGain();
 		this.gainNode.gain.value = 1.3;
-
-		/*-------------------------------
-			Texture
-		-------------------------------*/
-
-		// texture
-
-		this.realtimeDataSize = 2048;
-		this.realtimeAnalyzer = this.audioContext.createAnalyser();
-		this.realtimeAnalyzer.fftSize = this.realtimeDataSize;
-
-		this.timeDomainArray = new Uint8Array( this.realtimeAnalyzer.fftSize );
-		this.timeDomainTexture = new GLP.GLPowerTexture( this.gl );
-		this.timeDomainTexture.setting( { type: this.gl.UNSIGNED_BYTE, internalFormat: this.gl.LUMINANCE, format: this.gl.LUMINANCE, magFilter: this.gl.LINEAR, minFilter: this.gl.LINEAR, wrapS: this.gl.MIRRORED_REPEAT } );
-		this.timeDomainTexture.attach( { width: this.realtimeDataSize, height: 1, data: this.timeDomainArray } );
-
-		this.frequencyArray = new Uint8Array( this.realtimeAnalyzer.frequencyBinCount );
-		this.frequencyTexture = new GLP.GLPowerTexture( this.gl );
-		this.frequencyTexture.setting( { type: this.gl.UNSIGNED_BYTE, internalFormat: this.gl.LUMINANCE, format: this.gl.LUMINANCE, magFilter: this.gl.LINEAR, minFilter: this.gl.LINEAR, wrapS: this.gl.MIRRORED_REPEAT } );
-		this.frequencyTexture.attach( { width: this.realtimeAnalyzer.frequencyBinCount, height: 1, data: this.frequencyArray } );
 
 	}
 
@@ -296,7 +267,7 @@ export class Music extends MXP.Component {
 
 				if ( this.entity ) {
 
-					this.entity.noticeEventParent( 'update/music/complete', [ this.audioBuffer, this.frequencyTexture, this.timeDomainTexture ] );
+					this.entity.noticeEventParent( 'update/music/complete', [ this.audioBuffer ] );
 
 				}
 
@@ -327,14 +298,6 @@ export class Music extends MXP.Component {
 		this.play( event.timeCode, this.forcePlay );
 		this.forcePlay = false;
 
-		// texture
-
-		this.realtimeAnalyzer.getByteTimeDomainData( this.timeDomainArray );
-		this.timeDomainTexture.attach( { width: this.realtimeDataSize, height: 1, data: this.timeDomainArray } );
-
-		this.realtimeAnalyzer.getByteFrequencyData( this.frequencyArray );
-		this.frequencyTexture.attach( { width: this.realtimeAnalyzer.frequencyBinCount, height: 1, data: this.frequencyArray } );
-
 	}
 
 	public setEntityImpl( entity: MXP.Entity ): void {
@@ -355,7 +318,7 @@ export class Music extends MXP.Component {
 
 			if ( this.entity ) {
 
-				this.entity.noticeEventParent( 'update/music', [ this.audioBuffer, this.frequencyTexture, this.timeDomainTexture ] );
+				this.entity.noticeEventParent( 'update/music', [ this.audioBuffer ] );
 
 			}
 
@@ -390,7 +353,6 @@ export class Music extends MXP.Component {
 		this.audioSrcNode.connect( this.convolverNode );
 		this.convolverNode.connect( this.gainNode );
 		this.gainNode.connect( this.audioContext.destination );
-		this.gainNode.connect( this.realtimeAnalyzer );
 
 	}
 
@@ -417,9 +379,6 @@ export class Music extends MXP.Component {
 		super.dispose();
 
 		this.stop();
-
-		this.frequencyTexture.dispose();
-		this.timeDomainTexture.dispose();
 
 	}
 

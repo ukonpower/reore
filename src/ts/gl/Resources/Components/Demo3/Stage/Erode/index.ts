@@ -1,6 +1,5 @@
 import * as MXP from 'maxpower';
 
-import { RectWire } from '../../RectWire';
 import { TuringTex } from '../../Textures/TuringTex';
 
 import erodeFrag from './shaders/erode.fs';

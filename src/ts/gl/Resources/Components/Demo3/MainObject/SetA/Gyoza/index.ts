@@ -1,8 +1,6 @@
-import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
 import { Dish } from '../Dish';
-import { RotateIn } from '../RotateIn';
 
 import gyozaFrag from './shaders/gyoza.fs';
 import gyozaVert from './shaders/gyoza.vs';

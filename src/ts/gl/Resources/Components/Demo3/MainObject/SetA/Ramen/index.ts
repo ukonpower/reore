@@ -2,7 +2,6 @@ import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
 import { Dish } from '../Dish';
-import { RotateIn } from '../RotateIn';
 
 import ramenFrag from './shaders/ramen.fs';
 import ramenVert from './shaders/ramen.vs';
