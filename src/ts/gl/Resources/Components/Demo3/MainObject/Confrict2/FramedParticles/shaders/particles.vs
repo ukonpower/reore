@@ -7,6 +7,9 @@ layout (location = 4) in vec4 id;
 uniform sampler2D uGPUSampler0;
 uniform sampler2D uGPUSampler1;
 
+out vec4 vGPUVel;
+out vec4 vGPUPos;
+
 void main( void ) {
 
 	#include <vert_in>
@@ -20,6 +23,9 @@ void main( void ) {
 	outPos *= smoothstep( 1.0, 0.9, gpuPos.w);
 	outPos *= smoothstep( 0.1, 0.15, gpuPos.w);
 	outPos += gpuPos.xyz;
+	
+	vGPUVel = texture(uGPUSampler1, cuv );
+	vGPUPos = gpuPos;
 	
 	#include <vert_out>
 	

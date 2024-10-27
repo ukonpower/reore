@@ -241,7 +241,7 @@ export class MainCamera extends MXP.Component {
 		this.composite = new MXP.PostProcessPass( gl, {
 			name: 'composite',
 			frag: MXP.hotUpdate( "composite", compositeFrag ),
-			uniforms: MXP.UniformsUtils.merge( this.commonUniforms, {
+			uniforms: this.animateReceiver.registerUniforms( MXP.UniformsUtils.merge( this.commonUniforms, {
 				uBloomTexture: {
 					value: this.rtBloomHorizonal.map( rt => rt.textures[ 0 ] ),
 					type: '1iv'
@@ -259,7 +259,7 @@ export class MainCamera extends MXP.Component {
 					type: "1f"
 				},
 
-			} ),
+			} ) ),
 			defines: {
 				BLOOM_COUNT: this.bloomRenderCount.toString(),
 				USE_BACKBLURTEX: "",

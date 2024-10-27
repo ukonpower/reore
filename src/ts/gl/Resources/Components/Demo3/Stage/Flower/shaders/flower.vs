@@ -9,32 +9,37 @@ uniform float uTime;
 uniform float uTimeE;
 uniform vec4 uState;// blooming, 
 
+out vec3 vOPos;
+
 void main( void ) {
 
 	#include <vert_in>
 
 	vec3 p = position;
 
+	vOPos = p;
+
 	p.x += 0.5;
 
 	float v = max( 0.0, -id.x + uState.x );
-	float r = v * TPI * 1.0;
+	float s = smoothstep( 0.0, 1.0, -id.x + uState.x * 2.0 );
+
+	float r = v * TPI;
 
 	// slide
 	outPos.x += 0.5;
 	
 	// shape
-	outPos.y += pow( p.x, 0.6 ) * 1.5;
+	outPos.y += pow( p.x, 0.7 ) * 2.0;
 	outPos.z *= sin( pow(p.x, 0.6) * PI );
-	outPos.xy *= rotate( id.x * 3.0 * uState.x * smoothstep( 0.5, 1.0, uState.x ) );
+	outPos.xy *= rotate( uState.y * 0.6 );
 
 	outPos.x += v * 0.2;
-	outPos.y += v * 0.5;
 
 	// size
-	outPos.xyz *= smoothstep( 0.0, 0.8, v ) * 7.0;
+	outPos.xyz *= s * 7.0;
 
-	rotate( r * 1.8, outPos.xz, outNormal.xz );
+	rotate( r + uTime * 0.2 - HPI, outPos.xz, outNormal.xz );
 	
 	#include <vert_out>
 

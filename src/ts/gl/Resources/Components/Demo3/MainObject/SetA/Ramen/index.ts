@@ -52,7 +52,7 @@ export class Ramen extends MXP.Component {
 		soup.addComponent( new MXP.Material( {
 			vert: ramenVert,
 			frag: ramenFrag,
-			phase: [ "forward" ],
+			phase: [ "deferred" ],
 			defines: { 'SOUP': '' },
 			uniforms,
 		} ) );

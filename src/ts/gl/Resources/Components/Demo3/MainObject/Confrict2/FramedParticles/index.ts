@@ -5,9 +5,9 @@ import { Frame } from './Frame';
 import particlesFrag from './shaders/particles.fs';
 import particlesCompute from './shaders/particles.glsl';
 import particlesVert from './shaders/particles.vs';
+import { Wire } from './Wire';
 
 import { gl, globalUniforms, renderer } from '~/ts/gl/GLGlobals';
-import { Wire } from './Wire';
 
 
 export class FramedParticles extends MXP.Component {

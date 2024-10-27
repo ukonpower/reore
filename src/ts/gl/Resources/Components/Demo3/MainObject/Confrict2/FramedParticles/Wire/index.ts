@@ -23,7 +23,7 @@ export class Wire extends MXP.Component {
 
 		const idArray = [];
 
-		const num = 128;
+		const num = 256;
 
 		for ( let i = 0; i < num; i ++ ) {
 

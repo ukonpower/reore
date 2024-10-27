@@ -6,11 +6,17 @@ layout(location = 4) in vec4 id;
 #include <rotate>
 
 uniform float uTime;
+uniform vec4 uState;
+
+out vec3 vOPos;
 
 void main( void ) {
 
 	#include <vert_in>
 
+	vOPos = outPos;
+
+	outPos.zx *= 0.8;
 	outPos.y *= 0.0;
 
 	float py = (position.y + 0.5);
@@ -19,8 +25,8 @@ void main( void ) {
 
 	outPos.xz *= ( 1.0 - py * 0.8 ) * mix( 0.08, 0.05, id.x );
 
-	float rt = uTime * -0.3 + id.x * 2.0 + py * HPI * 0.7 + 3.0;
-	outPos.xy += vec2( sin( rt ) * 0.3, cos( rt ) * 0.3 );
+	float rt = uTime * -0.4 + id.x * 4.0 + py * HPI * 1.0 + 3.0;
+	outPos.xy += vec2( sin( rt ) * 0.3, cos( rt ) * 0.3 ) * 0.5 - 0.1 ;
 
 	rotate( 0.73, outPos.yz, outNormal.yz );
 	rotate( -0.3, outPos.xy, outNormal.xy );

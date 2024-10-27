@@ -1,4 +1,3 @@
-import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
 import flowerFrag from './shaders/flower.fs';
@@ -8,20 +7,22 @@ import { globalUniforms } from '~/ts/gl/GLGlobals';
 
 export class Flower extends MXP.Component {
 
-	private geometry: MXP.Geometry;
-	private material: MXP.Material;
-
 	constructor() {
 
 		super();
 
+		// receiver
+
+		const receiver = new MXP.BLidgerAnimationReceiver();
+		this.add( receiver );
+
 		// geometry
 
-		this.geometry = new MXP.CubeGeometry( { width: 1, height: 0.05, depth: 1, segmentsWidth: 12, segmentsDepth: 12 } );
+		const geo = new MXP.CubeGeometry( { width: 1, height: 0.05, depth: 1, segmentsWidth: 12, segmentsDepth: 12 } );
 
 		const instanceArray = [];
 
-		const num = 24;
+		const num = 7;
 		const layer = 1;
 
 		for ( let i = 0; i < layer; i ++ ) {
@@ -37,17 +38,21 @@ export class Flower extends MXP.Component {
 
 		}
 
-		this.geometry.setAttribute( "id", new Float32Array( instanceArray ), 4, { instanceDivisor: 1 } );
+		geo.setAttribute( "id", new Float32Array( instanceArray ), 4, { instanceDivisor: 1 } );
+
+		this.add( geo );
 
 		// material
 
-		this.material = new MXP.Material( {
+		const mat = new MXP.Material( {
 			frag: MXP.hotGet( 'flowerFrag', flowerFrag ),
 			vert: MXP.hotGet( 'flowerVert', flowerVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: MXP.UniformsUtils.merge( globalUniforms.time ),
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) ),
 			cullFace: true,
 		} );
+
+		this.add( mat );
 
 		if ( import.meta.hot ) {
 
@@ -55,9 +60,9 @@ export class Flower extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.frag = MXP.hotUpdate( 'flowerFrag', module.default );
+					mat.frag = MXP.hotUpdate( 'flowerFrag', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
@@ -67,29 +72,15 @@ export class Flower extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.vert = MXP.hotUpdate( 'flowerVert', module.default );
+					mat.vert = MXP.hotUpdate( 'flowerVert', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
 			} );
 
 		}
-
-	}
-
-	public setEntityImpl( entity: MXP.Entity ): void {
-
-		entity.addComponent( this.material );
-		entity.addComponent( this.geometry );
-
-	}
-
-	public unsetEntityImpl( entity: MXP.Entity ): void {
-
-		entity.removeComponent( this.material );
-		entity.removeComponent( this.geometry );
 
 	}
 

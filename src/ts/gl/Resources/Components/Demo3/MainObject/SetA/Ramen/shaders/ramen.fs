@@ -17,11 +17,8 @@ void main( void ) {
 	
 	#ifdef SOUP
 
-		outColor = vec4( 0.4, 0.08, 0.0, 0.8 );
+		outColor = vec4( 0.6, 0.2, 0.0, 0.8 );
 
-		#include <lighting_forwardIn>
-		#include <lighting_light>
-		
 	#endif
 
 	#ifdef NEGI

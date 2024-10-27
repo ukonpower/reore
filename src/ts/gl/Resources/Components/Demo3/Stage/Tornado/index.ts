@@ -8,18 +8,20 @@ import { globalUniforms } from '~/ts/gl/GLGlobals';
 
 export class Tornado extends MXP.Component {
 
-	private geometry: MXP.Geometry;
-	private material: MXP.Material;
-
 	constructor() {
 
 		super();
+
+		// receiver
+
+		const receiver = new MXP.BLidgerAnimationReceiver();
+		this.add( receiver );
 
 		// geometry
 
 		const r = 0.5;
 
-		this.geometry = new MXP.CylinderGeometry( {
+		const geo = new MXP.CylinderGeometry( {
 			radiusTop: r,
 			radiusBottom: r,
 			heightSegments: 16,
@@ -36,17 +38,21 @@ export class Tornado extends MXP.Component {
 
 		}
 
-		this.geometry.setAttribute( "id", new Float32Array( instanceArray ), 4, { instanceDivisor: 1 } );
+		geo.setAttribute( "id", new Float32Array( instanceArray ), 4, { instanceDivisor: 1 } );
+
+		this.add( geo );
 
 		// material
 
-		this.material = new MXP.Material( {
+		const mat = new MXP.Material( {
 			frag: MXP.hotGet( 'tornadoFrag', tornadoFrag ),
 			vert: MXP.hotGet( 'tornadoVert', tornadoVert ),
 			phase: [ 'deferred', 'shadowMap' ],
-			uniforms: MXP.UniformsUtils.merge( globalUniforms.time ),
+			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) ),
 			cullFace: true,
 		} );
+
+		this.add( mat );
 
 		if ( import.meta.hot ) {
 
@@ -54,9 +60,9 @@ export class Tornado extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.frag = MXP.hotUpdate( 'tornadoFrag', module.default );
+					mat.frag = MXP.hotUpdate( 'tornadoFrag', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
@@ -66,29 +72,15 @@ export class Tornado extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.vert = MXP.hotUpdate( 'tornadoVert', module.default );
+					mat.vert = MXP.hotUpdate( 'tornadoVert', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
 			} );
 
 		}
-
-	}
-
-	public setEntityImpl( entity: MXP.Entity ): void {
-
-		entity.addComponent( this.material );
-		entity.addComponent( this.geometry );
-
-	}
-
-	public unsetEntityImpl( entity: MXP.Entity ): void {
-
-		entity.removeComponent( this.material );
-		entity.removeComponent( this.geometry );
 
 	}
 
