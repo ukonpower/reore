@@ -12,7 +12,6 @@
 #endif
 
 uniform sampler2D uNoiseTex;
-uniform vec4 uState;
 
 void main( void ) {
 

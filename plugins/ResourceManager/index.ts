@@ -22,6 +22,14 @@ const updateComponentList = ( ) => {
 			const filePath = path.join( dir, file );
 			const stat = fs.statSync( filePath );
 
+			const fileName = path.basename( filePath );
+
+			if ( fileName.startsWith( '_' ) ) {
+
+				return;
+
+			}
+
 			if ( stat.isDirectory() ) {
 
 				getIndexTsFiles( filePath, fileList );

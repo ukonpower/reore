@@ -1,6 +1,5 @@
 import { OrbitControls } from '../Components/Camera/MainCamera/OrbitControls/index.ts';
 import { MainCamera } from '../Components/Camera/MainCamera/index.ts';
-import { HUDFrame } from '../Components/Demo3/HUD/HUDFrame/index.ts';
 import { HUDSubtitle } from '../Components/Demo3/HUD/HUDSubtitle/index.ts';
 import { Chain } from '../Components/Demo3/MainObject/Confrict1/Chain/index.ts';
 import { RingFrame } from '../Components/Demo3/MainObject/Confrict1/RingFrame/index.ts';
@@ -55,7 +54,6 @@ export const COMPONENTLIST: {[key: string]: any} = {
 	},
 	Demo3: {
 		HUD: {
-			HUDFrame,
 			HUDSubtitle,
 		},
 		MainObject: {

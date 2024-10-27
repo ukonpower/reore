@@ -55,7 +55,7 @@ void main( void ) {
 
 	if( uEnding.x > 0.5 ) {
 
-		float w = uEnding.y;
+		float w = uEnding.y * (1.0 - dnv);
 
 		outColor.xyz *= 0.0;
 		outEmissionIntensity *= 0.0;

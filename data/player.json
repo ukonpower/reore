@@ -81,6 +81,17 @@
 			]
 		},
 		{
+			"path": "/root/blidgeRoot/MainObj/LastRamen",
+			"components": [
+				{
+					"name": "Ramen",
+					"props": {
+						"enabled": true
+					}
+				}
+			]
+		},
+		{
 			"path": "/root/blidgeRoot/MainObj/Logo",
 			"components": [
 				{
