@@ -28,13 +28,17 @@ void main( void ) {
 
 		float vb = smoothstep( 0.7, 1.0,  uState.x  );
 
-		outEmissionIntensity = 0.5 * vb;
-		outEmissionIntensity *= fract( vUv.x * 4.0 );
+		float c = 0.0;
+
+		c = 0.5 * vb;
+		c *= fract( vUv.x * 4.0 );
 
 		float f = 1.0 - vUv.y;
 
-		outEmissionIntensity *= f;
-		outEmissionIntensity = mix( outEmissionIntensity, 1.5, smoothstep( 0.005, 0.0, vUv.y ) * vb );
+		c *= f;
+		c = mix( c, 1.5, smoothstep( 0.005, 0.0, vUv.y ) * vb );
+
+		outColor.xyz = vec3( c * 0.2 );
 
 	#endif
 	

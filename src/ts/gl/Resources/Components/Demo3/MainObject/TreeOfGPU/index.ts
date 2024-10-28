@@ -3,6 +3,7 @@ import * as MXP from 'maxpower';
 
 import treeOfGPUFrag from './shaders/treeOfGPU.fs';
 import treeOfGPUVert from './shaders/treeOfGPU.vs';
+import treeOfGPUBGFrag from './shaders/treeOfGPUBG.fs';
 
 import { globalUniforms } from '~/ts/gl/GLGlobals';
 
@@ -12,6 +13,7 @@ export class TreeOfGPU extends MXP.Component {
 	private pass: MXP.Entity;
 
 	private circle: MXP.Entity;
+	private bg: MXP.Entity;
 
 	constructor() {
 
@@ -154,8 +156,9 @@ export class TreeOfGPU extends MXP.Component {
 		const circleMat = new MXP.Material( {
 			frag: MXP.hotGet( 'treeOfGPUFrag', treeOfGPUFrag ),
 			vert: MXP.hotGet( 'treeOfGPUVert', treeOfGPUVert ),
-			phase: [ 'deferred', 'shadowMap' ],
+			phase: [ 'forward' ],
 			uniforms: uniformReceiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) ),
+			blending: "ADD",
 			defines: {
 				"IS_CIRCLE": ""
 			}
@@ -200,6 +203,49 @@ export class TreeOfGPU extends MXP.Component {
 
 		}
 
+		/*-------------------------------
+			BG
+		-------------------------------*/
+
+		this.bg = new MXP.Entity();
+
+		const bgGeo = new MXP.PlaneGeometry( {
+			width: 8,
+			height: 8
+		} );
+
+		this.bg.position.z = - 1;
+
+		this.bg.addComponent( bgGeo );
+
+		const bgMat = new MXP.Material( {
+			frag: MXP.hotGet( 'treeOfGPUBGFrag', treeOfGPUBGFrag ),
+			phase: [ 'deferred' ],
+			uniforms: uniformReceiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) ),
+		} );
+
+		this.bg.addComponent( bgMat );
+
+		if ( process.env.NODE_ENV === 'development' ) {
+
+			if ( import.meta.hot ) {
+
+				import.meta.hot.accept( './shaders/treeOfGPUBG.fs', ( module ) => {
+
+					if ( module ) {
+
+						bgMat.frag = MXP.hotUpdate( 'treeOfGPUBGFrag', module.default );
+
+						bgMat.requestUpdate();
+
+					}
+
+				} );
+
+			}
+
+		}
+
 	}
 
 	public setEntityImpl( entity: MXP.Entity ): void {
@@ -207,7 +253,7 @@ export class TreeOfGPU extends MXP.Component {
 		entity.add( this.sefirot );
 		entity.add( this.pass );
 		entity.add( this.circle );
-
+		entity.add( this.bg );
 
 	}
 
@@ -216,6 +262,7 @@ export class TreeOfGPU extends MXP.Component {
 		entity.remove( this.sefirot );
 		entity.remove( this.pass );
 		entity.remove( this.circle );
+		entity.remove( this.bg );
 
 	}
 
