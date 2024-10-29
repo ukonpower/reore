@@ -240,6 +240,7 @@ export class ProjectScene extends MXP.Entity {
 
 		const renderStack = this.root.finalize( event );
 
+
 		if ( this.enableRender ) {
 
 			renderer.render( renderStack );

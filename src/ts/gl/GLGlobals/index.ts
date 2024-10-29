@@ -1,6 +1,7 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
+import { LoadingProgress } from '../Player/LoadingProgress';
 import { GPUState } from '../ProjectScene/utils/GPUState';
 import { OREngineResource } from '../Resources';
 
@@ -23,6 +24,7 @@ screenElm.appendChild( canvas );
 export const gl = canvas.getContext( 'webgl2', { antialias: false } )!;
 export const power = new GLP.Power( gl );
 export const renderer = new MXP.Renderer( power.gl );
+export const loadingProgress = new LoadingProgress();
 
 export const globalUniforms: {[key: string]: GLP.Uniforms} = {
 	time: {

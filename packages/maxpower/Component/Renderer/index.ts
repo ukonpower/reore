@@ -15,6 +15,8 @@ import { PipelinePostProcess } from './PipelinePostProcess';
 import { PMREMRender } from './PMREMRender';
 import { ProgramManager } from './ProgramManager';
 
+import { loadingProgress } from '~/ts/gl/GLGlobals';
+
 // render stack
 
 export type RenderStack = {
@@ -81,9 +83,11 @@ export class Renderer extends Entity {
 	private renderCanvasSize: GLP.Vector;
 	private extDisJointTimerQuery: any;
 
+	public noDraw: boolean;
+
 	// program
 
-	private programManager: ProgramManager;
+	public programManager: ProgramManager;
 
 	// lights
 
@@ -127,6 +131,8 @@ export class Renderer extends Entity {
 		super( { name: "Renderer" } );
 
 		this.gl = gl;
+
+		this.noDraw = false;
 
 		this.programManager = new ProgramManager( this.gl );
 		this.renderCanvasSize = new GLP.Vector();
@@ -708,6 +714,7 @@ export class Renderer extends Entity {
 
 	private draw( drawId: string, renderType: MaterialRenderType, geometry: Geometry, material: Material, param?: DrawParam ) {
 
+
 		TextureUnitCounter = 0;
 
 		// cull face
@@ -755,6 +762,12 @@ export class Renderer extends Entity {
 			program = this.programManager.get( vert, frag );
 
 			material.programCache[ renderType ] = program;
+
+		}
+
+		if ( this.noDraw ) {
+
+			return;
 
 		}
 
@@ -1039,7 +1052,6 @@ export class Renderer extends Entity {
 				this.gl.bindVertexArray( null );
 
 			} );
-
 
 		}
 

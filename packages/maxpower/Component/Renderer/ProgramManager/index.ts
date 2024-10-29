@@ -34,5 +34,42 @@ export class ProgramManager {
 
 	}
 
+	public async compile( cb?: ( loaded: number, total: number ) => void ) {
+
+		const total = this.pool.size;
+		let loaded = 0;
+
+		for ( const program of this.pool.values() ) {
+
+			await new Promise( r => {
+
+				setTimeout( () => {
+
+					program.use( ( program ) => {
+
+
+						this.gl.drawArrays( this.gl.TRIANGLES, 0, 0 );
+
+						r( null );
+
+
+					} );
+
+				}, 10 );
+
+
+			} );
+
+			if ( cb ) {
+
+				loaded ++;
+				cb( loaded, total );
+
+			}
+
+		}
+
+
+	}
 
 }

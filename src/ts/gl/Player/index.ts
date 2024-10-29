@@ -1,7 +1,7 @@
 import * as GLP from 'glpower';
 
 import SceneData from '../../../../data/player.json';
-import { canvas, screenElm } from '../GLGlobals';
+import { canvas, loadingProgress, renderer, screenElm } from '../GLGlobals';
 import { ProjectScene } from '../ProjectScene';
 
 class App {
@@ -29,6 +29,7 @@ class App {
 				.r{width:100%;height:100%;position:relative;overflow:hidden;display:flex;background:#000;}
 				.cw{position:relative;flex:1 1 100%;display:none;}
 				.s{width:100vw;height:100vh;display:flex;flex-direction:column;justify-content:center;}
+				.l{width:300px;height:1px;background:#fff;position:absolute;top:0;left:0;}
 			</style>
 		`;
 
@@ -54,6 +55,10 @@ class App {
 		/*-------------------------------
 			StartElm
 		-------------------------------*/
+
+		const loadingElm = document.createElement( 'div' );
+		loadingElm.classList.add( 'l' );
+		document.body.appendChild( loadingElm );
 
 		this.startElm = document.createElement( 'div' );
 		this.startElm.classList.add( "s" );
@@ -100,9 +105,18 @@ class App {
 
 				console.log( "start" );
 
+				renderer.noDraw = true;
+
 				this.scene.update( { forceDraw: true } );
 
-				console.log( "end" );
+				renderer.noDraw = false;
+
+				renderer.programManager.compile( ( loaded, total ) => {
+
+					const percentage = loaded / total;
+					loadingElm.style.transform = `scaleX(${ percentage })`;
+
+				} );
 
 			}, 100 );
 
@@ -112,12 +126,6 @@ class App {
 		} );
 
 		this.scene.init( SceneData );
-
-		/*-------------------------------
-			Animate
-		-------------------------------*/
-
-		this.animate();
 
 		/*-------------------------------
 			Event
@@ -136,6 +144,8 @@ class App {
 		this.screenWrapElm.style.cursor = 'none';
 
 		this.scene.play();
+
+		this.animate();
 
 		this.resize();
 
