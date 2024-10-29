@@ -218,7 +218,8 @@ export class Entity extends Serializable {
 		const geometry = this.getComponentByTag<Geometry>( "geometry" );
 		const material = this.getComponentByTag<Material>( "material" );
 
-		if ( geometry && material && ( geometry.enabled && material.enabled && visibility || event.forceDraw ) ) {
+
+		if ( geometry && material && ( ( geometry.enabled && material.enabled && visibility ) || event.forceDraw ) ) {
 
 			if ( material.visibilityFlag.deferred ) event.renderStack.deferred.push( this );
 			if ( material.visibilityFlag.shadowMap ) event.renderStack.shadowMap.push( this );

@@ -96,7 +96,15 @@ class App {
 
 			this.resize();
 
-			this.scene.update( { forceDraw: true } );
+			setTimeout( () => {
+
+				console.log( "start" );
+
+				this.scene.update( { forceDraw: true } );
+
+				console.log( "end" );
+
+			}, 100 );
 
 			playButton.innerText = '2. Play!';
 			playButton.disabled = false;
@@ -104,6 +112,12 @@ class App {
 		} );
 
 		this.scene.init( SceneData );
+
+		/*-------------------------------
+			Animate
+		-------------------------------*/
+
+		this.animate();
 
 		/*-------------------------------
 			Event
@@ -124,7 +138,6 @@ class App {
 		this.scene.play();
 
 		this.resize();
-		this.animate();
 
 	}
 

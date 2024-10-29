@@ -65,7 +65,7 @@ export class TreeOfGPU extends MXP.Component {
 		const sefirotMat = new MXP.Material( {
 			frag: MXP.hotGet( 'treeOfGPUFrag', treeOfGPUFrag ),
 			vert: MXP.hotGet( 'treeOfGPUVert', treeOfGPUVert ),
-			phase: [ 'deferred', 'shadowMap', "envMap" ],
+			phase: [ 'deferred', "envMap" ],
 			uniforms: uniformReceiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) ),
 			defines: {
 				"IS_SEFIROT": ""
@@ -89,7 +89,7 @@ export class TreeOfGPU extends MXP.Component {
 		const passMat = new MXP.Material( {
 			frag: MXP.hotGet( 'treeOfGPUFrag', treeOfGPUFrag ),
 			vert: MXP.hotGet( 'treeOfGPUVert', treeOfGPUVert ),
-			phase: [ 'deferred', 'shadowMap' ],
+			phase: [ 'deferred' ],
 			uniforms: uniformReceiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) ),
 			defines: {
 				"IS_PASS": ""
