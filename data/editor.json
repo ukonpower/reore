@@ -16,7 +16,7 @@
 				1,
 				1
 			],
-			"name": "revise",
+			"name": "REORE",
 			"objectOverride": [
 				{
 					"path": "/root",
@@ -306,8 +306,8 @@
 		}
 	],
 	"enableRender": true,
-	"projectName": "revise",
-	"openedProject": "revise",
+	"projectName": "REORE",
+	"openedProject": "REORE",
 	"resolutionScale": 1,
 	"viewType": "render",
 	"frameLoop/enabled": false,
