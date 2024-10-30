@@ -52,6 +52,8 @@ class App {
 			</div>
 		`;
 
+		document.title = "revise";
+
 		this.rootElm = document.getElementById( 'r' )!;
 
 		/*-------------------------------

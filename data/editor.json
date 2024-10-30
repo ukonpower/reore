@@ -16,7 +16,7 @@
 				1,
 				1
 			],
-			"name": "Demo3",
+			"name": "revise",
 			"objectOverride": [
 				{
 					"path": "/root",
@@ -24,7 +24,6 @@
 						{
 							"name": "BLidgeClient",
 							"props": {
-								"enabled": true,
 								"mode": "websocket",
 								"gltf": false,
 								"websocket/url": "ws://localhost:3100"
@@ -296,109 +295,11 @@
 			},
 			"timeline/duration": 5092,
 			"timeline/fps": 30
-		},
-		{
-			"position": [
-				0,
-				0,
-				0
-			],
-			"euler": [
-				0,
-				0,
-				0
-			],
-			"scale": [
-				1,
-				1,
-				1
-			],
-			"name": "New Project",
-			"objectOverride": [
-				{
-					"path": "/root/test",
-					"components": [
-						{
-							"name": "TuringRenderer",
-							"props": {
-								"enabled": true,
-								"f": {
-									"value": {
-										"value": {
-											"value": 0.016
-										}
-									}
-								},
-								"k": {
-									"value": {
-										"value": {
-											"value": 0.043
-										}
-									}
-								}
-							}
-						},
-						{
-							"name": "CubeGeometry",
-							"props": {
-								"enabled": true
-							}
-						}
-					]
-				},
-				{
-					"path": "/root/Light",
-					"components": [
-						{
-							"name": "Light",
-							"props": {
-								"enabled": true,
-								"lightType": "directional",
-								"color": {
-									"x": 1,
-									"y": 1,
-									"z": 1,
-									"w": 0
-								},
-								"intensity": 1,
-								"angle": 50,
-								"blend": 1,
-								"distance": 30,
-								"decay": 2,
-								"castShadow": false
-							}
-						}
-					]
-				}
-			],
-			"scene": {
-				"name": "root",
-				"childs": [
-					{
-						"name": "test"
-					},
-					{
-						"name": "Light",
-						"pos": [
-							0,
-							3.049999999999999,
-							0
-						],
-						"scale": [
-							0.6999999999999998,
-							1,
-							1
-						]
-					}
-				]
-			},
-			"timeline/duration": 10185,
-			"timeline/fps": 60
 		}
 	],
 	"enableRender": true,
-	"projectName": "Demo3",
-	"openedProject": "Demo3",
+	"projectName": "revise",
+	"openedProject": "revise",
 	"resolutionScale": 1,
 	"viewType": "render",
 	"frameLoop/enabled": false,
