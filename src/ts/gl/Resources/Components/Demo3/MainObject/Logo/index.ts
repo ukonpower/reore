@@ -7,7 +7,7 @@ import { screenElm } from '~/ts/gl/GLGlobals';
 const length = 1000;
 const pathParam: {[key: string]: {l: number, i: string}} = {
 	_ic_body: { l: 137 * Math.PI * 2, i: "x" },
-	_ic_yoji: { l: 225, i: "z" },
+	_ic_yoji: { l: 226, i: "z" },
 	_ic_mayo: { l: 340, i: "y" },
 	_ic_eye: { l: 0, i: "w" }
 };
