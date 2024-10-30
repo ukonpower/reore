@@ -63,7 +63,7 @@ type CameraOverride = {
 	uniforms?: GLP.Uniforms,
 }
 
-type DrawParam = CameraOverride & { modelMatrixWorld?: GLP.Matrix, modelMatrixWorldPrev?: GLP.Matrix, label?: string }
+type DrawParam = CameraOverride & { modelMatrixWorld?: GLP.Matrix, modelMatrixWorldPrev?: GLP.Matrix, label?: string, renderTarget?:GLP.GLPowerFrameBuffer | null }
 
 // state
 
@@ -500,6 +500,7 @@ export class Renderer extends Entity {
 			cameraMatrixWorld: cameraEntity.matrixWorld,
 			cameraNear: camera.near,
 			cameraFar: camera.far,
+			renderTarget: renderTarget,
 			...renderOption.cameraOverride
 		};
 
@@ -696,6 +697,7 @@ export class Renderer extends Entity {
 			const opt: DrawParam = renderOption && renderOption.cameraOverride || {};
 
 			opt.label = pass.name;
+			opt.renderTarget = renderTarget;
 
 			this.draw( pass.uuid, "postprocess", this.quad, pass, opt );
 
@@ -1081,11 +1083,24 @@ export class Renderer extends Entity {
 
 			const param = this.drawParams[ i ];
 
+			const renderTarget = param.param.renderTarget;
+
+			if ( renderTarget ) {
+
+				this.gl.bindFramebuffer( this.gl.FRAMEBUFFER, renderTarget.getFrameBuffer() );
+				this.gl.drawBuffers( renderTarget.textureAttachmentList );
+
+			} else {
+
+				this.gl.bindFramebuffer( this.gl.FRAMEBUFFER, null );
+
+			}
+
+			this.draw( param.drawId, param.renderType, param.geometry, param.material, param.param );
+
 			await new Promise( r => {
 
 				setTimeout( () => {
-
-					this.draw( param.drawId, param.renderType, param.geometry, param.material, param.param );
 
 					r( null );
 
