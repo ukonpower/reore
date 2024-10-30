@@ -3,12 +3,13 @@ import * as MXP from 'maxpower';
 
 import turingFrag from './shaders/turing.glsl';
 
-import { gl, renderer } from '~/ts/gl/GLGlobals';
+import { gl, renderer, resource } from '~/ts/gl/GLGlobals';
 
 export class TuringTex extends MXP.Component {
 
 	private compute: MXP.GPUCompute;
 	private pass: MXP.GPUComputePass;
+	private prevFrame: number = 0;
 
 	constructor() {
 
@@ -28,6 +29,10 @@ export class TuringTex extends MXP.Component {
 				uTuringParam: {
 					value: new GLP.Vector( f, k, x, y ),
 					type: '4f'
+				},
+				uNoiseTex: {
+					value: resource.getTexture( 'noise' ),
+					type: '1i'
 				}
 			},
 			textureParam: {
@@ -56,6 +61,8 @@ export class TuringTex extends MXP.Component {
 			renderer,
 			passes: [ this.pass ]
 		} );
+
+		this.prevFrame = 0;
 
 		this.reset();
 
@@ -100,11 +107,32 @@ export class TuringTex extends MXP.Component {
 
 		this.compute.passes[ 0 ].initTexture( ( layerCnt, x, y ) => {
 
+			const xx = x / this.compute.passes[ 0 ].size.x;
+			const yy = y / this.compute.passes[ 0 ].size.y;
+
+			const w = new GLP.Vector( xx - 0.5, yy - 0.5 ).length();
+
 			return [
-				Math.random() * Math.sin( x * 0.1 + Math.random() ), Math.random() * Math.sin( y * 3.5 ), Math.random(), Math.random()
+				w, w * Math.random(), Math.random(), Math.random()
 			];
 
 		} );
+
+	}
+
+
+	protected updateImpl( event: MXP.ComponentUpdateEvent ): void {
+
+		const t = 2180;
+		const f = event.timeCodeFrame;
+
+		if ( this.prevFrame < t && t <= f ) {
+
+			this.reset();
+
+		}
+
+		this.prevFrame = f;
 
 	}
 
