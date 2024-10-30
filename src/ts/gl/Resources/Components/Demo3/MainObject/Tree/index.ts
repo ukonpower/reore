@@ -175,6 +175,7 @@ export class Tree extends MXP.Component {
 
 		this.root = null;
 
+		this.calc();
 
 	}
 

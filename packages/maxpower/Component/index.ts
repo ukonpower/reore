@@ -36,22 +36,6 @@ export class Component extends Serializable {
 
 	}
 
-	public get props() {
-
-		return {
-			enabled: {
-				value: this.enabled,
-			}
-		};
-
-	}
-
-	protected deserializer( props: TypedSerializableProps<this> ): void {
-
-		this.enabled = props.enabled.value;
-
-	}
-
 	public static get tag() {
 
 		return "";

@@ -15,8 +15,6 @@ import { PipelinePostProcess } from './PipelinePostProcess';
 import { PMREMRender } from './PMREMRender';
 import { ProgramManager } from './ProgramManager';
 
-import { loadingProgress } from '~/ts/gl/GLGlobals';
-
 // render stack
 
 export type RenderStack = {
@@ -83,7 +81,10 @@ export class Renderer extends Entity {
 	private renderCanvasSize: GLP.Vector;
 	private extDisJointTimerQuery: any;
 
+	// compile
+
 	public noDraw: boolean;
+	public drawParams: any[];
 
 	// program
 
@@ -133,7 +134,7 @@ export class Renderer extends Entity {
 		this.gl = gl;
 
 		this.noDraw = false;
-
+		this.drawParams = [];
 		this.programManager = new ProgramManager( this.gl );
 		this.renderCanvasSize = new GLP.Vector();
 		this.extDisJointTimerQuery = this.gl.getExtension( "EXT_disjoint_timer_query_webgl2" );
@@ -564,7 +565,7 @@ export class Renderer extends Entity {
 
 			drawParam.modelMatrixWorld = entity.matrixWorld;
 			drawParam.modelMatrixWorldPrev = entity.matrixWorldPrev;
-			drawParam.label = `cam[${camera.uuid}]/${entity.name || material.name || "_"}`;
+			drawParam.label = `cam[${camera.uuid}]/${entity.name || material.name || "-"}`;
 
 			this.draw( entity.uuid, renderType, geometry, material, drawParam );
 
@@ -712,8 +713,15 @@ export class Renderer extends Entity {
 
 	}
 
-	private draw( drawId: string, renderType: MaterialRenderType, geometry: Geometry, material: Material, param?: DrawParam ) {
+	public draw( drawId: string, renderType: MaterialRenderType, geometry: Geometry, material: Material, param?: DrawParam ) {
 
+		if ( this.noDraw ) {
+
+			this.drawParams.push( { drawId, renderType, geometry, material, param: { ...param } } );
+
+			return;
+
+		}
 
 		TextureUnitCounter = 0;
 
@@ -762,12 +770,6 @@ export class Renderer extends Entity {
 			program = this.programManager.get( vert, frag );
 
 			material.programCache[ renderType ] = program;
-
-		}
-
-		if ( this.noDraw ) {
-
-			return;
 
 		}
 
@@ -944,8 +946,6 @@ export class Renderer extends Entity {
 
 			}
 
-			// draw
-
 			program.use( ( program ) => {
 
 				program.uploadUniforms();
@@ -1062,6 +1062,42 @@ export class Renderer extends Entity {
 		this.renderCanvasSize.copy( resolution );
 		this.deferredPostProcess.resize( resolution );
 		this.pipelinePostProcess.resize( resolution );
+
+	}
+
+	public async compile( cb: ( label: string, loaded: number, total: number ) => void ) {
+
+		const total = this.drawParams.length;
+		let loaded = 0;
+
+		for ( let i = 0; i < this.drawParams.length; i ++ ) {
+
+			const param = this.drawParams[ i ];
+
+			await new Promise( r => {
+
+				setTimeout( () => {
+
+					this.draw( param.drawId, param.renderType, param.geometry, param.material, param.param );
+
+					r( null );
+
+				}, 10 );
+
+			} );
+
+			if ( cb ) {
+
+				loaded ++;
+
+				const l = param.param && param.param.label || "-";
+				const label = `${param.renderType}/${l}/[${param.drawId}]`;
+
+				cb( label, loaded, total );
+
+			}
+
+		}
 
 	}
 

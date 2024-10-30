@@ -5,7 +5,7 @@ import { resource } from '~/ts/gl/GLGlobals';
 
 export interface OREngineNodeOverrideComponent {
 	name: string,
-	props: {[key:string]: any} | undefined
+	props?: {[key:string]: any} | undefined
 }
 
 export interface OREngineNodeOverride {

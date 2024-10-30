@@ -24,6 +24,7 @@ export class Music extends MXP.Component {
 	private convolverNode: ConvolverNode;
 	private gainNode: GainNode;
 
+
 	// buffers
 
 	private bufferLength: number;
@@ -37,6 +38,8 @@ export class Music extends MXP.Component {
 
 	private tmpOutputArrayL: Float32Array;
 	private tmpOutputArrayR: Float32Array;
+
+	private progress: [number, number];
 
 	// play
 
@@ -71,7 +74,17 @@ export class Music extends MXP.Component {
 
 		// samples
 
-		this.blockLength = Math.min( 512 * 256, this.bufferLength );
+		this.progress = [ 0, 0 ];
+
+		let len = 512 * 512;
+
+		if ( process.env.NODE_ENV === 'development' ) {
+
+			len = 512 * 1024;
+
+		}
+
+		this.blockLength = Math.min( len, this.bufferLength );
 		this.numSampleBlocks = Math.ceil( ( this.audioContext.sampleRate * MUSIC_DURATION ) / this.blockLength );
 
 		// tmpOutPut
@@ -136,6 +149,8 @@ export class Music extends MXP.Component {
 	}
 
 	private render() {
+
+		this.progress = [ 0, 0 ];
 
 		if ( this.currentRender ) [
 
@@ -261,13 +276,9 @@ export class Music extends MXP.Component {
 
 					} );
 
+					this.progress = [ _i, ( this.numSampleBlocks - 1 ) ];
+
 					this.notice();
-
-				}
-
-				if ( this.entity ) {
-
-					this.entity.noticeEventParent( 'update/music/complete', [ this.audioBuffer ] );
 
 				}
 
@@ -314,15 +325,15 @@ export class Music extends MXP.Component {
 
 	private notice() {
 
-		setTimeout( () => {
+		queueMicrotask( () => {
 
 			if ( this.entity ) {
 
-				this.entity.noticeEventParent( 'update/music', [ this.audioBuffer ] );
+				this.entity.noticeEventParent( 'update/music', [ this.audioBuffer, this.progress ] );
 
 			}
 
-		}, 0 );
+		} );
 
 	}
 

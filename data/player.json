@@ -22,17 +22,13 @@
 				{
 					"name": "BLidgeClient",
 					"props": {
-						"enabled": true,
-						"mode": "json",
+						"mode": "websocket",
 						"gltf": false,
 						"websocket/url": "ws://localhost:3100"
 					}
 				},
 				{
-					"name": "Music",
-					"props": {
-						"enabled": true
-					}
+					"name": "Music"
 				}
 			]
 		},
@@ -40,10 +36,7 @@
 			"path": "/root/blidgeRoot/MainObj",
 			"components": [
 				{
-					"name": "BLidgerAnimationReceiver",
-					"props": {
-						"enabled": true
-					}
+					"name": "BLidgerAnimationReceiver"
 				}
 			]
 		},
@@ -51,10 +44,7 @@
 			"path": "/root/blidgeRoot/MainObj/Confrict1",
 			"components": [
 				{
-					"name": "Confrict1",
-					"props": {
-						"enabled": true
-					}
+					"name": "Confrict1"
 				}
 			]
 		},
@@ -62,10 +52,7 @@
 			"path": "/root/blidgeRoot/MainObj/Confrict2",
 			"components": [
 				{
-					"name": "Confrict2",
-					"props": {
-						"enabled": true
-					}
+					"name": "Confrict2"
 				}
 			]
 		},
@@ -73,10 +60,7 @@
 			"path": "/root/blidgeRoot/MainObj/Decompty",
 			"components": [
 				{
-					"name": "Decompty",
-					"props": {
-						"enabled": true
-					}
+					"name": "Decompty"
 				}
 			]
 		},
@@ -84,10 +68,7 @@
 			"path": "/root/blidgeRoot/MainObj/LastRamen",
 			"components": [
 				{
-					"name": "Ramen",
-					"props": {
-						"enabled": true
-					}
+					"name": "Ramen"
 				}
 			]
 		},
@@ -95,10 +76,7 @@
 			"path": "/root/blidgeRoot/MainObj/Logo",
 			"components": [
 				{
-					"name": "Logo",
-					"props": {
-						"enabled": true
-					}
+					"name": "Logo"
 				}
 			]
 		},
@@ -106,10 +84,7 @@
 			"path": "/root/blidgeRoot/MainObj/OreGL",
 			"components": [
 				{
-					"name": "OreGL",
-					"props": {
-						"enabled": true
-					}
+					"name": "OreGL"
 				}
 			]
 		},
@@ -117,10 +92,7 @@
 			"path": "/root/blidgeRoot/MainObj/OreGL/OreGLBG",
 			"components": [
 				{
-					"name": "OreGLBG",
-					"props": {
-						"enabled": true
-					}
+					"name": "OreGLBG"
 				}
 			]
 		},
@@ -128,10 +100,7 @@
 			"path": "/root/blidgeRoot/MainObj/OreGL/OreGLTrails",
 			"components": [
 				{
-					"name": "OreGLTrails",
-					"props": {
-						"enabled": true
-					}
+					"name": "OreGLTrails"
 				}
 			]
 		},
@@ -139,10 +108,7 @@
 			"path": "/root/blidgeRoot/MainObj/Recollection",
 			"components": [
 				{
-					"name": "Recollection",
-					"props": {
-						"enabled": true
-					}
+					"name": "Recollection"
 				}
 			]
 		},
@@ -150,10 +116,7 @@
 			"path": "/root/blidgeRoot/MainObj/SetA",
 			"components": [
 				{
-					"name": "Ice",
-					"props": {
-						"enabled": true
-					}
+					"name": "Ice"
 				}
 			]
 		},
@@ -161,10 +124,7 @@
 			"path": "/root/blidgeRoot/MainObj/SetA/Chahan",
 			"components": [
 				{
-					"name": "Chahan",
-					"props": {
-						"enabled": true
-					}
+					"name": "Chahan"
 				}
 			]
 		},
@@ -172,10 +132,7 @@
 			"path": "/root/blidgeRoot/MainObj/SetA/Gyoza",
 			"components": [
 				{
-					"name": "Gyoza",
-					"props": {
-						"enabled": true
-					}
+					"name": "Gyoza"
 				}
 			]
 		},
@@ -183,10 +140,7 @@
 			"path": "/root/blidgeRoot/MainObj/SetA/Ramen",
 			"components": [
 				{
-					"name": "Ramen",
-					"props": {
-						"enabled": true
-					}
+					"name": "Ramen"
 				}
 			]
 		},
@@ -194,10 +148,7 @@
 			"path": "/root/blidgeRoot/MainObj/Tree",
 			"components": [
 				{
-					"name": "Tree",
-					"props": {
-						"enabled": true
-					}
+					"name": "Tree"
 				}
 			]
 		},
@@ -205,10 +156,7 @@
 			"path": "/root/blidgeRoot/MainObj/TreeOfGPU",
 			"components": [
 				{
-					"name": "TreeOfGPU",
-					"props": {
-						"enabled": true
-					}
+					"name": "TreeOfGPU"
 				}
 			]
 		},
@@ -216,10 +164,7 @@
 			"path": "/root/blidgeRoot/MainObj/Yashima",
 			"components": [
 				{
-					"name": "Yashima",
-					"props": {
-						"enabled": true
-					}
+					"name": "Yashima"
 				}
 			]
 		},
@@ -227,10 +172,7 @@
 			"path": "/root/blidgeRoot/SkyBox",
 			"components": [
 				{
-					"name": "SkyBoxDemo3",
-					"props": {
-						"enabled": true
-					}
+					"name": "SkyBoxDemo3"
 				}
 			]
 		},
@@ -238,10 +180,7 @@
 			"path": "/root/blidgeRoot/Stage/Boxes",
 			"components": [
 				{
-					"name": "Boxes",
-					"props": {
-						"enabled": true
-					}
+					"name": "Boxes"
 				}
 			]
 		},
@@ -249,10 +188,7 @@
 			"path": "/root/blidgeRoot/Stage/Circles",
 			"components": [
 				{
-					"name": "Circles",
-					"props": {
-						"enabled": true
-					}
+					"name": "Circles"
 				}
 			]
 		},
@@ -260,15 +196,11 @@
 			"path": "/root/blidgeRoot/Stage/Erode",
 			"components": [
 				{
-					"name": "Erode",
-					"props": {
-						"enabled": true
-					}
+					"name": "Erode"
 				},
 				{
 					"name": "TuringTex",
 					"props": {
-						"enabled": true,
 						"f": 0.024,
 						"k": 0.05
 					}
@@ -279,10 +211,7 @@
 			"path": "/root/blidgeRoot/Stage/Flower",
 			"components": [
 				{
-					"name": "Flower",
-					"props": {
-						"enabled": true
-					}
+					"name": "Flower"
 				}
 			]
 		},
@@ -290,10 +219,7 @@
 			"path": "/root/blidgeRoot/Stage/Grid",
 			"components": [
 				{
-					"name": "Grid",
-					"props": {
-						"enabled": true
-					}
+					"name": "Grid"
 				}
 			]
 		},
@@ -301,10 +227,7 @@
 			"path": "/root/blidgeRoot/Stage/GridCross",
 			"components": [
 				{
-					"name": "GridCross",
-					"props": {
-						"enabled": true
-					}
+					"name": "GridCross"
 				}
 			]
 		},
@@ -312,10 +235,7 @@
 			"path": "/root/blidgeRoot/Stage/IntroTunnel",
 			"components": [
 				{
-					"name": "IntroTunnel",
-					"props": {
-						"enabled": true
-					}
+					"name": "IntroTunnel"
 				}
 			]
 		},
@@ -323,10 +243,7 @@
 			"path": "/root/blidgeRoot/Stage/IntroTunnel/Silhouette",
 			"components": [
 				{
-					"name": "Silhouette",
-					"props": {
-						"enabled": true
-					}
+					"name": "Silhouette"
 				}
 			]
 		},
@@ -334,10 +251,7 @@
 			"path": "/root/blidgeRoot/Stage/Ring",
 			"components": [
 				{
-					"name": "Ring",
-					"props": {
-						"enabled": true
-					}
+					"name": "Ring"
 				}
 			]
 		},
@@ -345,10 +259,7 @@
 			"path": "/root/blidgeRoot/Stage/Tornado",
 			"components": [
 				{
-					"name": "Tornado",
-					"props": {
-						"enabled": true
-					}
+					"name": "Tornado"
 				}
 			]
 		},
@@ -356,10 +267,7 @@
 			"path": "/root/blidgeRoot/Stage/Wave",
 			"components": [
 				{
-					"name": "Wave",
-					"props": {
-						"enabled": true
-					}
+					"name": "Wave"
 				}
 			]
 		},
@@ -367,10 +275,7 @@
 			"path": "/root/blidgeRoot/Stage/WetGround",
 			"components": [
 				{
-					"name": "WetGround",
-					"props": {
-						"enabled": true
-					}
+					"name": "WetGround"
 				}
 			]
 		},
@@ -378,21 +283,13 @@
 			"path": "/root/blidgeRoot/SubObj/Sessions",
 			"components": [
 				{
-					"name": "Sessions",
-					"props": {
-						"enabled": true
-					}
+					"name": "Sessions"
 				}
 			]
 		}
 	],
 	"scene": {
-		"name": "root",
-		"childs": [
-			{
-				"name": "Test"
-			}
-		]
+		"name": "root"
 	},
 	"timeline/duration": 5092,
 	"timeline/fps": 30

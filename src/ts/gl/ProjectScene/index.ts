@@ -209,19 +209,20 @@ export class ProjectScene extends MXP.Entity {
 
 	public update( param?: Undefineder<MXP.EntityUpdateEvent> ) {
 
-		if ( this.frame.playing ) {
+		const newTime = new Date().getTime();
+		this.time.delta = ( newTime - this.time.current ) / 1000;
+		this.time.current = newTime;
 
-			const newTime = new Date().getTime();
-			this.time.delta = ( newTime - this.time.current ) / 1000;
-			this.time.current = newTime;
-			this.time.code = this.frame.current / this.frameSetting.fps;
-			this.time.engine += this.time.delta;
+		if ( this.frame.playing ) {
 
 			this.frame.current = this.frame.current + this.frameSetting.fps * this.time.delta;
 
 			this.emit( "update/frame/play", [ this.frame ] );
 
 		}
+
+		this.time.code = this.frame.current / this.frameSetting.fps;
+		this.time.engine += this.time.delta;
 
 		globalUniforms.time.uTime.value = this.time.code;
 		globalUniforms.time.uTimeF.value = this.time.code % 1;

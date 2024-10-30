@@ -1,17 +1,12 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import { LoadingProgress } from '../Player/LoadingProgress';
 import { GPUState } from '../ProjectScene/utils/GPUState';
 import { OREngineResource } from '../Resources';
 
 export const screenElm = document.createElement( 'div' );
 screenElm.id = "screen";
 screenElm.style.position = "absolute";
-screenElm.style.left = "50%";
-screenElm.style.top = "50%";
-screenElm.style.transform = "translate(-50%,-50%)";
-screenElm.style.position = "relative";
 
 export const canvas = document.createElement( "canvas" );
 canvas.style.position = "absolute";
@@ -24,7 +19,6 @@ screenElm.appendChild( canvas );
 export const gl = canvas.getContext( 'webgl2', { antialias: false } )!;
 export const power = new GLP.Power( gl );
 export const renderer = new MXP.Renderer( power.gl );
-export const loadingProgress = new LoadingProgress();
 
 export const globalUniforms: {[key: string]: GLP.Uniforms} = {
 	time: {
