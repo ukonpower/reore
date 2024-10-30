@@ -1,7 +1,6 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import leafFrag from './shaders/leaf.fs';
 import leafVert from './shaders/leaf.vs';
 import treeFrag from './shaders/tree.fs';
 import treeVert from './shaders/tree.vs';
@@ -111,7 +110,6 @@ export class Tree extends MXP.Component {
 		} );
 
 		this.leafMaterial = new MXP.Material( {
-			frag: leafFrag,
 			vert: leafVert,
 			phase: [ "deferred", "shadowMap" ],
 			uniforms: this.treeMaterial.uniforms
@@ -179,73 +177,73 @@ export class Tree extends MXP.Component {
 
 	}
 
-	public get props() {
+	// public get props() {
 
-		return {
-			...super.props,
-			// _root: {
-			// 	_num: { value: this.param.root.num, min: 0, max: 10, precision: 3, step: 1 },
-			// 	_up: { value: this.param.root.up, min: 0, max: 1, precision: 3, step: 0.01 },
-			// },
-			// _branch: {
-			// 	_num: { value: this.param.branch.num, min: 0, max: 10, precision: 3, step: 1 },
-			// 	_depth: { value: this.param.branch.depth, in: 0, max: 10, precision: 3, step: 1 },
-			// 	_start: { value: this.param.branch.start, min: 0, max: 1, precision: 3, step: 0.01 },
-			// 	_end: { value: this.param.branch.end, min: 0, max: 1, precision: 3, step: 0.01 },
-			// 	_up: { value: this.param.branch.up, min: - 1, max: 1, precision: 3, step: 0.01 },
-			// 	_wide: { value: this.param.branch.wide, min: 0, max: 1, precision: 3, step: 0.02 },
-			// 	_curve: { value: this.param.branch.curve, min: - 1, max: 1, precision: 3, step: 0.01 },
-			// 	_lengthMultiplier: { value: this.param.branch.lengthMultiplier, min: 0, max: 2, precision: 3, step: 0.01 },
-			// 	_lengthRandom: { value: this.param.branch.lengthRandom, min: 0, max: 1, precision: 3, step: 0.01 },
-			// },
-			// _shape: {
-			// 	_length: { value: this.param.shape.length, min: 0, max: 2, precision: 3, step: 0.01 },
-			// 	_radius: { value: this.param.shape.radius, min: 0, max: 0.05, precision: 3, step: 0.001 },
+	// 	return {
+	// 		...super.props,
+	// 		_root: {
+	// 			_num: { value: this.param.root.num, min: 0, max: 10, precision: 3, step: 1 },
+	// 			_up: { value: this.param.root.up, min: 0, max: 1, precision: 3, step: 0.01 },
+	// 		},
+	// 		_branch: {
+	// 			_num: { value: this.param.branch.num, min: 0, max: 10, precision: 3, step: 1 },
+	// 			_depth: { value: this.param.branch.depth, in: 0, max: 10, precision: 3, step: 1 },
+	// 			_start: { value: this.param.branch.start, min: 0, max: 1, precision: 3, step: 0.01 },
+	// 			_end: { value: this.param.branch.end, min: 0, max: 1, precision: 3, step: 0.01 },
+	// 			_up: { value: this.param.branch.up, min: - 1, max: 1, precision: 3, step: 0.01 },
+	// 			_wide: { value: this.param.branch.wide, min: 0, max: 1, precision: 3, step: 0.02 },
+	// 			_curve: { value: this.param.branch.curve, min: - 1, max: 1, precision: 3, step: 0.01 },
+	// 			_lengthMultiplier: { value: this.param.branch.lengthMultiplier, min: 0, max: 2, precision: 3, step: 0.01 },
+	// 			_lengthRandom: { value: this.param.branch.lengthRandom, min: 0, max: 1, precision: 3, step: 0.01 },
+	// 		},
+	// 		_shape: {
+	// 			_length: { value: this.param.shape.length, min: 0, max: 2, precision: 3, step: 0.01 },
+	// 			_radius: { value: this.param.shape.radius, min: 0, max: 0.05, precision: 3, step: 0.001 },
 
-			// 	_rootlenghRatio: { value: this.param.shape.rootLengthRatio, min: 0, max: 999, precision: 3, step: 0.1 },
-			// 	_rootRadiusRatio: { value: this.param.shape.rootRadiusRatio, min: 0, max: 999, precision: 3, step: 0.1 },
-			// },
-			// _leaf: {
-			// 	_num: { value: this.param.leaf.num, min: 0, max: 20, precision: 3, step: 1 },
-			// 	_size: { value: this.param.leaf.size, min: 0, max: 1, precision: 3, step: 0.01 },
-			// 	_dpeth: { value: this.param.leaf.dpeth, min: 0, max: 10, precision: 3, step: 1 },
-			// 	_start: { value: this.param.leaf.start, min: 0, max: 1, precision: 3, step: 0.1 }
-			// },
-			// _seed: { value: this.param.seed, min: 0, max: 9999, step: 1 }
-		};
+	// 			_rootlenghRatio: { value: this.param.shape.rootLengthRatio, min: 0, max: 999, precision: 3, step: 0.1 },
+	// 			_rootRadiusRatio: { value: this.param.shape.rootRadiusRatio, min: 0, max: 999, precision: 3, step: 0.1 },
+	// 		},
+	// 		_leaf: {
+	// 			_num: { value: this.param.leaf.num, min: 0, max: 20, precision: 3, step: 1 },
+	// 			_size: { value: this.param.leaf.size, min: 0, max: 1, precision: 3, step: 0.01 },
+	// 			_dpeth: { value: this.param.leaf.dpeth, min: 0, max: 10, precision: 3, step: 1 },
+	// 			_start: { value: this.param.leaf.start, min: 0, max: 1, precision: 3, step: 0.1 }
+	// 		},
+	// 		_seed: { value: this.param.seed, min: 0, max: 9999, step: 1 }
+	// 	};
 
-	}
+	// }
 
-	public deserializer( props: MXP.TypedSerializableProps<this> ): void {
+	// public deserializer( props: MXP.TypedSerializableProps<this> ): void {
 
-		// this.param.root.num = props._root._num.value;
-		// this.param.root.up = props._root._up.value;
+	// 	this.param.root.num = props._root._num.value;
+	// 	this.param.root.up = props._root._up.value;
 
-		// this.param.branch.num = props._branch._num.value;
-		// this.param.branch.depth = props._branch._depth.value;
-		// this.param.branch.start = props._branch._start.value;
-		// this.param.branch.end = props._branch._end.value;
-		// this.param.branch.up = props._branch._up.value;
-		// this.param.branch.wide = props._branch._wide.value;
-		// this.param.branch.curve = props._branch._curve.value;
-		// this.param.branch.lengthMultiplier = props._branch._lengthMultiplier.value;
-		// this.param.branch.lengthRandom = props._branch._lengthRandom.value;
+	// 	this.param.branch.num = props._branch._num.value;
+	// 	this.param.branch.depth = props._branch._depth.value;
+	// 	this.param.branch.start = props._branch._start.value;
+	// 	this.param.branch.end = props._branch._end.value;
+	// 	this.param.branch.up = props._branch._up.value;
+	// 	this.param.branch.wide = props._branch._wide.value;
+	// 	this.param.branch.curve = props._branch._curve.value;
+	// 	this.param.branch.lengthMultiplier = props._branch._lengthMultiplier.value;
+	// 	this.param.branch.lengthRandom = props._branch._lengthRandom.value;
 
-		// this.param.shape.length = props._shape._length.value;
-		// this.param.shape.radius = props._shape._radius.value;
-		// this.param.shape.rootLengthRatio = props._shape._rootlenghRatio.value;
-		// this.param.shape.rootRadiusRatio = props._shape._rootRadiusRatio.value;
+	// 	this.param.shape.length = props._shape._length.value;
+	// 	this.param.shape.radius = props._shape._radius.value;
+	// 	this.param.shape.rootLengthRatio = props._shape._rootlenghRatio.value;
+	// 	this.param.shape.rootRadiusRatio = props._shape._rootRadiusRatio.value;
 
-		// this.param.leaf.num = props._leaf._num.value;
-		// this.param.leaf.start = props._leaf._start.value;
-		// this.param.leaf.size = props._leaf._size.value;
-		// this.param.leaf.dpeth = props._leaf._dpeth.value;
+	// 	this.param.leaf.num = props._leaf._num.value;
+	// 	this.param.leaf.start = props._leaf._start.value;
+	// 	this.param.leaf.size = props._leaf._size.value;
+	// 	this.param.leaf.dpeth = props._leaf._dpeth.value;
 
-		// this.param.seed = props._seed.value;
+	// 	this.param.seed = props._seed.value;
 
-		this.calc();
+	// 	this.calc();
 
-	}
+	// }
 
 	private calc() {
 

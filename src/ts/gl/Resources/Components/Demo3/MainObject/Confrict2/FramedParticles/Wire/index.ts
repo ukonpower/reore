@@ -4,19 +4,14 @@ import * as MXP from 'maxpower';
 import framedParticlesWireFrag from './shaders/framedParticlesWire.fs';
 import framedParticlesWireVert from './shaders/framedParticlesWire.vs';
 
-import { globalUniforms } from '~/ts/gl/GLGlobals';
-
 export class Wire extends MXP.Component {
-
-	private geo: MXP.Geometry;
-	private mat: MXP.Material;
 
 	constructor( parentUniforms: GLP.Uniforms ) {
 
 		super();
 
-		this.geo = new MXP.Geometry();
-		this.geo.setAttribute( "position", new Float32Array( [
+		const geo = new MXP.Geometry();
+		geo.setAttribute( "position", new Float32Array( [
 			0, 0, 0,
 			1, 0, 0
 		] ), 3 );
@@ -31,9 +26,11 @@ export class Wire extends MXP.Component {
 
 		}
 
-		this.geo.setAttribute( 'id', new Float32Array( idArray ), 3, { instanceDivisor: 1 } );
+		geo.setAttribute( 'id', new Float32Array( idArray ), 3, { instanceDivisor: 1 } );
 
-		this.mat = new MXP.Material( {
+		this.add( geo );
+
+		const mat = new MXP.Material( {
 			frag: framedParticlesWireFrag,
 			vert: framedParticlesWireVert,
 			phase: [ "forward" ],
@@ -45,21 +42,8 @@ export class Wire extends MXP.Component {
 			}, parentUniforms )
 		} );
 
-	}
-
-	protected setEntityImpl( entity: MXP.Entity ): void {
-
-		entity.addComponent( this.geo );
-		entity.addComponent( this.mat );
+		this.add( mat );
 
 	}
-
-	protected unsetEntityImpl( prevEntity: MXP.Entity ): void {
-
-		prevEntity.removeComponent( this.geo );
-		prevEntity.removeComponent( this.mat );
-
-	}
-
 
 }

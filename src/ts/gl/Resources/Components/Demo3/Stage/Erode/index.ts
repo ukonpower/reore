@@ -9,7 +9,6 @@ import { globalUniforms } from '~/ts/gl/GLGlobals';
 
 export class Erode extends MXP.Component {
 
-	private rectWire: MXP.Entity;
 	private turingTex?: TuringTex;
 
 	constructor() {
@@ -75,9 +74,6 @@ export class Erode extends MXP.Component {
 
 		}
 
-		this.rectWire = new MXP.Entity();
-		// this.rectWire.addComponent( new RectWire() );
-
 	}
 
 	protected updateImpl( event: MXP.ComponentUpdateEvent ): void {
@@ -91,20 +87,6 @@ export class Erode extends MXP.Component {
 			}
 
 		}
-
-	}
-
-	public setEntityImpl( entity: MXP.Entity ): void {
-
-		entity.add( this.rectWire );
-
-
-	}
-
-	public unsetEntityImpl( entity: MXP.Entity ): void {
-
-		entity.remove( this.rectWire );
-
 
 	}
 

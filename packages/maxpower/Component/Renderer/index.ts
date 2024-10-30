@@ -862,11 +862,13 @@ export class Renderer extends Entity {
 
 					const texture = dLight.component.renderTarget.textures[ 0 ].activate( TextureUnitCounter ++ );
 
-					program.setUniform( 'directionalLightCamera[' + i + '].near', '1fv', [ dLight.component.near ] );
-					program.setUniform( 'directionalLightCamera[' + i + '].far', '1fv', [ dLight.component.far ] );
-					program.setUniform( 'directionalLightCamera[' + i + '].viewMatrix', 'Matrix4fv', dLight.component.viewMatrix.elm );
-					program.setUniform( 'directionalLightCamera[' + i + '].projectionMatrix', 'Matrix4fv', dLight.component.projectionMatrix.elm );
-					program.setUniform( 'directionalLightCamera[' + i + '].resolution', '2fv', texture.size.getElm( "vec2" ) );
+					const dc = `directionalLightCamera[${i}]`;
+
+					program.setUniform( dc + '.near', '1fv', [ dLight.component.near ] );
+					program.setUniform( dc + '.far', '1fv', [ dLight.component.far ] );
+					program.setUniform( dc + '.viewMatrix', 'Matrix4fv', dLight.component.viewMatrix.elm );
+					program.setUniform( dc + '.projectionMatrix', 'Matrix4fv', dLight.component.projectionMatrix.elm );
+					program.setUniform( dc + '.resolution', '2fv', texture.size.getElm( "vec2" ) );
 					program.setUniform( 'directionalLightShadowMap[' + i + ']', '1i', [ texture.unit ] );
 
 				}
@@ -883,23 +885,28 @@ export class Renderer extends Entity {
 
 				}
 
-				program.setUniform( 'spotLight[' + i + '].position', '3fv', sLight.position.getElm( 'vec3' ) );
-				program.setUniform( 'spotLight[' + i + '].direction', '3fv', sLight.direction.getElm( 'vec3' ) );
-				program.setUniform( 'spotLight[' + i + '].color', '3fv', sLight.color.getElm( 'vec3' ) );
-				program.setUniform( 'spotLight[' + i + '].angle', '1fv', [ Math.cos( sLight.component.angle / 2 ) ] );
-				program.setUniform( 'spotLight[' + i + '].blend', '1fv', [ sLight.component.blend ] );
-				program.setUniform( 'spotLight[' + i + '].distance', '1fv', [ sLight.component.distance ] );
-				program.setUniform( 'spotLight[' + i + '].decay', '1fv', [ sLight.component.decay ] );
+				const sl = `spotLight[${i}]`;
+
+				program.setUniform( sl + '.position', '3fv', sLight.position.getElm( 'vec3' ) );
+				program.setUniform( sl + '.direction', '3fv', sLight.direction.getElm( 'vec3' ) );
+				program.setUniform( sl + '.color', '3fv', sLight.color.getElm( 'vec3' ) );
+				program.setUniform( sl + '.angle', '1fv', [ Math.cos( sLight.component.angle / 2 ) ] );
+				program.setUniform( sl + '.blend', '1fv', [ sLight.component.blend ] );
+				program.setUniform( sl + '.distance', '1fv', [ sLight.component.distance ] );
+				program.setUniform( sl + '.decay', '1fv', [ sLight.component.decay ] );
+
 
 				if ( sLight.component.renderTarget ) {
 
 					const texture = sLight.component.renderTarget.textures[ 0 ].activate( TextureUnitCounter ++ );
 
-					program.setUniform( 'spotLightCamera[' + i + '].near', '1fv', [ sLight.component.near ] );
-					program.setUniform( 'spotLightCamera[' + i + '].far', '1fv', [ sLight.component.far ] );
-					program.setUniform( 'spotLightCamera[' + i + '].viewMatrix', 'Matrix4fv', sLight.component.viewMatrix.elm );
-					program.setUniform( 'spotLightCamera[' + i + '].projectionMatrix', 'Matrix4fv', sLight.component.projectionMatrix.elm );
-					program.setUniform( 'spotLightCamera[' + i + '].resolution', '2fv', texture.size.getElm( "vec2" ) );
+					const sc = `spotLightCamera[${i}]`;
+
+					program.setUniform( sc + '.near', '1fv', [ sLight.component.near ] );
+					program.setUniform( sc + '.far', '1fv', [ sLight.component.far ] );
+					program.setUniform( sc + '.viewMatrix', 'Matrix4fv', sLight.component.viewMatrix.elm );
+					program.setUniform( sc + '.projectionMatrix', 'Matrix4fv', sLight.component.projectionMatrix.elm );
+					program.setUniform( sc + '.resolution', '2fv', texture.size.getElm( "vec2" ) );
 					program.setUniform( 'spotLightShadowMap[' + i + ']', '1i', [ texture.unit ] );
 
 				}

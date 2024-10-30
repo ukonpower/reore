@@ -1,7 +1,6 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import { GPUState } from '../ProjectScene/utils/GPUState';
 import { OREngineResource } from '../Resources';
 
 export const screenElm = document.createElement( 'div' );
@@ -9,11 +8,7 @@ screenElm.id = "screen";
 screenElm.style.position = "absolute";
 
 export const canvas = document.createElement( "canvas" );
-canvas.style.position = "absolute";
-canvas.style.top = "0";
-canvas.style.left = "0";
-canvas.style.width = "100%";
-canvas.style.height = "100%";
+canvas.setAttribute( "style", "position:absolute;top:0;left:0;width:100%;height:100%;" );
 screenElm.appendChild( canvas );
 
 export const gl = canvas.getContext( 'webgl2', { antialias: false } )!;
@@ -38,10 +33,6 @@ export const globalUniforms: {[key: string]: GLP.Uniforms} = {
 			value: 0,
 			type: "1f"
 		},
-		uMove: {
-			value: 0,
-			type: "1f"
-		}
 	},
 	resolution: {
 		uAspectRatio: {
@@ -82,14 +73,3 @@ export const globalUniforms: {[key: string]: GLP.Uniforms} = {
 -------------------------------*/
 
 export const resource = new OREngineResource();
-
-/*-------------------------------
-	DEBUG
--------------------------------*/
-
-export let gpuState: GPUState | undefined = undefined;
-
-// import 'webgl-memory';
-// gpuState = new GPUState();
-gpuState = undefined;
-

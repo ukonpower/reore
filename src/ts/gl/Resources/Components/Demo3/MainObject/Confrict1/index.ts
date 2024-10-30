@@ -1,4 +1,3 @@
-import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
 import { Chain } from './Chain';
@@ -10,9 +9,6 @@ import { globalUniforms } from '~/ts/gl/GLGlobals';
 
 export class Confrict1 extends MXP.Component {
 
-	private geometry: MXP.Geometry;
-	private material: MXP.Material;
-
 	private chain: MXP.Entity;
 	private ring: MXP.Entity;
 
@@ -22,20 +18,24 @@ export class Confrict1 extends MXP.Component {
 
 		// geometry
 
-		this.geometry = new MXP.SphereGeometry( {
+		const geo = new MXP.SphereGeometry( {
 			widthSegments: 32,
 			heightSegments: 32,
 			radius: 0.3
 		} );
 
+		this.add( geo );
+
 		// material
 
-		this.material = new MXP.Material( {
+		const mat = new MXP.Material( {
 			frag: MXP.hotGet( 'confrict1Frag', confrict1Frag ),
 			vert: MXP.hotGet( 'confrict1Vert', confrict1Vert ),
 			phase: [ 'deferred', 'shadowMap' ],
 			uniforms: MXP.UniformsUtils.merge( globalUniforms.time )
 		} );
+
+		this.add( mat );
 
 		if ( import.meta.hot ) {
 
@@ -43,9 +43,9 @@ export class Confrict1 extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.frag = MXP.hotUpdate( 'confrict1Frag', module.default );
+					mat.frag = MXP.hotUpdate( 'confrict1Frag', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
@@ -55,9 +55,9 @@ export class Confrict1 extends MXP.Component {
 
 				if ( module ) {
 
-					this.material.vert = MXP.hotUpdate( 'confrict1Vert', module.default );
+					mat.vert = MXP.hotUpdate( 'confrict1Vert', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
@@ -81,9 +81,6 @@ export class Confrict1 extends MXP.Component {
 
 	public setEntityImpl( entity: MXP.Entity ): void {
 
-		entity.addComponent( this.material );
-		entity.addComponent( this.geometry );
-
 		entity.add( this.chain );
 
 		entity.add( this.ring );
@@ -91,9 +88,6 @@ export class Confrict1 extends MXP.Component {
 	}
 
 	public unsetEntityImpl( entity: MXP.Entity ): void {
-
-		entity.removeComponent( this.material );
-		entity.removeComponent( this.geometry );
 
 		entity.remove( this.chain );
 

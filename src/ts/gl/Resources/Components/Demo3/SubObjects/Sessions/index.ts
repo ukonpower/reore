@@ -2,7 +2,6 @@ import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
 import sessionsFrag from './shaders/sessions.fs';
-import sessionsVert from './shaders/sessions.vs';
 
 import { globalUniforms } from '~/ts/gl/GLGlobals';
 
@@ -19,7 +18,6 @@ export class Sessions extends MXP.Component {
 
 		const mat = new MXP.Material( {
 			frag: MXP.hotGet( 'sessionsFrag', sessionsFrag ),
-			vert: MXP.hotGet( 'sessionsVert', sessionsVert ),
 			phase: [ 'deferred', 'shadowMap' ],
 			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time ) )
 		} );

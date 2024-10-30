@@ -52,7 +52,7 @@ class App {
 			</div>
 		`;
 
-		document.title = "reforge";
+		document.title = "REORE";
 
 		this.rootElm = document.getElementById( 'r' )!;
 

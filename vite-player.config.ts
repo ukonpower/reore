@@ -34,7 +34,7 @@ export default defineConfig( {
 				passes: 16,
 				arguments: true,
 				booleans_as_integers: true,
-				// drop_console: false,
+				drop_console: true,
 				keep_fargs: false,
 				module: true,
 				pure_getters: true,

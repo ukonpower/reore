@@ -1,7 +1,5 @@
 import * as MXP from 'maxpower';
 
-import { router } from './router';
-
 import { gl } from '~/ts/gl/GLGlobals';
 import SceneData from '~/ts/gl/Resources/scene.json';
 
@@ -164,7 +162,7 @@ export class BLidgeClient extends MXP.Component {
 
 		const _ = ( node: MXP.BLidgeEntity ): MXP.Entity => {
 
-			const entity: MXP.Entity = ( this.entities.get( node.name ) || router( node ) );
+			const entity: MXP.Entity = ( this.entities.get( node.name ) || new MXP.Entity() );
 
 			if ( node.type == 'camera' ) {
 

@@ -1,11 +1,9 @@
 import * as GLP from 'glpower';
 import * as MXP from 'maxpower';
 
-import bgFrag from './shaders/bg.fs';
 import bgVert from './shaders/bg.vs';
 import waveFrag from './shaders/wave.fs';
 import waveVert from './shaders/wave.vs';
-
 
 import { globalUniforms } from '~/ts/gl/GLGlobals';
 
@@ -42,7 +40,6 @@ export class Wave extends MXP.Component {
 		this.add( geo );
 
 		const mat = new MXP.Material( {
-			frag: MXP.hotGet( 'bgFrag', bgFrag ),
 			vert: MXP.hotGet( 'bgVert', bgVert ),
 			phase: [ 'deferred', 'shadowMap' ],
 			uniforms: receiver.registerUniforms( MXP.UniformsUtils.merge( globalUniforms.time, commonUniforms ) )
@@ -83,17 +80,6 @@ export class Wave extends MXP.Component {
 		this.planes.addComponent( planesMat );
 
 		if ( import.meta.hot ) {
-
-			import.meta.hot.accept( './shaders/bg.fs', ( module ) => {
-
-				if ( module ) {
-
-					mat.frag = MXP.hotUpdate( 'bgFrag', module.default );
-					mat.requestUpdate();
-
-				}
-
-			} );
 
 			import.meta.hot.accept( './shaders/bg.vs', ( module ) => {
 

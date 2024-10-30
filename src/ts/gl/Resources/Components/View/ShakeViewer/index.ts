@@ -30,19 +30,7 @@ export class ShakeViewer extends MXP.Component {
 
 		return {
 			...super.props,
-			power: {
-				value: this.shakePower,
-			},
-			speed: {
-				value: this.shakeSpeed,
-			},
 		};
-
-	}
-	public deserializer( props: MXP.TypedSerializableProps<this> ) {
-
-		this.shakePower = props.power.value;
-		this.shakeSpeed = props.speed.value;
 
 	}
 

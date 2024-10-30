@@ -12,8 +12,6 @@ import { gl, globalUniforms, renderer } from '~/ts/gl/GLGlobals';
 
 export class FramedParticles extends MXP.Component {
 
-	private geo: MXP.Geometry;
-	private mat: MXP.Material;
 	private gpu: MXP.GPUCompute;
 
 	private frame: MXP.Entity;
@@ -61,16 +59,22 @@ export class FramedParticles extends MXP.Component {
 
 		}
 
-		this.geo = new MXP.SphereGeometry();
-		this.geo.setAttribute( "id", new Float32Array( idArray ), 4, { instanceDivisor: 1 } );
-		this.geo.setAttribute( "cuv", new Float32Array( computeUVArray ), 2, { instanceDivisor: 1 } );
+		this.add( this.gpu );
 
-		this.mat = new MXP.Material( {
+		const geo = new MXP.SphereGeometry();
+		geo.setAttribute( "id", new Float32Array( idArray ), 4, { instanceDivisor: 1 } );
+		geo.setAttribute( "cuv", new Float32Array( computeUVArray ), 2, { instanceDivisor: 1 } );
+
+		this.add( geo );
+
+		const mat = new MXP.Material( {
 			phase: [ "deferred", "shadowMap" ],
 			frag: particlesFrag,
 			vert: particlesVert,
 			uniforms: MXP.UniformsUtils.merge( globalUniforms.time, this.gpu.passes[ 0 ].outputUniforms ),
 		} );
+
+		this.add( mat );
 
 		if ( process.env.NODE_ENV === 'development' ) {
 
@@ -92,9 +96,9 @@ export class FramedParticles extends MXP.Component {
 
 					if ( module ) {
 
-						this.mat.frag = MXP.hotUpdate( 'particlesFrag', module.default );
+						mat.frag = MXP.hotUpdate( 'particlesFrag', module.default );
 
-						this.mat.requestUpdate();
+						mat.requestUpdate();
 
 					}
 
@@ -104,9 +108,9 @@ export class FramedParticles extends MXP.Component {
 
 					if ( module ) {
 
-						this.mat.vert = MXP.hotUpdate( 'particlesVert', module.default );
+						mat.vert = MXP.hotUpdate( 'particlesVert', module.default );
 
-						this.mat.requestUpdate();
+						mat.requestUpdate();
 
 					}
 
@@ -133,20 +137,12 @@ export class FramedParticles extends MXP.Component {
 
 	protected setEntityImpl( entity: MXP.Entity ): void {
 
-		entity.addComponent( this.geo );
-		entity.addComponent( this.mat );
-		entity.addComponent( this.gpu );
-
 		entity.add( this.frame );
 		entity.add( this.wire );
 
 	}
 
 	protected unsetEntityImpl( prevEntity: MXP.Entity ): void {
-
-		prevEntity.removeComponent( this.geo );
-		prevEntity.removeComponent( this.mat );
-		prevEntity.removeComponent( this.gpu );
 
 		prevEntity.remove( this.frame );
 		prevEntity.remove( this.wire );

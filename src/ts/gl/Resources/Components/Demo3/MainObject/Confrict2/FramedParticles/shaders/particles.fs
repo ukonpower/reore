@@ -18,8 +18,6 @@ void main( void ) {
 
 	outRoughness = 0.05;
 
-	
-
 	#include <frag_out>
 
 } 

@@ -7,16 +7,13 @@ import { globalUniforms } from '~/ts/gl/GLGlobals';
 
 export class WetGround extends MXP.Component {
 
-	private geometry: MXP.Geometry;
-	private material: MXP.Material;
-
 	constructor() {
 
 		super();
 
 		// geometry
 
-		this.geometry = new MXP.PlaneGeometry( {
+		const geo = new MXP.PlaneGeometry( {
 			width: 1,
 			height: 1,
 			widthSegments: 8,
@@ -24,9 +21,11 @@ export class WetGround extends MXP.Component {
 			floor: true
 		} );
 
+		this.add( geo );
+
 		// material
 
-		this.material = new MXP.Material( {
+		const mat = new MXP.Material( {
 			name: 'wetGround',
 			frag: MXP.hotGet( 'wetGroundFrag', wetGroundFrag ),
 			phase: [ 'deferred', 'shadowMap' ],
@@ -34,35 +33,23 @@ export class WetGround extends MXP.Component {
 			uniforms: MXP.UniformsUtils.merge( globalUniforms.time )
 		} );
 
+		this.add( mat );
+
 		if ( import.meta.hot ) {
 
 			import.meta.hot.accept( './shaders/wetGround.fs', ( module ) => {
 
 				if ( module ) {
 
-					this.material.frag = MXP.hotUpdate( 'wetGroundFrag', module.default );
+					mat.frag = MXP.hotUpdate( 'wetGroundFrag', module.default );
 
-					this.material.requestUpdate();
+					mat.requestUpdate();
 
 				}
 
 			} );
 
 		}
-
-	}
-
-	public setEntityImpl( entity: MXP.Entity ): void {
-
-		entity.addComponent( this.geometry );
-		entity.addComponent( this.material );
-
-	}
-
-	public unsetEntityImpl( entity: MXP.Entity ): void {
-
-		entity.removeComponent( this.geometry );
-		entity.removeComponent( this.material );
 
 	}
 

@@ -8,14 +8,11 @@ import { globalUniforms } from '~/ts/gl/GLGlobals';
 
 export class Frame extends MXP.Component {
 
-	private geo: MXP.Geometry;
-	private mat: MXP.Material;
-
 	constructor( parentUniforms: GLP.Uniforms ) {
 
 		super();
 
-		this.geo = new MXP.PlaneGeometry();
+		const geo = new MXP.PlaneGeometry();
 
 		const idArray = [];
 
@@ -27,9 +24,10 @@ export class Frame extends MXP.Component {
 
 		}
 
-		this.geo.setAttribute( 'id', new Float32Array( idArray ), 4, { instanceDivisor: 1 } );
+		geo.setAttribute( 'id', new Float32Array( idArray ), 4, { instanceDivisor: 1 } );
+		this.add( geo );
 
-		this.mat = new MXP.Material( {
+		const mat = new MXP.Material( {
 			frag: MXP.hotGet( 'particleFrameFrag', particleFrameFrag ),
 			vert: MXP.hotGet( 'particleFrameVert', particleFrameVert ),
 			phase: [ "forward" ],
@@ -39,6 +37,8 @@ export class Frame extends MXP.Component {
 			}, parentUniforms ),
 		} );
 
+		this.add( mat );
+
 		if ( process.env.NODE_ENV === 'development' ) {
 
 			if ( import.meta.hot ) {
@@ -47,9 +47,9 @@ export class Frame extends MXP.Component {
 
 					if ( module ) {
 
-						this.mat.frag = MXP.hotUpdate( 'particleFrameFrag', module.default );
+						mat.frag = MXP.hotUpdate( 'particleFrameFrag', module.default );
 
-						this.mat.requestUpdate();
+						mat.requestUpdate();
 
 					}
 
@@ -59,9 +59,9 @@ export class Frame extends MXP.Component {
 
 					if ( module ) {
 
-						this.mat.vert = MXP.hotUpdate( 'particleFrameVert', module.default );
+						mat.vert = MXP.hotUpdate( 'particleFrameVert', module.default );
 
-						this.mat.requestUpdate();
+						mat.requestUpdate();
 
 					}
 
@@ -73,20 +73,5 @@ export class Frame extends MXP.Component {
 		}
 
 	}
-
-	protected setEntityImpl( entity: MXP.Entity ): void {
-
-		entity.addComponent( this.geo );
-		entity.addComponent( this.mat );
-
-	}
-
-	protected unsetEntityImpl( prevEntity: MXP.Entity ): void {
-
-		prevEntity.removeComponent( this.geo );
-		prevEntity.removeComponent( this.mat );
-
-	}
-
 
 }

@@ -15,8 +15,8 @@ export class TuringTex extends MXP.Component {
 
 		super();
 
-		const f = 0.016;
-		const k = 0.043;
+		const f = 0.024;
+		const k = 0.05;
 		const x = 1.5;
 		const y = 1.5;
 
@@ -80,29 +80,6 @@ export class TuringTex extends MXP.Component {
 
 	}
 
-	public get props() {
-
-		return {
-			...super.props,
-			f: {
-				value: this.compute.passes[ 0 ].uniforms.uTuringParam.value.x,
-				step: 0.001
-			},
-			k: {
-				value: this.compute.passes[ 0 ].uniforms.uTuringParam.value.y,
-				step: 0.001
-			},
-			reset: {
-				value: () => {
-
-					this.reset();
-
-				}
-			}
-		};
-
-	}
-
 	private reset(): void {
 
 		this.compute.passes[ 0 ].initTexture( ( layerCnt, x, y ) => {
@@ -133,13 +110,6 @@ export class TuringTex extends MXP.Component {
 		}
 
 		this.prevFrame = f;
-
-	}
-
-	protected deserializer( props: MXP.TypedSerializableProps<this> ): void {
-
-		this.compute.passes[ 0 ].uniforms.uTuringParam.value.x = props.f.value || 0.05;
-		this.compute.passes[ 0 ].uniforms.uTuringParam.value.y = props.k.value || 0.059;
 
 	}
 
