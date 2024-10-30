@@ -12,6 +12,7 @@ class App {
 	private rootElm: HTMLElement;
 	private screenWrapElm: HTMLElement;
 	private screenElm: HTMLElement;
+	private exitElm: HTMLElement;
 	private canvas: HTMLCanvasElement;
 
 	private scene: ProjectScene;
@@ -37,6 +38,7 @@ class App {
 				#l{${pn}${pa}width:100%;}
 				#b{width:100%;height:1px;background:#fff;margin-bottom:10px;}
 				#m{${pn}${op}}
+				#e{${fc}${op}${pn}}
 			</style>
 			<div id="r">
 				<div id="cw">
@@ -48,6 +50,9 @@ class App {
 				<div id="l">
 					<div id="b"></div>
 					<div id="t"></div>
+				</div>
+				<div id="e">
+				Press Esc to exit.
 				</div>
 			</div>
 		`;
@@ -91,6 +96,8 @@ class App {
 			}
 
 		};
+
+		this.exitElm = document.getElementById( 'e' )!;
 
 		// play button
 
@@ -206,6 +213,14 @@ class App {
 	private animate() {
 
 		this.scene.update();
+
+		if ( this.scene.frame.current > this.scene.frameSetting.duration ) {
+
+			this.exitElm.style.opacity = '1';
+
+			return;
+
+		}
 
 		window.requestAnimationFrame( this.animate.bind( this ) );
 
