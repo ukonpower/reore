@@ -2,6 +2,7 @@
 #include <frag_h>
 
 uniform sampler2D uTex;
+uniform float uVis;
 
 void main( void ) {
 
@@ -12,7 +13,6 @@ void main( void ) {
 	float font = texture( uTex, uv ).x;
 
 	outColor = vec4( vec3( 1.0 ), font );
-	
 	
 	#include <frag_out>
 

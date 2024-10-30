@@ -1,7 +1,5 @@
 import * as GLP from 'glpower';
 
-
-import { BLidgeEntity } from "../BLidge";
 import { Component, ComponentUpdateEvent } from "../Component";
 import { RenderCamera } from '../Component/Camera/RenderCamera';
 import { Geometry } from '../Component/Geometry';
@@ -14,6 +12,7 @@ export type EntityUpdateEvent = {
 	timElapsed: number;
 	timeDelta: number;
 	timeCode: number;
+	timeCodeFrame: number;
 	playing: boolean;
 	matrix?: GLP.Matrix;
 	visibility?: boolean;

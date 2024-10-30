@@ -233,6 +233,7 @@ export class ProjectScene extends MXP.Entity {
 			timElapsed: this.time.engine,
 			timeDelta: this.time.delta,
 			timeCode: this.time.code,
+			timeCodeFrame: this.frame.current,
 			forceDraw: param && param.forceDraw,
 			playing: this.frame.playing,
 		};

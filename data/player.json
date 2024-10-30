@@ -14,7 +14,7 @@
 		1,
 		1
 	],
-	"name": "Demo3",
+	"name": "revise",
 	"objectOverride": [
 		{
 			"path": "/root",
@@ -29,6 +29,14 @@
 				},
 				{
 					"name": "Music"
+				}
+			]
+		},
+		{
+			"path": "/root/blidgeRoot/HUD/HUDSubtitle",
+			"components": [
+				{
+					"name": "HUDSubtitle"
 				}
 			]
 		},

@@ -52,7 +52,7 @@ class App {
 			</div>
 		`;
 
-		document.title = "revise";
+		document.title = "reforge";
 
 		this.rootElm = document.getElementById( 'r' )!;
 
@@ -107,6 +107,14 @@ class App {
 
 		let shaderTotal = 0.0;
 		let musicTotal = 0.0;
+
+		if ( process.env.NODE_ENV === 'development' ) {
+
+			loadingElm.style.opacity = "0";
+			this.menuElm.style.opacity = "1";
+			this.menuElm.style.pointerEvents = "auto";
+
+		}
 
 		const onLoadProgress = ( label: string ) => {
 

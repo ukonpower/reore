@@ -14,7 +14,7 @@ export class Font1Renderer {
 
 		context.fillStyle = '#fff';
 		context.strokeStyle = '#fff';
-		context.lineWidth = 1;
+		context.lineWidth = 9;
 
 		let currentType = - 1;
 
@@ -71,7 +71,7 @@ export class Font1Renderer {
 
 		context.closePath();
 
-		const margin = canvas.height * 0.11;
+		const margin = canvas.height * 0.1;
 
 		context.clearRect( 0, 0, canvas.width, margin );
 

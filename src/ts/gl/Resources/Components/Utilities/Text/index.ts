@@ -3,9 +3,6 @@ import * as MXP from 'maxpower';
 
 import { Font1 } from '../../../Fonts/Font1';
 
-import textFrag from './shaders/text.fs';
-import textVert from './shaders/text.vs';
-
 import { gl, globalUniforms, resource } from '~/ts/gl/GLGlobals';
 
 export class Text extends MXP.Component {
@@ -31,8 +28,6 @@ export class Text extends MXP.Component {
 		const materialParam = params && params.materialParam;
 
 		this.material = new MXP.Material( {
-			frag: MXP.hotGet( 'textFrag', textFrag ),
-			vert: MXP.hotGet( 'textVert', textVert ),
 			phase: [ "ui" ],
 			...( materialParam ),
 			uniforms: MXP.UniformsUtils.merge( globalUniforms.time, {
@@ -94,16 +89,34 @@ export class Text extends MXP.Component {
 
 		}
 
+		let x = 0.0;
+
 		for ( let i = 0; i < text.length; i ++ ) {
 
 			const c = text[ i ];
 
 			const uvMatrix = font.matrices.get( c );
 
+
 			if ( uvMatrix ) {
 
-				geoMatrixArray.push( ...uvMatrix.geo.clone().applyScale( new GLP.Vector().setScalar( 0.2 ) ).applyPosition( new GLP.Vector( i * ( 1.0 + this.letterSpacing ) - offset, 0, 0 ) ).elm );
+				let s = 1.0;
+
+				if ( c == "I" ) s *= 0.7;
+				if ( c == "R" ) s *= 1.25;
+
+				if ( i !== 0 ) {
+
+					x += s / 2;
+
+				}
+
+				geoMatrixArray.push( ...uvMatrix.geo.clone().applyScale( new GLP.Vector().setScalar( 0.2 ) ).applyPosition( new GLP.Vector( x - offset, 0, 0 ) ).elm );
 				uvMatrixArray.push( ...uvMatrix.uv.elm );
+
+				x += s / 2;
+
+				x += this.letterSpacing;
 
 			}
 
@@ -111,12 +124,12 @@ export class Text extends MXP.Component {
 
 		this.geometry.setAttribute( "geoMatrix", new Float32Array( geoMatrixArray ), 16, {
 			instanceDivisor: 1,
-			usage: gl.DYNAMIC_DRAW
+			usage: gl.STATIC_DRAW
 		} );
 
 		this.geometry.setAttribute( "uvMatrix", new Float32Array( uvMatrixArray ), 16, {
 			instanceDivisor: 1,
-			usage: gl.DYNAMIC_DRAW
+			usage: gl.STATIC_DRAW
 		} );
 
 		this.geometry.requestUpdate();

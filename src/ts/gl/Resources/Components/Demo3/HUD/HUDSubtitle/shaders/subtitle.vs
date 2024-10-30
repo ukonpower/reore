@@ -4,6 +4,10 @@
 layout(location = 8) in mat4 uvMatrix;
 layout(location = 4) in mat4 geoMatrix;
 
+uniform float uScale;
+uniform vec2 uOffset;
+
+
 void main( void ) {
 
 	#include <vert_in>
@@ -17,10 +21,10 @@ void main( void ) {
 	vec3 p = outPos.xyz;
 	p.x *= 0.5;
 	p.y -= modelMatrix[3][1] * 1.3;
-	p *= 0.24;
-	p.xy += vec2( -0.9, -0.2 );
+	p *= 0.5 * uScale;
+	p.xy += uOffset;
 
-	gl_Position = vec4( p.xy, 0.9, 1.0 );
+	gl_Position = vec4( p.xy, -0.9, 1.0 );
 	vUv = (uvMatrix * vec4( vUv, 0.0, 1.0 )).xy;
 
 
