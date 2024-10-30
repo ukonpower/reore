@@ -134,10 +134,11 @@ class App {
 
 				}, 100 );
 
-
 			}
 
 		};
+
+		onLoadProgress( "" );
 
 		this.scene.on( "update/music", ( buffer: AudioBuffer, progress: [number, number] ) => {
 

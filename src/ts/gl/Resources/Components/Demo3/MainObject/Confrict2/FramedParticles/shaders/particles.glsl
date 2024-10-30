@@ -12,6 +12,7 @@ uniform float uTimeE;
 in vec2 vUv;
 
 #include <noise4D>
+#include <random>
 #include <rotate>
 
 void main( void ) {
@@ -44,7 +45,7 @@ void main( void ) {
 	if( position.w > 1.0 ) {
 
 	
-		position = vec4( 1.0, 0.0, 0.0, 0.0 );
+		position = vec4( 1.0, 0.0, 0.0, random( position.xy ) );
 
 		velocity = vec4( 0.0 );
 

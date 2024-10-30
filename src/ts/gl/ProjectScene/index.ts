@@ -93,7 +93,7 @@ export class ProjectScene extends MXP.Entity {
 
 		this.frameSetting = {
 			duration: 600,
-			fps: 60,
+			fps: 30,
 		};
 
 		this.frame = {
@@ -220,6 +220,7 @@ export class ProjectScene extends MXP.Entity {
 			this.emit( "update/frame/play", [ this.frame ] );
 
 		}
+
 
 		this.time.code = this.frame.current / this.frameSetting.fps;
 		this.time.engine += this.time.delta;

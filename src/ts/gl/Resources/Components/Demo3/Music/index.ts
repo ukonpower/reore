@@ -76,11 +76,11 @@ export class Music extends MXP.Component {
 
 		this.progress = [ 0, 0 ];
 
-		let len = 512 * 512;
+		let len = 512 * 1024;
 
 		if ( process.env.NODE_ENV === 'development' ) {
 
-			len = 512 * 1024;
+			len = 512 * 256;
 
 		}
 
