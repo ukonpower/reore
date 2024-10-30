@@ -29,10 +29,12 @@ void main( void ) {
 	// slide
 	outPos.x += 0.5;
 	
+	float o = uState.y;
+	
 	// shape
-	outPos.y += pow( p.x, 0.7 ) * 2.0;
-	outPos.z *= sin( pow(p.x, 0.6) * PI );
-	outPos.xy *= rotate( uState.y * 0.6 );
+	outPos.y += pow( p.x, 0.8 - o * 0.2 ) * 2.0;
+	outPos.z *= sin( pow(p.x, 0.6 ) * PI );
+	outPos.xy *= rotate( -0.3 + o * 0.9 );
 
 	outPos.x += v * 0.2;
 

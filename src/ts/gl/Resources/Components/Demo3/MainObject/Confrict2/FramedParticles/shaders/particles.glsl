@@ -45,7 +45,7 @@ void main( void ) {
 	if( position.w > 1.0 ) {
 
 	
-		position = vec4( 1.0, 0.0, 0.0, random( position.xy ) );
+		position = vec4( 0.0, 0.0, -1.0, random( position.xy ) );
 
 		velocity = vec4( 0.0 );
 
