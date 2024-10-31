@@ -13,7 +13,7 @@ const sec = 176;
 const start = 264;
 
 const TEXTDATA:TextData[] = [
-	[ start,		sec, 	"REORE",			1.3, - 0.6, - 0.01 ],
+	[ start,		sec, 	"RE:ORE",			1.3, - 0.6, - 0.01 ],
 
 	[ sec + start,		sec, 	"WebGL64kbIntro",			0.5, 0.35, - 0.12 ],
 	[ sec + start,		sec,	"@sessions2024",	0.85, 0.35 + 0.005, - 0.1 - 0.1 ],

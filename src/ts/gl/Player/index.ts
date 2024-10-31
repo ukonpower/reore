@@ -57,7 +57,7 @@ class App {
 			</div>
 		`;
 
-		document.title = "REORE";
+		document.title = "RE:ORE";
 
 		this.rootElm = document.getElementById( 'r' )!;
 
