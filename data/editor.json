@@ -24,9 +24,8 @@
 						{
 							"name": "BLidgeClient",
 							"props": {
-								"mode": "websocket",
-								"gltf": false,
-								"websocket/url": "ws://localhost:3100"
+								"mode": "json",
+								"gltf": false
 							}
 						},
 						{
@@ -209,11 +208,7 @@
 							"name": "Erode"
 						},
 						{
-							"name": "TuringTex",
-							"props": {
-								"f": 0.024,
-								"k": 0.05
-							}
+							"name": "TuringTex"
 						}
 					]
 				},
@@ -313,5 +308,5 @@
 	"frameLoop/enabled": false,
 	"frameLoop/start": 3501.109604519774,
 	"frameLoop/end": 4375.630081288137,
-	"selectedEntity": "80"
+	"selectedEntity": "6f"
 }
