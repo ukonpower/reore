@@ -2,7 +2,8 @@
 
 SESSIONS2024 PC64K Intro
 
-![](./screenshot/reore.png)
+![](./pages/reore.jpg)
+
 ## Watch the demo!  
 [ukonpower.github.io/reore/](https://ukonpower.github.io/reore/)
 
