@@ -9,9 +9,27 @@ SESSIONS2024 PC64K Intro
 
 ## Install
 
-以下の実行ファイルをPATHに追加してください。
+### 1. ShaderMinifierをインストール
 
 [Shader_Minifier](https://github.com/laurentlb/Shader_Minifier)
+
+#### ■ Windows
+
+ShaderMinifierをインストール後、Pathを通してください
+
+#### ■ Mac
+
+`shader_minifier.exe` を `/Documents/application/shader_minifier/shader_minifier.exe` を配置
+
+Monoをインストールします  
+https://www.mono-project.com/
+
+```
+brew install mono
+```
+
+
+### 2. NPMパッケージをインストール
 
 ```
 npm install
